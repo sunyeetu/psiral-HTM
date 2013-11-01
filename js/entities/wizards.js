@@ -9,5 +9,5 @@
 
 game.wizardEntity = me.ObjectEntity.extend({
 
-	//TODO
+    //TODO
 });

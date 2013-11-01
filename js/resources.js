@@ -14,6 +14,7 @@ game.resources = [
 	 * {name: "example", type:"image", src: "data/img/example.png"},
 	 */
 	{name: "tileset", type:"image", src: "assets/maps/tileset.png"},
+	{name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
 
 	/* Atlases 
 	 * @example
