@@ -1,0 +1,9 @@
+{
+    "name": "psiral",
+    "launch_path" : "./index.html",
+    "version": "1",
+    "developer": {
+        "name": "Dvubuz Games",
+        "url": "https://github.com/petarov/game-off-2013"
+    }
+}
