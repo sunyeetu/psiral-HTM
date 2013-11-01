@@ -1,7 +1,7 @@
 /**
  * resources.js
  *
- * Copyright (c) 2012 Petar Petrov
+ * Copyright (c) 2013 Petar Petrov
  *
  * This work is licensed under the Creative Commons Attribution-NoDerivs 3.0 Unported License. 
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
@@ -13,6 +13,7 @@ game.resources = [
 	 * @example
 	 * {name: "example", type:"image", src: "data/img/example.png"},
 	 */
+	{name: "tileset", type:"image", src: "assets/tileset.png"},
 
 	/* Atlases 
 	 * @example
@@ -24,6 +25,7 @@ game.resources = [
 	 * {name: "example01", type: "tmx", src: "data/map/example01.tmx"},
 	 * {name: "example01", type: "tmx", src: "data/map/example01.json"},
  	 */
+ 	{name: "terrain01", type: "tmx", src: "assets/tilemap.tmx"},
 
 	/* Background music. 
 	 * @example

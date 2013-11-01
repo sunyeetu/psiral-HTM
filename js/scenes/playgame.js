@@ -8,6 +8,21 @@
  */
 
 game.playScene = me.ScreenObject.extend({
+
+    init: function() {
+
+
+
+    },
+
+    update: function() {
+
+    },
+
+    draw: function() {
+
+    },
+
     /**        
     *  action to perform on state change
     */
@@ -17,6 +32,8 @@ game.playScene = me.ScreenObject.extend({
         
         // add our HUD to the game world        
         me.game.add(new game.HUD.Container());
+
+        me.levelDirector.loadLevel("terrain01");
     },
 
 

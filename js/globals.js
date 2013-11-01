@@ -9,7 +9,7 @@
 
 var _Globals = {
     canvas: {
-        width: 992,
-        height: 736
+        width: 960,
+        height: 704
     }
 };
