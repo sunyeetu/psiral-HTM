@@ -10,31 +10,26 @@
 game.playScene = me.ScreenObject.extend({
 
     init: function() {
-
-
-
+        // use the update & draw functions
+        this.parent(true); 
     },
 
     update: function() {
 
     },
 
-    draw: function() {
-
+    draw: function(ctx) {
+        me.video.clearSurface(ctx, 'black'); 
     },
 
     /**        
     *  action to perform on state change
     */
     onResetEvent: function() {        
-        // reset the score
-        game.data.score = 0;
+        // reset board state
         
-        // add our HUD to the game world        
+        // add game scene entities   
         me.game.add(new game.HUD.Container());
-
-        //me.levelDirector.loadLevel("terrain01");
-        //
         me.game.add(new game.BoardEntity());
     },
 

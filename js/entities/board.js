@@ -12,28 +12,31 @@ game.BoardEntity = me.ObjectEntity.extend({
     init: function(x, y, settings) {
         this.parent(0, 0, {});
 
-        this.tilemap = [
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        ];
-        this.mapWidth = 15;
-        this.mapHeight = 11;
-
         var idx;
-        for (var y = 0; y < this.mapHeight; y++) {
-            for (var x = 0; x < this.mapWidth; x++) {
-                idx = y * this.mapWidth + x;
-                if (this.tilemap[idx] != 0) {
-                    me.game.add(new game.TileEntity(x, y, {}), 19000);
+        var tile = null;
+        var width = game.map.width;
+        var height = game.map.height;
+        console.log(game.map.Tiles);
+
+        for (var y = 0; y < height; y++) {
+            for (var x = 0; x < width; x++) {
+                tile = null;
+                if (game.map.isTile(x, y, game.map.Tiles.Earth)) {
+                    tile = new game.TileEntity(x, y, {name: 'earth'});
+
+                } else if (game.map.isTile(x, y, game.map.Tiles.Water)) {
+                    tile = new game.TileEntity(x, y, {name: 'water'});
+
+                } else if (game.map.isTile(x, y, game.map.Tiles.Fire)) {
+                    tile = new game.TileEntity(x, y, {name: 'fire'});
+
+                } else if (game.map.isTile(x, y, game.map.Tiles.Air)) {
+                    tile = new game.TileEntity(x, y, {name: 'air'});
+
+                }
+
+                if (tile != null) {
+                    me.game.add(tile, 19000);
                 }
             }
         }        

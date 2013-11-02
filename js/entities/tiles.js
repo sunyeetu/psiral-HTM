@@ -10,20 +10,20 @@
 game.TileEntity = me.ObjectEntity.extend({
     
     init: function(x, y, settings) {
-
         settings.image = 'boardtileset';
         settings.spritewidth = 64;
         settings.spriteheight = 64;
-        console.log("x: %s, y: %s", x, y);
         x *= 64;
         y *= 64;
-
         this.parent(x, y, settings);
         
-        // Add the animations
-        this.renderable.animationspeed = 250;
+        // setup animations
+        this.renderable.animationspeed = 450; // + Math.random() * 200;
         this.renderable.addAnimation('earth', [0, 1, 2, 3, 4, 5, 6, 7]);
-        this.renderable.setCurrentAnimation('earth');
+        this.renderable.addAnimation('water', [8, 9, 10, 11, 12, 13, 14, 15]);
+        this.renderable.addAnimation('fire', [16, 17, 18, 19, 20, 21, 22, 23]);
+        this.renderable.addAnimation('air', [24, 25, 26, 27, 28, 29, 30, 31]);
+        this.renderable.setCurrentAnimation(settings.name);
 
     },
 
