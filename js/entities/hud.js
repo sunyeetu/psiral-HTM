@@ -1,5 +1,5 @@
 /**
- * wizards.js
+ * hud.js
  *
  * Copyright (c) 2013 Petar Petrov
  *

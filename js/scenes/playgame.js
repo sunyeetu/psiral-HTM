@@ -15,7 +15,7 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     update: function() {
-
+        game.gamemaster.update();
     },
 
     draw: function(ctx) {
@@ -28,7 +28,7 @@ game.PlayScene = me.ScreenObject.extend({
         // prep. new game
 
         game.map.reset();
-        game.gamemaster.reset();
+        game.gamemaster.reset(game.gamemaster.Wizards.Earth);
         
         // add gfx entities
 

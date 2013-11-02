@@ -20,8 +20,8 @@
      */
 
     var Players = {
-        Human: 0,
-        AI: 1,
+        Human: 1,
+        AI: 2,
     };
 
     var AI = {
@@ -50,21 +50,25 @@
             this.wizards[this.Wizards.Fire] = Players.AI;
             this.wizards[this.Wizards.Air] = Players.AI;
             // hi, human!
-            this.wizards[playerWizard || this.Wizards.Earth] = Players.Human;
+            //playerWizard = playerWizard || this.Wizards.Earth;
+            this.wizards[playerWizard] = Players.Human;
 
             this.turns = {
                 current: 0,
-                next: 0
+                next: 1
             };
         },
         /**
          * Proceed with next turn
          */
         execute: function() {
-           for(var key in this.wizards) {
-                if (wizards[key] === Players.AI) {
+            console.log('aha');
+            console.log(this.wizards);
+            for(var k in this.wizards) {
+                
+                if (this.wizards[k] === Players.AI) {
                     // AI control
-                } else if (wizards[key] === Players.Human) {
+                } else if (this.wizards[k] === Players.Human) {
                     // Human HUD control
                     // TODO
                 } else {
@@ -83,6 +87,7 @@
     game.gamemaster = _instance;
 
     function Wizard() {
+
     }
 
 }(game || {}));
