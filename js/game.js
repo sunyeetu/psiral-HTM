@@ -42,11 +42,8 @@ var game = {
 
     // Run on game resources loaded.
     "loaded" : function () {
-
-        
-
-        me.state.set(me.state.MENU, new game.splashScene());
-        me.state.set(me.state.PLAY, new game.playScene());
+        me.state.set(me.state.MENU, new game.SplashScene());
+        me.state.set(me.state.PLAY, new game.PlayScene());
 
         // Start the game.
         me.state.change(me.state.PLAY);

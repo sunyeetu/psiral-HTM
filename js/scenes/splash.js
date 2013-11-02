@@ -7,7 +7,7 @@
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
  */
 
-game.splashScene = me.ScreenObject.extend({
+game.SplashScene = me.ScreenObject.extend({
     /**        
      *  action to perform on state change
      */

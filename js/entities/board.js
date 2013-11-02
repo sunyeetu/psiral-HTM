@@ -39,7 +39,7 @@ game.BoardEntity = me.ObjectEntity.extend({
                 }
                 // add for drawing
                 if (tile != null) {
-                    me.game.add(new game.TileEntity(x, y, tile), 19000);
+                    me.game.world.addChild(new game.TileEntity(x, y, tile));
                 }
             }
         }        
@@ -49,5 +49,10 @@ game.BoardEntity = me.ObjectEntity.extend({
     update: function() {
         return false;
     },
+
+    onDestroyEvent: function() {
+        // TODO:
+        // cleanup
+    }
 
 });

@@ -11,11 +11,13 @@ game.TileEntity = me.ObjectEntity.extend({
     
     init: function(x, y, settings) {
         settings.image = 'boardtileset';
-        settings.spritewidth = 64;
-        settings.spriteheight = 64;
-        x *= 64;
-        y *= 64;
+        settings.spritewidth = _Globals.gfx.tileWidth;
+        settings.spriteheight = _Globals.gfx.tileHeight;
+        x *= _Globals.gfx.tileWidth;
+        y *= _Globals.gfx.tileHeight;
         this.parent(x, y, settings);
+
+        this.z = _Globals.gfx.zTile;
         
         // setup animations
         this.renderable.animationspeed = 450; // + Math.random() * 200;

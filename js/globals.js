@@ -11,5 +11,23 @@ var _Globals = {
     canvas: {
         width: 960,
         height: 704
+    },
+    gfx: {
+    	mapWidth: 15,
+    	mapHeight: 11,
+    	tileWidth: 64,
+    	tileHeight: 64,
+
+    	baseZ: 19000,
+    	zTile: 19010,
+    	zActor: 19020
+    },
+    /**
+     * Gameplay defaults
+     * 
+     */
+    defaults: {
+    	mana: 10,
+    	manaMax: 10
     }
 };
