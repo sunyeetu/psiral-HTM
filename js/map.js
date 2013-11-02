@@ -10,7 +10,7 @@
 (function TileMap(game) {
 
     var mapWidth = 15;
-    var mapHeight = 11;    
+    var mapHeight = 11;
 
     var S1 = -1;
     var S2 = -2;
@@ -20,8 +20,8 @@
     var D = 2;
     var L = 3;
     var R = 4;
-    var X = 5;
-    var E = 6, W = 7, F = 8, A = 9;    
+    var X = 5; // fountain
+    var E = 6, W = 7, F = 8, A = 9; // elements
 
     var currentMap = null;
     var players = {
@@ -30,7 +30,9 @@
         'player3': {x: 14, y: 10, route: player3},
         'player4': {x: 0, y: 10, route: player4}
     }
-
+    /**
+     * Interface
+     */
     var _instance = {
 
         Tiles: {
@@ -38,7 +40,11 @@
             Water: W,
             Fire: F,
             Air: A,
-            Fountain: X
+            Fountain: X,
+            Base1: S1,
+            Base2: S2,
+            Base3: S3,
+            Base4: S4,
         },
 
         Moves: {
@@ -104,12 +110,14 @@
         }
 
     };
-
     Object.defineProperty(_instance, 'width', {get: function() { return mapWidth; }});
     Object.defineProperty(_instance, 'height', {get: function() { return mapHeight; }});
-
     game.map = _instance;
 
+    /**
+     * Lookup maps
+     */
+    
     var tilemap = [
         S1, E, E, E, E, W, W, W, W, F, F, F, F, A, S2,
          W, W, W, W, F, F, F, F, A, A, A, A, E, A, W,
@@ -123,7 +131,6 @@
          A, W, F, W, W, W, W, E, E, E, E, A, A, A, A,
         S4, W, E, E, E, E, A, A, A, A, F, F, F, F, S3
     ];
-
     var player1 = [
         R, R, R, R, R, R, R, R, R, R, R, R, R, D, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,

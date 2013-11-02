@@ -27,9 +27,14 @@ game.playScene = me.ScreenObject.extend({
     */
     onResetEvent: function() {        
         // reset board state
+        game.map.reset();
         
-        // add game scene entities   
-        me.game.add(new game.HUD.Container());
+        // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
+        // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
+        me.game.world.addChild(new game.EarthWizardEntity(0, 0, {}));
+
+        // add game scene entities 
+        //me.game.add(new game.HUD.Container());
         me.game.add(new game.BoardEntity());
     },
 

@@ -23,6 +23,11 @@ game.TileEntity = me.ObjectEntity.extend({
         this.renderable.addAnimation('water', [8, 9, 10, 11, 12, 13, 14, 15]);
         this.renderable.addAnimation('fire', [16, 17, 18, 19, 20, 21, 22, 23]);
         this.renderable.addAnimation('air', [24, 25, 26, 27, 28, 29, 30, 31]);
+
+        this.renderable.addAnimation('base1', [48]);
+        this.renderable.addAnimation('base2', [49]);
+        this.renderable.addAnimation('base3', [50]);
+        this.renderable.addAnimation('base4', [51]);
         this.renderable.setCurrentAnimation(settings.name);
 
     },

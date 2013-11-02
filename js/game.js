@@ -43,7 +43,7 @@ var game = {
     // Run on game resources loaded.
     "loaded" : function () {
 
-        game.map.reset();
+        
 
         me.state.set(me.state.MENU, new game.splashScene());
         me.state.set(me.state.PLAY, new game.playScene());
