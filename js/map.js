@@ -24,11 +24,11 @@
     var E = 6, W = 7, F = 8, A = 9;    
 
     var currentMap = null;
-    var positions = {
-        'player1': {x: 0, y: 0},
-        'player2': {x: 14, y: 0},
-        'player3': {x: 14, y: 10},
-        'player4': {x: 0, y: 10}
+    var players = {
+        'player1': {x: 0, y: 0, route: player1},
+        'player2': {x: 14, y: 0, route: player2},
+        'player3': {x: 14, y: 10, route: player3},
+        'player4': {x: 0, y: 10, route: player4}
     }
 
     var _instance = {
@@ -39,6 +39,13 @@
             Fire: F,
             Air: A,
             Fountain: X
+        },
+
+        Moves: {
+            UP: U,
+            DOWN: D,
+            LEFT: L,
+            RIGHT: R
         },
 
         reset: function() {
@@ -58,16 +65,42 @@
         },
 
         getPlayerPos: function(player) {
-            return positions[player];
+            return players[player];
         },
 
         setPlayerPos: function(player, x, y) {
-            positions[player].x = x;
-            positions[player].y = y;
+            players[player].x = x;
+            players[player].y = y;
         },
 
-        nextMove: function(player) {
+        getNextMove: function(player, steps) {
+            steps = steps || 1;
 
+            var pos = this.getPlayerPos(player);
+            var where;
+            var tmpx = pos.x;
+            var tmpy = pos.y;
+            var i = steps;
+
+            do {
+                where = tmpy * mapWidth + tmpx;
+                if (pos.route[where] == D) {
+                    tmpy += 1;
+                } else if (pos.route[where] == U) {
+                    tmpy -= 1;
+                } else if (pos.route[where] == L) {
+                    tmpx -= 1;
+                } else if (pos.route[where] == R) {
+                    tmpx += 1;
+                }
+            } while(--i > 0);
+
+            return {x: tmpx, y: tmpy};
+        },
+
+        movePlayer: function(player, steps) {
+            var nextPos = this.getNextMove(player, steps);
+            this.setPlayerPos(nextPos.x, nextPos.y);
         }
 
     };
