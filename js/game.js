@@ -11,7 +11,7 @@
 var game = {
 
     // Run on page load.
-    "onload" : function () {
+    "onload": function () {
         // Initialize the video.
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, true, 
             me.device.isMobile ? 2.0 : null)) {
@@ -41,7 +41,7 @@ var game = {
     },
 
     // Run on game resources loaded.
-    "loaded" : function () {
+    "loaded": function () {
         me.state.set(me.state.MENU, new game.SplashScene());
         me.state.set(me.state.PLAY, new game.PlayScene());
 

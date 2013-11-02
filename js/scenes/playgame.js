@@ -21,14 +21,17 @@ game.PlayScene = me.ScreenObject.extend({
     draw: function(ctx) {
         me.video.clearSurface(ctx, 'black'); 
     },
-
     /**        
      * Action to perform on state change
      */
     onResetEvent: function() {        
-        // reset board state
+        // prep. new game
+
         game.map.reset();
+        game.gamemaster.reset();
         
+        // add gfx entities
+
         // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
         // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
         me.game.world.addChild(new game.EarthWizardEntity(0, 0, {}));
@@ -40,9 +43,9 @@ game.PlayScene = me.ScreenObject.extend({
         //me.game.add(new game.HUD.Container());
         this.gameboard = new game.BoardEntity();
         me.game.world.addChild(this.gameboard);
+
+        // add HUD entities
     },
-
-
     /**        
      * Action to perform when leaving this screen (state change)
      */

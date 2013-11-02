@@ -8,18 +8,25 @@
  */
 
 game.SplashScene = me.ScreenObject.extend({
+
+    init: function() {
+        // use the update & draw functions
+        this.parent(true); 
+    },
+
+    draw: function() {
+        me.video.clearSurface(ctx, 'black'); 
+    },
     /**        
      *  action to perform on state change
      */
     onResetEvent: function() {        
-            ; // TODO
+        ; // TODO
     },
-
-
     /**        
      *  action to perform when leaving this screen (state change)
      */
     onDestroyEvent: function() {
-            ; // TODO
+       ; // TODO
     }
 });
