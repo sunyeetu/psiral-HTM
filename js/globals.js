@@ -13,22 +13,22 @@ var _Globals = {
         height: 704
     },
     gfx: {
-    	mapWidth: 15,
-    	mapHeight: 11,
-    	tileWidth: 64,
-    	tileHeight: 64,
+        mapWidth: 15,
+        mapHeight: 11,
+        tileWidth: 64,
+        tileHeight: 64,
 
-    	baseZ: 19000,
-    	zTile: 19010,
-    	zActor: 19020,
+        baseZ: 19000,
+        zTile: 19010,
+        zActor: 19020,
         zHUD: 50000
     },
     /**
      * Gameplay defaults
      */
     defaults: {
-    	mana: 10,
-    	manaMax: 10
+        mana: 10,
+        manaMax: 10
     },
     spells: {
         Abyss: 10,
