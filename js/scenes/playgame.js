@@ -12,8 +12,10 @@ game.PlayScene = me.ScreenObject.extend({
     SceneStates: {
         InitBoard: 10,
         HumanMove: 20,
-        AIMove: 30,
-        GameOver: 40
+        HumanThrowDice: 21,
+        HumanSelectSpell: 22,
+        AIMove: 50,
+        GameOver: 100
     },
 
     init: function() {
@@ -64,38 +66,69 @@ game.PlayScene = me.ScreenObject.extend({
         for (var i = 0; i < wizards.length; i++) {
             me.game.world.removeChild(wizards[i]);
         }
-        // remove the HUD from the game world
-        me.game.world.removeChild(me.game.world.getEntityByProp("name", "HUD")[0]);
     },
     /**
-     * 
+     * Set current gameplay state
      */
     setState: function(newState) {
          switch(newState) {
             case this.SceneStates.HumanMove:
                 // Show selection HUD
-                var hud = new game.HUD.PlayerTurnDialog();
-                hud.setEventHandler(this);
+                var hud = new game.HUD.PlayerTurn();
+                hud.setup(this);
                 me.game.world.addChild(hud);
-
+                // XXX: workaround!
+                this.hud = hud; 
+            break;
+            case this.SceneStates.HumanThrowDice:
+            break;
+            case this.SceneStates.HumanSelectSpell:
+                // Show selection HUD
+                var hud = new game.HUD.PlayerSelectSpell();
+                hud.setup(this);
+                me.game.world.addChild(hud);
+                // XXX: workaround!
+                this.hud = hud;             
             break;
             case this.SceneStates.AIMove:
+            
             break;
         }
         this.state = newState;
     },
 
-    /**
-     * Events
-     */
-    
-    onSelectChance: function(data) {
-        console.log('selected chaaaance!');
-        console.log(data);
+    clearHUD: function() {
+        // remove the HUD from the game world
+        // var huds = me.game.world.getEntityByProp('name', 'HUD');
+        // for (var i = 0; i < huds.length; i++) {
+        //     console.log(huds[i]);
+        //     me.game.world.removeChild(huds[i]);
+        // }
+        // hack!
+        if (this.hud)
+            me.game.world.removeChild(this.hud);
     },
 
-    onSelectSpell: function(data) {
-        console.log('selected spell!');
-        console.log(data);
-    }    
+    /************************************************************************
+     * UI Events
+     */
+    
+    onSelectChance: function() {
+        console.log('selected chance');
+        this.clearHUD();
+        this.setState(this.SceneStates.HumanThrowDice);
+    },
+
+    onSelectSpell: function() {
+        console.log('selected spell');
+        this.clearHUD();
+        this.setState(this.SceneStates.HumanSelectSpell);
+    },
+
+    onCastSpell: function(data) {
+        var type = data[0];
+        console.log('casting ' + type);
+        this.clearHUD();
+    } 
+
 });

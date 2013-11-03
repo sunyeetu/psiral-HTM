@@ -16,6 +16,7 @@ game.resources = [
 	{name: "tileset01", type:"image", src: "assets/maps/tileset.png"},
 	{name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
 	{name: "earth_wizard", type:"image", src: "assets/gfx/walk_cycle.png"},
+	
 	// Hud
 	{name: "dialog", type:"image", src: "assets/gui/dialog.png"},
 	{name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
@@ -24,6 +25,19 @@ game.resources = [
 
 	{name: "icon_chance", type:"image", src: "assets/gui/icon_select_chance.png"},
 	{name: "icon_spell", type:"image", src: "assets/gui/icon_select_spell.png"},
+	{name: "icon_spell_abyss", type:"image", src: "assets/gui/icon_spell_abyss.png"},
+	{name: "icon_spell_change", type:"image", src: "assets/gui/icon_spell_change.png"},
+	{name: "icon_spell_clay", type:"image", src: "assets/gui/icon_spell_clay.png"},
+	{name: "icon_spell_blind", type:"image", src: "assets/gui/icon_spell_blind.png"},
+	{name: "icon_spell_freeze", type:"image", src: "assets/gui/icon_spell_freeze.png"},
+	{name: "icon_spell_path", type:"image", src: "assets/gui/icon_spell_path.png"},
+	{name: "icon_spell_teleport", type:"image", src: "assets/gui/icon_spell_teleport.png"},
+
+	{name: "slot_empty", type:"image", src: "assets/gui/slot_empty.png"},
+	{name: "slot_earth", type:"image", src: "assets/gui/slot_earth.png"},
+	{name: "slot_water", type:"image", src: "assets/gui/slot_water.png"},
+	{name: "slot_fire", type:"image", src: "assets/gui/slot_fire.png"},
+	{name: "slot_air", type:"image", src: "assets/gui/slot_air.png"},
 
 	/* Atlases 
 	 * @example

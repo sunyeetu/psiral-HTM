@@ -20,7 +20,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.collidable = false;
         this.z = _Globals.gfx.zActor;
         this.type = 'wizard';
-
+        
         this.mana = _Globals.defaults.mana;
     },
 
