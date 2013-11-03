@@ -23,12 +23,7 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     update: function() {
-        switch(this.state) {
-            case this.SceneStates.HumanMove:
-            break;
-            case this.SceneStates.AIMove:
-            break;
-        }
+
         // game.gamemaster.update();
     },
 
@@ -56,12 +51,9 @@ game.PlayScene = me.ScreenObject.extend({
         // add game scene entities 
         this.gameboard = new game.BoardEntity();
         me.game.world.addChild(this.gameboard);
-
-        // add HUD entities
-        me.game.world.addChild(new game.HUD.PlayerTurnDialog());
-         
+        
         // Start game
-        this.state = this.SceneStates.HumanMove;
+        this.setState(this.SceneStates.HumanMove);
     },
     /**        
      * Action to perform when leaving this screen (state change)
@@ -74,5 +66,36 @@ game.PlayScene = me.ScreenObject.extend({
         }
         // remove the HUD from the game world
         me.game.world.removeChild(me.game.world.getEntityByProp("name", "HUD")[0]);
-    }
+    },
+    /**
+     * 
+     */
+    setState: function(newState) {
+         switch(newState) {
+            case this.SceneStates.HumanMove:
+                // Show selection HUD
+                var hud = new game.HUD.PlayerTurnDialog();
+                hud.setEventHandler(this);
+                me.game.world.addChild(hud);
+
+            break;
+            case this.SceneStates.AIMove:
+            break;
+        }
+        this.state = newState;
+    },
+
+    /**
+     * Events
+     */
+    
+    onSelectChance: function(data) {
+        console.log('selected chaaaance!');
+        console.log(data);
+    },
+
+    onSelectSpell: function(data) {
+        console.log('selected spell!');
+        console.log(data);
+    }    
 });

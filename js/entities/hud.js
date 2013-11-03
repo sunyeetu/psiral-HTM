@@ -26,7 +26,10 @@ game.HUD.Container = me.ObjectContainer.extend({
 
         // give a name
         this.name = "HUD";
-        
+
+        // (default) event handler 
+        this.eventHandler = null;
+
         // background
         this.cx = _Globals.canvas.width / 2 - 505 / 2;
         this.cy = _Globals.canvas.height / 2 - 150 / 2;
@@ -37,6 +40,17 @@ game.HUD.Container = me.ObjectContainer.extend({
 
         this.iconWidth = 64;
         this.iconHeight = 64;
+    },
+
+    // XXX: there must be a better way to pass handlers than this!
+    setEventHandler: function(eventHandler) {
+        this.eventHandler = eventHandler;
+    },
+    // Propagate UI event to handler
+    onEvent: function(name) {
+        if (this.eventHandler) {
+            this.eventHandler[name].call(this.eventHandler, Array.prototype.slice.call(arguments, 1));
+        }
     }
 });
 
@@ -47,11 +61,13 @@ game.HUD.PlayerTurnDialog = game.HUD.Container.extend({
     init: function() {
         this.parent();
 
+        var parent = this;
+
         this.addChild(
             new game.HUD.Clickable(this.cx + this.iconWidth * 2, this.cy + this.iconHeight / 2, {
                 image: 'icon_chance',
                 onClick: function(event) {
-                    console.log("chance!");
+                    parent.onEvent('onSelectChance');
                 }
             }));
 
@@ -59,7 +75,7 @@ game.HUD.PlayerTurnDialog = game.HUD.Container.extend({
             new game.HUD.Clickable(this.endx - this.iconWidth * 3, this.cy + this.iconHeight / 2, {
                 image: 'icon_spell',
                 onClick: function(event) {
-                    console.log("spell!");
+                    parent.onEvent('onSelectSpell');
                 }
             }));
 
