@@ -20,7 +20,8 @@ var _Globals = {
 
     	baseZ: 19000,
     	zTile: 19010,
-    	zActor: 19020
+    	zActor: 19020,
+        zHUD: 50000
     },
     /**
      * Gameplay defaults

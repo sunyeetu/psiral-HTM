@@ -9,13 +9,27 @@
 
 game.PlayScene = me.ScreenObject.extend({
 
+    SceneStates: {
+        InitBoard: 10,
+        HumanMove: 20,
+        AIMove: 30,
+        GameOver: 40
+    },
+
     init: function() {
         // use the update & draw functions
-        this.parent(true); 
+        this.parent(true);
+        this.state = this.SceneStates.InitBoard;
     },
 
     update: function() {
-        game.gamemaster.update();
+        switch(this.state) {
+            case this.SceneStates.HumanMove:
+            break;
+            case this.SceneStates.AIMove:
+            break;
+        }
+        // game.gamemaster.update();
     },
 
     draw: function(ctx) {
@@ -40,11 +54,14 @@ game.PlayScene = me.ScreenObject.extend({
         //me.game.world.addChild(new game.EarthWizardEntity(14, 0, {}));
 
         // add game scene entities 
-        //me.game.add(new game.HUD.Container());
         this.gameboard = new game.BoardEntity();
         me.game.world.addChild(this.gameboard);
 
         // add HUD entities
+        me.game.world.addChild(new game.HUD.PlayerTurnDialog());
+         
+        // Start game
+        this.state = this.SceneStates.HumanMove;
     },
     /**        
      * Action to perform when leaving this screen (state change)

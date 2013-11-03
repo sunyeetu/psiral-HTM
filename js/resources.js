@@ -16,6 +16,14 @@ game.resources = [
 	{name: "tileset01", type:"image", src: "assets/maps/tileset.png"},
 	{name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
 	{name: "earth_wizard", type:"image", src: "assets/gfx/walk_cycle.png"},
+	// Hud
+	{name: "dialog", type:"image", src: "assets/gui/dialog.png"},
+	{name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
+	{name: "button_cancel", type:"image", src: "assets/gui/button_cancel.png"},
+	{name: "button_empty", type:"image", src: "assets/gui/button_empty.png"},
+
+	{name: "icon_chance", type:"image", src: "assets/gui/icon_select_chance.png"},
+	{name: "icon_spell", type:"image", src: "assets/gui/icon_select_spell.png"},
 
 	/* Atlases 
 	 * @example
