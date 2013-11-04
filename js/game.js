@@ -10,6 +10,8 @@
 /* Game namespace */
 var game = {
 
+    debug: false,
+
     // Run on page load.
     "onload": function () {
         // Initialize the video.
@@ -25,6 +27,7 @@ var game = {
             window.onReady(function () {
                 me.plugin.register.defer(debugPanel, "debug");
             });
+            this.debug = true;
         }
 
         // Initialize the audio.

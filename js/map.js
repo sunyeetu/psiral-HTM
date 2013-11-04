@@ -9,9 +9,10 @@
 
 (function TileMap(game) {
 
-    var mapWidth = _Globals.gfx.mapWidth;
-    var mapHeight = _Globals.gfx.mapHeight;
-
+    /**
+     * Lookup maps
+     */
+    
     var S1 = -1;
     var S2 = -2;
     var S3 = -3;
@@ -23,15 +24,110 @@
     var X = 5; // fountain
     var E = 6, W = 7, F = 8, A = 9; // elements
 
+    var tilemap = [
+        S1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, S2,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, X, X, X, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0 ,0, 0, 0, X, X, X, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        S4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, S3,
+    ];
+    var player1 = [
+        R, R, R, R, R, R, R, R, R, R, R, R, R, R, R, D, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
+        0, 0, 0, R, R, R, R, X, X, X, 0, 0, 0, 0, 0, D, 0,
+        0, 0, 0, U ,0, 0, 0, X, X, X, 0, 0, 0, 0, 0, D, 0,
+        0, 0, 0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
+        0, 0, 0, U, L, L, L, L, L, L, L, L, L, L, L, L, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ];
+    var player2 = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
+        0, 0, R, R, R, R, R, R, R, R, R, R, D, 0, 0, 0, D,
+        0, 0, U, 0, 0, 0, 0, X, X, X, L, L, L, 0, 0, 0, D,
+        0, 0, U, 0, 0, 0, 0, X, X, X, 0, 0, 0, 0, 0, 0, D,
+        0, 0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
+        0, 0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
+        0, 0, U, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ];
+    var player3 = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, R, R, R, R, R, R, R, R, R, R, R, R, D, 0, 0, 0,
+        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0, 0,
+        0, U, 0, 0, 0, 0, 0, X, X, X, 0, 0, 0, D, 0, 0, 0,
+        0, U, 0, 0, 0, 0, 0, X, X, X, L, L, L, L, 0, 0, 0,
+        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, U, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
+    ];   
+    var player4 = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        R, R, R, R, R, R, R, R, R, R, R, R, R, R, D, 0, 0,
+        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0,
+        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0,
+        U, 0, 0, 0, 0, 0, 0, X, X, X, 0, 0, 0, 0, D, 0, 0,
+        U, 0, 0, 0, R, R, R, X, X, X, 0, 0, 0, 0, D, 0, 0,
+        U, 0, 0, 0, U, L, L, L, L, L, L, L, L, L, L, 0, 0,
+        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ];  
+
+    /**
+     * Private routines
+     */    
+
+    var mapWidth = _Globals.gfx.mapWidth;
+    var mapHeight = _Globals.gfx.mapHeight;
+
     var currentMap = null;
     var players = {
-        'player1': {x: 0, y: 0, route: player1},
-        'player2': {x: 14, y: 0, route: player2},
-        'player3': {x: 14, y: 10, route: player3},
-        'player4': {x: 0, y: 10, route: player4}
+        'player1': {x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A]},
+        'player2': {x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E]},
+        'player3': {x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W]},
+        'player4': {x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F]}
     }
+
+    function buildMap(player, path, map) {
+        var pos = players[player];
+        var reps = [4, 2, 1];
+        var rc = 0;
+        var pc = 0;
+        var pattern = pos.pattern;
+        var tilePos = 0;
+        // place start position
+        map[pos.sy * mapWidth + pos.sx] = S1;
+        // populate tilemap
+        for(var i = 0; i < path.length - 2; i++) {
+            map[path[i].y * mapWidth + path[i].x] = pattern[tilePos];
+            if (++pc >= reps[rc]) {
+                if (++tilePos >= pattern.length) {
+                    tilePos = 0;
+                    if (++rc >= reps.length) {
+                        rc = reps.length - 1;
+                    }
+
+                }
+                pc = 0;
+            }
+        }
+    }
+
     /**
-     * Interface
+     * Public interface
      */
     var _instance = {
 
@@ -56,10 +152,14 @@
 
         reset: function() {
             currentMap = tilemap.slice(0);
-            this.setPlayerPos('player1', 0, 0);
-            this.setPlayerPos('player2', 14, 0);
-            this.setPlayerPos('player3', 14, 10);
-            this.setPlayerPos('player4', 0, 10);
+            this.setPlayerPos('player1', players['player1'].sx, players['player1'].sy);
+            this.setPlayerPos('player2', players['player2'].sx, players['player2'].sy);
+            this.setPlayerPos('player3', players['player3'].sx, players['player3'].sy);
+            this.setPlayerPos('player4', players['player4'].sx, players['player4'].sy);
+            buildMap('player1', this.getPath('player1'), currentMap);
+            buildMap('player2', this.getPath('player2'), currentMap);
+            buildMap('player3', this.getPath('player3'), currentMap);
+            buildMap('player4', this.getPath('player4'), currentMap);
         },
 
         getTile: function(x, y) {
@@ -121,6 +221,56 @@
         movePlayer: function(player, steps) {
             var nextPos = this.getNextMove(player, steps);
             this.setPlayerPos(nextPos.x, nextPos.y);
+        },
+
+        getPath: function(player) {
+            // steps = steps || 1;
+            var pos = this.getPlayerPos(player);
+            var where;
+            var tmpx = pos.x;
+            var tmpy = pos.y;
+            var path = [];
+            var found = false;
+            var i = 50;
+
+            do {
+                where = tmpy * mapWidth + tmpx;
+                
+                if (pos.route[where] == D) {
+                    tmpy += 1;
+                } else if (pos.route[where] == U) {
+                    tmpy -= 1;
+                } else if (pos.route[where] == L) {
+                    tmpx -= 1;
+                } else if (pos.route[where] == R) {
+                    tmpx += 1;
+                } else if (pos.route[where] == X) {
+                    found = true;
+                }
+                
+                path.push({x: tmpx, y: tmpy});
+
+                // XXX: CRC
+                if (game.debug) {
+                    if (i-- < 0) {
+                        console.error("x: %d, y: %d", tmpx, tmpy);
+                        throw "Path tracing dead-loop: " + player;
+                    }
+                }
+
+            } while(!found);
+
+            // XXX: CRC
+            if (game.debug) {
+                console.log('asls');
+                if (path[path.length - 1].x != pos.ex || path[path.length - 1].y != pos.ey) {
+                    console.error("got: %d, %d", path[path.length - 1].x, path[path.length - 1].y);
+                    console.error("expected: %d %d", pos.ex, pos.ey);
+                    throw "Invalid " + player + " path!"
+                }
+            }
+
+            return path;            
         }
 
     };
@@ -128,75 +278,18 @@
     Object.defineProperty(_instance, 'height', {get: function() { return mapHeight; }});
     game.map = _instance;
 
-    /**
-     * Lookup maps
-     */
-    
-    var tilemap = [
-        S1, E, E, E, E, W, W, W, W, F, F, F, F, A, 0, 0, S2,
-         W, W, W, W, F, F, F, F, A, A, A, A, E, A, 0, 0, W,
-         E, A, A, A, A, E, E, E, E, F, F, F, E, A, 0, 0, W,
-         E, F, A, A, E, E, E, E, W, W, W, F, E, A, 0, 0, W,
-         E, F, A, E, E, W, W, F, F, F, W, A, E, E, 0, 0, W,
-         E, F, A, E, E, E, W, X, X, E, E, A, W, E, 0, 0, F,
-         A, F, F, E, A, E, X, X, X, E, A, A, W, E, 0, 0, F,
-         A, W, F, A, A, A, A, F, F, F, F, W, W, E, 0, 0, F,
-         A, W, F, A, A, A, F, F, F, F, W, W, W, W, 0, 0, F,
-         A, W, F, W, W, W, W, E, E, E, E, A, A, A, 0, 0, A,
-        S4, W, E, E, E, E, A, A, A, A, F, F, F, F, 0, 0, S3
-    ];
-    var player1 = [
-        R, R, R, R, R, R, R, R, R, R, R, R, R, D, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
-        0, 0, 0, R, R, R, D, 0, 0, 0, 0, 0, 0, D, 0,
-        0, 0, 0, U, 0, 0, D, X, X, 0, 0, 0, 0, D, 0,
-        0, 0, 0, U, 0, 0, X, X, X, 0, 0, 0, 0, D, 0,
-        0, 0, 0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0,
-        0, 0, 0, U, L, L, L, L, L, L, L, L, L, L, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    ];
-    var player2 = [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
-        0, 0, R, R, R, R, R, R, R, R, D, 0, 0, 0, D,
-        0, 0, U, 0, 0, 0, 0, D, L, L, L, 0, 0, 0, D,
-        0, 0, U, 0, 0, 0, 0, X, X, 0, 0, 0, 0, 0, D,
-        0, 0, U, 0, 0, 0, X, X, X, 0, 0, 0, 0, 0, D,
-        0, 0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
-        0, 0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D,
-        0, 0, U, L, L, L, L, L, L, L, L, L, L, L, L,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    ];
-
-    var player3 = [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, R, R, R, R, R, R, R, R, R, R, D, 0, 0, 0,
-        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0, 0,
-        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0, 0,
-        0, U, 0, 0, 0, 0, 0, X, X, D, L, D, 0, 0, 0,
-        0, U, 0, 0, 0, 0, X, X, X, L, U, R, 0, 0, 0,
-        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, U, L, L, L, L, L, L, L, L, L, L, L, L, L
-    ];      
-    var player4 = [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        R, R, R, R, R, R, R, R, R, R, R, R, D, 0, 0,
-        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0,
-        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0,
-        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, D, 0, 0,
-        U, 0, 0, 0, R, D, 0, X, X, 0, 0, 0, D, 0, 0,
-        U, 0, 0, 0, U, R, X, X, X, 0, 0, 0, D, 0, 0,
-        U, 0, 0, 0, U, L, L, L, L, L, L, L, L, 0, 0,
-        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    ];    
-
+ 
+    // var XXXX = [
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    // ];    
 }(game || {}));
