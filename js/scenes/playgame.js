@@ -39,7 +39,6 @@ game.PlayScene = me.ScreenObject.extend({
      */
     onResetEvent: function() {        
         // prep. new game
-
         game.map.reset();
         game.gamemaster.reset(game.gamemaster.Wizards.Earth);
         
@@ -95,7 +94,7 @@ game.PlayScene = me.ScreenObject.extend({
             break;
             case this.SceneStates.HumanThrowDice:
                 // ???
-                this.actors[_Globals.wizards.Water].moveTo(game.map.getPlayerPath('player1'));
+                this.actors[_Globals.wizards.Earth].moveTo(game.map.getPlayerPath('player1'));
             break;
             case this.SceneStates.HumanSelectSpell:
                 // Show selection HUD

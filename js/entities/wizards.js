@@ -24,14 +24,14 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.collidable = false;
         this.z = _Globals.gfx.zActor;
         this.type = 'wizard';
-        this.setMaxVelocity(3.5, 3.5);
+        this.setMaxVelocity(2.0, 2.0);
+        this.renderable.animationspeed = 75;
         
         this.mana = _Globals.defaults.mana;
         this.speed = 0.25;
         this.moving = false;
         this.movement = {};
     },
-
     /**
      * update function
      */
@@ -127,8 +127,8 @@ game.WizardEntity = me.ObjectEntity.extend({
         return true;
     },
 
-    /**
-     * Props
+    /************************************************************************
+     * Actor functions
      */
     
     getMana: function() {
@@ -140,10 +140,6 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.mana = this.mana > _Globals.defaults.manaMax ? _Globals.defaults.manaMax : this.mana;
     },
 
-    /**
-     * Events handling
-     */
-    
     moveTo: function(path) {
         if (Object.prototype.toString.call(path) === '[object Array]') {
             this.movement.path = path;
@@ -160,6 +156,7 @@ game.WizardEntity = me.ObjectEntity.extend({
     },
 
     getDirection: function() {
+        // TODO: cache in movement object
         var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;
         var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight;
         dx = game.getRealX(dx);
@@ -199,7 +196,6 @@ game.EarthWizardEntity = game.WizardEntity.extend({
         this.name = 'Entria-Sil';
         
         // setup animations
-        this.renderable.animationspeed = 75; 
         this.renderable.addAnimation('stand_left', [9]);
         this.renderable.addAnimation('stand_right', [27]);
         this.renderable.addAnimation('stand_up', [0]);
@@ -227,7 +223,6 @@ game.WaterWizardEntity = game.WizardEntity.extend({
         this.name = 'Azalsor';
         
         // setup animations
-        this.renderable.animationspeed = 175; 
         this.renderable.addAnimation('stand_left', [9]);
         this.renderable.addAnimation('stand_right', [27]);
         this.renderable.addAnimation('stand_up', [0]);
@@ -255,7 +250,6 @@ game.FireWizardEntity = game.WizardEntity.extend({
         this.name = 'Valeriya';
         
         // setup animations
-        this.renderable.animationspeed = 175; 
         this.renderable.addAnimation('stand_left', [9]);
         this.renderable.addAnimation('stand_right', [27]);
         this.renderable.addAnimation('stand_up', [0]);
@@ -283,7 +277,6 @@ game.AirWizardEntity = game.WizardEntity.extend({
         this.name = 'Rafel';
         
         // setup animations
-        this.renderable.animationspeed = 175; 
         this.renderable.addAnimation('stand_left', [9]);
         this.renderable.addAnimation('stand_right', [27]);
         this.renderable.addAnimation('stand_up', [0]);
