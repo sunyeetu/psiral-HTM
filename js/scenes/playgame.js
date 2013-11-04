@@ -22,6 +22,8 @@ game.PlayScene = me.ScreenObject.extend({
         // use the update & draw functions
         this.parent(true);
         this.state = this.SceneStates.InitBoard;
+        // references to entities
+        this.actors = [];
     },
 
     update: function() {
@@ -46,15 +48,20 @@ game.PlayScene = me.ScreenObject.extend({
         // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
         // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
         var corner = game.map.getCornerPos('top-left');
-        me.game.world.addChild(new game.EarthWizardEntity(corner.x, corner.y, {}));
+        this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(corner.x, corner.y, {});
+        me.game.world.addChild(this.actors[_Globals.wizards.Earth]);
+
         corner = game.map.getCornerPos('top-right');
-        me.game.world.addChild(new game.WaterWizardEntity(corner.x, corner.y, {}));
+        this.actors[_Globals.wizards.Water] = new game.WaterWizardEntity(corner.x, corner.y, {});
+        me.game.world.addChild(this.actors[_Globals.wizards.Water]);
+
         corner = game.map.getCornerPos('bottom-right');
-        me.game.world.addChild(new game.FireWizardEntity(corner.x, corner.y, {}));
+        this.actors[_Globals.wizards.Fire] = new game.FireWizardEntity(corner.x, corner.y, {});
+        me.game.world.addChild(this.actors[_Globals.wizards.Fire]);
+
         corner = game.map.getCornerPos('bottom-left');
-        me.game.world.addChild(new game.AirWizardEntity(corner.x, corner.y, {}));
-        //me.game.world.addChild(new game.EarthWizardEntity(14, 0, {}));
-        //me.game.world.addChild(new game.EarthWizardEntity(14, 0, {}));
+        this.actors[_Globals.wizards.Air] = new game.AirWizardEntity(corner.x, corner.y, {});
+        me.game.world.addChild(this.actors[_Globals.wizards.Air]);
 
         // add game scene entities 
         this.gameboard = new game.BoardEntity();
@@ -87,6 +94,8 @@ game.PlayScene = me.ScreenObject.extend({
                 this.hud = hud; 
             break;
             case this.SceneStates.HumanThrowDice:
+                // ???
+                this.actors[_Globals.wizards.Water].moveTo(game.map.getPlayerPath('player1'));
             break;
             case this.SceneStates.HumanSelectSpell:
                 // Show selection HUD

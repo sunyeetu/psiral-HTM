@@ -25,6 +25,13 @@ var _Globals = {
         zActor: 19020,
         zHUD: 50000
     },
+    directions: {
+        None: 0,
+        Up: 1,
+        Down: 2,
+        Left: 3,
+        Right: 4
+    },    
     /**
      * Gameplay defaults
      */

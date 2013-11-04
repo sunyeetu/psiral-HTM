@@ -142,7 +142,7 @@
             Base4: S4,
         },
 
-        Moves: {
+        Directions: {
             UP: U,
             DOWN: D,
             LEFT: L,

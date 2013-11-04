@@ -24,8 +24,12 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.collidable = false;
         this.z = _Globals.gfx.zActor;
         this.type = 'wizard';
+        this.setMaxVelocity(3.5, 3.5);
         
         this.mana = _Globals.defaults.mana;
+        this.speed = 0.25;
+        this.moving = false;
+        this.movement = {};
     },
 
     /**
@@ -39,10 +43,85 @@ game.WizardEntity = me.ObjectEntity.extend({
         //         return true;
         // }
         // 
+        
         // check & update player movement
-        // this.updateMovement();
+        if (this.moving) {
+            var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;
+            var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight;
+            dx = game.getRealX(dx);
+            dy = game.getRealY(dy);            
+            var updatePath = false;
 
-        // console.log('sd');
+            switch(this.movement.direction) {
+                case _Globals.directions.Left:
+                this.vel.x -= this.speed * me.timer.tick;
+
+                if (!this.renderable.isCurrentAnimation('walk_left'))
+                    this.renderable.setCurrentAnimation("walk_left");   
+
+                if (this.pos.x <= dx) {
+                    updatePath = true;
+                    this.pos.x = dx;
+                    this.vel.x = 0;
+                    this.renderable.setCurrentAnimation('stand_left');
+                }
+                break;
+                case _Globals.directions.Right:
+                this.vel.x += this.speed * me.timer.tick;
+
+                if (!this.renderable.isCurrentAnimation('walk_right'))
+                    this.renderable.setCurrentAnimation("walk_right");   
+
+                if (this.pos.x >= dx) {
+                    updatePath = true;
+                    this.pos.x = dx;
+                    this.vel.x = 0;
+                    this.renderable.setCurrentAnimation('stand_right');
+                }                
+                break;
+                case _Globals.directions.Up:
+                this.vel.y -= this.speed * me.timer.tick;
+
+                if (!this.renderable.isCurrentAnimation('walk_up'))
+                    this.renderable.setCurrentAnimation("walk_up");   
+
+                if (this.pos.y <= dy) {
+                    this.pos.y = dy;
+                    this.vel.y = 0;
+                    updatePath = true;
+                    this.renderable.setCurrentAnimation('stand_up');
+                }                
+                break;  
+                case _Globals.directions.Down:
+                this.vel.y += this.speed * me.timer.tick;
+
+                if (!this.renderable.isCurrentAnimation('walk_down'))
+                    this.renderable.setCurrentAnimation("walk_down");   
+
+                if (this.pos.y >= dy) {
+                    this.pos.y = dy;
+                    this.vel.y = 0;
+                    updatePath = true;
+                    this.renderable.setCurrentAnimation('stand_down');
+                }                    
+                break;
+            }
+            if (updatePath) {
+                if (++this.movement.goalIdx >= this.movement.path.length) {
+                    this.vel.x = 0;
+                    this.vel.y = 0;
+                    this.moving = false;                
+                } else {
+                    this.movement.direction = this.getDirection();
+                    if (this.movement.direction == _Globals.directions.None) {
+                        console.log('LOST!');
+                        console.log(this.movement);
+                    }
+                }
+            }
+        }
+
+        this.updateMovement();
 
         this.parent();
         return true;
@@ -65,15 +144,45 @@ game.WizardEntity = me.ObjectEntity.extend({
      * Events handling
      */
     
-    onMove: function(path) {
-        //TODO:
+    moveTo: function(path) {
+        if (Object.prototype.toString.call(path) === '[object Array]') {
+            this.movement.path = path;
+        } else {
+            this.movement.path = [];
+            this.movement.path.push(path);
+        }
+        this.movement.goalIdx = 0;
+        this.movement.direction = this.getDirection();
+        if (this.movement.direction != _Globals.directions.None) {
+            this.moving = true;
+            console.log(path);
+        }
     },
 
-    onCastSpell: function(target) {
+    getDirection: function() {
+        var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;
+        var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight;
+        dx = game.getRealX(dx);
+        dy = game.getRealY(dy);
 
+        if (this.pos.x < dx) {
+            return _Globals.directions.Right;
+        } else if (this.pos.x > dx) {
+            return _Globals.directions.Left;
+        } else if (this.pos.y < dy) {
+            return _Globals.directions.Down;
+        } else if (this.pos.y > dy) {
+            return _Globals.directions.Up;
+        } else {
+            console.log(" pos: %d %d", this.pos.x, this.pos.y)
+            console.log("dest: %d %d", dx, dy)
+            return _Globals.directions.None;    
+        }
     },
 
-
+    doCastSpell: function(target) {
+        //TODO
+    },
 
 });
 

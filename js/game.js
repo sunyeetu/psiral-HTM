@@ -36,7 +36,8 @@ var game = {
         // the "best" rendering method depends of your game
         // (amount of layer, layer size, amount of tiles per layer, etc…)
         // note : rendering method is also configurable per layer by adding this property to your layer (in Tiled)
-        me.sys.preRender = true;
+        me.sys.preRender = false;
+        me.sys.gravity = 0;
 
         // Initialize the audio.
         me.audio.init("mp3,ogg");
@@ -62,5 +63,13 @@ var game = {
 
         // Start the game.
         me.state.change(me.state.PLAY);
+    },
+
+    getRealX: function(x) {
+        return _Globals.canvas.xOffset + x;
+    },
+
+    getRealY: function(y) {
+        return _Globals.canvas.yOffset + y;
     }
 };
