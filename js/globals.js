@@ -9,14 +9,16 @@
 
 var _Globals = {
     canvas: {
-        width: 960,
-        height: 704
+        width: 1024,
+        height: 672,
+        xOffset: 0,
+        yOffset: 56
     },
     gfx: {
-        mapWidth: 15,
-        mapHeight: 11,
-        tileWidth: 64,
-        tileHeight: 64,
+        mapWidth: 17,
+        mapHeight: 10,
+        tileWidth: 56,
+        tileHeight: 56,
 
         baseZ: 19000,
         zTile: 19010,

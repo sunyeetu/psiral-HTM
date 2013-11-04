@@ -9,8 +9,8 @@
 
 (function TileMap(game) {
 
-    var mapWidth = 15;
-    var mapHeight = 11;
+    var mapWidth = _Globals.gfx.mapWidth;
+    var mapHeight = _Globals.gfx.mapHeight;
 
     var S1 = -1;
     var S2 = -2;
@@ -70,6 +70,20 @@
             return this.getTile(x, y) === type;
         },
 
+        getCornerPos: function(corner) {
+            if (corner === 'top-left') {
+                return {x: 0, y: 0};
+            } else if (corner === 'top-right') {
+                return {x: mapWidth - 1, y: 0};
+            } else if (corner === 'bottom-left') {
+                return {x: 0, y: mapHeight - 1};
+            } else if (corner === 'bottom-right') {
+                return {x: mapWidth - 1, y: mapHeight - 1};
+            } else {
+                throw "Invalid corner type!";
+            }
+        },
+
         getPlayerPos: function(player) {
             return players[player];
         },
@@ -119,17 +133,17 @@
      */
     
     var tilemap = [
-        S1, E, E, E, E, W, W, W, W, F, F, F, F, A, S2,
-         W, W, W, W, F, F, F, F, A, A, A, A, E, A, W,
-         E, A, A, A, A, E, E, E, E, F, F, F, E, A, W,
-         E, F, A, A, E, E, E, E, W, W, W, F, E, A, W,
-         E, F, A, E, E, W, W, F, F, F, W, A, E, E, W,
-         E, F, A, E, E, E, W, X, X, E, E, A, W, E, F,
-         A, F, F, E, A, E, X, X, X, E, A, A, W, E, F,
-         A, W, F, A, A, A, A, F, F, F, F, W, W, E, F,
-         A, W, F, A, A, A, F, F, F, F, W, W, W, W, F,
-         A, W, F, W, W, W, W, E, E, E, E, A, A, A, A,
-        S4, W, E, E, E, E, A, A, A, A, F, F, F, F, S3
+        S1, E, E, E, E, W, W, W, W, F, F, F, F, A, 0, 0, S2,
+         W, W, W, W, F, F, F, F, A, A, A, A, E, A, 0, 0, W,
+         E, A, A, A, A, E, E, E, E, F, F, F, E, A, 0, 0, W,
+         E, F, A, A, E, E, E, E, W, W, W, F, E, A, 0, 0, W,
+         E, F, A, E, E, W, W, F, F, F, W, A, E, E, 0, 0, W,
+         E, F, A, E, E, E, W, X, X, E, E, A, W, E, 0, 0, F,
+         A, F, F, E, A, E, X, X, X, E, A, A, W, E, 0, 0, F,
+         A, W, F, A, A, A, A, F, F, F, F, W, W, E, 0, 0, F,
+         A, W, F, A, A, A, F, F, F, F, W, W, W, W, 0, 0, F,
+         A, W, F, W, W, W, W, E, E, E, E, A, A, A, 0, 0, A,
+        S4, W, E, E, E, E, A, A, A, A, F, F, F, F, 0, 0, S3
     ];
     var player1 = [
         R, R, R, R, R, R, R, R, R, R, R, R, R, D, 0,

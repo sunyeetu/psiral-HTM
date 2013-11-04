@@ -13,8 +13,12 @@ game.WizardEntity = me.ObjectEntity.extend({
      */
     init: function(x, y, settings) {
         
+        settings.spritewidth = 56;
+        settings.spriteheight = 56;
         x *= _Globals.gfx.tileWidth;
         y *= _Globals.gfx.tileHeight;
+        x += _Globals.canvas.xOffset;
+        y += _Globals.canvas.yOffset;
         this.parent(x, y, settings);
 
         this.collidable = false;
@@ -80,8 +84,6 @@ game.EarthWizardEntity = game.WizardEntity.extend({
 
     init: function(x, y, settings) {
         settings.image = 'earth_wizard';
-        settings.spritewidth = 64;
-        settings.spriteheight = 64;
         this.parent(x, y, settings);
 
         // setup props
@@ -110,8 +112,6 @@ game.WaterWizardEntity = game.WizardEntity.extend({
 
     init: function(x, y, settings) {
         settings.image = 'earth_wizard';
-        settings.spritewidth = 64;
-        settings.spriteheight = 64;
         this.parent(x, y, settings);
 
         // setup props
@@ -136,8 +136,55 @@ game.WaterWizardEntity = game.WizardEntity.extend({
 /**
  * FIRE: Valeriya
  */
+game.FireWizardEntity = game.WizardEntity.extend({
 
+    init: function(x, y, settings) {
+        settings.image = 'earth_wizard';
+        this.parent(x, y, settings);
+
+        // setup props
+        this.name = 'Valeriya';
+        
+        // setup animations
+        this.renderable.animationspeed = 175; 
+        this.renderable.addAnimation('stand_left', [9]);
+        this.renderable.addAnimation('stand_right', [27]);
+        this.renderable.addAnimation('stand_up', [0]);
+        this.renderable.addAnimation('stand_down', [18]);        
+        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+        this.renderable.addAnimation('walk_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
+        this.renderable.addAnimation('walk_down', [18, 19, 20, 21, 22, 23, 24, 25, 26]);
+        this.renderable.addAnimation('walk_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
+
+        this.renderable.setCurrentAnimation('stand_left');
+    }
+
+});
 
 /**
  * AIR: Rafel
  */
+game.AirWizardEntity = game.WizardEntity.extend({
+
+    init: function(x, y, settings) {
+        settings.image = 'earth_wizard';
+        this.parent(x, y, settings);
+
+        // setup props
+        this.name = 'Rafel';
+        
+        // setup animations
+        this.renderable.animationspeed = 175; 
+        this.renderable.addAnimation('stand_left', [9]);
+        this.renderable.addAnimation('stand_right', [27]);
+        this.renderable.addAnimation('stand_up', [0]);
+        this.renderable.addAnimation('stand_down', [18]);        
+        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+        this.renderable.addAnimation('walk_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
+        this.renderable.addAnimation('walk_down', [18, 19, 20, 21, 22, 23, 24, 25, 26]);
+        this.renderable.addAnimation('walk_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
+
+        this.renderable.setCurrentAnimation('stand_right');
+    }
+
+});

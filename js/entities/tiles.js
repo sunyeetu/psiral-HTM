@@ -15,6 +15,8 @@ game.TileEntity = me.ObjectEntity.extend({
         settings.spriteheight = _Globals.gfx.tileHeight;
         x *= _Globals.gfx.tileWidth;
         y *= _Globals.gfx.tileHeight;
+        x += _Globals.canvas.xOffset;
+        y += _Globals.canvas.yOffset;
         this.parent(x, y, settings);
 
         this.z = _Globals.gfx.zTile;

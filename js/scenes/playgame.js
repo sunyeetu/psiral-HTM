@@ -45,8 +45,14 @@ game.PlayScene = me.ScreenObject.extend({
 
         // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
         // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
-        me.game.world.addChild(new game.EarthWizardEntity(0, 0, {}));
-        me.game.world.addChild(new game.WaterWizardEntity(14, 0, {}));
+        var corner = game.map.getCornerPos('top-left');
+        me.game.world.addChild(new game.EarthWizardEntity(corner.x, corner.y, {}));
+        corner = game.map.getCornerPos('top-right');
+        me.game.world.addChild(new game.WaterWizardEntity(corner.x, corner.y, {}));
+        corner = game.map.getCornerPos('bottom-right');
+        me.game.world.addChild(new game.FireWizardEntity(corner.x, corner.y, {}));
+        corner = game.map.getCornerPos('bottom-left');
+        me.game.world.addChild(new game.AirWizardEntity(corner.x, corner.y, {}));
         //me.game.world.addChild(new game.EarthWizardEntity(14, 0, {}));
         //me.game.world.addChild(new game.EarthWizardEntity(14, 0, {}));
 
