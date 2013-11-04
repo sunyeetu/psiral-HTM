@@ -95,10 +95,10 @@
     var tileRepetitions = [4, 2, 1];
     var currentMap = null;
     var players = {
-        'player1': {x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A]},
-        'player2': {x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E]},
-        'player3': {x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W]},
-        'player4': {x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F]}
+        'player1': {x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A], sign: S1},
+        'player2': {x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E], sign: S2},
+        'player3': {x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W], sign: S3},
+        'player4': {x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F], sign: S4}
     };
 
     function buildTileMap(player, path, map) {
@@ -108,7 +108,7 @@
         var pattern = pos.pattern;
         var tilePos = 0;
         // place start position
-        map[pos.sy * mapWidth + pos.sx] = S1;
+        map[pos.sy * mapWidth + pos.sx] = pos.sign;
         // populate tilemap
         for(var i = 0; i < path.length - 2; i++) {
             map[path[i].y * mapWidth + path[i].x] = pattern[tilePos];
