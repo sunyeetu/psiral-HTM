@@ -28,6 +28,8 @@ game.BoardEntity = me.ObjectEntity.extend({
                     tile = {name: 'fire'};
                 } else if (game.map.isTile(x, y, game.map.Tiles.Air)) {
                     tile = {name: 'air'};
+                } else if (game.map.isTile(x, y, game.map.Tiles.Fountain)) {
+                    tile = {name: 'fountain'};                    
                 } else if (game.map.isTile(x, y, game.map.Tiles.Base1)) {
                     tile = {name: 'base1'};
                 } else if (game.map.isTile(x, y, game.map.Tiles.Base2)) {

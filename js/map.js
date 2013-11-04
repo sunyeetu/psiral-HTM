@@ -92,18 +92,17 @@
 
     var mapWidth = _Globals.gfx.mapWidth;
     var mapHeight = _Globals.gfx.mapHeight;
-
+    var tileRepetitions = [4, 2, 1];
     var currentMap = null;
     var players = {
         'player1': {x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A]},
         'player2': {x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E]},
         'player3': {x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W]},
         'player4': {x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F]}
-    }
+    };
 
-    function buildMap(player, path, map) {
+    function buildTileMap(player, path, map) {
         var pos = players[player];
-        var reps = [4, 2, 1];
         var rc = 0;
         var pc = 0;
         var pattern = pos.pattern;
@@ -113,11 +112,11 @@
         // populate tilemap
         for(var i = 0; i < path.length - 2; i++) {
             map[path[i].y * mapWidth + path[i].x] = pattern[tilePos];
-            if (++pc >= reps[rc]) {
+            if (++pc >= tileRepetitions[rc]) {
                 if (++tilePos >= pattern.length) {
                     tilePos = 0;
-                    if (++rc >= reps.length) {
-                        rc = reps.length - 1;
+                    if (++rc >= tileRepetitions.length) {
+                        rc = tileRepetitions.length - 1;
                     }
 
                 }
@@ -156,10 +155,10 @@
             this.setPlayerPos('player2', players['player2'].sx, players['player2'].sy);
             this.setPlayerPos('player3', players['player3'].sx, players['player3'].sy);
             this.setPlayerPos('player4', players['player4'].sx, players['player4'].sy);
-            buildMap('player1', this.getPath('player1'), currentMap);
-            buildMap('player2', this.getPath('player2'), currentMap);
-            buildMap('player3', this.getPath('player3'), currentMap);
-            buildMap('player4', this.getPath('player4'), currentMap);
+            buildTileMap('player1', this.getPlayerPath('player1'), currentMap);
+            buildTileMap('player2', this.getPlayerPath('player2'), currentMap);
+            buildTileMap('player3', this.getPlayerPath('player3'), currentMap);
+            buildTileMap('player4', this.getPlayerPath('player4'), currentMap);
         },
 
         getTile: function(x, y) {
@@ -222,13 +221,15 @@
             var nextPos = this.getNextMove(player, steps);
             this.setPlayerPos(nextPos.x, nextPos.y);
         },
-
-        getPath: function(player) {
-            // steps = steps || 1;
+        /**
+         * Get path from current position to goal
+         */
+        getPlayerPath: function(player) {
             var pos = this.getPlayerPos(player);
             var where;
             var tmpx = pos.x;
             var tmpy = pos.y;
+            //TODO: use cache variable in players obj instead of creating new array here!
             var path = [];
             var found = false;
             var i = 50;
@@ -262,7 +263,6 @@
 
             // XXX: CRC
             if (game.debug) {
-                console.log('asls');
                 if (path[path.length - 1].x != pos.ex || path[path.length - 1].y != pos.ey) {
                     console.error("got: %d, %d", path[path.length - 1].x, path[path.length - 1].y);
                     console.error("expected: %d %d", pos.ex, pos.ey);

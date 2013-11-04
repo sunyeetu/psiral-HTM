@@ -19,21 +19,23 @@ game.TileEntity = me.ObjectEntity.extend({
         y += _Globals.canvas.yOffset;
         this.parent(x, y, settings);
 
+        this.collidable = false;
         this.z = _Globals.gfx.zTile;
         
         // setup animations
         this.renderable.animationspeed = 450; // + Math.random() * 200;
-        this.renderable.addAnimation('earth', [0, 1, 2, 3, 4, 5, 6, 7]);
-        this.renderable.addAnimation('water', [8, 9, 10, 11, 12, 13, 14, 15]);
-        this.renderable.addAnimation('fire', [16, 17, 18, 19, 20, 21, 22, 23]);
-        this.renderable.addAnimation('air', [24, 25, 26, 27, 28, 29, 30, 31]);
+        this.renderable.addAnimation('earth', [0]);
+        this.renderable.addAnimation('water', [8]);
+        this.renderable.addAnimation('fire', [16]);
+        this.renderable.addAnimation('air', [24]);
+
+        this.renderable.addAnimation('fountain', [40]);
 
         this.renderable.addAnimation('base1', [48]);
         this.renderable.addAnimation('base2', [49]);
         this.renderable.addAnimation('base3', [50]);
         this.renderable.addAnimation('base4', [51]);
         this.renderable.setCurrentAnimation(settings.name);
-
     },
 
     update: function() {

@@ -30,6 +30,14 @@ var game = {
             this.debug = true;
         }
 
+        // Specify the rendering method for layers 
+        // if false, visible part of the layers are rendered dynamically (default)
+        // if true, the entire layers are first rendered into an offscreen canvas
+        // the "best" rendering method depends of your game
+        // (amount of layer, layer size, amount of tiles per layer, etc…)
+        // note : rendering method is also configurable per layer by adding this property to your layer (in Tiled)
+        me.sys.preRender = true;
+
         // Initialize the audio.
         me.audio.init("mp3,ogg");
 
