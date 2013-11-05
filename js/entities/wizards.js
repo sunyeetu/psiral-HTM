@@ -27,7 +27,6 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.setMaxVelocity(2.0, 2.0);
         this.renderable.animationspeed = _Globals.gfx.animSpeed;
         
-        this.mana = _Globals.defaults.mana;
         this.speed = 0.25;
         this.moving = false;
         this.movement = {};
@@ -139,14 +138,14 @@ game.WizardEntity = me.ObjectEntity.extend({
      * Actor functions
      */
     
-    getMana: function() {
-        return this.mana;
-    },
+    // getMana: function() {
+    //     return this.mana;
+    // },
 
-    addMana: function(value) {
-        this.mana += value;
-        this.mana = this.mana > _Globals.defaults.manaMax ? _Globals.defaults.manaMax : this.mana;
-    },
+    // addMana: function(value) {
+    //     this.mana += value;
+    //     this.mana = this.mana > _Globals.defaults.manaMax ? _Globals.defaults.manaMax : this.mana;
+    // },
 
     playAnimation: function(name, cb) {
         this.animation.prev = this.animation.current;

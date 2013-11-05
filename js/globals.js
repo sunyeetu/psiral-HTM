@@ -35,13 +35,7 @@ var _Globals = {
         Left: 3,
         Right: 4
     },    
-    /**
-     * Gameplay defaults
-     */
-    defaults: {
-        mana: 10,
-        manaMax: 10
-    },
+
     spells: {
         Abyss: 10,
         Change: 20,
@@ -52,9 +46,9 @@ var _Globals = {
         Path: 70
     },
     wizards: {
-        Earth: 1,
-        Water: 2,
-        Fire: 3,
-        Air: 4
+        Earth: 'earth',
+        Water: 'water',
+        Fire: 'fire',
+        Air: 'air'
     },    
 };

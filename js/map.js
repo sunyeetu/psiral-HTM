@@ -88,8 +88,8 @@
 
     /**
      * Private routines
-     */    
-
+     */
+    
     var mapWidth = _Globals.gfx.mapWidth;
     var mapHeight = _Globals.gfx.mapHeight;
     var tileRepetitions = [4, 2, 1];

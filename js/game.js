@@ -59,16 +59,20 @@ var game = {
 
         // setup PLAYER 
         this.session = {};
-        this.session.wizard = _Globals.wizards.Fire;
+        this.session.wizard = _Globals.wizards.Earth;
 
         // Start the game.
         me.state.change(me.state.PLAY);
     },
-
+    /**
+     * Get X cooridnate relevant to tilemap position
+     */
     getRealX: function(x) {
         return _Globals.canvas.xOffset + x;
     },
-
+    /** 
+     * Get Y cooridnate relevant to tilemap position
+     */
     getRealY: function(y) {
         return _Globals.canvas.yOffset + y;
     }

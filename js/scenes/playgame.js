@@ -11,16 +11,19 @@ game.PlayScene = me.ScreenObject.extend({
 
     SceneStates: {
         InitBoard: 1,
-        StartGame: 10,
+        GamePaused: 19,
+        StartGame: 20,
+        NextMove: 22,
         
-        HumanMove: 20,
+        HumanMove: 24,
         HumanThrowDice: 25,
         HumanSelectSpell: 30,
         HumanSelectTile: 35,
         
         AIMove: 200,
 
-        GameOver: 500
+        GameOver: 500,
+        Tests: 1000,
     },
 
     init: function() {
@@ -45,7 +48,7 @@ game.PlayScene = me.ScreenObject.extend({
     onResetEvent: function() {        
         // prep. new game
         game.map.reset();
-        game.gamemaster.reset(game.gamemaster.Wizards.Earth);
+        game.gamemaster.reset(game.session.wizard, this);
         
         // add gfx entities
 
@@ -95,7 +98,11 @@ game.PlayScene = me.ScreenObject.extend({
     setState: function(newState) {
          switch(newState) {
             case this.SceneStates.StartGame:
-                this.setState(this.SceneStates.HumanMove);
+                this.setState(this.SceneStates.NextMove);
+            break;
+
+            case this.SceneStates.NextMove:
+                game.gamemaster.nextMove();
             break;
 
             case this.SceneStates.HumanMove:
@@ -127,6 +134,11 @@ game.PlayScene = me.ScreenObject.extend({
             case this.SceneStates.AIMove:
             // skip turn
             this.setState(this.SceneStates.HumanMove);
+            break;
+
+            case this.SceneStates.Tests:
+            // XXX
+            
             break;
         }
         this.state = newState;
@@ -164,6 +176,14 @@ game.PlayScene = me.ScreenObject.extend({
         var type = data[0];
         console.log('casting ' + type);
         this.clearHUD();
-    } 
+    },
+
+    moveHuman: function(data) {
+        console.log(data);
+    },
+
+    moveAI: function(data) {
+
+    }    
 
 });

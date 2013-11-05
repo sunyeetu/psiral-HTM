@@ -17,8 +17,9 @@
     /**
      * Constants
      */
+    var MaxMana = 10;
 
-    var Players = {
+    var Controls = {
         Human: 1,
         AI: 2,
     };
@@ -28,51 +29,95 @@
         Ruler: 2,
     };
 
-    /**
-     * Game props
-     */
-    
-    var _instance = {
-        Wizards: {
-            Earth: 1,
-            Water: 2,
-            Fire: 3,
-            Air: 4
+    var wizards = {};
+
+    var match = {
+        move: {
+            current: 0,
+            next: 1
         },
+        turn: 0
+    };
+
+    /**
+     * Private routines
+     */    
+
+    function resetWizard(who) {
+        // XXX better way?
+        wizards[who] = {};
+        wizards[who].control = Controls.AI;
+        wizards[who].mana = MaxMana;
+        // XXX length = 0
+        wizards[who].log = {};
+        wizards[who].log.moves = []; 
+        wizards[who].log.casts = []; 
+        wizards[who].log.dice = [];
+    }
+
+    /**
+     * Public interface
+     */    
+    var _instance = {
         /**
          * Reset vars and prepare for a new game
          */
-        reset: function(playerWizard) {
-            this.wizards = [];
-            this.wizards[this.Wizards.Earth] = Players.AI;
-            this.wizards[this.Wizards.Water] = Players.AI;
-            this.wizards[this.Wizards.Fire] = Players.AI;
-            this.wizards[this.Wizards.Air] = Players.AI;
+        reset: function(playerWizard, handler) {
+            resetWizard(_Globals.wizards.Earth);
+            resetWizard(_Globals.wizards.Water);
+            resetWizard(_Globals.wizards.Fire);
+            resetWizard(_Globals.wizards.Air);
             // hi, human!
-            //playerWizard = playerWizard || this.Wizards.Earth;
-            this.wizards[playerWizard] = Players.Human;
-
-            this.turns = {
-                current: 0,
-                next: 1
-            };
+            wizards[playerWizard].control = Controls.Human;
+            // reset match
+            match.move.current = _Globals.wizards.Earth;
+            match.move.next = _Globals.wizards.Water;
+            match.move.last = _Globals.wizards.Air;
+            match.turn = 0;
+            // propagate events to
+            this.eventHandler = handler;
         },
-        /**
-         * Proceed with next turn
+        /** 
+         * Propagate UI event to handler
          */
-        execute: function() {
-            console.log('aha');
-            console.log(this.wizards);
-            for(var k in this.wizards) {
-                
-                if (this.wizards[k] === Players.AI) {
-                    // AI control
-                } else if (this.wizards[k] === Players.Human) {
-                    // Human HUD control
-                    // TODO
-                } else {
-                    throw "Invalid actor control!";
-                }
+        onEvent: function(name) {
+            if (this.eventHandler) {
+                this.eventHandler[name].call(this.eventHandler, Array.prototype.slice.call(arguments, 1));
+            }
+        },
+
+        throwDice: function() {
+            // TODO: increase randomness pool
+            var side = Math.floor(Math.random() * 6) + 1;
+            return side;
+        },
+
+        nextMove: function() {
+            var current = match.move.current;
+            match.move.current = match.move.next;
+
+            switch(match.move.next) {
+                case _Globals.wizards.Earth:
+                match.move.next = _Globals.wizards.Water;
+                break;
+                case _Globals.wizards.Water:
+                match.move.next = _Globals.wizards.Fire;
+                break;
+                case _Globals.wizards.Fire:
+                match.move.next = _Globals.wizards.Air;
+                break;
+                case _Globals.wizards.Air:
+                match.move.next = _Globals.wizards.Earth;
+                break;
+            }
+
+            if (wizards[current].control == Controls.Human) {
+                var chance = this.throwDice();
+                this.onEvent('moveHuman', chance);
+            } else if (wizards[current].control == Controls.AI) {
+                this.onEvent('moveAI', chance);
+            } else {
+                throw "Invalid actor control!";
             }
         },
 
