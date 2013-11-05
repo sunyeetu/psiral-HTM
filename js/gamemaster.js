@@ -55,6 +55,12 @@
         wizards[who].log.dice = [];
     }
 
+    function throwDice() {
+        // TODO: increase randomness pool
+        var side = Math.floor(Math.random() * 6) + 1;
+        return side;
+    }
+
     /**
      * Public interface
      */    
@@ -86,10 +92,18 @@
             }
         },
 
-        throwDice: function() {
-            // TODO: increase randomness pool
-            var side = Math.floor(Math.random() * 6) + 1;
-            return side;
+        getChanceFrom: function(dice) {
+            switch(dice) {
+                case 1: return _Globals.chance.Move1;
+                case 2: return _Globals.chance.Move2;
+                case 3: return _Globals.chance.Move3;
+                case 4: return _Globals.chance.Move4;
+                case 5: return _Globals.chance.Jump;
+                case 6: return _Globals.chance.Skip;
+                default:
+                    throw dice + " is not a valid chance!";
+                break;
+            }
         },
 
         nextMove: function() {
@@ -111,8 +125,10 @@
                 break;
             }
 
+            console.log(match.move);
+
             if (wizards[current].control == Controls.Human) {
-                var chance = this.throwDice();
+                var chance = throwDice();
                 this.onEvent('moveHuman', chance);
             } else if (wizards[current].control == Controls.AI) {
                 this.onEvent('moveAI', chance);

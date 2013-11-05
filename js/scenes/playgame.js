@@ -152,8 +152,10 @@ game.PlayScene = me.ScreenObject.extend({
         //     me.game.world.removeChild(huds[i]);
         // }
         // hack!
-        if (this.hud)
+        if (this.hud) {
             me.game.world.removeChild(this.hud);
+            this.hud = null;
+        }
     },
 
     /************************************************************************
@@ -173,21 +175,44 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onDiceThrown: function(data) {
-        // move 1
-        var side = data[0];
-        switch(side) {
-            case 1:
+        this.clearHUD();
+
+        var chance = game.gamemaster.getChanceFrom(data[0]);
+        var path;
+
+        switch(chance) {
+            case _Globals.chance.Move1:
+                path = game.map.getNextMove('player1');
+            break;
+            case _Globals.chance.Move2:
+                path = game.map.getNextMove('player1');
+            break;
+            case _Globals.chance.Move3:
+                path = game.map.getNextMove('player1');
+            break;
+            case _Globals.chance.Move4:
+                path = game.map.getNextMove('player1');
+            break;
+            case _Globals.chance.Jump:
+                path = game.map.getNextMove('player1');
+            break;
+            case _Globals.chance.Skip:
+                // nothing
             break;
         }
-        
-        var path = game.map.getNextMove('player1');
-        this.actors[_Globals.wizards.Earth].moveTo(path, function() {
-            console.log('ha');
-        });
+
+        if (path) {
+            var self = this;
+            this.actors[_Globals.wizards.Earth].moveTo(path, function() {
+                self.setState(self.SceneStates.NextMove);
+                game.map.setPlayerPos('player1', path.x, path.y);
+            });
+        }
     },
 
     onCastSpell: function(data) {
         var type = data[0];
+        var where = data[1];
         console.log('casting ' + type);
         this.clearHUD();
     },
@@ -198,7 +223,8 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     moveAI: function(data) {
-
+        console.log('AI skipped!');
+        this.setState(this.SceneStates.NextMove);
     }    
 
 });
