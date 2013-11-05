@@ -10,19 +10,24 @@
 game.PlayScene = me.ScreenObject.extend({
 
     SceneStates: {
-        InitBoard: 10,
+        InitBoard: 1,
+        StartGame: 10,
+        
         HumanMove: 20,
-        HumanThrowDice: 21,
-        HumanSelectSpell: 22,
-        AIMove: 50,
-        GameOver: 100
+        HumanThrowDice: 25,
+        HumanSelectSpell: 30,
+        HumanSelectTile: 35,
+        
+        AIMove: 200,
+
+        GameOver: 500
     },
 
     init: function() {
         // use the update & draw functions
         this.parent(true);
         this.state = this.SceneStates.InitBoard;
-        // references to entities
+        // holds references to entities
         this.actors = [];
     },
 
@@ -46,6 +51,7 @@ game.PlayScene = me.ScreenObject.extend({
 
         // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
         // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
+
         var corner = game.map.getPlayerPos('player1');
         this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Earth]);
@@ -65,13 +71,13 @@ game.PlayScene = me.ScreenObject.extend({
         // add game scene entities 
         this.gameboard = new game.BoardEntity();
         me.game.world.addChild(this.gameboard);
+
         // add gfx manager
         this.gfx = new game.GFX.Container();
         me.game.world.addChild(this.gfx);
 
-        
         // Start game
-        this.setState(this.SceneStates.HumanMove);
+        this.setState(this.SceneStates.StartGame);
     },
     /**        
      * Action to perform when leaving this screen (state change)
@@ -88,31 +94,39 @@ game.PlayScene = me.ScreenObject.extend({
      */
     setState: function(newState) {
          switch(newState) {
+            case this.SceneStates.StartGame:
+                this.setState(this.SceneStates.HumanMove);
+            break;
+
             case this.SceneStates.HumanMove:
-                // Show selection HUD
-                var hud = new game.HUD.PlayerTurn();
-                hud.setup(this);
-                me.game.world.addChild(hud);
-                // XXX: workaround!
-                this.hud = hud; 
+            // Show selection HUD
+            var hud = new game.HUD.PlayerTurn();
+            hud.setup(this);
+            me.game.world.addChild(hud);
+            // XXX: workaround!
+            this.hud = hud; 
             break;
+
             case this.SceneStates.HumanThrowDice:
-                // test spell
-                // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPlayerPos('player3'));
-                // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
-                
-                
-            break;
-            case this.SceneStates.HumanSelectSpell:
-                // Show selection HUD
-                var hud = new game.HUD.PlayerSelectSpell();
-                hud.setup(this);
-                me.game.world.addChild(hud);
-                // XXX: workaround!
-                this.hud = hud;             
-            break;
-            case this.SceneStates.AIMove:
+            // test spell
+            // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPlayerPos('player3'));
+            // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
             
+            
+            break;
+
+            case this.SceneStates.HumanSelectSpell:
+            // Show selection HUD
+            var hud = new game.HUD.PlayerSelectSpell();
+            hud.setup(this);
+            me.game.world.addChild(hud);
+            // XXX: workaround!
+            this.hud = hud;             
+            break;
+
+            case this.SceneStates.AIMove:
+            // skip turn
+            this.setState(this.SceneStates.HumanMove);
             break;
         }
         this.state = newState;

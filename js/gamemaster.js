@@ -14,7 +14,6 @@
      * But he doesn't know about your vectors and spritesheets.
      */
 
-
     /**
      * Constants
      */
