@@ -13,7 +13,6 @@ game.resources = [
 	 * @example
 	 * {name: "example", type:"image", src: "data/img/example.png"},
 	 */
-	{name: "tileset01", type:"image", src: "assets/maps/tileset.png"},
 	{name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
 	{name: "earth_wizard", type:"image", src: "assets/gfx/walk_cycle.png"},
 	{name: "spells", type:"image", src: "assets/gfx/spells.png"},
