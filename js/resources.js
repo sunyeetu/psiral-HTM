@@ -16,6 +16,7 @@ game.resources = [
 	{name: "tileset01", type:"image", src: "assets/maps/tileset.png"},
 	{name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
 	{name: "earth_wizard", type:"image", src: "assets/gfx/walk_cycle.png"},
+	{name: "spells", type:"image", src: "assets/gfx/spells.png"},
 	
 	// Hud
 	{name: "dialog", type:"image", src: "assets/gui/dialog.png"},

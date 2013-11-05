@@ -65,6 +65,10 @@ game.PlayScene = me.ScreenObject.extend({
         // add game scene entities 
         this.gameboard = new game.BoardEntity();
         me.game.world.addChild(this.gameboard);
+        // add gfx manager
+        this.gfx = new game.GFX.Container();
+        me.game.world.addChild(this.gfx);
+
         
         // Start game
         this.setState(this.SceneStates.HumanMove);
@@ -93,9 +97,11 @@ game.PlayScene = me.ScreenObject.extend({
                 this.hud = hud; 
             break;
             case this.SceneStates.HumanThrowDice:
-                // ???
-                // this.actors[_Globals.wizards.Earth].moveTo(game.map.getPlayerPath('player1'));
-                this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPlayerPos('player3'));
+                // test spell
+                // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPlayerPos('player3'));
+                // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
+                
+                
             break;
             case this.SceneStates.HumanSelectSpell:
                 // Show selection HUD

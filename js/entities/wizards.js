@@ -25,7 +25,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.z = _Globals.gfx.zActor;
         this.type = 'wizard';
         this.setMaxVelocity(2.0, 2.0);
-        this.renderable.animationspeed = 75;
+        this.renderable.animationspeed = _Globals.gfx.animSpeed;
         
         this.mana = _Globals.defaults.mana;
         this.speed = 0.25;

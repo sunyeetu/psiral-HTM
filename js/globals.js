@@ -19,10 +19,13 @@ var _Globals = {
         mapHeight: 10,
         tileWidth: 56,
         tileHeight: 56,
+        animSpeed: 75,
 
         baseZ: 19000,
         zTile: 19010,
+        zTileAnimation: 19015,
         zActor: 19020,
+        zAnimation: 19030,
         zHUD: 50000
     },
     directions: {
