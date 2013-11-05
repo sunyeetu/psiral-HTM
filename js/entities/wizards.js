@@ -31,19 +31,26 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.speed = 0.25;
         this.moving = false;
         this.movement = {};
+        this.animation = {};
+
+        // setup common animations
+        this.renderable.addAnimation('stand_left', [9]);
+        this.renderable.addAnimation('stand_right', [27]);
+        this.renderable.addAnimation('stand_up', [0]);
+        this.renderable.addAnimation('stand_down', [18]);
+        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+        this.renderable.addAnimation('walk_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
+        this.renderable.addAnimation('walk_down', [18, 19, 20, 21, 22, 23, 24, 25, 26]);
+        this.renderable.addAnimation('walk_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
+
+        this.renderable.addAnimation('spellcast_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
+        this.renderable.addAnimation('spellcast_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
+
     },
     /**
      * update function
      */
     update : function () {
-        // we don't do anything fancy here, so just
-        // return true if the score has been updated
-        // if (this.score !== game.data.score) {        
-        //         this.score = game.data.score;
-        //         return true;
-        // }
-        // 
-        
         // check & update player movement
         if (this.moving) {
             var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;
@@ -57,7 +64,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                 this.vel.x -= this.speed * me.timer.tick;
 
                 if (!this.renderable.isCurrentAnimation('walk_left'))
-                    this.renderable.setCurrentAnimation("walk_left");   
+                    this.renderable.setCurrentAnimation("walk_left");
 
                 if (this.pos.x <= dx) {
                     updatePath = true;
@@ -83,7 +90,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                 this.vel.y -= this.speed * me.timer.tick;
 
                 if (!this.renderable.isCurrentAnimation('walk_up'))
-                    this.renderable.setCurrentAnimation("walk_up");   
+                    this.renderable.setCurrentAnimation("walk_up");
 
                 if (this.pos.y <= dy) {
                     this.pos.y = dy;
@@ -96,7 +103,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                 this.vel.y += this.speed * me.timer.tick;
 
                 if (!this.renderable.isCurrentAnimation('walk_down'))
-                    this.renderable.setCurrentAnimation("walk_down");   
+                    this.renderable.setCurrentAnimation("walk_down");
 
                 if (this.pos.y >= dy) {
                     this.pos.y = dy;
@@ -106,6 +113,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                 }                    
                 break;
             }
+
             if (updatePath) {
                 if (++this.movement.goalIdx >= this.movement.path.length) {
                     this.vel.x = 0;
@@ -140,18 +148,26 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.mana = this.mana > _Globals.defaults.manaMax ? _Globals.defaults.manaMax : this.mana;
     },
 
-    moveTo: function(path) {
-        if (Object.prototype.toString.call(path) === '[object Array]') {
-            this.movement.path = path;
+    playAnimation: function(name, cb) {
+        this.animation.prev = this.animation.current;
+        this.renderable.setCurrentAnimation(name, cb);
+        this.animation.current = name;
+    },
+    /**
+     * Move on given tile path
+     * @param tilePath Object or array of x and y tile coordinates
+     */
+    moveTo: function(tilePath) {
+        if (Object.prototype.toString.call(tilePath) === '[object Array]') {
+            this.movement.path = tilePath;
         } else {
             this.movement.path = [];
-            this.movement.path.push(path);
+            this.movement.path.push(tilePath);
         }
         this.movement.goalIdx = 0;
         this.movement.direction = this.getDirection();
         if (this.movement.direction != _Globals.directions.None) {
             this.moving = true;
-            console.log(path);
         }
     },
 
@@ -177,8 +193,28 @@ game.WizardEntity = me.ObjectEntity.extend({
         }
     },
 
-    doCastSpell: function(target) {
-        //TODO
+    getFacing: function(targetTile) {
+        if (this.pos.x < game.getRealX(targetTile.x)) {
+            return _Globals.directions.Right;
+        } else {
+            return _Globals.directions.Left;
+        }         
+    },
+
+    doSpellCast: function(targetTile, cb) {
+        var self = this;
+        var facing = this.getFacing(targetTile);
+        if (facing == _Globals.directions.Left) {
+            this.playAnimation('spellcast_left', function() {
+                self.playAnimation(self.animation.prev);
+                cb && cb();
+            });
+        } else {
+            this.playAnimation('spellcast_right', function() {
+                self.playAnimation(self.animation.prev);
+                cb && cb();
+            });
+        }
     },
 
 });
@@ -195,17 +231,7 @@ game.EarthWizardEntity = game.WizardEntity.extend({
         // setup props
         this.name = 'Entria-Sil';
         
-        // setup animations
-        this.renderable.addAnimation('stand_left', [9]);
-        this.renderable.addAnimation('stand_right', [27]);
-        this.renderable.addAnimation('stand_up', [0]);
-        this.renderable.addAnimation('stand_down', [18]);
-        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
-        this.renderable.addAnimation('walk_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
-        this.renderable.addAnimation('walk_down', [18, 19, 20, 21, 22, 23, 24, 25, 26]);
-        this.renderable.addAnimation('walk_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
-
-        this.renderable.setCurrentAnimation('stand_right');
+        this.playAnimation('stand_right');
     }
 
 });
@@ -222,17 +248,7 @@ game.WaterWizardEntity = game.WizardEntity.extend({
         // setup props
         this.name = 'Azalsor';
         
-        // setup animations
-        this.renderable.addAnimation('stand_left', [9]);
-        this.renderable.addAnimation('stand_right', [27]);
-        this.renderable.addAnimation('stand_up', [0]);
-        this.renderable.addAnimation('stand_down', [18]);        
-        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
-        this.renderable.addAnimation('walk_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
-        this.renderable.addAnimation('walk_down', [18, 19, 20, 21, 22, 23, 24, 25, 26]);
-        this.renderable.addAnimation('walk_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
-
-        this.renderable.setCurrentAnimation('stand_left');
+        this.playAnimation('stand_left');
     }
 
 });
@@ -248,18 +264,8 @@ game.FireWizardEntity = game.WizardEntity.extend({
 
         // setup props
         this.name = 'Valeriya';
-        
-        // setup animations
-        this.renderable.addAnimation('stand_left', [9]);
-        this.renderable.addAnimation('stand_right', [27]);
-        this.renderable.addAnimation('stand_up', [0]);
-        this.renderable.addAnimation('stand_down', [18]);        
-        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
-        this.renderable.addAnimation('walk_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
-        this.renderable.addAnimation('walk_down', [18, 19, 20, 21, 22, 23, 24, 25, 26]);
-        this.renderable.addAnimation('walk_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
 
-        this.renderable.setCurrentAnimation('stand_left');
+        this.playAnimation('stand_left');
     }
 
 });
@@ -275,18 +281,8 @@ game.AirWizardEntity = game.WizardEntity.extend({
 
         // setup props
         this.name = 'Rafel';
-        
-        // setup animations
-        this.renderable.addAnimation('stand_left', [9]);
-        this.renderable.addAnimation('stand_right', [27]);
-        this.renderable.addAnimation('stand_up', [0]);
-        this.renderable.addAnimation('stand_down', [18]);        
-        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
-        this.renderable.addAnimation('walk_left', [9, 10, 11, 12, 13, 14, 15, 16, 17]);
-        this.renderable.addAnimation('walk_down', [18, 19, 20, 21, 22, 23, 24, 25, 26]);
-        this.renderable.addAnimation('walk_right', [27, 28, 29, 30, 31, 32, 33, 34, 35]);
 
-        this.renderable.setCurrentAnimation('stand_right');
+        this.playAnimation('stand_right');
     }
 
 });

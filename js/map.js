@@ -169,19 +169,19 @@
             return this.getTile(x, y) === type;
         },
 
-        getCornerPos: function(corner) {
-            if (corner === 'top-left') {
-                return {x: 0, y: 0};
-            } else if (corner === 'top-right') {
-                return {x: mapWidth - 1, y: 0};
-            } else if (corner === 'bottom-left') {
-                return {x: 0, y: mapHeight - 1};
-            } else if (corner === 'bottom-right') {
-                return {x: mapWidth - 1, y: mapHeight - 1};
-            } else {
-                throw "Invalid corner type!";
-            }
-        },
+        // getCornerPos: function(corner) {
+        //     if (corner === 'top-left') {
+        //         return {x: 0, y: 0};
+        //     } else if (corner === 'top-right') {
+        //         return {x: mapWidth - 1, y: 0};
+        //     } else if (corner === 'bottom-left') {
+        //         return {x: 0, y: mapHeight - 1};
+        //     } else if (corner === 'bottom-right') {
+        //         return {x: mapWidth - 1, y: mapHeight - 1};
+        //     } else {
+        //         throw "Invalid corner type!";
+        //     }
+        // },
 
         getPlayerPos: function(player) {
             return players[player];

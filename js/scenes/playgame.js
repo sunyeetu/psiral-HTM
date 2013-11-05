@@ -46,19 +46,19 @@ game.PlayScene = me.ScreenObject.extend({
 
         // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
         // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
-        var corner = game.map.getCornerPos('top-left');
+        var corner = game.map.getPlayerPos('player1');
         this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Earth]);
 
-        corner = game.map.getCornerPos('top-right');
+        corner = game.map.getPlayerPos('player2');
         this.actors[_Globals.wizards.Water] = new game.WaterWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Water]);
 
-        corner = game.map.getCornerPos('bottom-right');
+        corner = game.map.getPlayerPos('player3');
         this.actors[_Globals.wizards.Fire] = new game.FireWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Fire]);
 
-        corner = game.map.getCornerPos('bottom-left');
+        corner = game.map.getPlayerPos('player4');
         this.actors[_Globals.wizards.Air] = new game.AirWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Air]);
 
@@ -94,7 +94,8 @@ game.PlayScene = me.ScreenObject.extend({
             break;
             case this.SceneStates.HumanThrowDice:
                 // ???
-                this.actors[_Globals.wizards.Earth].moveTo(game.map.getPlayerPath('player1'));
+                // this.actors[_Globals.wizards.Earth].moveTo(game.map.getPlayerPath('player1'));
+                this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPlayerPos('player3'));
             break;
             case this.SceneStates.HumanSelectSpell:
                 // Show selection HUD
