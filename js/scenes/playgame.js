@@ -174,9 +174,16 @@ game.PlayScene = me.ScreenObject.extend({
 
     onDiceThrown: function(data) {
         // move 1
+        var side = data[0];
+        switch(side) {
+            case 1:
+            break;
+        }
         
         var path = game.map.getNextMove('player1');
-        this.actors[_Globals.wizards.Earth].moveTo(path);
+        this.actors[_Globals.wizards.Earth].moveTo(path, function() {
+            console.log('ha');
+        });
     },
 
     onCastSpell: function(data) {

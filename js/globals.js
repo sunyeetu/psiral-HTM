@@ -35,7 +35,15 @@ var _Globals = {
         Left: 3,
         Right: 4
     },    
-
+    // gameplay consts
+    chance: {
+        Move1: 10,
+        Move2: 20,
+        Move3: 30,
+        Move4: 40,
+        Jump: 50,
+        Skip: 60
+    },
     spells: {
         Abyss: 10,
         Change: 20,

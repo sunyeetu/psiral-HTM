@@ -117,12 +117,16 @@ game.WizardEntity = me.ObjectEntity.extend({
                 if (++this.movement.goalIdx >= this.movement.path.length) {
                     this.vel.x = 0;
                     this.vel.y = 0;
-                    this.moving = false;                
+                    this.moving = false;
+                    // notify
+                    this.movement.cb && this.movement.cb();
                 } else {
                     this.movement.direction = this.getDirection();
                     if (this.movement.direction == _Globals.directions.None) {
-                        console.log('LOST!');
-                        console.log(this.movement);
+                        console.error('*** LOST DIRECTION ***');
+                        console.error(this.movement);
+                        // notify !?
+                        this.movement.cb && this.movement.cb();                        
                     }
                 }
             }
@@ -155,8 +159,9 @@ game.WizardEntity = me.ObjectEntity.extend({
     /**
      * Move on given tile path
      * @param tilePath Object or array of x and y tile coordinates
+     * @param cb Callback 
      */
-    moveTo: function(tilePath) {
+    moveTo: function(tilePath, cb) {
         if (Object.prototype.toString.call(tilePath) === '[object Array]') {
             this.movement.path = tilePath;
         } else {
@@ -165,8 +170,12 @@ game.WizardEntity = me.ObjectEntity.extend({
         }
         this.movement.goalIdx = 0;
         this.movement.direction = this.getDirection();
+        this.movement.cb = cb;
         if (this.movement.direction != _Globals.directions.None) {
             this.moving = true;
+        } else {
+            // we're already there!
+            cb && cb();
         }
     },
 
