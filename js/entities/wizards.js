@@ -60,56 +60,56 @@ game.WizardEntity = me.ObjectEntity.extend({
 
             switch(this.movement.direction) {
                 case _Globals.directions.Left:
-                this.vel.x -= this.speed * me.timer.tick;
+                    this.vel.x -= this.speed * me.timer.tick;
 
-                if (!this.renderable.isCurrentAnimation('walk_left'))
-                    this.renderable.setCurrentAnimation("walk_left");
+                    if (!this.renderable.isCurrentAnimation('walk_left'))
+                        this.renderable.setCurrentAnimation("walk_left");
 
-                if (this.pos.x <= dx) {
-                    updatePath = true;
-                    this.pos.x = dx;
-                    this.vel.x = 0;
-                    this.renderable.setCurrentAnimation('stand_left');
-                }
+                    if (this.pos.x <= dx) {
+                        updatePath = true;
+                        this.pos.x = dx;
+                        this.vel.x = 0;
+                        this.renderable.setCurrentAnimation('stand_left');
+                    }
                 break;
                 case _Globals.directions.Right:
-                this.vel.x += this.speed * me.timer.tick;
+                    this.vel.x += this.speed * me.timer.tick;
 
-                if (!this.renderable.isCurrentAnimation('walk_right'))
-                    this.renderable.setCurrentAnimation("walk_right");   
+                    if (!this.renderable.isCurrentAnimation('walk_right'))
+                        this.renderable.setCurrentAnimation("walk_right");   
 
-                if (this.pos.x >= dx) {
-                    updatePath = true;
-                    this.pos.x = dx;
-                    this.vel.x = 0;
-                    this.renderable.setCurrentAnimation('stand_right');
-                }                
+                    if (this.pos.x >= dx) {
+                        updatePath = true;
+                        this.pos.x = dx;
+                        this.vel.x = 0;
+                        this.renderable.setCurrentAnimation('stand_right');
+                    }                
                 break;
                 case _Globals.directions.Up:
-                this.vel.y -= this.speed * me.timer.tick;
+                    this.vel.y -= this.speed * me.timer.tick;
 
-                if (!this.renderable.isCurrentAnimation('walk_up'))
-                    this.renderable.setCurrentAnimation("walk_up");
+                    if (!this.renderable.isCurrentAnimation('walk_up'))
+                        this.renderable.setCurrentAnimation("walk_up");
 
-                if (this.pos.y <= dy) {
-                    this.pos.y = dy;
-                    this.vel.y = 0;
-                    updatePath = true;
-                    this.renderable.setCurrentAnimation('stand_up');
-                }                
+                    if (this.pos.y <= dy) {
+                        this.pos.y = dy;
+                        this.vel.y = 0;
+                        updatePath = true;
+                        this.renderable.setCurrentAnimation('stand_up');
+                    }                
                 break;  
                 case _Globals.directions.Down:
-                this.vel.y += this.speed * me.timer.tick;
+                    this.vel.y += this.speed * me.timer.tick;
 
-                if (!this.renderable.isCurrentAnimation('walk_down'))
-                    this.renderable.setCurrentAnimation("walk_down");
+                    if (!this.renderable.isCurrentAnimation('walk_down'))
+                        this.renderable.setCurrentAnimation("walk_down");
 
-                if (this.pos.y >= dy) {
-                    this.pos.y = dy;
-                    this.vel.y = 0;
-                    updatePath = true;
-                    this.renderable.setCurrentAnimation('stand_down');
-                }                    
+                    if (this.pos.y >= dy) {
+                        this.pos.y = dy;
+                        this.vel.y = 0;
+                        updatePath = true;
+                        this.renderable.setCurrentAnimation('stand_down');
+                    }                    
                 break;
             }
 
