@@ -98,16 +98,16 @@
 
             switch(match.move.next) {
                 case _Globals.wizards.Earth:
-                match.move.next = _Globals.wizards.Water;
+                    match.move.next = _Globals.wizards.Water;
                 break;
                 case _Globals.wizards.Water:
-                match.move.next = _Globals.wizards.Fire;
+                    match.move.next = _Globals.wizards.Fire;
                 break;
                 case _Globals.wizards.Fire:
-                match.move.next = _Globals.wizards.Air;
+                    match.move.next = _Globals.wizards.Air;
                 break;
                 case _Globals.wizards.Air:
-                match.move.next = _Globals.wizards.Earth;
+                    match.move.next = _Globals.wizards.Earth;
                 break;
             }
 

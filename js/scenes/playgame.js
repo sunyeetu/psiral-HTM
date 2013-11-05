@@ -13,12 +13,12 @@ game.PlayScene = me.ScreenObject.extend({
         InitBoard: 1,
         GamePaused: 19,
         StartGame: 20,
-        NextMove: 22,
+        NextMove: 21,
         
-        HumanMove: 24,
-        HumanThrowDice: 25,
-        HumanSelectSpell: 30,
-        HumanSelectTile: 35,
+        HUDSelectMove: 30,
+        HUDThrowDice: 32,
+        HUDSelectSpell: 34,
+        HUDSelectTile: 36,
         
         AIMove: 200,
 
@@ -105,39 +105,39 @@ game.PlayScene = me.ScreenObject.extend({
                 game.gamemaster.nextMove();
             break;
 
-            case this.SceneStates.HumanMove:
-            // Show selection HUD
-            var hud = new game.HUD.PlayerTurn();
-            hud.setup(this);
-            me.game.world.addChild(hud);
-            // XXX: workaround!
-            this.hud = hud; 
+            case this.SceneStates.HUDSelectMove:
+                // Show selection HUD
+                
+                // XXX: workaround!
+                this.hud = new game.HUD.PlayerTurn(this);
+                me.game.world.addChild(this.hud);
             break;
 
-            case this.SceneStates.HumanThrowDice:
-            // test spell
-            // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPlayerPos('player3'));
-            // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
-            
+            case this.SceneStates.HUDThrowDice:
+                //TODO: call hud
+                this.onDiceThrown([2]);
             
             break;
 
-            case this.SceneStates.HumanSelectSpell:
-            // Show selection HUD
-            var hud = new game.HUD.PlayerSelectSpell();
-            hud.setup(this);
-            me.game.world.addChild(hud);
-            // XXX: workaround!
-            this.hud = hud;             
+            case this.SceneStates.HUDSelectSpell:
+                // Show selection HUD
+                
+                // XXX: workaround!
+                this.hud = new game.HUD.PlayerSelectSpell();
+                me.game.world.addChild(this.hud);
+                
             break;
 
             case this.SceneStates.AIMove:
             // skip turn
-            this.setState(this.SceneStates.HumanMove);
+            //this.setState(this.SceneStates.HUDSelectMove);
             break;
 
             case this.SceneStates.Tests:
             // XXX
+            // test spell
+            // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPlayerPos('player3'));
+            // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
             
             break;
         }
@@ -160,16 +160,23 @@ game.PlayScene = me.ScreenObject.extend({
      * UI Events
      */
     
-    onSelectChance: function() {
-        console.log('selected chance');
+    onSelectDice: function() {
+        console.log('selected throw dice');
         this.clearHUD();
-        this.setState(this.SceneStates.HumanThrowDice);
+        this.setState(this.SceneStates.HUDThrowDice);
     },
 
     onSelectSpell: function() {
         console.log('selected spell');
         this.clearHUD();
-        this.setState(this.SceneStates.HumanSelectSpell);
+        this.setState(this.SceneStates.HUDSelectSpell);
+    },
+
+    onDiceThrown: function(data) {
+        // move 1
+        
+        var path = game.map.getNextMove('player1');
+        this.actors[_Globals.wizards.Earth].moveTo(path);
     },
 
     onCastSpell: function(data) {
@@ -180,6 +187,7 @@ game.PlayScene = me.ScreenObject.extend({
 
     moveHuman: function(data) {
         console.log(data);
+        this.setState(this.SceneStates.HUDSelectMove);
     },
 
     moveAI: function(data) {

@@ -45,8 +45,10 @@ game.BoardEntity = me.ObjectEntity.extend({
                     me.game.world.addChild(new game.TileEntity(x, y, tile));
                 }
             }
-        }        
+        }
 
+        me.game.sort();
+        //me.game.sort.defer();       
     },
 
     update: function() {

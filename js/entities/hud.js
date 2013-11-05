@@ -11,7 +11,7 @@ game.HUD = game.HUD || {};
 
 game.HUD.Container = me.ObjectContainer.extend({
 
-    init: function() {
+    init: function(eventHandler) {
         // call the constructor
         this.parent();
         
@@ -28,7 +28,7 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.name = "HUD";
 
         // (default) event handler 
-        this.eventHandler = null;
+        this.eventHandler = eventHandler;
 
         // background
         this.cx = _Globals.canvas.width / 2 - 505 / 2;
@@ -61,13 +61,10 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.iconHeight = 64;
     },
 
-    // XXX: there must be a better way to pass handlers than this!
-    setup: function(eventHandler) {
-        this.eventHandler = eventHandler;
-    },
     // Propagate UI event to handler
     onEvent: function(name) {
         if (this.eventHandler) {
+            console.log(name);
             this.eventHandler[name].call(this.eventHandler, Array.prototype.slice.call(arguments, 1));
         }
     }
@@ -96,8 +93,8 @@ game.HUD.Clickable = me.GUI_Object.extend({
  * Dialog: Select Chance or Spell dialog
  */
 game.HUD.PlayerTurn = game.HUD.Container.extend({
-    init: function() {
-        this.parent();
+    init: function(eventHandler) {
+        this.parent(eventHandler);
 
         var parent = this;
 
@@ -105,7 +102,7 @@ game.HUD.PlayerTurn = game.HUD.Container.extend({
             new game.HUD.Clickable(this.cx + this.iconWidth * 2, this.cy + this.iconHeight / 2, {
                 image: 'icon_chance',
                 onClick: function(event) {
-                    parent.onEvent('onSelectChance');
+                    parent.onEvent('onSelectDice');
                 }
             }));
         this.addChild(
@@ -121,8 +118,8 @@ game.HUD.PlayerTurn = game.HUD.Container.extend({
  * Dialog: Throw dice 
  */
 game.HUD.PlayerThrowDice = game.HUD.Container.extend({
-    init: function() {
-        this.parent();
+    init: function(eventHandler) {
+        this.parent(eventHandler);
 
         var parent = this;
 
@@ -130,7 +127,7 @@ game.HUD.PlayerThrowDice = game.HUD.Container.extend({
             new game.HUD.Clickable(this.cx + this.iconWidth * 2, this.cy + this.iconHeight / 2, {
                 image: 'icon_chance',
                 onClick: function(event) {
-                    parent.onEvent('onSelectChance');
+                    parent.onEvent('onSelectDice');
                 }
             }));
         this.addChild(
@@ -146,8 +143,8 @@ game.HUD.PlayerThrowDice = game.HUD.Container.extend({
  * Dialog: Select spell
  */
 game.HUD.PlayerSelectSpell = game.HUD.Container.extend({
-    init: function() {
-        this.parent();
+    init: function(eventHandler) {
+        this.parent(eventHandler);
 
         var parent = this;
         var spells = [
