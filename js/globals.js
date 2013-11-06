@@ -37,12 +37,12 @@ var _Globals = {
     },    
     // gameplay consts
     chance: {
-        Move1: 10,
-        Move2: 20,
-        Move3: 30,
-        Move4: 40,
-        Jump: 50,
-        Skip: 60
+        Move1: 1,
+        Move2: 2,
+        Move3: 3,
+        Move4: 4,
+        Jump: 5,
+        Skip: 6
     },
     spells: {
         Abyss: 10,

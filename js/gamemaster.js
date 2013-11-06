@@ -48,6 +48,7 @@
         wizards[who] = {};
         wizards[who].control = Controls.AI;
         wizards[who].mana = MaxMana;
+        wizards[who].lastdice = 0;
         // XXX length = 0
         wizards[who].log = {};
         wizards[who].log.moves = []; 
@@ -65,6 +66,17 @@
      * Public interface
      */    
     var _instance = {
+
+        Props: {
+            Mana: 'mana',
+            AllMoves: 'moves',
+            LastMove: 'lastmove',
+            AllCasts: 'casts',
+            LastCast: 'lastcast',
+            AllDice: 'dice',
+            LastDice: 'lastdice'
+        },
+
         /**
          * Reset vars and prepare for a new game
          */
@@ -92,19 +104,19 @@
             }
         },
 
-        getChanceFrom: function(dice) {
-            switch(dice) {
-                case 1: return _Globals.chance.Move1;
-                case 2: return _Globals.chance.Move2;
-                case 3: return _Globals.chance.Move3;
-                case 4: return _Globals.chance.Move4;
-                case 5: return _Globals.chance.Jump;
-                case 6: return _Globals.chance.Skip;
-                default:
-                    throw dice + " is not a valid chance!";
-                break;
-            }
-        },
+        // getChanceFrom: function(dice) {
+        //     switch(dice) {
+        //         case 1: return _Globals.chance.Move1;
+        //         case 2: return _Globals.chance.Move2;
+        //         case 3: return _Globals.chance.Move3;
+        //         case 4: return _Globals.chance.Move4;
+        //         case 5: return _Globals.chance.Jump;
+        //         case 6: return _Globals.chance.Skip;
+        //         default:
+        //             throw dice + " is not a valid chance!";
+        //         break;
+        //     }
+        // },
 
         nextMove: function() {
             var current = match.move.current;
@@ -125,23 +137,44 @@
                 break;
             }
 
-            console.log(match.move);
+            // get chance before actually the user requests it
+            // this.setData(current, this.Props.LastDice, throwDice());
+            wizards[current].lastdice = throwDice();
 
             if (wizards[current].control == Controls.Human) {
-                var chance = throwDice();
-                this.onEvent('moveHuman', chance);
+                console.log('he threw = ' + wizards[current].lastdice);
+                this.onEvent('moveHuman');
             } else if (wizards[current].control == Controls.AI) {
-                this.onEvent('moveAI', chance);
+                this.onEvent('moveAI');
             } else {
                 throw "Invalid actor control!";
             }
         },
 
-        update: function() {
-            if (this.turns.next > this.turns.current) {
-                this.execute();
-                this.turns.current = this.turns.next;
+        getData: function(wizard, what) {
+            switch(what) {
+                case this.Props.AllDice:
+                    return wizards[wizard].log.dice;
+                case this.Props.LastDice:
+                    console.log('getting chance ' + wizards[wizard].lastdice);
+                    return wizards[wizard].lastdice;
+                default:
+                throw "Sorry, not implemented!"
             }
+        },
+
+        setData: function(wizard, what, data) {
+            switch(what) {
+                case this.Props.LastMove:
+                    wizards[wizard].log.moves.push(data);
+                break;
+                case this.Props.LastDice:
+                    wizards[wizard].lastdice = data;
+                    wizards[wizard].log.dice.push(data);
+                break;
+                default:
+                throw "Sorry, not implemented!"
+            }            
         }
     };
     game.gamemaster = _instance;

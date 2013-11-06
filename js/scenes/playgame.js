@@ -32,6 +32,8 @@ game.PlayScene = me.ScreenObject.extend({
         this.state = this.SceneStates.InitBoard;
         // holds references to entities
         this.actors = [];
+
+        this.currentActor = {};
     },
 
     update: function() {
@@ -115,8 +117,7 @@ game.PlayScene = me.ScreenObject.extend({
 
             case this.SceneStates.HUDThrowDice:
                 //TODO: call hud
-                this.onDiceThrown([2]);
-            
+                this.onDiceThrown();
             break;
 
             case this.SceneStates.HUDSelectSpell:
@@ -174,27 +175,28 @@ game.PlayScene = me.ScreenObject.extend({
         this.setState(this.SceneStates.HUDSelectSpell);
     },
 
-    onDiceThrown: function(data) {
+    onDiceThrown: function() {
+        var self = this;
         this.clearHUD();
 
-        var chance = game.gamemaster.getChanceFrom(data[0]);
         var path;
-
+        var chance = game.gamemaster.getData(game.session.wizard, game.gamemaster.Props.LastDice);
+        
         switch(chance) {
             case _Globals.chance.Move1:
-                path = game.map.getNextMove('player1');
+                path = game.map.getPlayerPath('player1', 1);
             break;
             case _Globals.chance.Move2:
-                path = game.map.getNextMove('player1');
+                path = game.map.getPlayerPath('player1', 2);
             break;
             case _Globals.chance.Move3:
-                path = game.map.getNextMove('player1');
+                path = game.map.getPlayerPath('player1', 3);
             break;
             case _Globals.chance.Move4:
-                path = game.map.getNextMove('player1');
+                // path = game.map.getPlayerPath('player1');
             break;
             case _Globals.chance.Jump:
-                path = game.map.getNextMove('player1');
+                // path = game.map.getPlayerPath('player1');
             break;
             case _Globals.chance.Skip:
                 // nothing
@@ -202,11 +204,24 @@ game.PlayScene = me.ScreenObject.extend({
         }
 
         if (path) {
-            var self = this;
+            console.log(path);
+
+            
             this.actors[_Globals.wizards.Earth].moveTo(path, function() {
                 self.setState(self.SceneStates.NextMove);
-                game.map.setPlayerPos('player1', path.x, path.y);
+                var lastMove = path.pop();
+
+                console.log('setting chance to ' + chance);
+
+                // update 
+                game.map.setPlayerPos('player1', lastMove.x, lastMove.y);
+                game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastDice, chance);
+                game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastMove, lastMove);
+
             });
+        } else {
+            // nothing happened
+            self.setState(self.SceneStates.NextMove);
         }
     },
 
@@ -217,8 +232,7 @@ game.PlayScene = me.ScreenObject.extend({
         this.clearHUD();
     },
 
-    moveHuman: function(data) {
-        console.log(data);
+    moveHuman: function() {
         this.setState(this.SceneStates.HUDSelectMove);
     },
 

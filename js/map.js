@@ -224,7 +224,7 @@
         /**
          * Get path from current position to goal
          */
-        getPlayerPath: function(player) {
+        getPlayerPath: function(player, steps) {
             var pos = this.getPlayerPos(player);
             var where;
             var tmpx = pos.x;
@@ -232,7 +232,7 @@
             //TODO: use cache variable in players obj instead of creating new array here!
             var path = [];
             var found = false;
-            var i = 50;
+            var i = 0;
 
             do {
                 where = tmpy * mapWidth + tmpx;
@@ -251,9 +251,13 @@
                 
                 path.push({x: tmpx, y: tmpy});
 
+                if (steps && ++i >= steps) {
+                    found = true;
+                }
+
                 // XXX: CRC
                 if (game.debug) {
-                    if (i-- < 0) {
+                    if (i >= 50) { // cant go further than 50 tiles!
                         console.error("x: %d, y: %d", tmpx, tmpy);
                         throw "Path tracing dead-loop: " + player;
                     }
@@ -262,13 +266,13 @@
             } while(!found);
 
             // XXX: CRC
-            if (game.debug) {
-                if (path[path.length - 1].x != pos.ex || path[path.length - 1].y != pos.ey) {
-                    console.error("got: %d, %d", path[path.length - 1].x, path[path.length - 1].y);
-                    console.error("expected: %d %d", pos.ex, pos.ey);
-                    throw "Invalid " + player + " path!"
-                }
-            }
+            // if (game.debug) {
+            //     if (path[path.length - 1].x != pos.ex || path[path.length - 1].y != pos.ey) {
+            //         console.error("got: %d, %d", path[path.length - 1].x, path[path.length - 1].y);
+            //         console.error("expected: %d %d", pos.ex, pos.ey);
+            //         throw "Invalid " + player + " path!"
+            //     }
+            // }
 
             return path;            
         }
