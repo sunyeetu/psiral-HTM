@@ -103,26 +103,14 @@
             }
         },
 
-        // getChanceFrom: function(dice) {
-        //     switch(dice) {
-        //         case 1: return _Globals.chance.Move1;
-        //         case 2: return _Globals.chance.Move2;
-        //         case 3: return _Globals.chance.Move3;
-        //         case 4: return _Globals.chance.Move4;
-        //         case 5: return _Globals.chance.Jump;
-        //         case 6: return _Globals.chance.Skip;
-        //         default:
-        //             throw dice + " is not a valid chance!";
-        //         break;
-        //     }
-        // },
-
         nextMove: function() {
             console.log('-----------next turn--------------------');
             
             if (++match.move.current >= match.sequence.length) {
                 match.move.current = 0;
             }
+            match.turn++;
+
             var current = match.sequence[match.move.current];
 
             // get chance before actually the user requests it
@@ -167,10 +155,10 @@
     Object.defineProperty(_instance, 'currentWizard', {
         get: function() { return match.sequence[match.move.current]; }
     });
+    Object.defineProperty(_instance, 'currentTurn', {
+        get: function() { return match.turn; }
+    });
+
     game.gamemaster = _instance;
-
-    function Wizard() {
-
-    }
 
 }(game || {}));

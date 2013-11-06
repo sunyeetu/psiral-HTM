@@ -133,10 +133,10 @@
     }
 
     function resetWizardPosition(who, tilemap) {
-        // this.setPlayerPos(who, players[who].sx, players[who].sy);
+        // this.setPos(who, players[who].sx, players[who].sy);
         players[who].x = players[who].sx;
         players[who].y = players[who].sy;
-        buildTileMap(who, _instance.getPlayerPath(who), tilemap);
+        buildTileMap(who, _instance.getPath(who), tilemap);
     }
 
     /**
@@ -193,11 +193,11 @@
         //     }
         // },
 
-        getPlayerPos: function(wizard) {
+        getPos: function(wizard) {
             return players[wizard];
         },
 
-        setPlayerPos: function(wizard, x, y) {
+        setPos: function(wizard, x, y) {
             players[wizard].x = x;
             players[wizard].y = y;
         },
@@ -205,7 +205,7 @@
         getNextMove: function(wizard, steps) {
             steps = steps || 1;
 
-            var pos = this.getPlayerPos(wizard);
+            var pos = this.getPos(wizard);
             var where;
             var tmpx = pos.x;
             var tmpy = pos.y;
@@ -227,15 +227,16 @@
             return {x: tmpx, y: tmpy};
         },
 
-        movePlayer: function(wizard, steps) {
+        move: function(wizard, steps) {
             var nextPos = this.getNextMove(wizard, steps);
-            this.setPlayerPos(nextPos.x, nextPos.y);
+            //TODO: obstacles!?
+            this.setPos(nextPos.x, nextPos.y);
         },
         /**
          * Get path from current position to goal
          */
-        getPlayerPath: function(wizard, steps) {
-            var pos = this.getPlayerPos(wizard);
+        getPath: function(wizard, steps) {
+            var pos = this.getPos(wizard);
             var where;
             var tmpx = pos.x;
             var tmpy = pos.y;
@@ -258,6 +259,8 @@
                 } else if (pos.route[where] == X) {
                     found = true;
                 }
+
+                //TODO: check for obstacle
                 
                 path.push({x: tmpx, y: tmpy});
 
