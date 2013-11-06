@@ -36,7 +36,8 @@
             current: 0,
             next: 1
         },
-        turn: 0
+        turn: 0,
+        sequence: [_Globals.wizards.Earth, _Globals.wizards.Water, _Globals.wizards.Fire, _Globals.wizards.Air]
     };
 
     /**
@@ -88,9 +89,7 @@
             // hi, human!
             wizards[playerWizard].control = Controls.Human;
             // reset match
-            match.move.current = _Globals.wizards.Earth;
-            match.move.next = _Globals.wizards.Water;
-            match.move.last = _Globals.wizards.Air;
+            match.move.current = -1;
             match.turn = 0;
             // propagate events to
             this.eventHandler = handler;
@@ -120,23 +119,11 @@
 
         nextMove: function() {
             console.log('-----------next turn--------------------');
-            var current = match.move.current;
-            match.move.current = match.move.next;
-
-            switch(match.move.next) {
-                case _Globals.wizards.Earth:
-                    match.move.next = _Globals.wizards.Water;
-                break;
-                case _Globals.wizards.Water:
-                    match.move.next = _Globals.wizards.Fire;
-                break;
-                case _Globals.wizards.Fire:
-                    match.move.next = _Globals.wizards.Air;
-                break;
-                case _Globals.wizards.Air:
-                    match.move.next = _Globals.wizards.Earth;
-                break;
+            
+            if (++match.move.current >= match.sequence.length) {
+                match.move.current = 0;
             }
+            var current = match.sequence[match.move.current];
 
             // get chance before actually the user requests it
             // this.setData(current, this.Props.LastDice, throwDice());
@@ -177,6 +164,9 @@
             }            
         }
     };
+    Object.defineProperty(_instance, 'currentWizard', {
+        get: function() { return match.sequence[match.move.current]; }
+    });
     game.gamemaster = _instance;
 
     function Wizard() {

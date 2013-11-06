@@ -94,15 +94,22 @@
     var mapHeight = _Globals.gfx.mapHeight;
     var tileRepetitions = [4, 2, 1];
     var currentMap = null;
-    var players = {
-        'player1': {x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A], sign: S1},
-        'player2': {x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E], sign: S2},
-        'player3': {x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W], sign: S3},
-        'player4': {x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F], sign: S4}
+    var players = {};
+    players[_Globals.wizards.Earth] = {
+        x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A], sign: S1
+    };
+    players[_Globals.wizards.Water] = {
+        x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E], sign: S2
+    };
+    players[_Globals.wizards.Fire] = {
+        x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W], sign: S3
+    };
+    players[_Globals.wizards.Air] = {
+        x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F], sign: S4
     };
 
-    function buildTileMap(player, path, map) {
-        var pos = players[player];
+    function buildTileMap(wizard, path, map) {
+        var pos = players[wizard];
         var rc = 0;
         var pc = 0;
         var pattern = pos.pattern;
@@ -123,6 +130,13 @@
                 pc = 0;
             }
         }
+    }
+
+    function resetWizardPosition(who, tilemap) {
+        // this.setPlayerPos(who, players[who].sx, players[who].sy);
+        players[who].x = players[who].sx;
+        players[who].y = players[who].sy;
+        buildTileMap(who, _instance.getPlayerPath(who), tilemap);
     }
 
     /**
@@ -151,14 +165,10 @@
 
         reset: function() {
             currentMap = tilemap.slice(0);
-            this.setPlayerPos('player1', players['player1'].sx, players['player1'].sy);
-            this.setPlayerPos('player2', players['player2'].sx, players['player2'].sy);
-            this.setPlayerPos('player3', players['player3'].sx, players['player3'].sy);
-            this.setPlayerPos('player4', players['player4'].sx, players['player4'].sy);
-            buildTileMap('player1', this.getPlayerPath('player1'), currentMap);
-            buildTileMap('player2', this.getPlayerPath('player2'), currentMap);
-            buildTileMap('player3', this.getPlayerPath('player3'), currentMap);
-            buildTileMap('player4', this.getPlayerPath('player4'), currentMap);
+            resetWizardPosition(_Globals.wizards.Earth, currentMap);
+            resetWizardPosition(_Globals.wizards.Water, currentMap);
+            resetWizardPosition(_Globals.wizards.Fire, currentMap);
+            resetWizardPosition(_Globals.wizards.Air, currentMap);
         },
 
         getTile: function(x, y) {
@@ -183,19 +193,19 @@
         //     }
         // },
 
-        getPlayerPos: function(player) {
-            return players[player];
+        getPlayerPos: function(wizard) {
+            return players[wizard];
         },
 
-        setPlayerPos: function(player, x, y) {
-            players[player].x = x;
-            players[player].y = y;
+        setPlayerPos: function(wizard, x, y) {
+            players[wizard].x = x;
+            players[wizard].y = y;
         },
 
-        getNextMove: function(player, steps) {
+        getNextMove: function(wizard, steps) {
             steps = steps || 1;
 
-            var pos = this.getPlayerPos(player);
+            var pos = this.getPlayerPos(wizard);
             var where;
             var tmpx = pos.x;
             var tmpy = pos.y;
@@ -217,15 +227,15 @@
             return {x: tmpx, y: tmpy};
         },
 
-        movePlayer: function(player, steps) {
-            var nextPos = this.getNextMove(player, steps);
+        movePlayer: function(wizard, steps) {
+            var nextPos = this.getNextMove(wizard, steps);
             this.setPlayerPos(nextPos.x, nextPos.y);
         },
         /**
          * Get path from current position to goal
          */
-        getPlayerPath: function(player, steps) {
-            var pos = this.getPlayerPos(player);
+        getPlayerPath: function(wizard, steps) {
+            var pos = this.getPlayerPos(wizard);
             var where;
             var tmpx = pos.x;
             var tmpy = pos.y;
@@ -259,7 +269,7 @@
                 if (game.debug) {
                     if (i >= 50) { // cant go further than 50 tiles!
                         console.error("x: %d, y: %d", tmpx, tmpy);
-                        throw "Path tracing dead-loop: " + player;
+                        throw "Path tracing dead-loop: " + wizard;
                     }
                 }
 

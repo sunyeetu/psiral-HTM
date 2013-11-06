@@ -57,19 +57,19 @@ game.PlayScene = me.ScreenObject.extend({
         // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
         // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
 
-        var corner = game.map.getPlayerPos('player1');
+        var corner = game.map.getPlayerPos(_Globals.wizards.Earth);
         this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Earth]);
 
-        corner = game.map.getPlayerPos('player2');
+        corner = game.map.getPlayerPos(_Globals.wizards.Water);
         this.actors[_Globals.wizards.Water] = new game.WaterWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Water]);
 
-        corner = game.map.getPlayerPos('player3');
+        corner = game.map.getPlayerPos(_Globals.wizards.Fire);
         this.actors[_Globals.wizards.Fire] = new game.FireWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Fire]);
 
-        corner = game.map.getPlayerPos('player4');
+        corner = game.map.getPlayerPos(_Globals.wizards.Air);
         this.actors[_Globals.wizards.Air] = new game.AirWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Air]);
 
@@ -184,13 +184,13 @@ game.PlayScene = me.ScreenObject.extend({
         
         switch(chance) {
             case _Globals.chance.Move1:
-                path = game.map.getPlayerPath('player1', 1);
+                path = game.map.getPlayerPath(game.gamemaster.currentWizard, 1);
             break;
             case _Globals.chance.Move2:
-                path = game.map.getPlayerPath('player1', 2);
+                path = game.map.getPlayerPath(game.gamemaster.currentWizard, 2);
             break;
             case _Globals.chance.Move3:
-                path = game.map.getPlayerPath('player1', 3);
+                path = game.map.getPlayerPath(game.gamemaster.currentWizard, 3);
             break;
             case _Globals.chance.Move4:
                 // path = game.map.getPlayerPath('player1');
@@ -210,7 +210,7 @@ game.PlayScene = me.ScreenObject.extend({
             this.actors[_Globals.wizards.Earth].moveTo(path, function() {
                 var lastMove = path.pop();
                 // update 
-                game.map.setPlayerPos('player1', lastMove.x, lastMove.y);
+                game.map.setPlayerPos(game.gamemaster.currentWizard, lastMove.x, lastMove.y);
                 game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastDice, chance);
                 game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastMove, lastMove);
                 // done moving, on to next move
