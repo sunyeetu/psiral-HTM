@@ -119,6 +119,7 @@
         // },
 
         nextMove: function() {
+            console.log('-----------next turn--------------------');
             var current = match.move.current;
             match.move.current = match.move.next;
 
@@ -142,7 +143,6 @@
             wizards[current].lastdice = throwDice();
 
             if (wizards[current].control == Controls.Human) {
-                console.log('he threw = ' + wizards[current].lastdice);
                 this.onEvent('moveHuman');
             } else if (wizards[current].control == Controls.AI) {
                 this.onEvent('moveAI');

@@ -208,16 +208,13 @@ game.PlayScene = me.ScreenObject.extend({
 
             
             this.actors[_Globals.wizards.Earth].moveTo(path, function() {
-                self.setState(self.SceneStates.NextMove);
                 var lastMove = path.pop();
-
-                console.log('setting chance to ' + chance);
-
                 // update 
                 game.map.setPlayerPos('player1', lastMove.x, lastMove.y);
                 game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastDice, chance);
                 game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastMove, lastMove);
-
+                // done moving, on to next move
+                self.setState(self.SceneStates.NextMove);
             });
         } else {
             // nothing happened
