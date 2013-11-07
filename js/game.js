@@ -40,7 +40,7 @@ var game = {
         me.sys.gravity = 0;
 
         // Initialize the audio.
-        me.audio.init("mp3,ogg");
+        // me.audio.init("mp3,ogg");
 
         // Set a callback to run when loading is complete.
         me.loader.onload = this.loaded.bind(this);
@@ -48,7 +48,10 @@ var game = {
         // Load the resources.
         me.loader.preload(game.resources);
 
-        console.log(me.audio.isAudioEnable());
+        // load some sfx
+        game.sound = new Howl({
+          urls: ['assets/sfx/rolldice.ogg']
+        });        
 
         // Initialize melonJS and display a loading screen.
         me.state.change(me.state.LOADING);

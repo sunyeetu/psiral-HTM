@@ -166,7 +166,8 @@ game.PlayScene = me.ScreenObject.extend({
     onSelectDice: function() {
         console.log('selected throw dice');
         this.clearHUD();
-        me.audio.play('burp', false);
+        game.sound.stop();
+        game.sound.play();
         this.setState(this.SceneStates.HUDThrowDice);
     },
 
