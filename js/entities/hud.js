@@ -112,6 +112,8 @@ game.HUD.PlayerTurn = game.HUD.Container.extend({
                     parent.onEvent('onSelectSpell');
                 }
             }));
+
+        // this.visible = false;
     }
 });
 /**

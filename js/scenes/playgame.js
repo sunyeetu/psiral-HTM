@@ -26,15 +26,21 @@ game.PlayScene = me.ScreenObject.extend({
         Tests: 1000,
     },
 
+    HUD: {
+        SelectMove: 10,
+        SelectSpell: 20,
+    },
+
     init: function() {
         // use the update & draw functions
         this.parent(true);
         this.state = this.SceneStates.InitBoard;
         this.stateUpdated = false;
+        // ui
+        this.hud = {};
+        this.hud.current = null;
         // holds references to entities
         this.actors = [];
-
-        this.currentActor = {};
     },
 
     update: function() {
@@ -48,29 +54,27 @@ game.PlayScene = me.ScreenObject.extend({
                 this.setState(this.SceneStates.NextMove);
             break;
 
+            // Gamemaster checks who's turn it is
             case this.SceneStates.NextMove:
                 game.gamemaster.nextMove();
             break;
 
+            // Human player selects chance or spellcast
             case this.SceneStates.HUDSelectMove:
-                // Show selection HUD
-                
-                // XXX: workaround!
-                this.hud = new game.HUD.PlayerTurn(this);
-                me.game.world.addChild(this.hud);
+                this.showHUD(this.HUD.SelectMove);
             break;
 
             case this.SceneStates.HUDThrowDice:
                 //TODO: call hud
+                // this.onDiceThrown();
+                // 
                 this.onDiceThrown();
+                // this.hud.current = this.hud.playerSelectSpell;
+                // me.game.world.addChild(this.hud);
             break;
+
             case this.SceneStates.HUDSelectSpell:
-                // Show selection HUD
-                
-                // XXX: workaround!
-                this.hud = new game.HUD.PlayerSelectSpell();
-                me.game.world.addChild(this.hud);
-                
+                this.showHUD(this.HUD.SelectSpell);
             break;
 
             case this.SceneStates.AIMove:
@@ -136,6 +140,9 @@ game.PlayScene = me.ScreenObject.extend({
         for (var i = 0; i < wizards.length; i++) {
             me.game.world.removeChild(wizards[i]);
         }
+        // clear huds
+        me.game.world.removeChild(this.hud.playerSelectMove);
+        me.game.world.removeChild(this.hud.playerSelectSpell);
     },
     /**
      * Set current gameplay state
@@ -144,18 +151,39 @@ game.PlayScene = me.ScreenObject.extend({
         this.state = newState;
         this.stateUpdated = true;
     },
-
-    clearHUD: function() {
+    /**
+     * Create HUD and display it
+     */
+    showHUD: function(hud) {
+        switch(hud) {
+            case this.HUD.SelectMove:
+                this.hud.current = new game.HUD.PlayerTurn(this);
+            break;
+            case this.HUD.SelectSpell:
+                this.hud.current = new game.HUD.PlayerSelectSpell(this);
+            break;
+            default:
+                throw hud + " is an invalid HUD!";
+            break;
+        }
+        
+        me.game.world.addChild(this.hud.current);
+    },
+    /**
+     * Destroy currently displayed HUD
+     */
+    removeHUD: function() {
         // remove the HUD from the game world
         // var huds = me.game.world.getEntityByProp('name', 'HUD');
         // for (var i = 0; i < huds.length; i++) {
         //     console.log(huds[i]);
         //     me.game.world.removeChild(huds[i]);
         // }
+
         // hack!
-        if (this.hud) {
-            me.game.world.removeChild(this.hud);
-            this.hud = null;
+        if (this.hud.current) {
+            me.game.world.removeChild(this.hud.current);
+            this.hud.current = null;
         }
     },
 
@@ -165,19 +193,20 @@ game.PlayScene = me.ScreenObject.extend({
     
     onSelectDice: function() {
         console.log('selected throw dice');
-        this.clearHUD();
+        this.removeHUD();
         this.setState(this.SceneStates.HUDThrowDice);
     },
 
     onSelectSpell: function() {
         console.log('selected spell');
-        this.clearHUD();
+        this.removeHUD();
         this.setState(this.SceneStates.HUDSelectSpell);
     },
 
     onDiceThrown: function() {
         var self = this;
-        this.clearHUD();
+        
+        this.removeHUD();
 
         var path;
         var chance = game.gamemaster.getData(game.session.wizard, game.gamemaster.Props.LastDice);
@@ -226,7 +255,7 @@ game.PlayScene = me.ScreenObject.extend({
         var type = data[0];
         var where = data[1];
         console.log('casting ' + type);
-        this.clearHUD();
+        this.removeHUD();
     },
 
     onMoveHuman: function() {
