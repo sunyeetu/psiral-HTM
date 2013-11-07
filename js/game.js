@@ -48,6 +48,8 @@ var game = {
         // Load the resources.
         me.loader.preload(game.resources);
 
+        console.log(me.audio.isAudioEnable());
+
         // Initialize melonJS and display a loading screen.
         me.state.change(me.state.LOADING);
     },
