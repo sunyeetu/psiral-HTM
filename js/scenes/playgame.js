@@ -29,6 +29,7 @@ game.PlayScene = me.ScreenObject.extend({
     HUD: {
         SelectMove: 10,
         SelectSpell: 20,
+        ThrowDice: 30
     },
 
     init: function() {
@@ -65,12 +66,9 @@ game.PlayScene = me.ScreenObject.extend({
             break;
 
             case this.SceneStates.HUDThrowDice:
+                this.showHUD(this.HUD.ThrowDice);
                 //TODO: call hud
                 // this.onDiceThrown();
-                // 
-                this.onDiceThrown();
-                // this.hud.current = this.hud.playerSelectSpell;
-                // me.game.world.addChild(this.hud);
             break;
 
             case this.SceneStates.HUDSelectSpell:
@@ -157,11 +155,14 @@ game.PlayScene = me.ScreenObject.extend({
     showHUD: function(hud) {
         switch(hud) {
             case this.HUD.SelectMove:
-                this.hud.current = new game.HUD.PlayerTurn(this);
+                this.hud.current = new game.HUD.SelectMove(this);
             break;
             case this.HUD.SelectSpell:
-                this.hud.current = new game.HUD.PlayerSelectSpell(this);
+                this.hud.current = new game.HUD.SelectSpell(this);
             break;
+            case this.HUD.ThrowDice:
+                this.hud.current = new game.HUD.ThrowDice(this);
+            break;            
             default:
                 throw hud + " is an invalid HUD!";
             break;
@@ -256,6 +257,8 @@ game.PlayScene = me.ScreenObject.extend({
         var where = data[1];
         console.log('casting ' + type);
         this.removeHUD();
+
+        this.setState(this.SceneStates.NextMove);
     },
 
     onMoveHuman: function() {
