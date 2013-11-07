@@ -99,11 +99,7 @@ game.PlayScene = me.ScreenObject.extend({
         game.map.reset();
         game.gamemaster.reset(game.session.wizard, this);
         
-        // add gfx entities
-
-        // me.entityPool.add("earth_wizard", game.EarthWizardEntity, true);
-        // var wizard = me.entityPool.newInstanceOf("earth_wizard", 50, 50, {});
-
+        // add actor entities
         var corner = game.map.getPos(_Globals.wizards.Earth);
         this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(corner.x, corner.y, {});
         me.game.world.addChild(this.actors[_Globals.wizards.Earth]);
@@ -233,11 +229,11 @@ game.PlayScene = me.ScreenObject.extend({
         this.clearHUD();
     },
 
-    moveHuman: function() {
+    onMoveHuman: function() {
         this.setState(this.SceneStates.HUDSelectMove);
     },
 
-    moveAI: function(data) {
+    onMoveAI: function(data) {
         console.log('AI skipped!');
         this.setState(this.SceneStates.NextMove);
     }    

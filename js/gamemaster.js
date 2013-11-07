@@ -118,9 +118,9 @@
             wizards[current].lastdice = throwDice();
 
             if (wizards[current].control == Controls.Human) {
-                this.onEvent('moveHuman');
+                this.onEvent('onMoveHuman');
             } else if (wizards[current].control == Controls.AI) {
-                this.onEvent('moveAI');
+                this.onEvent('onMoveAI');
             } else {
                 throw "Invalid actor control!";
             }

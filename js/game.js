@@ -38,6 +38,7 @@ var game = {
         // note : rendering method is also configurable per layer by adding this property to your layer (in Tiled)
         me.sys.preRender = false;
         me.sys.gravity = 0;
+        me.sys.fps = 40;
 
         // Initialize the audio.
         me.audio.init("mp3,ogg");
