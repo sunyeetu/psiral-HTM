@@ -30,6 +30,7 @@ game.PlayScene = me.ScreenObject.extend({
         // use the update & draw functions
         this.parent(true);
         this.state = this.SceneStates.InitBoard;
+        this.stateUpdated = false;
         // holds references to entities
         this.actors = [];
 
@@ -37,8 +38,54 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     update: function() {
+        if (!this.stateUpdated)
+            return;
 
-        // game.gamemaster.update();
+        this.stateUpdated = false;
+
+        switch(this.state) {
+            case this.SceneStates.StartGame:
+                this.setState(this.SceneStates.NextMove);
+            break;
+
+            case this.SceneStates.NextMove:
+                game.gamemaster.nextMove();
+            break;
+
+            case this.SceneStates.HUDSelectMove:
+                // Show selection HUD
+                
+                // XXX: workaround!
+                this.hud = new game.HUD.PlayerTurn(this);
+                me.game.world.addChild(this.hud);
+            break;
+
+            case this.SceneStates.HUDThrowDice:
+                //TODO: call hud
+                this.onDiceThrown();
+            break;
+            case this.SceneStates.HUDSelectSpell:
+                // Show selection HUD
+                
+                // XXX: workaround!
+                this.hud = new game.HUD.PlayerSelectSpell();
+                me.game.world.addChild(this.hud);
+                
+            break;
+
+            case this.SceneStates.AIMove:
+            // skip turn
+            //this.setState(this.SceneStates.HUDSelectMove);
+            break;
+
+            case this.SceneStates.Tests:
+            // XXX
+            // test spell
+            // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPos('player3'));
+            // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
+            
+            break;
+        }
     },
 
     draw: function(ctx) {
@@ -98,51 +145,8 @@ game.PlayScene = me.ScreenObject.extend({
      * Set current gameplay state
      */
     setState: function(newState) {
-         switch(newState) {
-            case this.SceneStates.StartGame:
-                this.setState(this.SceneStates.NextMove);
-            break;
-
-            case this.SceneStates.NextMove:
-                game.gamemaster.nextMove();
-            break;
-
-            case this.SceneStates.HUDSelectMove:
-                // Show selection HUD
-                
-                // XXX: workaround!
-                this.hud = new game.HUD.PlayerTurn(this);
-                me.game.world.addChild(this.hud);
-            break;
-
-            case this.SceneStates.HUDThrowDice:
-                //TODO: call hud
-                this.onDiceThrown();
-            break;
-
-            case this.SceneStates.HUDSelectSpell:
-                // Show selection HUD
-                
-                // XXX: workaround!
-                this.hud = new game.HUD.PlayerSelectSpell();
-                me.game.world.addChild(this.hud);
-                
-            break;
-
-            case this.SceneStates.AIMove:
-            // skip turn
-            //this.setState(this.SceneStates.HUDSelectMove);
-            break;
-
-            case this.SceneStates.Tests:
-            // XXX
-            // test spell
-            // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPos('player3'));
-            // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
-            
-            break;
-        }
         this.state = newState;
+        this.stateUpdated = true;
     },
 
     clearHUD: function() {

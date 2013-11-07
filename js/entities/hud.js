@@ -35,7 +35,7 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.cy = _Globals.canvas.height / 2 - 150 / 2;
         this.endx = this.cx + 505;
         this.endy = this.cy + 150;
-        this.imageBackground = new me.SpriteObject(this.cx, this.cy, me.loader.getImage("dialog"));
+        this.imageBackground = new me.SpriteObject(this.cx, this.cy, me.loader.getImage('dialog'));
         this.addChild(this.imageBackground);
         // wizard face
         var slot = "slot_empty";

@@ -104,7 +104,7 @@
         },
 
         nextMove: function() {
-            console.log('-----------next turn--------------------');
+            console.log('-----------turn start ' +  match.turn + ' --------------------');
             
             if (++match.move.current >= match.sequence.length) {
                 match.move.current = 0;
@@ -124,6 +124,8 @@
             } else {
                 throw "Invalid actor control!";
             }
+
+            console.log('-----------turn end ' +  (match.turn-1) + ' --------------------');
         },
 
         getData: function(wizard, what) {
