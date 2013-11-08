@@ -1,2 +1,9 @@
 # ignored assets
 *.pyxel
+
+muzik/*
+*.mp3
+*.flac
+*.txt
+*.wave
+*.wav

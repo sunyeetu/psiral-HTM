@@ -195,6 +195,8 @@ game.PlayScene = me.ScreenObject.extend({
     onSelectDice: function() {
         console.log('selected throw dice');
         this.removeHUD();
+        game.sound.stop();
+        game.sound.play();
         this.setState(this.SceneStates.HUDThrowDice);
     },
 
@@ -211,7 +213,7 @@ game.PlayScene = me.ScreenObject.extend({
 
         var path;
         var chance = game.gamemaster.getData(game.session.wizard, game.gamemaster.Props.LastDice);
-        
+
         switch(chance) {
             case _Globals.chance.Move1:
                 path = game.map.getPath(game.gamemaster.currentWizard, 1);

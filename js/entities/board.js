@@ -79,18 +79,23 @@ game.TileEntity = me.ObjectEntity.extend({
         this.z = _Globals.gfx.zTile;
         
         // setup animations
-        this.renderable.animationspeed = 450; // + Math.random() * 200;
-        this.renderable.addAnimation('earth', [0]);
-        this.renderable.addAnimation('water', [8]);
-        this.renderable.addAnimation('fire', [16]);
-        this.renderable.addAnimation('air', [24]);
+        //this.renderable.animationspeed = 450; // + Math.random() * 200;
+        this.renderable.addAnimation('earth', [5]);
+        this.renderable.addAnimation('water', [3]);
+        this.renderable.addAnimation('fire', [2]);
+        this.renderable.addAnimation('air', [4]);
 
-        this.renderable.addAnimation('fountain', [40]);
+        this.renderable.addAnimation('fountain', [0]);
 
-        this.renderable.addAnimation('base1', [48]);
-        this.renderable.addAnimation('base2', [49]);
-        this.renderable.addAnimation('base3', [50]);
-        this.renderable.addAnimation('base4', [51]);
+        this.renderable.addAnimation('base1', [0]);
+        this.renderable.addAnimation('base2', [0]);
+        this.renderable.addAnimation('base3', [0]);
+        this.renderable.addAnimation('base4', [0]);
+
+        // TODO: alpha on player path
+        // if (settings.name != 'earth' && settings.name != 'water') {
+        //     this.renderable.alpha = 0.15;
+        // }
         this.renderable.setCurrentAnimation(settings.name);
     },
 
