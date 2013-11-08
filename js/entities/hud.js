@@ -8,9 +8,10 @@
  */
 
 game.HUD = game.HUD || {};
-
+/**
+ * Base UI container 
+ */
 game.HUD.Container = me.ObjectContainer.extend({
-
     init: function(eventHandler) {
         // call the constructor
         this.parent();
@@ -66,7 +67,6 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.iconWidth = 64;
         this.iconHeight = 64;
     },
-
     // Propagate UI event to handler
     onEvent: function(name) {
         if (this.eventHandler) {
@@ -103,9 +103,10 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
         this.parent(x, y, me.loader.getImage(settings.image), 64);
         
         this.handler = settings.onClick;
-        this.animationspeed = settings.speed || 2412;
         this.z = _Globals.gfx.zHUD + 5;
-
+        // override animation speed
+        this.addAnimation('main', [0, 1, 2, 3, 4, 5], 75);
+        this.setCurrentAnimation('main');
         this.fadeout = settings.fadeout || false;
         this.fadeoutspeed = settings.fadeoutspeed || 0.035;
         this.stopFrame = settings.stopFrame || false;

@@ -237,12 +237,12 @@ game.PlayScene = me.ScreenObject.extend({
         if (path) {
             console.log(path);
 
-            this.actors[_Globals.wizards.Earth].moveTo(path, function() {
+            this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
                 var lastMove = path.pop();
                 // update 
                 game.map.setPos(game.gamemaster.currentWizard, lastMove.x, lastMove.y);
-                game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastDice, chance);
-                game.gamemaster.setData(game.session.wizard, game.gamemaster.Props.LastMove, lastMove);
+                game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
+                game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, lastMove);
                 // done moving, on to next move
                 self.setState(self.SceneStates.NextMove);
             });
