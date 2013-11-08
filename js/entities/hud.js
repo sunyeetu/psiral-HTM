@@ -81,7 +81,8 @@ game.HUD.Container = me.ObjectContainer.extend({
 game.HUD.Clickable = me.GUI_Object.extend({   
     init: function(x, y, settings) {
         settings = settings || {};
-        settings.image = settings.image || "button_empty";
+        if (!settings.image)
+            throw "Clickable image not specified!";
         settings.spritewidth = 64;
         settings.spriteheight = 64;
         this.parent(x, y, settings);
@@ -107,6 +108,7 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
 
         this.fadeout = settings.fadeout || false;
         this.fadeoutspeed = settings.fadeoutspeed || 0.035;
+        this.stopFrame = settings.stopFrame || false;
         this.blend = false;
 
         var parent = this;
@@ -118,6 +120,12 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
             image: 'button_ok',
             onClick: function(event) {
                 container.removeChild(this);
+
+                if (parent.stopFrame) {
+                    parent.setAnimationFrame(parent.stopFrame);
+                    parent.animationpause = true;
+                }
+
                 if (parent.fadeout === true) {
                     parent.blend = true;
                     parent.animationpause = true;
@@ -181,19 +189,52 @@ game.HUD.SelectMove = game.HUD.Container.extend({
  * Dialog: Throw dice 
  */
 game.HUD.ThrowDice = game.HUD.Container.extend({
-    init: function(eventHandler) {
+    init: function(eventHandler, extraData) {
         this.parent(eventHandler);
 
         var parent = this;
         var dx = this.xcenter - this.iconWidth / 2;
         var dy = this.ycenter - this.iconHeight / 2;
+        var icon_image;
+
+        switch(extraData.chance) {
+            case _Globals.chance.Move1:
+                icon_image = 'icon_move1';
+            break;
+            case _Globals.chance.Move2:
+                icon_image = 'icon_move2';
+            break;
+            case _Globals.chance.Move3:
+                icon_image = 'icon_move3';
+            break;
+            case _Globals.chance.Move4:
+                icon_image = 'icon_move4';
+            break;
+            case _Globals.chance.Jump:
+                icon_image = 'icon_jump';
+            break;
+            case _Globals.chance.Skip:
+                icon_image = 'icon_pass';
+            break;            
+        }
+
+        var icon = new game.HUD.Clickable(dx, dy, {
+                image: icon_image,
+                onClick: function(event) {
+                    parent.onEvent('onDiceThrown');
+                }
+            });
+        // only clickable when the dice side is revealed
+        icon.isClickable = false;
 
         this.diceAnim = new game.HUD.ClickableAnimation(dx, dy, {
             image: 'dice',
             fadeout: true,
+            stopFrame: (extraData.chance - 1), // set dice side
             onClick: function(event) {
                 parent.diceAnim.animationpause = true;
-                console.log('clicked!');
+                parent.addChild(icon);
+                icon.isClickable = true;
             }
         }, parent);
 

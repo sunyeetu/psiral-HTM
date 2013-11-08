@@ -66,7 +66,8 @@ game.PlayScene = me.ScreenObject.extend({
             break;
 
             case this.SceneStates.HUDThrowDice:
-                this.showHUD(this.HUD.ThrowDice);
+                var curChance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
+                this.showHUD(this.HUD.ThrowDice, {wizard:  game.gamemaster.currentWizard, chance: curChance});
                 //TODO: call hud
                 // this.onDiceThrown();
             break;
@@ -152,7 +153,7 @@ game.PlayScene = me.ScreenObject.extend({
     /**
      * Create HUD and display it
      */
-    showHUD: function(hud) {
+    showHUD: function(hud, extraData) {
         switch(hud) {
             case this.HUD.SelectMove:
                 this.hud.current = new game.HUD.SelectMove(this);
@@ -161,7 +162,7 @@ game.PlayScene = me.ScreenObject.extend({
                 this.hud.current = new game.HUD.SelectSpell(this);
             break;
             case this.HUD.ThrowDice:
-                this.hud.current = new game.HUD.ThrowDice(this);
+                this.hud.current = new game.HUD.ThrowDice(this, extraData);
             break;            
             default:
                 throw hud + " is an invalid HUD!";
@@ -195,8 +196,6 @@ game.PlayScene = me.ScreenObject.extend({
     onSelectDice: function() {
         console.log('selected throw dice');
         this.removeHUD();
-        game.sound.stop();
-        game.sound.play();
         this.setState(this.SceneStates.HUDThrowDice);
     },
 
@@ -212,7 +211,7 @@ game.PlayScene = me.ScreenObject.extend({
         this.removeHUD();
 
         var path;
-        var chance = game.gamemaster.getData(game.session.wizard, game.gamemaster.Props.LastDice);
+        var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -225,7 +224,7 @@ game.PlayScene = me.ScreenObject.extend({
                 path = game.map.getPath(game.gamemaster.currentWizard, 3);
             break;
             case _Globals.chance.Move4:
-                // path = game.map.getPath('player1');
+                path = game.map.getPath(game.gamemaster.currentWizard, 4);
             break;
             case _Globals.chance.Jump:
                 // path = game.map.getPath('player1');
@@ -238,7 +237,6 @@ game.PlayScene = me.ScreenObject.extend({
         if (path) {
             console.log(path);
 
-            
             this.actors[_Globals.wizards.Earth].moveTo(path, function() {
                 var lastMove = path.pop();
                 // update 

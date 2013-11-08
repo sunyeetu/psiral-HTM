@@ -33,6 +33,13 @@ game.resources = [
     {name: "icon_spell_path", type:"image", src: "assets/gui/icon_spell_path.png"},
     {name: "icon_spell_teleport", type:"image", src: "assets/gui/icon_spell_teleport.png"},
 
+    {name: "icon_move1", type:"image", src: "assets/gui/icon_move1.png"},
+    {name: "icon_move2", type:"image", src: "assets/gui/icon_move2.png"},
+    {name: "icon_move3", type:"image", src: "assets/gui/icon_move3.png"},
+    {name: "icon_move4", type:"image", src: "assets/gui/icon_move4.png"},
+    {name: "icon_jump", type:"image", src: "assets/gui/icon_jump.png"},
+    {name: "icon_pass", type:"image", src: "assets/gui/icon_pass.png"},
+
     {name: "slot_empty", type:"image", src: "assets/gui/slot_empty.png"},
     {name: "slot_earth", type:"image", src: "assets/gui/slot_earth.png"},
     {name: "slot_water", type:"image", src: "assets/gui/slot_water.png"},
