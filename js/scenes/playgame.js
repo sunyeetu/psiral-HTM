@@ -127,6 +127,10 @@ game.PlayScene = me.ScreenObject.extend({
         this.gfx = new game.GFX.Container();
         me.game.world.addChild(this.gfx);
 
+        // add stats HUD
+        this.statsHUD = new game.HUD.Stats();
+        me.game.world.addChild(this.statsHUD);
+
         // Start game
         this.setState(this.SceneStates.StartGame);
     },

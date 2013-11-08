@@ -9,15 +9,73 @@
 
 game.HUD = game.HUD || {};
 /**
- * Base UI container 
+ * Status HUD
+ */
+game.HUD.Stats = me.ObjectContainer.extend({
+    init: function() {
+        // call the constructor
+        this.parent();
+        
+        // non collidable
+        this.collidable = false;
+        
+        // make sure our object is always draw first
+        this.z = _Globals.gfx.zHUD;
+
+        // give a name
+        this.name = "HUD";
+
+        this.x = 0;
+        this.y = _Globals.canvas.yOffsetHUD;
+        this.xStep = _Globals.canvas.width / 4;
+
+        var parent = this;
+        var wizards = [
+            _Globals.wizards.Earth,
+            _Globals.wizards.Water,
+            _Globals.wizards.Fire,
+            _Globals.wizards.Air
+        ];
+        var wx = this.x;
+        var wy = this.y;
+        var face;
+
+        wizards.forEach(function(w) {
+            var sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('wizards_faces'), 48);
+
+            switch(w) {
+                case _Globals.wizards.Earth:
+                    sprite.setAnimationFrame(3);
+                break;
+                case _Globals.wizards.Water:
+                    sprite.setAnimationFrame(1);
+                break;
+                case _Globals.wizards.Fire:
+                    sprite.setAnimationFrame(0);
+                break;
+                case _Globals.wizards.Air:
+                    sprite.setAnimationFrame(2);
+                break;
+                default:
+                    throw "Unknown wizard in HUD!";
+                break;
+            }  
+            
+            sprite.animationpause = true;
+            sprite.z =  _Globals.gfx.zHUD + 1;
+            parent.addChild(sprite);
+
+            wx += parent.xStep;
+        });
+    }
+});
+/**
+ * Base UI Dialog container 
  */
 game.HUD.Container = me.ObjectContainer.extend({
     init: function(eventHandler) {
         // call the constructor
         this.parent();
-        
-        // persistent across level change
-        this.isPersistent = true;
         
         // non collidable
         this.collidable = false;
@@ -83,6 +141,7 @@ game.HUD.Clickable = me.GUI_Object.extend({
         settings = settings || {};
         if (!settings.image)
             throw "Clickable image not specified!";
+
         settings.spritewidth = 64;
         settings.spriteheight = 64;
         this.parent(x, y, settings);

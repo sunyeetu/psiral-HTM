@@ -12,7 +12,8 @@ var _Globals = {
         width: 1024,
         height: 672,
         xOffset: 0,
-        yOffset: 56
+        yOffset: 56,
+        yOffsetHUD: 6,
     },
     gfx: {
         mapWidth: 17,

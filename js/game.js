@@ -38,7 +38,7 @@ var game = {
         // note : rendering method is also configurable per layer by adding this property to your layer (in Tiled)
         me.sys.preRender = false;
         me.sys.gravity = 0;
-        me.sys.fps = 40;
+        me.sys.fps = 60;
 
         // Initialize the audio.
         // me.audio.init("mp3,ogg");
@@ -65,7 +65,7 @@ var game = {
 
         // setup PLAYER 
         this.session = {};
-        this.session.wizard = _Globals.wizards.Water;
+        this.session.wizard = _Globals.wizards.Air;
 
         // Start the game.
         me.state.change(me.state.PLAY);
