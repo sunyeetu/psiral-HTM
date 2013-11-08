@@ -62,5 +62,5 @@ game.resources = [
      * {name: "example_sfx", type: "audio", src: "data/sfx/", channel : 2}
      */
 	// {name: "rolldice", type: "audio", src: "assets/sfx/", channel : 2},
-	// {name: "burp", type: "audio", src: "assets/sfx/", channel : 2}
+	{name: "burp", type: "audio", src: "assets/sfx/", channel : 2}
 ];
