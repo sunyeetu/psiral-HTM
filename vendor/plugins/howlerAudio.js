@@ -36,24 +36,45 @@
         init : function(audioFormat) {
             this.parent();
 
-            if (!audioFormat) 
-                throw "howlerAudio: audioFormat parameter not specified!";
-
-            this.audioFormat = audioFormat;
-            //TODO validate
+            this.reinit(audioFormat);
 
             //patch patch patch !
             this.patchSystemFn();            
         },
 
+        reinit: function(audioFormat) {
+            if (!audioFormat) 
+                throw "howlerAudio: audioFormat parameter not specified!";
+            
+            if (typeof audioFormat !== "string")   {
+                // throw "howlerAudio: audioFormat parameter must be string!";
+                // if no param is given to init we use mp3 by default
+                audioFormat = 'mp3';
+            }
+            // convert it into an array
+            this.audioFormat = audioFormat.split(',');
+            for (fmt in this.audioFormat) {
+                this.audioFormat[fmt] = '.' + this.audioFormat[fmt];
+            };
+
+            return this.enabled;
+        },
+
         load: function(resources) {
             // parse the resources
+            var srcUrls = [];
+
             for(res in resources) {
                 if (resources[res].type == 'audio') {
                     console.log(resources[res]);
 
+                    srcUrls.length = 0;
+                    for (var i = 0; i < this.audioFormat.length; i++) {
+                        srcUrls.push(resources[res].src + resources[res].name + this.audioFormat[i]);
+                    };
+
                     this.sounds[resources[res].name] = new Howl({
-                        urls: [resources[res].src + resources[res].name + '.ogg']
+                        urls: srcUrls
                     });                      
                 }
             }
@@ -79,37 +100,63 @@
              * @return {Number} current volume value in Float [0.0 - 1.0].
              */
             me.plugin.patch(me.audio, "getVolume", function () {
-                // TODO
+               if (!self.enabled)
+                    return;
+                return Howler.volume();
             });
 
             me.plugin.patch(me.audio, "isAudioEnable", function () {
                 return enabled;
             });
 
-            me.plugin.mute(me.audio, "mute", function (sound_id) {
-                // TODO
+            me.plugin.patch(me.audio, "mute", function (sound_id, mute) {
+                if (!self.enabled)
+                    return;
+                this.sounds[sound_id].mute();
             });
 
-            me.plugin.mute(me.audio, "muteAll", function () {
-                // TODO
+            me.plugin.patch(me.audio, "muteAll", function () {
+                if (!self.enabled)
+                    return;
+                Howler.mute();
             });
 
-            me.plugin.mute(me.audio, "pause", function (sound_id) {
-                // TODO
+            me.plugin.patch(me.audio, "pause", function (sound_id) {
+                if (!self.enabled)
+                    return;
+                Howler.pause();
             });
 
-            me.plugin.mute(me.audio, "pauseTrack", function () {
+            me.plugin.patch(me.audio, "pauseTrack", function () {
                 // TODO
             });
-
+            /**
+             * play the specified sound
+             * @param  {String}   sound_id audio clip id
+             * @param  {Boolean}  loop     loop audio
+             * @param  {Function} callback callback function when sound finished playing
+             * @param  {Number}   volume   Float specifying volume (0.0 - 1.0 values accepted)
+             */
             me.plugin.patch(me.audio, "play", function (sound_id, loop, callback, volume) {
                 if (!self.enabled)
                     return;
                 
-                self.sounds[sound_id].play();
+                var snd = self.sounds[sound_id];
+                loop && snd.loop(loop);
+                volume && snd.volume(volume);
+                if (callback) {
+                    snd.on('end', callback);
+                } else {
+                    //TODO: FIX event removal
+                    snd.off('end', function() {});
+                }
+                snd.play();
             });
 
             me.plugin.patch(me.audio, "playTrack", function (sound_id, volume) {
+                if (!self.enabled)
+                    return;
+
                 // TODO
             });
 
@@ -118,11 +165,15 @@
             });
 
             me.plugin.patch(me.audio, "setVolume", function (volume) {
-                // TODO
+                if (!self.enabled)
+                    return;
+                Howler.volume(volume);
             });
 
             me.plugin.patch(me.audio, "stop", function (sound_id) {
-                // TODO
+                if (!self.enabled)
+                    return;
+                self.sounds[sound_id].stop();
             }); 
 
             me.plugin.patch(me.audio, "stopTrack", function () {
@@ -130,19 +181,25 @@
             });
 
             me.plugin.patch(me.audio, "unload", function (sound_id) {
-                // TODO
+                self.sounds[sound_id] && self.sounds[sound_id].unload();
             }); 
 
             me.plugin.patch(me.audio, "unloadAll", function () {
-                // TODO
+                for(snd in sounds) {
+                    sounds[snd].unload();
+                }
             });
 
             me.plugin.patch(me.audio, "unmute", function (sound_id) {
-                // TODO
+                if (!self.enabled)
+                    return;
+                this.sounds[sound_id].unmute();
             });
 
             me.plugin.patch(me.audio, "unmuteAll", function () {
-                // TODO
+                if (!self.enabled)
+                    return;
+                Howler.unmute();
             });
         }
     });
