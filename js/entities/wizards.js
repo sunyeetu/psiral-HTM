@@ -12,13 +12,17 @@ game.WizardEntity = me.ObjectEntity.extend({
      * constructor
      */
     init: function(x, y, settings) {
-        
-        settings.spritewidth = 56;
-        settings.spriteheight = 56;
+        settings.spritewidth = settings.spritewidth ? settings.spritewidth : 56;
+        settings.spriteheight = settings.spriteheight ? settings.spriteheight : 56;
+        settings.yOffset = settings.yOffset ? settings.yOffset : 5;
+        // y coordinate blitting offset
+        this.yOffset = settings.yOffset - settings.spriteheight / 2;
+
         x *= _Globals.gfx.tileWidth;
         y *= _Globals.gfx.tileHeight;
         x += _Globals.canvas.xOffset;
-        y += _Globals.canvas.yOffset;
+        y += _Globals.canvas.yOffset + this.yOffset;
+
         this.parent(x, y, settings);
 
         this.collidable = false;
@@ -53,7 +57,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         // check & update player movement
         if (this.moving) {
             var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;
-            var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight;
+            var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight + this.yOffset;
             dx = game.getRealX(dx);
             dy = game.getRealY(dy);            
             var updatePath = false;
@@ -240,6 +244,10 @@ game.EarthWizardEntity = game.WizardEntity.extend({
         this.name = 'Entria-Sil';
         
         this.playAnimation('stand_right');
+
+        // {!} EXPR
+        // this.renderable.addAnimation('stand_right', [0, 1, 2, 3]);
+        // this.playAnimation('stand_right');
     }
 
 });
@@ -250,13 +258,19 @@ game.EarthWizardEntity = game.WizardEntity.extend({
 game.WaterWizardEntity = game.WizardEntity.extend({
 
     init: function(x, y, settings) {
-        settings.image = 'earth_wizard';
+        settings.image = 'earth_small';
+        settings.spriteheight = 100;
+        // settings.image = 'earth_wizard';
         this.parent(x, y, settings);
 
         // setup props
         this.name = 'Azalsor';
         
-        this.playAnimation('stand_left');
+        // this.playAnimation('stand_left');
+
+        // {!} EXPR
+        this.renderable.addAnimation('walk_down', [0, 1, 2, 3]);
+        this.playAnimation('walk_down');        
     }
 
 });

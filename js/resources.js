@@ -15,6 +15,7 @@ game.resources = [
     {name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
     {name: "earth_wizard", type:"image", src: "assets/gfx/walk_cycle.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
+    {name: "earth_small", type:"image", src: "assets/gfx/earth_small.png"},
     
     // Hud
     {name: "dialog", type:"image", src: "assets/gui/dialog.png"},
@@ -39,7 +40,7 @@ game.resources = [
     {name: "slot_air", type:"image", src: "assets/gui/slot_air.png"},
 
     {name: "dice", type:"image", src: "assets/gui/dice.png"},
-    
+
     /* Sound effects. 
      * @example
      * {name: "example_sfx", type: "audio", src: "data/sfx/", channel : 2}

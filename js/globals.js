@@ -19,7 +19,7 @@ var _Globals = {
         mapHeight: 10,
         tileWidth: 56,
         tileHeight: 56,
-        animSpeed: 75,
+        animSpeed: 175,
 
         baseZ: 19000,
         zTile: 19010,
