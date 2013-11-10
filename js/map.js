@@ -218,11 +218,21 @@
         },
         /**
          * Check if any (de)buffs exist at given tile location
+         * @param  {[String]}  type (Optional) Will look for specific (de)buff type.
          * @return {Boolean}
          */
-        isTileBuffs: function(x, y) {
+        isTileBuffs: function(x, y, type) {
             var buffs = this.getTileBuffs(x, y);
-            return (typeof buffs !== 'undefined' && buffs.length > 0)
+            if (type) {
+                for(var b in buffs) {
+                    if (buffs[b].type === type)
+                        return true;
+                }
+            } else {
+                return (typeof buffs !== 'undefined' && buffs.length > 0)    
+            }
+
+            return false;
         },        
 
         // getCornerPos: function(corner) {

@@ -68,11 +68,12 @@ var game = {
         // me.audio.play('song18_0', false);
         
         game.map.reset(); 
-        game.map.setTileBuffs(4, 3, {'name': 'bad', val: 231});
+        game.map.setTileBuffs(4, 3, {type: 'bad', val: 231});
         var bufs = game.map.getTileBuffs(4, 3);
         console.log(bufs);
         console.log(game.map.isTileBuffs(4, 3));
         console.log(game.map.isTileBuffs(4, 4));
+        console.log(game.map.isTileBuffs(4, 3, 'bad'));
 
     },
 
