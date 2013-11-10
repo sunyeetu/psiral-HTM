@@ -6,7 +6,6 @@
  * This work is licensed under the Creative Commons Attribution-NoDerivs 3.0 Unported License. 
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
  */
-
 (function TileMap(game) {
 
     /**
@@ -96,7 +95,9 @@
     var mapHeight = _Globals.gfx.mapHeight;
     var tileRepetitions = [4, 2, 1];
     var currentMap = null;
+    var buffsMap = null;
     var players = {};
+
     players[_Globals.wizards.Earth] = {
         x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A], sign: S1
     };
@@ -169,6 +170,7 @@
 
         reset: function() {
             currentMap = tilemap.slice(0);
+            buffsMap = {};
             resetWizardPosition(_Globals.wizards.Earth, currentMap);
             resetWizardPosition(_Globals.wizards.Water, currentMap);
             resetWizardPosition(_Globals.wizards.Fire, currentMap);
@@ -186,6 +188,44 @@
         isTile: function(x, y, type) {
             return this.getTile(x, y) === type;
         },
+        /**
+         * Set one or more (de)buffs to a map tile position
+         * @param  {Number} x tile column
+         * @param  {Number} y tile row
+         * @param {Object} buffs Object or Array of objects.
+         */
+        setTileBuffs: function(x, y, buffs) {
+            if (Object.prototype.toString.call(buff) === '[object Array]') {
+                for(var b in buffs) {
+                    this.setTileBuffs(x, y, buffs[b]);
+                }
+            } else {
+                var idx = y * mapWidth + x;
+                if (typeof buffsMap[idx] !== '[object Array]') {
+                    buffsMap[idx] = [];
+                }
+                buffsMap[idx].push(buffs);
+            }
+        },
+        /**
+         * Get any possible buffs or debuffs associated with given tile
+         * @param  {Number} x tile column
+         * @param  {Number} y tile row
+         * @return {Array}   Array of (de)buff types
+         */
+        getTileBuffs: function(x, y) {
+            return buffsMap[y * mapWidth + x];
+            //TODO
+            //
+        },
+        /**
+         * Check if any (de)buffs exist at given tile location
+         * @return {Boolean}
+         */
+        isTileBuffs: function(x, y) {
+            var buffs = this.getTileBuffs(x, y);
+            return (typeof buffs === '[object Array]' && buffs.length > 0)
+        },        
 
         // getCornerPos: function(corner) {
         //     if (corner === 'top-left') {
