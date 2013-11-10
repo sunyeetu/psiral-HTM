@@ -195,13 +195,13 @@
          * @param {Object} buffs Object or Array of objects.
          */
         setTileBuffs: function(x, y, buffs) {
-            if (Object.prototype.toString.call(buff) === '[object Array]') {
+            if (Object.prototype.toString.call(buffs) === '[object Array]') {
                 for(var b in buffs) {
                     this.setTileBuffs(x, y, buffs[b]);
                 }
             } else {
                 var idx = y * mapWidth + x;
-                if (typeof buffsMap[idx] !== '[object Array]') {
+                if (typeof buffsMap[idx] === 'undefined') {
                     buffsMap[idx] = [];
                 }
                 buffsMap[idx].push(buffs);
@@ -215,8 +215,6 @@
          */
         getTileBuffs: function(x, y) {
             return buffsMap[y * mapWidth + x];
-            //TODO
-            //
         },
         /**
          * Check if any (de)buffs exist at given tile location
@@ -224,7 +222,7 @@
          */
         isTileBuffs: function(x, y) {
             var buffs = this.getTileBuffs(x, y);
-            return (typeof buffs === '[object Array]' && buffs.length > 0)
+            return (typeof buffs !== 'undefined' && buffs.length > 0)
         },        
 
         // getCornerPos: function(corner) {
