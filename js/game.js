@@ -51,17 +51,21 @@ var game = {
         me.loader.preload(game.resources);
 
         // load some sfx
-        me.plugin.register(howlerAudio, "howlerAudio", "ogg,mp3");
+        me.plugin.register(howlerAudio, "howlerAudio", "mp3");
         me.plugin.howlerAudio.load(game.resources);    
 
         // Initialize melonJS and display a loading screen.
         me.state.change(me.state.LOADING);
 
-        me.audio.play('burp', false, function() {
+        var done = function() {
             console.log('ok')
+        };
+        me.audio.play('burp', false, done);
+        me.audio.play('burp', false, function() {
+            console.log("aghaa");
         });
-        me.audio.play('burp', false);     
-        me.audio.play('burp', false);
+        // me.audio.play('burp', false);
+        // me.audio.play('song18_0', false);
     },
 
     // Run on game resources loaded.

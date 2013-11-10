@@ -20,9 +20,7 @@
      * @memberOf me
      * @constructor
      */
-    howlerAudio = me.plugin.Base.extend(
-    /** @scope me.plugin.audio.prototype */
-    {
+    howlerAudio = me.plugin.Base.extend({
         // minimum melonJS version expected
         version: "0.9.10",
 
@@ -30,14 +28,15 @@
 
         sounds: [],
 
+        callbacksRegister: {},
+
         audioFormat: null,
 
         /** @ignore */
         init : function(audioFormat) {
             this.parent();
-
+            // parse list of sound formats
             this.reinit(audioFormat);
-
             //patch patch patch !
             this.patchSystemFn();            
         },
@@ -66,16 +65,21 @@
 
             for(res in resources) {
                 if (resources[res].type == 'audio') {
-                    console.log(resources[res]);
 
                     srcUrls.length = 0;
                     for (var i = 0; i < this.audioFormat.length; i++) {
                         srcUrls.push(resources[res].src + resources[res].name + this.audioFormat[i]);
                     };
-
+                    // init callback register
+                    this.callbacksRegister[resources[res].name] = function() {
+                        // empty
+                    };
+                    // load sound
                     this.sounds[resources[res].name] = new Howl({
-                        urls: srcUrls
-                    });                      
+                        urls: srcUrls,
+                        buffer: resources[res].stream === true ? true : false,
+                        onend: this.callbacksRegister[resources[res].name]
+                    });
                 }
             }
         },
@@ -94,7 +98,9 @@
             });
 
             me.plugin.patch(me.audio, "getCurrentTrack", function () {
-                // TODO
+                if (!self.enabled)
+                    return;                
+                throw "howlerAudio: Not implemented!"
             });
             /**
              * @return {Number} current volume value in Float [0.0 - 1.0].
@@ -128,7 +134,9 @@
             });
 
             me.plugin.patch(me.audio, "pauseTrack", function () {
-                // TODO
+                if (!self.enabled)
+                    return;                
+                throw "howlerAudio: Not implemented!"
             });
             /**
              * play the specified sound
@@ -144,24 +152,27 @@
                 var snd = self.sounds[sound_id];
                 loop && snd.loop(loop);
                 volume && snd.volume(volume);
+
+                // TODO: this is not quite correct!
                 if (callback) {
-                    snd.on('end', callback);
-                } else {
-                    //TODO: FIX event removal
-                    snd.off('end', function() {});
+                    snd.off('end', self.callbacksRegister[sound_id]);
+                    self.callbacksRegister[sound_id] = callback;
+                    snd.on('end', self.callbacksRegister[sound_id]);
                 }
+
                 snd.play();
             });
 
             me.plugin.patch(me.audio, "playTrack", function (sound_id, volume) {
                 if (!self.enabled)
-                    return;
-
-                // TODO
+                    return;                
+                throw "howlerAudio: Not implemented!"
             });
 
             me.plugin.patch(me.audio, "resumeTrack", function (sound_id) {
-                // TODO
+                if (!self.enabled)
+                    return;                
+                throw "howlerAudio: Not implemented!"
             });
 
             me.plugin.patch(me.audio, "setVolume", function (volume) {
@@ -177,7 +188,9 @@
             }); 
 
             me.plugin.patch(me.audio, "stopTrack", function () {
-                // TODO
+                if (!self.enabled)
+                    return;                
+                throw "howlerAudio: Not implemented!"
             });
 
             me.plugin.patch(me.audio, "unload", function (sound_id) {
