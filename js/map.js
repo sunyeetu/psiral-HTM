@@ -23,6 +23,8 @@
     var R = 4;
     var X = 5; // fountain
     var E = 6, W = 7, F = 8, A = 9; // elements
+    var H = 10; // hole
+    var F = 11; // undefined tile
 
     var tilemap = [
         S1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, S2,
@@ -150,6 +152,8 @@
             Fire: F,
             Air: A,
             Fountain: X,
+            Hole: H,
+            Undefined: F,
             Base1: S1,
             Base2: S2,
             Base3: S3,
@@ -171,8 +175,12 @@
             resetWizardPosition(_Globals.wizards.Air, currentMap);
         },
 
+        setTile: function(x, y, type) {
+            currentMap[y * mapWidth + x] = type;
+        },
+
         getTile: function(x, y) {
-            return currentMap[y * mapWidth +x];
+            return currentMap[y * mapWidth + x];
         },
 
         isTile: function(x, y, type) {
@@ -247,17 +255,15 @@
 
             do {
                 where = tmpy * mapWidth + tmpx;
-                
-                if (pos.route[where] == D) {
-                    tmpy += 1;
-                } else if (pos.route[where] == U) {
-                    tmpy -= 1;
-                } else if (pos.route[where] == L) {
-                    tmpx -= 1;
-                } else if (pos.route[where] == R) {
-                    tmpx += 1;
-                } else if (pos.route[where] == X) {
-                    found = true;
+                switch(pos.route[where]) {
+                    case D: tmpy += 1; break;
+                    case U: tmpy -= 1; break;
+                    case L: tmpx -= 1; break;
+                    case R: tmpx += 1; break;
+                    case X: found = true; break;
+                    case H: found = true; break;
+                    default:
+                        throw "Unexpected tile at " + tmpx + "," + tmpy + "!";
                 }
 
                 //TODO: check for obstacle
