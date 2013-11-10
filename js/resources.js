@@ -8,7 +8,6 @@
  */
 
 game.resources = [
-
     /* Graphics. 
      * @example
      * {name: "example", type:"image", src: "data/img/example.png"},
@@ -40,26 +39,11 @@ game.resources = [
     {name: "slot_air", type:"image", src: "assets/gui/slot_air.png"},
 
     {name: "dice", type:"image", src: "assets/gui/dice.png"},
-
-    /* Atlases 
-     * @example
-     * {name: "example_tps", type: "tps", src: "data/img/example_tps.json"},
-     */
-        
-    /* Maps. 
-     * @example
-     * {name: "example01", type: "tmx", src: "data/map/example01.tmx"},
-     * {name: "example01", type: "tmx", src: "data/map/example01.json"},
-     */
-
-    /* Background music. 
-     * @example
-     * {name: "example_bgm", type: "audio", src: "data/bgm/", channel : 1},
-     */ 
-
+    
     /* Sound effects. 
      * @example
      * {name: "example_sfx", type: "audio", src: "data/sfx/", channel : 2}
+     * {name: "example_bgm", type: "audio", src: "data/bgm/", channel : 1},
      */
 	// {name: "rolldice", type: "audio", src: "assets/sfx/", channel : 2},
 	{name: "burp", type: "audio", src: "assets/sfx/", channel: 1},
