@@ -51,8 +51,8 @@ var game = {
         me.loader.preload(game.resources);
 
         // load some sfx
-        me.plugin.register(howlerAudio, "howlerAudio", "ogg,mp3");
-        me.plugin.howlerAudio.load(game.resources);    
+        // me.plugin.register(howlerAudio, "howlerAudio", "ogg,mp3");
+        // me.plugin.howlerAudio.load(game.resources);
 
         // Initialize melonJS and display a loading screen.
         me.state.change(me.state.LOADING);

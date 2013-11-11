@@ -14,8 +14,8 @@ var _Globals = {
         gameWidth: 952,
         gameHeight: 672,
         xOffset: 0,
-        yOffset: 56,
-        yOffsetHUD: 6,
+        yOffset: 96, //56,
+        yOffsetHUD: 4,
     },
     gfx: {
         mapWidth: 17,

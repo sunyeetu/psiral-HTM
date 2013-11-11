@@ -1,7 +1,10 @@
 /**
- * Game styles
+ * main.css
+ * 
+ * Global CSS styles
  */
 
 body {
 	background: #000;
+	/*border: 1px solid red;*/
 }
