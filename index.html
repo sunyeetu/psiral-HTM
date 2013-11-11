@@ -12,12 +12,19 @@
 <body>
 <!-- Canvas placeholder -->
 <div id="screen"></div>
-
+<!-- Versioning -->
+<script type="text/javascript">
+var _timestamp = (new Date()).getTime();
+var _version = {
+    buildnumber:_timestamp,
+};
+</script>
 <!-- Libraries -->
 <script src="vendor/underscore-min.js"></script>
+<script src="vendor/howler.min.js"></script>
 <script src="vendor/melonJS-0.9.10.js"></script>
 <script src="vendor/plugins/debugPanel.js"></script>
-<script src="vendor/howler.min.js"></script>
+<script src="vendor/plugins/howlerAudio.js"></script>
 <!-- Game -->
 <script src="js/globals.js"></script>
 <script src="js/game.js"></script>
@@ -34,29 +41,30 @@
 <script src="js/entities/gfx.js"></script>
 <!-- Bootstrap & Mobile optimization tricks -->
 <script type="text/javascript">
-    window.onReady(function onReady() {
-        game.onload();
+window.onReady(function onReady() {
+    game.onload();
 
-        // Mobile browser hacks
-        if (me.device.isMobile && !navigator.isCocoonJS) {
-            // Prevent the webview from moving on a swipe
-            window.document.addEventListener("touchmove", function (e) {
-                e.preventDefault();
-                window.scroll(0, 0);
-                return false;
-            }, false);
+    // Mobile browser hacks
+    if (me.device.isMobile && !navigator.isCocoonJS) {
+        // Prevent the webview from moving on a swipe
+        window.document.addEventListener("touchmove", function (e) {
+            e.preventDefault();
+            window.scroll(0, 0);
+            return false;
+        }, false);
 
-            // Scroll away mobile GUI
-            (function () {
-                window.scrollTo(0, 1);
-                me.video.onresize(null);
-            }).defer();
+        // Scroll away mobile GUI
+        (function () {
+            window.scrollTo(0, 1);
+            me.video.onresize(null);
+        }).defer();
 
-            me.event.subscribe(me.event.WINDOW_ONRESIZE, function (e) {
-                window.scrollTo(0, 1);
-            });
-        }
-    });
+        me.event.subscribe(me.event.WINDOW_ONRESIZE, function (e) {
+            window.scrollTo(0, 1);
+        });
+    }
+});
 </script>
+<!--URCHIN-->
 </body>
 </html>                

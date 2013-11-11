@@ -6,9 +6,7 @@
  * This work is licensed under the Creative Commons Attribution-NoDerivs 3.0 Unported License. 
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
  */
-
 (function TileMap(game) {
-
     /**
      * Lookup maps
      */
@@ -23,6 +21,8 @@
     var R = 4;
     var X = 5; // fountain
     var E = 6, W = 7, F = 8, A = 9; // elements
+    var H = 10; // hole
+    var F = 11; // undefined tile
 
     var tilemap = [
         S1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, S2,
@@ -94,7 +94,9 @@
     var mapHeight = _Globals.gfx.mapHeight;
     var tileRepetitions = [4, 2, 1];
     var currentMap = null;
+    var buffsMap = null;
     var players = {};
+
     players[_Globals.wizards.Earth] = {
         x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A], sign: S1
     };
@@ -150,6 +152,8 @@
             Fire: F,
             Air: A,
             Fountain: X,
+            Hole: H,
+            Undefined: F,
             Base1: S1,
             Base2: S2,
             Base3: S3,
@@ -165,19 +169,70 @@
 
         reset: function() {
             currentMap = tilemap.slice(0);
+            buffsMap = {};
             resetWizardPosition(_Globals.wizards.Earth, currentMap);
             resetWizardPosition(_Globals.wizards.Water, currentMap);
             resetWizardPosition(_Globals.wizards.Fire, currentMap);
             resetWizardPosition(_Globals.wizards.Air, currentMap);
         },
 
+        setTile: function(x, y, type) {
+            currentMap[y * mapWidth + x] = type;
+        },
+
         getTile: function(x, y) {
-            return currentMap[y * mapWidth +x];
+            return currentMap[y * mapWidth + x];
         },
 
         isTile: function(x, y, type) {
             return this.getTile(x, y) === type;
         },
+        /**
+         * Set one or more (de)buffs to a map tile position
+         * @param  {Number} x tile column
+         * @param  {Number} y tile row
+         * @param {Object} buffs Object or Array of objects.
+         */
+        setTileBuffs: function(x, y, buffs) {
+            if (Object.prototype.toString.call(buffs) === '[object Array]') {
+                for(var b in buffs) {
+                    this.setTileBuffs(x, y, buffs[b]);
+                }
+            } else {
+                var idx = y * mapWidth + x;
+                if (typeof buffsMap[idx] === 'undefined') {
+                    buffsMap[idx] = [];
+                }
+                buffsMap[idx].push(buffs);
+            }
+        },
+        /**
+         * Get any possible buffs or debuffs associated with given tile
+         * @param  {Number} x tile column
+         * @param  {Number} y tile row
+         * @return {Array}   Array of (de)buff types
+         */
+        getTileBuffs: function(x, y) {
+            return buffsMap[y * mapWidth + x];
+        },
+        /**
+         * Check if any (de)buffs exist at given tile location
+         * @param  {[String]}  type (Optional) Will look for specific (de)buff type.
+         * @return {Boolean}
+         */
+        isTileBuffs: function(x, y, type) {
+            var buffs = this.getTileBuffs(x, y);
+            if (type) {
+                for(var b in buffs) {
+                    if (buffs[b].type === type)
+                        return true;
+                }
+            } else {
+                return (typeof buffs !== 'undefined' && buffs.length > 0)    
+            }
+
+            return false;
+        },        
 
         // getCornerPos: function(corner) {
         //     if (corner === 'top-left') {
@@ -247,17 +302,15 @@
 
             do {
                 where = tmpy * mapWidth + tmpx;
-                
-                if (pos.route[where] == D) {
-                    tmpy += 1;
-                } else if (pos.route[where] == U) {
-                    tmpy -= 1;
-                } else if (pos.route[where] == L) {
-                    tmpx -= 1;
-                } else if (pos.route[where] == R) {
-                    tmpx += 1;
-                } else if (pos.route[where] == X) {
-                    found = true;
+                switch(pos.route[where]) {
+                    case D: tmpy += 1; break;
+                    case U: tmpy -= 1; break;
+                    case L: tmpx -= 1; break;
+                    case R: tmpx += 1; break;
+                    case X: found = true; break;
+                    case H: found = true; break;
+                    default:
+                        throw "Unexpected tile at " + tmpx + "," + tmpy + "!";
                 }
 
                 //TODO: check for obstacle
@@ -293,20 +346,5 @@
     };
     Object.defineProperty(_instance, 'width', {get: function() { return mapWidth; }});
     Object.defineProperty(_instance, 'height', {get: function() { return mapHeight; }});
-    game.map = _instance;
-
- 
-    // var XXXX = [
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    // ];    
+    game.map = _instance;  
 }(game || {}));

@@ -8,7 +8,6 @@
  */
 
 game.resources = [
-
     /* Graphics. 
      * @example
      * {name: "example", type:"image", src: "data/img/example.png"},
@@ -17,7 +16,8 @@ game.resources = [
     {name: "earth_wizard", type:"image", src: "assets/gfx/walk_cycle.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
     {name: "wizards_faces", type:"image", src: "assets/gfx/faces.png"},
-    
+    {name: "earth_small", type:"image", src: "assets/gfx/earth_small.png"},
+        
     // Hud
     {name: "dialog", type:"image", src: "assets/gui/dialog.png"},
     {name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
@@ -50,26 +50,12 @@ game.resources = [
     {name: "manabar", type:"image", src: "assets/gui/mana-bar.png"},
     {name: "dice", type:"image", src: "assets/gui/dice.png"},
 
-    /* Atlases 
-     * @example
-     * {name: "example_tps", type: "tps", src: "data/img/example_tps.json"},
-     */
-        
-    /* Maps. 
-     * @example
-     * {name: "example01", type: "tmx", src: "data/map/example01.tmx"},
-     * {name: "example01", type: "tmx", src: "data/map/example01.json"},
-     */
-
-    /* Background music. 
-     * @example
-     * {name: "example_bgm", type: "audio", src: "data/bgm/", channel : 1},
-     */ 
-
     /* Sound effects. 
      * @example
      * {name: "example_sfx", type: "audio", src: "data/sfx/", channel : 2}
+     * {name: "example_bgm", type: "audio", src: "data/bgm/", channel : 1},
      */
 	// {name: "rolldice", type: "audio", src: "assets/sfx/", channel : 2},
-	// {name: "burp", type: "audio", src: "assets/sfx/", channel : 2}
+	{name: "burp", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "song18_0", type: "audio", src: "assets/sfx/", channel: 1, stream: true}
 ];

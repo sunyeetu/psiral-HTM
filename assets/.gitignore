@@ -1,7 +1,8 @@
-# ignored assets
+### ignored assets ###
 *.pyxel
+*.psd
 
-muzik/*
+### sound
 *.mp3
 *.flac
 *.txt

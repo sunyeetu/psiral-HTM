@@ -42,6 +42,7 @@ var game = {
 
         // Initialize the audio.
         // me.audio.init("mp3,ogg");
+        me.audio.disable();
 
         // Set a callback to run when loading is complete.
         me.loader.onload = this.loaded.bind(this);
@@ -50,12 +51,30 @@ var game = {
         me.loader.preload(game.resources);
 
         // load some sfx
-        game.sound = new Howl({
-          urls: ['assets/sfx/rolldice.ogg']
-        });        
+        me.plugin.register(howlerAudio, "howlerAudio", "ogg,mp3");
+        me.plugin.howlerAudio.load(game.resources);    
 
         // Initialize melonJS and display a loading screen.
         me.state.change(me.state.LOADING);
+
+        // var done = function() {
+        //     console.log('ok')
+        // };
+        // me.audio.play('burp', false, done);
+        // me.audio.play('burp', false, function() {
+        //     console.log("aghaa");
+        // });
+        // me.audio.play('burp', false);
+        // me.audio.play('song18_0', false);
+        
+        game.map.reset(); 
+        game.map.setTileBuffs(4, 3, {type: 'bad', val: 231});
+        var bufs = game.map.getTileBuffs(4, 3);
+        console.log(bufs);
+        console.log(game.map.isTileBuffs(4, 3));
+        console.log(game.map.isTileBuffs(4, 4));
+        console.log(game.map.isTileBuffs(4, 3, 'bad'));
+
     },
 
     // Run on game resources loaded.
@@ -65,7 +84,7 @@ var game = {
 
         // setup PLAYER 
         this.session = {};
-        this.session.wizard = _Globals.wizards.Air;
+        this.session.wizard = _Globals.wizards.Water;
 
         // Start the game.
         me.state.change(me.state.PLAY);
