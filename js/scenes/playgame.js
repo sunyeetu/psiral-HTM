@@ -290,6 +290,8 @@ game.PlayScene = me.ScreenObject.extend({
         // 5. (event) substract mana
         // 6. (event) setState to nextMove
 
+        this.gameboard.blendAll(0.2);
+
         switch(type) {
             case _Globals.spells.Abyss:
                 // nothing

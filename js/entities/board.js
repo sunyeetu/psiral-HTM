@@ -13,18 +13,20 @@ game.BoardEntity = me.ObjectContainer.extend({
         this.parent();
         // non collidable
         this.collidable = false;
+        this.autoSort = false;
         // make sure our object is always draw first
         this.z = _Globals.gfx.zTile;
         // give a name
-        this.name = "Board";        
+        this.name = "Board";
 
         var width = game.map.width;
         var height = game.map.height;
-        var tile = null;
+        
+        this.tileMap = [];
 
         for (var y = 0; y < height; y++) {
             for (var x = 0; x < width; x++) {
-                tile = null;
+                var tile = null;
 
                 if (game.map.isTile(x, y, game.map.Tiles.Earth)) {
                     tile = {name: 'earth'};
@@ -47,12 +49,20 @@ game.BoardEntity = me.ObjectContainer.extend({
                 }
                 // add for drawing
                 if (tile != null) {
-                    this.addChild(new game.TileEntity(x, y, tile));
+                    var t = new game.TileEntity(x, y, tile);
+                    this.tileMap[x + y * width] = t;
+                    this.addChild(t);
                 }
             }
         }
         // me.game.sort();
         //me.game.sort.defer();       
+    },
+
+    blendAll: function(alpha) {
+        for (var i = this.tileMap.length - 1; i >= 0; i--) {
+            this.tileMap[i].alpha = alpha;
+        };
     },
 
     onDestroyEvent: function() {
