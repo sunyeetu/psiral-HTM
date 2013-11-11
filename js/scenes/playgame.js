@@ -290,7 +290,13 @@ game.PlayScene = me.ScreenObject.extend({
         // 5. (event) substract mana
         // 6. (event) setState to nextMove
 
-        this.gameboard.blendAll(0.2);
+        this.removeHUD();
+        var parent = this;
+        this.gameboard.enableSelect(function(tileX, tileY) {
+            console.log('backfire');
+
+            parent.gameboard.disableSelect();
+        });
 
         switch(type) {
             case _Globals.spells.Abyss:
@@ -315,9 +321,6 @@ game.PlayScene = me.ScreenObject.extend({
                 // nothing
             break;
         }
-
-        this.removeHUD();
-        this.setState(this.SceneStates.NextMove);
     },
 
     onMoveHuman: function() {

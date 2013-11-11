@@ -19,6 +19,11 @@ game.BoardEntity = me.ObjectContainer.extend({
         // give a name
         this.name = "Board";
 
+        this.touchRect = new me.Rect(
+            new me.Vector2d(_Globals.canvas.xOffset, _Globals.canvas.yOffset), 
+            _Globals.gfx.mapPixelWidth, 
+            _Globals.gfx.mapPixelHeight);
+
         var width = game.map.width;
         var height = game.map.height;
         
@@ -59,10 +64,46 @@ game.BoardEntity = me.ObjectContainer.extend({
         //me.game.sort.defer();       
     },
 
-    blendAll: function(alpha) {
+    setAlpha: function(alpha) {
         for (var i = this.tileMap.length - 1; i >= 0; i--) {
             this.tileMap[i].alpha = alpha;
-        };
+        }
+    },
+
+    enableSelect: function(callback) {
+        this.setAlpha(0.5);
+        me.input.registerPointerEvent('mousedown', this.touchRect, this.onSelectTile.bind(this, callback));
+    },
+
+    disableSelect: function() {
+        this.setAlpha(1.0);
+        me.input.releasePointerEvent('mousedown', this.touchRect);
+    },
+
+    onSelectTile: function(callback, event) {
+        var tileX = Math.floor((event.gameX - _Globals.canvas.xOffset) / _Globals.gfx.tileWidth);
+        var tileY = Math.floor((event.gameY - _Globals.canvas.yOffset) / _Globals.gfx.tileHeight);
+        var tileIdx = tileX + tileY * game.map.width;
+
+        if (this.lastSelX) {
+            var oldSelTileIdx = this.lastSelX + this.lastSelY * game.map.width;
+
+            if (tileIdx === oldSelTileIdx) {
+                // confirm selection
+                this.tileMap[tileIdx].disableFade();
+                this.lastSelX = null;
+                callback && callback(tileX, tileY);
+                return;
+            } else {
+                // deselect previously selected tile
+                this.tileMap[oldSelTileIdx].disableFade();
+                this.tileMap[oldSelTileIdx].alpha = 0.5;
+            }
+        }
+
+        this.tileMap[tileIdx].enableFade();
+        this.lastSelX = tileX;
+        this.lastSelY = tileY;
     },
 
     onDestroyEvent: function() {
@@ -105,10 +146,34 @@ game.TileEntity = me.AnimationSheet.extend({
         // }
         this.setCurrentAnimation(settings.name);
         this.animationpause = true;
+        this.fadeInOut = false;
+        this.fadeStep = 0.025;
+    },
+
+    enableFade: function() {
+        this.fadeInOut = true;
+        // this.alpha = 1.0;
+        this.fadeStep = 0.025;
+    },
+
+    disableFade: function() {
+        this.fadeInOut = false;
+        this.alpha = 1.0;
     },
 
     update: function() {
         // this.parent();
+        if (this.fadeInOut) {
+            this.alpha -= this.fadeStep;
+            if (this.alpha < 0.35) {
+                this.alpha = 0.35;
+                this.fadeStep = -this.fadeStep;
+            } else if (this.alpha > 1.0) {
+                this.alpha = 1.0;
+                this.fadeStep = -this.fadeStep;
+            }
+        }
+
         return false;
     }
 });
