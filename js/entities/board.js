@@ -7,11 +7,16 @@
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
  */
 
-//TODO: turn board into Container
-game.BoardEntity = me.ObjectEntity.extend({
-
-    init: function(x, y, settings) {
-        this.parent(0, 0, {});
+game.BoardEntity = me.ObjectContainer.extend({
+    init: function() {
+        // call the constructor
+        this.parent();
+        // non collidable
+        this.collidable = false;
+        // make sure our object is always draw first
+        this.z = _Globals.gfx.zTile;
+        // give a name
+        this.name = "Board";        
 
         var width = game.map.width;
         var height = game.map.height;
@@ -42,29 +47,22 @@ game.BoardEntity = me.ObjectEntity.extend({
                 }
                 // add for drawing
                 if (tile != null) {
-                    me.game.world.addChild(new game.TileEntity(x, y, tile));
+                    this.addChild(new game.TileEntity(x, y, tile));
                 }
             }
         }
-
-        me.game.sort();
+        // me.game.sort();
         //me.game.sort.defer();       
-    },
-
-    update: function() {
-        return false;
     },
 
     onDestroyEvent: function() {
         // TODO:
         // cleanup
     }
-
 });
 
 
-game.TileEntity = me.ObjectEntity.extend({
-    
+game.TileEntity = me.AnimationSheet.extend({
     init: function(x, y, settings) {
         settings.image = 'boardtileset';
         settings.spritewidth = _Globals.gfx.tileWidth;
@@ -73,35 +71,34 @@ game.TileEntity = me.ObjectEntity.extend({
         y *= _Globals.gfx.tileHeight;
         x += _Globals.canvas.xOffset;
         y += _Globals.canvas.yOffset;
-        this.parent(x, y, settings);
+        this.parent(x, y, me.loader.getImage(settings.image), settings.spritewidth);
 
-        this.collidable = false;
         this.z = _Globals.gfx.zTile;
         
         // setup animations
         //this.renderable.animationspeed = 450; // + Math.random() * 200;
-        this.renderable.addAnimation('earth', [5]);
-        this.renderable.addAnimation('water', [3]);
-        this.renderable.addAnimation('fire', [2]);
-        this.renderable.addAnimation('air', [4]);
+        this.addAnimation('earth', [5]);
+        this.addAnimation('water', [3]);
+        this.addAnimation('fire', [2]);
+        this.addAnimation('air', [4]);
 
-        this.renderable.addAnimation('fountain', [0]);
+        this.addAnimation('fountain', [0]);
 
-        this.renderable.addAnimation('base1', [0]);
-        this.renderable.addAnimation('base2', [0]);
-        this.renderable.addAnimation('base3', [0]);
-        this.renderable.addAnimation('base4', [0]);
+        this.addAnimation('base1', [0]);
+        this.addAnimation('base2', [0]);
+        this.addAnimation('base3', [0]);
+        this.addAnimation('base4', [0]);
 
         // TODO: alpha on player path
         // if (settings.name != 'earth' && settings.name != 'water') {
         //     this.renderable.alpha = 0.15;
         // }
-        this.renderable.setCurrentAnimation(settings.name);
+        this.setCurrentAnimation(settings.name);
+        this.animationpause = true;
     },
 
     update: function() {
-        this.parent();
-        return true;
+        // this.parent();
+        return false;
     }
-
 });
