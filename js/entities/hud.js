@@ -27,7 +27,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
 
         this.x = 0;
         this.y = _Globals.canvas.yOffsetHUD;
-        this.xStep = _Globals.canvas.width / 4;
+        this.xStep = _Globals.canvas.gameWidth / 4;
 
         var parent = this;
         var wizards = [
@@ -39,9 +39,10 @@ game.HUD.Stats = me.ObjectContainer.extend({
         var wx = this.x;
         var wy = this.y;
         var face;
+        var faceWidth = 48;
 
         wizards.forEach(function(w) {
-            var sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('wizards_faces'), 48);
+            var sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('wizards_faces'), faceWidth);
 
             switch(w) {
                 case _Globals.wizards.Earth:
@@ -59,14 +60,24 @@ game.HUD.Stats = me.ObjectContainer.extend({
                 default:
                     throw "Unknown wizard in HUD!";
                 break;
-            }  
+            }
             
             sprite.animationpause = true;
             sprite.z =  _Globals.gfx.zHUD + 1;
             parent.addChild(sprite);
 
+            var mx = wx + faceWidth + 2;
+            for(var i = 0; i < 10; i++) {
+                parent.addChild(new me.SpriteObject(mx, wy, me.loader.getImage('manabar')));
+                mx += 16 + 2;
+            }
+
             wx += parent.xStep;
         });
+    },
+
+    updateMana: function(wizard) {
+
     }
 });
 /**
@@ -92,7 +103,7 @@ game.HUD.Container = me.ObjectContainer.extend({
         // background
         this.width = 505;
         this.height = 150;
-        this.cx = _Globals.canvas.width / 2 - this.width / 2;
+        this.cx = _Globals.canvas.gameWidth / 2 - this.width / 2;
         this.cy = _Globals.canvas.height / 2 - this.height / 2;
         this.endx = this.cx + this.width;
         this.endy = this.cy + this.height;

@@ -47,6 +47,7 @@ game.resources = [
     {name: "slot_fire", type:"image", src: "assets/gui/slot_fire.png"},
     {name: "slot_air", type:"image", src: "assets/gui/slot_air.png"},
 
+    {name: "manabar", type:"image", src: "assets/gui/mana-bar.png"},
     {name: "dice", type:"image", src: "assets/gui/dice.png"},
 
     /* Atlases 

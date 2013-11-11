@@ -11,6 +11,8 @@ var _Globals = {
     canvas: {
         width: 1024,
         height: 672,
+        gameWidth: 952,
+        gameHeight: 672,
         xOffset: 0,
         yOffset: 56,
         yOffsetHUD: 6,
