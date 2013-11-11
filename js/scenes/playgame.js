@@ -42,6 +42,13 @@ game.PlayScene = me.ScreenObject.extend({
         this.hud.current = null;
         // holds references to entities
         this.actors = [];
+
+        this.wizards = [
+            _Globals.wizards.Earth,
+            _Globals.wizards.Water,
+            _Globals.wizards.Fire,
+            _Globals.wizards.Air
+        ];        
     },
 
     update: function() {
@@ -101,23 +108,35 @@ game.PlayScene = me.ScreenObject.extend({
         // prep. new game
         game.map.reset();
         game.gamemaster.reset(game.session.wizard, this);
+
+        // add stats HUD
+        this.statsHUD = new game.HUD.Stats();
+        me.game.world.addChild(this.statsHUD);        
         
         // add actor entities
-        var corner = game.map.getPos(_Globals.wizards.Earth);
-        this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(corner.x, corner.y, {});
-        me.game.world.addChild(this.actors[_Globals.wizards.Earth]);
+        for (var i = this.wizards.length - 1; i >= 0; i--) {
+            var who = this.wizards[i];
+            var corner = game.map.getPos(who);
 
-        corner = game.map.getPos(_Globals.wizards.Water);
-        this.actors[_Globals.wizards.Water] = new game.WaterWizardEntity(corner.x, corner.y, {});
-        me.game.world.addChild(this.actors[_Globals.wizards.Water]);
-
-        corner = game.map.getPos(_Globals.wizards.Fire);
-        this.actors[_Globals.wizards.Fire] = new game.FireWizardEntity(corner.x, corner.y, {});
-        me.game.world.addChild(this.actors[_Globals.wizards.Fire]);
-
-        corner = game.map.getPos(_Globals.wizards.Air);
-        this.actors[_Globals.wizards.Air] = new game.AirWizardEntity(corner.x, corner.y, {});
-        me.game.world.addChild(this.actors[_Globals.wizards.Air]);
+            switch(who) {
+                case _Globals.wizards.Earth:
+                    this.actors[who] = new game.EarthWizardEntity(corner.x, corner.y, {});
+                break;
+                case _Globals.wizards.Fire:
+                    this.actors[who] = new game.FireWizardEntity(corner.x, corner.y, {});
+                break;
+                case _Globals.wizards.Water:
+                    this.actors[who] = new game.WaterWizardEntity(corner.x, corner.y, {});
+                break;
+                case _Globals.wizards.Air:
+                    this.actors[who] = new game.AirWizardEntity(corner.x, corner.y, {});
+                break;
+            }
+            
+            me.game.world.addChild(this.actors[who]);
+            // draw mana bars
+            this.statsHUD.updateMana(who, game.gamemaster.getData(who, game.gamemaster.Props.Mana));
+        }
 
         // add game scene entities 
         this.gameboard = new game.BoardEntity();
@@ -126,10 +145,6 @@ game.PlayScene = me.ScreenObject.extend({
         // add gfx manager
         this.gfx = new game.GFX.Container();
         me.game.world.addChild(this.gfx);
-
-        // add stats HUD
-        this.statsHUD = new game.HUD.Stats();
-        me.game.world.addChild(this.statsHUD);
 
         // Start game
         this.setState(this.SceneStates.StartGame);
@@ -239,8 +254,7 @@ game.PlayScene = me.ScreenObject.extend({
         }
 
         if (path) {
-            console.log(path);
-
+            // console.log(path);
             this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
                 var lastMove = path.pop();
                 // update 
@@ -251,6 +265,7 @@ game.PlayScene = me.ScreenObject.extend({
                 self.setState(self.SceneStates.NextMove);
             });
         } else {
+            // TODO
             // nothing happened
             self.setState(self.SceneStates.NextMove);
         }
@@ -260,8 +275,46 @@ game.PlayScene = me.ScreenObject.extend({
         var type = data[0];
         var where = data[1];
         console.log('casting ' + type);
-        this.removeHUD();
 
+        if (!game.gamemaster.isCanCast(game.gamemaster.currentWizard, type)) {
+            // No mana! Go back to selection menu.
+            //TODO: notification msg
+            return;
+        }
+
+        // TODOs
+        // 1. Dim board tiles
+        // 2. Make board tiles selectable (event based)
+        // 3. Shift code below to event triggered by tile click
+        // 4. (event) play magic animation
+        // 5. (event) substract mana
+        // 6. (event) setState to nextMove
+
+        switch(type) {
+            case _Globals.spells.Abyss:
+                // nothing
+            break;
+            case _Globals.spells.Change:
+               // nothing
+            break;
+            case _Globals.spells.Clay:
+                // nothing
+            break;
+            case _Globals.spells.Blind:
+                // nothing
+            break;
+            case _Globals.spells.Freeze:
+                // nothing
+            break;
+            case _Globals.spells.Teleport:
+                // nothing
+            break;
+            case _Globals.spells.Path:
+                // nothing
+            break;
+        }
+
+        this.removeHUD();
         this.setState(this.SceneStates.NextMove);
     },
 

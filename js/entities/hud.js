@@ -40,6 +40,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
         var wy = this.y;
         var face;
         var faceWidth = 48;
+        this.faceWidth = faceWidth;
 
         wizards.forEach(function(w) {
             var sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('wizards_faces'), faceWidth);
@@ -58,7 +59,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
                     sprite.setAnimationFrame(2);
                 break;
                 default:
-                    throw "Unknown wizard in HUD!";
+                    throw "HUD: Unknown wizard " + wizard;
                 break;
             }
             
@@ -66,18 +67,46 @@ game.HUD.Stats = me.ObjectContainer.extend({
             sprite.z =  _Globals.gfx.zHUD + 1;
             parent.addChild(sprite);
 
-            var mx = wx + faceWidth + 2;
-            for(var i = 0; i < 10; i++) {
-                parent.addChild(new me.SpriteObject(mx, wy, me.loader.getImage('manabar')));
-                mx += 16 + 2;
-            }
-
             wx += parent.xStep;
         });
     },
 
-    updateMana: function(wizard) {
+    updateMana: function(wizard, amount) {
+        // TODO: use local references instead of getEntityByProp
+        var bars = this.getEntityByProp('name', 'manabar_' + wizard);
+        console.log(bars.length);
+        for (var i = bars.length - 1; i >= 0; i--) {
+            this.removeChild(bars[i]);
+        }
 
+        var mx;
+        switch(wizard) {
+            case _Globals.wizards.Earth:
+                mx = 0;
+            break;
+            case _Globals.wizards.Water:
+                mx = this.xStep;
+            break;
+            case _Globals.wizards.Fire:
+                mx = this.xStep * 2;
+            break;
+            case _Globals.wizards.Air:
+                mx = this.xStep * 3;
+            break;
+            default:
+                throw "HUD: Unknown wizard " + wizard;
+            break;
+        }
+
+        mx += this.x + this.faceWidth + 2;
+
+        for(var i = 0; i < amount; i++) {
+            var manabar = new me.SpriteObject(mx, this.y, me.loader.getImage('manabar'));
+            manabar.name = 'manabar_' + wizard;
+            manabar.isEntity = true;
+            this.addChild(manabar);
+            mx += 16 + 2;
+        }        
     }
 });
 /**

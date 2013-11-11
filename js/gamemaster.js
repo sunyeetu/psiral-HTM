@@ -130,6 +130,8 @@
 
         getData: function(wizard, what) {
             switch(what) {
+                case this.Props.Mana:
+                    return wizards[wizard].mana;
                 case this.Props.AllDice:
                     return wizards[wizard].log.dice;
                 case this.Props.LastDice:
@@ -142,6 +144,8 @@
 
         setData: function(wizard, what, data) {
             switch(what) {
+                case this.Props.Mana:
+                    wizards[wizard].mana = data;
                 case this.Props.LastMove:
                     wizards[wizard].log.moves.push(data);
                 break;
@@ -152,6 +156,34 @@
                 default:
                 throw "Sorry, not implemented!"
             }            
+        },
+
+        isCanCast: function(wizard, spell) {
+            var w = wizards[wizard];
+            switch(spell) {
+                case _Globals.spells.Abyss:
+                    return w.mana > 0;
+                case _Globals.spells.Change:
+                    return w.mana > 0;
+                case _Globals.spells.Clay:
+                    return w.mana > 0;
+                case _Globals.spells.Blind:
+                    return wizard == _Globals.wizards.Fire && w.mana > 0;
+                case _Globals.spells.Freeze:
+                    return wizard == _Globals.wizards.Water && w.mana > 0;
+                case _Globals.spells.Teleport:
+                    return wizard == _Globals.wizards.Air && w.mana > 0;
+                break;
+                case _Globals.spells.Path:
+                    return wizard == _Globals.wizards.Earth && w.mana > 0;
+                default:
+                    throw "Unknown spell " + spell;
+            }
+            return false;
+        },
+
+        doCast: function(wizard, spell) {
+            //TODO
         }
     };
     Object.defineProperty(_instance, 'currentWizard', {
