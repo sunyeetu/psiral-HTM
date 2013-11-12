@@ -29,6 +29,7 @@ var _Globals = {
         baseZ: 19000,
         zTile: 19010,
         zTileAnimation: 19015,
+        zHUDStats: 19019,
         zActor: 19020,
         zAnimation: 19030,
         zHUD: 50000

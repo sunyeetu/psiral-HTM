@@ -14,6 +14,7 @@ game.PlayScene = me.ScreenObject.extend({
         GamePaused: 19,
         StartGame: 20,
         NextMove: 21,
+        NextTurn: 22,
         
         HUDSelectMove: 30,
         HUDThrowDice: 32,
@@ -338,7 +339,7 @@ game.PlayScene = me.ScreenObject.extend({
 
             parent.gfx.play(animation, tileX, tileY, function() {
                 // setState to nextMove
-                parent.setState(parent.SceneStates.HUDSelectMove);
+                parent.setState(parent.SceneStates.NextMove);
             });
         });
 
@@ -352,6 +353,10 @@ game.PlayScene = me.ScreenObject.extend({
     onMoveAI: function(data) {
         console.log('AI skipped!');
         this.setState(this.SceneStates.NextMove);
-    }    
+    },
+
+    onNextTurn: function(data) {
+        this.setState(this.SceneStates.NextMove);
+    }
 
 });

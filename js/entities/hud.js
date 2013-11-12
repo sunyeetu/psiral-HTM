@@ -20,7 +20,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
         this.collidable = false;
         
         // make sure our object is always draw first
-        this.z = _Globals.gfx.zHUD;
+        this.z = _Globals.gfx.zHUDStats;
 
         // give a name
         this.name = "HUD";
@@ -28,6 +28,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
         this.x = 0;
         this.y = _Globals.canvas.yOffsetHUD;
         this.xStep = _Globals.canvas.gameWidth / 4;
+        this.cxScreen = _Globals.canvas.gameWidth / 2;
 
         var parent = this;
         var wizards = [
@@ -64,11 +65,30 @@ game.HUD.Stats = me.ObjectContainer.extend({
             }
             
             sprite.animationpause = true;
-            sprite.z =  _Globals.gfx.zHUD + 1;
             parent.addChild(sprite);
 
             wx += parent.xStep;
         });
+        // font to draw texts
+        this.text = null;
+        this.font = new me.Font('Arial', '1.8em', 'white', 'center');
+    },
+
+    draw: function(context) {
+        this.parent(context);
+        if (this.text) {
+            this.font.draw(context, this.text, 
+                this.cxScreen, 
+                _Globals.canvas.yOffsetHUD + 60);
+        }
+    },
+
+    drawText: function(text) {
+        this.text = text;
+    },
+
+    clearText: function() {
+        this.text = null;
     },
 
     updateMana: function(wizard, amount) {
