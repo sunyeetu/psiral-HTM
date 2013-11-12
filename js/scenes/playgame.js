@@ -68,6 +68,10 @@ game.PlayScene = me.ScreenObject.extend({
                 game.gamemaster.nextMove();
             break;
 
+            case this.SceneStates.NextTurn:
+                this.setState(this.SceneStates.NextMove);
+            break;
+
             // Human player selects chance or spellcast
             case this.SceneStates.HUDSelectMove:
                 this.showHUD(this.HUD.SelectMove);
@@ -301,6 +305,8 @@ game.PlayScene = me.ScreenObject.extend({
 
         var parent = this;
 
+        this.statsHUD.drawText('Select a target tile to cast spell on');
+
         // dim board tiles and make them selectable 
         this.gameboard.enableSelect(function(tileX, tileY) {
             parent.gameboard.disableSelect();
@@ -356,7 +362,8 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onNextTurn: function(data) {
-        this.setState(this.SceneStates.NextMove);
+        this.statsHUD.drawText('Turn ' + data[0] + ' started');
+        this.setState(this.SceneStates.NextTurn);
     }
 
 });

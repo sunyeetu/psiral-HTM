@@ -110,7 +110,7 @@
             // hi, human!
             wizards[playerWizard].control = Controls.Human;
             // reset match
-            match.move.current = -1;
+            match.move.current = match.sequence.length;
             match.turn = 0;
             // propagate events to
             this.eventHandler = handler;
@@ -125,12 +125,13 @@
         },
 
         nextMove: function() {
-            console.log('-----------turn start ' +  match.turn + ' --------------------');
-            
             if (++match.move.current >= match.sequence.length) {
-                match.move.current = 0;
+                match.move.current = -1;
+                match.turn++;
+                console.log('-----------turn ' +  match.turn + ' start --------------------');
+                this.onEvent('onNextTurn', match.turn);
+                return;
             }
-            match.turn++;
 
             var current = match.sequence[match.move.current];
 
@@ -145,8 +146,6 @@
             } else {
                 throw "GM: Invalid actor control!";
             }
-
-            console.log('-----------turn end ' +  (match.turn-1) + ' --------------------');
         },
 
         getData: function(wizard, what) {
