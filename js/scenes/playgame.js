@@ -74,12 +74,16 @@ game.PlayScene = me.ScreenObject.extend({
 
             case this.SceneStates.HUDThrowDice:
                 var curChance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
-                this.showHUD(this.HUD.ThrowDice, {wizard:  game.gamemaster.currentWizard, chance: curChance});
+                this.showHUD(this.HUD.ThrowDice, {
+                    chance: curChance
+                });
                 // this.onDiceThrown();
             break;
 
             case this.SceneStates.HUDSelectSpell:
-                this.showHUD(this.HUD.SelectSpell);
+                this.showHUD(this.HUD.SelectSpell, {
+                    mana: game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana)
+                });
             break;
 
             case this.SceneStates.AIMove:
@@ -154,7 +158,7 @@ game.PlayScene = me.ScreenObject.extend({
     onDestroyEvent: function() {
         // remove actors
         var wizards = me.game.getEntityByProp('type', 'wizard') || [];
-        for (var i = 0; i < wizards.length; i++) {
+        for (var i = wizards.length - 1; i >= 0; i--) {
             me.game.world.removeChild(wizards[i]);
         }
         // clear huds
@@ -172,12 +176,17 @@ game.PlayScene = me.ScreenObject.extend({
      * Create HUD and display it
      */
     showHUD: function(hud, extraData) {
+        extraData = extraData || {};
+        _.extend(extraData, {
+            wizard: game.gamemaster.currentWizard
+        });
+
         switch(hud) {
             case this.HUD.SelectMove:
-                this.hud.current = new game.HUD.SelectMove(this);
+                this.hud.current = new game.HUD.SelectMove(this, extraData);
             break;
             case this.HUD.SelectSpell:
-                this.hud.current = new game.HUD.SelectSpell(this);
+                this.hud.current = new game.HUD.SelectSpell(this, extraData);
             break;
             case this.HUD.ThrowDice:
                 this.hud.current = new game.HUD.ThrowDice(this, extraData);
@@ -222,6 +231,12 @@ game.PlayScene = me.ScreenObject.extend({
         this.removeHUD();
         this.setState(this.SceneStates.HUDSelectSpell);
     },
+
+    onCancelSelectSpell: function() {
+        console.log('cancel spell');
+        this.removeHUD();
+        this.setState(this.SceneStates.HUDSelectMove);
+    },    
 
     onDiceThrown: function() {
         var self = this;

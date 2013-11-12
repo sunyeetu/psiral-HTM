@@ -66,20 +66,19 @@
     function getSpellCost(spell) {
         switch(spell) {
             case _Globals.spells.Abyss:
-                return 2;
+                return 1;
             case _Globals.spells.Change:
                 return 2;
             case _Globals.spells.Clay:
                 return 2;
             case _Globals.spells.Blind:
-                return 2;
+                return 6;
             case _Globals.spells.Freeze:
-                return 2;
+                return 6;
             case _Globals.spells.Teleport:
-                return 2;
-            break;
+                return 6;
             case _Globals.spells.Path:
-                return 2;
+                return 6;
         }
 
         throw "GM: Unknown spell " + spell;

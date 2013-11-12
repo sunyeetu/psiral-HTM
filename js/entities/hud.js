@@ -113,7 +113,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
  * Base UI Dialog container 
  */
 game.HUD.Container = me.ObjectContainer.extend({
-    init: function(eventHandler) {
+    init: function(eventHandler, settings) {
         // call the constructor
         this.parent();
         
@@ -144,7 +144,7 @@ game.HUD.Container = me.ObjectContainer.extend({
 
         // wizard face
         var slot = "slot_empty";
-        switch(game.session.wizard) {
+        switch(settings.wizard) {
             case _Globals.wizards.Earth:
             slot = 'slot_earth';
             break;
@@ -168,7 +168,6 @@ game.HUD.Container = me.ObjectContainer.extend({
     // Propagate UI event to handler
     onEvent: function(name) {
         if (this.eventHandler) {
-            console.log(name);
             this.eventHandler[name].call(this.eventHandler, Array.prototype.slice.call(arguments, 1));
         }
     }
@@ -262,8 +261,8 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
  * Dialog: Select Chance or Spell dialog
  */
 game.HUD.SelectMove = game.HUD.Container.extend({
-    init: function(eventHandler) {
-        this.parent(eventHandler);
+    init: function(eventHandler, settings) {
+        this.parent(eventHandler, settings);
 
         var parent = this;
 
@@ -289,15 +288,15 @@ game.HUD.SelectMove = game.HUD.Container.extend({
  * Dialog: Throw dice 
  */
 game.HUD.ThrowDice = game.HUD.Container.extend({
-    init: function(eventHandler, extraData) {
-        this.parent(eventHandler);
+    init: function(eventHandler, settings) {
+        this.parent(eventHandler, settings);
 
         var parent = this;
         var dx = this.xcenter - this.iconWidth / 2;
         var dy = this.ycenter - this.iconHeight / 2;
         var icon_image;
 
-        switch(extraData.chance) {
+        switch(settings.chance) {
             case _Globals.chance.Move1:
                 icon_image = 'icon_move1';
             break;
@@ -330,7 +329,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         this.diceAnim = new game.HUD.ClickableAnimation(dx, dy, {
             image: 'dice',
             fadeout: true,
-            stopFrame: (extraData.chance - 1), // set dice side
+            stopFrame: (settings.chance - 1), // set dice side
             onClick: function(event) {
                 parent.diceAnim.animationpause = true;
                 parent.addChild(icon);
@@ -343,65 +342,86 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
 });
 /**
  * Dialog: Select spell
+ * TODO: refactor!
  */
 game.HUD.SelectSpell = game.HUD.Container.extend({
-    init: function(eventHandler) {
-        this.parent(eventHandler);
+
+    init: function(eventHandler, settings) {
+        this.parent(eventHandler, settings);
 
         var parent = this;
-        var spells = [
+        var special;
+
+        this.spells = [
             {
-                image: 'icon_spell_abyss', 
+                image: 'icon_spell_abyss',
+                type: _Globals.spells.Abyss,
                 notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Abyss); }
             },
             {
                 image: 'icon_spell_change', 
+                type: _Globals.spells.Change,
                 notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Change); }
             },
             {
                 image: 'icon_spell_clay', 
+                type: _Globals.spells.Clay,
                 notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Clay); }
             },
         ];
 
-        var special;
-        switch(game.session.wizard) {
+        switch(settings.wizard) {
             case _Globals.wizards.Earth:
             special = {
                 image: 'icon_spell_path',
+                type: _Globals.spells.Path,
                 notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Path); }
             };
             break;
             case _Globals.wizards.Water:
             special = {
                 image: 'icon_spell_freeze',
+                type: _Globals.spells.Freeze,
                 notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Freeze); }
             };
             break;
             case _Globals.wizards.Fire:
             special = {
                 image: 'icon_spell_blind',
+                type: _Globals.spells.Blind,
                 notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Blind); }
             };
             break;
             case _Globals.wizards.Air:
             special = {
                 image: 'icon_spell_teleport',
+                type: _Globals.spells.Teleport,
                 notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Teleport); }
             };       
             break;
         }
-        spells.push(special);                
+        
+        this.spells.push(special);
 
         var startx = this.cx + this.iconWidth;
-
-        for(var i = 0; i < spells.length; i++) {
-            this.addChild(
-                new game.HUD.Clickable(startx, this.cy + this.iconHeight / 2, {
-                    image: spells[i].image,
-                    onClick: spells[i].notify
-                }));
-            startx += this.iconWidth + 4;
+        for(var i = 0; i < this.spells.length; i++) {
+            if (game.gamemaster.isCanCast(settings.wizard, this.spells[i].type)) {
+                this.addChild(
+                    new game.HUD.Clickable(startx, this.cy + this.iconHeight / 2, {
+                        image: this.spells[i].image,
+                        onClick: this.spells[i].notify
+                    }));
+                startx += this.iconWidth + 4;
+            }
         }
+        // add exit button
+        startx += this.iconWidth + 4;
+        this.addChild(
+            new game.HUD.Clickable(startx, this.cy + this.iconHeight / 2, {
+                image: 'button_cancel',
+                onClick: function() {
+                    parent.onEvent('onCancelSelectSpell');
+                }
+            }));        
     }
 });
