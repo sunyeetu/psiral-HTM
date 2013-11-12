@@ -374,14 +374,14 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
             break;
             case _Globals.wizards.Water:
             special = {
-                image: 'icon_spell_blind',
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Blind); }
+                image: 'icon_spell_freeze',
+                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Freeze); }
             };
             break;
             case _Globals.wizards.Fire:
             special = {
-                image: 'icon_spell_freeze',
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Freeze); }
+                image: 'icon_spell_blind',
+                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Blind); }
             };
             break;
             case _Globals.wizards.Air:

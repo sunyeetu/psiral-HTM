@@ -63,6 +63,28 @@
         return side;
     }
 
+    function getSpellCost(spell) {
+        switch(spell) {
+            case _Globals.spells.Abyss:
+                return 2;
+            case _Globals.spells.Change:
+                return 2;
+            case _Globals.spells.Clay:
+                return 2;
+            case _Globals.spells.Blind:
+                return 2;
+            case _Globals.spells.Freeze:
+                return 2;
+            case _Globals.spells.Teleport:
+                return 2;
+            break;
+            case _Globals.spells.Path:
+                return 2;
+        }
+
+        throw "GM: Unknown spell " + spell;
+    }
+
     /**
      * Public interface
      */    
@@ -122,7 +144,7 @@
             } else if (wizards[current].control == Controls.AI) {
                 this.onEvent('onMoveAI');
             } else {
-                throw "Invalid actor control!";
+                throw "GM: Invalid actor control!";
             }
 
             console.log('-----------turn end ' +  (match.turn-1) + ' --------------------');
@@ -138,7 +160,7 @@
                     console.log('getting chance ' + wizards[wizard].lastdice);
                     return wizards[wizard].lastdice;
                 default:
-                throw "Sorry, not implemented!"
+                throw "GM: Sorry, not implemented!"
             }
         },
 
@@ -154,36 +176,32 @@
                     wizards[wizard].log.dice.push(data);
                 break;
                 default:
-                throw "Sorry, not implemented!"
+                throw "GM: Sorry, not implemented!"
             }            
         },
 
         isCanCast: function(wizard, spell) {
             var w = wizards[wizard];
             switch(spell) {
-                case _Globals.spells.Abyss:
-                    return w.mana > 0;
-                case _Globals.spells.Change:
-                    return w.mana > 0;
-                case _Globals.spells.Clay:
-                    return w.mana > 0;
                 case _Globals.spells.Blind:
-                    return wizard == _Globals.wizards.Fire && w.mana > 0;
+                    return wizard == _Globals.wizards.Fire && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Freeze:
-                    return wizard == _Globals.wizards.Water && w.mana > 0;
+                    return wizard == _Globals.wizards.Water && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Teleport:
-                    return wizard == _Globals.wizards.Air && w.mana > 0;
-                break;
+                    return wizard == _Globals.wizards.Air && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Path:
-                    return wizard == _Globals.wizards.Earth && w.mana > 0;
+                    return wizard == _Globals.wizards.Earth && w.mana >= getSpellCost(spell);
                 default:
-                    throw "Unknown spell " + spell;
+                    return w.mana >= getSpellCost(spell);
             }
             return false;
         },
 
         doCast: function(wizard, spell) {
             //TODO
+            var w = wizards[wizard];
+            w.mana -= getSpellCost(spell);
+            //TODO save cast in logs
         }
     };
     Object.defineProperty(_instance, 'currentWizard', {

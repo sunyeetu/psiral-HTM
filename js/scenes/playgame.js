@@ -75,7 +75,6 @@ game.PlayScene = me.ScreenObject.extend({
             case this.SceneStates.HUDThrowDice:
                 var curChance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
                 this.showHUD(this.HUD.ThrowDice, {wizard:  game.gamemaster.currentWizard, chance: curChance});
-                //TODO: call hud
                 // this.onDiceThrown();
             break;
 
@@ -282,45 +281,53 @@ game.PlayScene = me.ScreenObject.extend({
             return;
         }
 
-        // TODOs
-        // 1. Dim board tiles
-        // 2. Make board tiles selectable (event based)
-        // 3. Shift code below to event triggered by tile click
-        // 4. (event) play magic animation
-        // 5. (event) substract mana
-        // 6. (event) setState to nextMove
-
         this.removeHUD();
-        var parent = this;
-        this.gameboard.enableSelect(function(tileX, tileY) {
-            console.log('backfire');
 
+        var parent = this;
+
+        // dim board tiles and make them selectable 
+        this.gameboard.enableSelect(function(tileX, tileY) {
             parent.gameboard.disableSelect();
+
+            // substract mana
+            game.gamemaster.doCast(game.gamemaster.currentWizard, type);
+            parent.statsHUD.updateMana(game.gamemaster.currentWizard, 
+                game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));
+
+            // play magic animation
+            // TODO: types!?
+            var animation = game.GFX.anims.Teleport;
+            switch(type) {
+                case _Globals.spells.Abyss:
+                    animation = game.GFX.anims.Teleport;
+                break;
+                case _Globals.spells.Change:
+                   animation = game.GFX.anims.Teleport;
+                break;
+                case _Globals.spells.Clay:
+                    animation = game.GFX.anims.Teleport;
+                break;
+                case _Globals.spells.Blind:
+                    // nothing
+                break;
+                case _Globals.spells.Freeze:
+                    // nothing
+                break;
+                case _Globals.spells.Teleport:
+                    // nothing
+                break;
+                case _Globals.spells.Path:
+                    // nothing
+                break;
+            }
+
+            parent.gfx.play(animation, tileX, tileY, function() {
+                // setState to nextMove
+                parent.setState(parent.SceneStates.HUDSelectMove);
+            });
         });
 
-        switch(type) {
-            case _Globals.spells.Abyss:
-                // nothing
-            break;
-            case _Globals.spells.Change:
-               // nothing
-            break;
-            case _Globals.spells.Clay:
-                // nothing
-            break;
-            case _Globals.spells.Blind:
-                // nothing
-            break;
-            case _Globals.spells.Freeze:
-                // nothing
-            break;
-            case _Globals.spells.Teleport:
-                // nothing
-            break;
-            case _Globals.spells.Path:
-                // nothing
-            break;
-        }
+
     },
 
     onMoveHuman: function() {
