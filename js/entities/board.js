@@ -31,37 +31,32 @@ game.BoardEntity = me.ObjectContainer.extend({
 
         for (var y = 0; y < height; y++) {
             for (var x = 0; x < width; x++) {
-                var tile = null;
-
-                if (game.map.isTile(x, y, game.map.Tiles.Earth)) {
-                    tile = {name: 'earth'};
-                } else if (game.map.isTile(x, y, game.map.Tiles.Water)) {
-                    tile = {name: 'water'};
-                } else if (game.map.isTile(x, y, game.map.Tiles.Fire)) {
-                    tile = {name: 'fire'};
-                } else if (game.map.isTile(x, y, game.map.Tiles.Air)) {
-                    tile = {name: 'air'};
-                } else if (game.map.isTile(x, y, game.map.Tiles.Fountain)) {
-                    tile = {name: 'fountain'};                    
-                } else if (game.map.isTile(x, y, game.map.Tiles.Base1)) {
-                    tile = {name: 'base1'};
-                } else if (game.map.isTile(x, y, game.map.Tiles.Base2)) {
-                    tile = {name: 'base2'};
-                } else if (game.map.isTile(x, y, game.map.Tiles.Base3)) {
-                    tile = {name: 'base3'};
-                } else if (game.map.isTile(x, y, game.map.Tiles.Base4)) {
-                    tile = {name: 'base4'};
-                }
-                // add for drawing
-                if (tile != null) {
-                    var t = new game.TileEntity(x, y, tile);
-                    this.tileMap[x + y * width] = t;
-                    this.addChild(t);
-                }
+                var tile = new game.TileEntity(x, y, {type: game.map.getTile(x, y)});
+                this.tileMap[x + y * width] = tile;
+                this.addChild(tile);
             }
         }
-        // me.game.sort();
         //me.game.sort.defer();       
+    },
+
+    changeTiles: function(type, path, callback) {
+        var tx, ty;
+
+        if (Object.prototype.toString.call(path) === '[object Array]') {
+            // array of tiles
+            for (var i = path.length - 1; i >= 1; i--) {
+                this.tileMap[path[i].x + path[i].y * game.map.width].changeWith(type);
+            }
+            tx = path[0].x;
+            ty = path[0].y;
+        } else {
+            tx = path.x;
+            ty = path.y;
+        }
+        // single tile
+        this.tileMap[tx + ty * game.map.width].changeWith(type, function() {
+            callback && callback();
+        });
     },
 
     setAlpha: function(alpha, path) {
@@ -122,8 +117,9 @@ game.BoardEntity = me.ObjectContainer.extend({
         // cleanup
     }
 });
-
-
+/**
+ * Single Tile Entity
+ */
 game.TileEntity = me.AnimationSheet.extend({
     init: function(x, y, settings) {
         settings.image = 'boardtileset';
@@ -143,9 +139,9 @@ game.TileEntity = me.AnimationSheet.extend({
         this.addAnimation('water', [3]);
         this.addAnimation('fire', [2]);
         this.addAnimation('air', [4]);
-
+        this.addAnimation('frozen', [6]);
+        this.addAnimation('abyss', [7]);
         this.addAnimation('fountain', [0]);
-
         this.addAnimation('base1', [0]);
         this.addAnimation('base2', [0]);
         this.addAnimation('base3', [0]);
@@ -155,16 +151,51 @@ game.TileEntity = me.AnimationSheet.extend({
         // if (settings.name != 'earth' && settings.name != 'water') {
         //     this.renderable.alpha = 0.15;
         // }
-        this.setCurrentAnimation(settings.name);
+        
+        this.setCurrentAnimation(this.getNameFromType(settings.type));
         this.animationpause = true;
         this.fadeInOut = false;
         this.fadeStep = 0.025;
+        this.fadeInCallback = null;
+        this.fadeOutCallback = null;
     },
 
-    enableFade: function() {
+    getNameFromType: function(type) {
+        switch(type) {
+            case  game.map.Tiles.Earth: return 'earth';
+            case  game.map.Tiles.Water: return 'water';
+            case  game.map.Tiles.Fire: return 'fire';
+            case  game.map.Tiles.Air: return 'air';
+            case  game.map.Tiles.Fountain: return 'fountain';
+            case  game.map.Tiles.Base1: return 'base1';
+            case  game.map.Tiles.Base2: return 'base2';
+            case  game.map.Tiles.Base3: return 'base3';
+            case  game.map.Tiles.Base4: return 'base4';
+            case  game.map.Tiles.Abyss: return 'abyss';
+            case  game.map.Tiles.Frozen: return 'frozen';
+        }
+        throw "Board: unknown tile type " + type;
+    },
+
+    changeWith: function(type, callback) {
+        this.enableFade(function(self) {
+            self.setCurrentAnimation(self.getNameFromType(type));
+        }, 
+        function(self) {
+            self.disableFade();
+            // notify when transition is completed
+            callback && callback();
+        });
+    },
+
+    enableFade: function(fadeOutCallback, fadeInCallback) {
         this.fadeInOut = true;
         // this.alpha = 1.0;
         this.fadeStep = 0.025;
+
+        // XXX: This can get ugly if called simultaneously from different places!!
+        this.fadeOutCallback = fadeOutCallback;
+        this.fadeInCallback = fadeInCallback;
     },
 
     disableFade: function() {
@@ -179,9 +210,11 @@ game.TileEntity = me.AnimationSheet.extend({
             if (this.alpha < 0.35) {
                 this.alpha = 0.35;
                 this.fadeStep = -this.fadeStep;
+                this.fadeOutCallback && this.fadeOutCallback(this);
             } else if (this.alpha > 1.0) {
                 this.alpha = 1.0;
                 this.fadeStep = -this.fadeStep;
+                this.fadeInCallback && this.fadeInCallback(this);
             }
         }
 

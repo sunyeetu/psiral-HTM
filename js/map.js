@@ -158,6 +158,9 @@
             Base2: S2,
             Base3: S3,
             Base4: S4,
+            // others
+            Frozen: F + 5,
+            Abyss: F + 6
         },
 
         Directions: {
@@ -186,6 +189,22 @@
 
         isTile: function(x, y, type) {
             return this.getTile(x, y) === type;
+        },
+        /**
+         * Get all tiles by type
+         * @param  {Number} type [description]
+         * @return {Array}      [description]
+         */
+        getAllTiles: function(type) {
+            var path = [];
+            for (var y = mapHeight - 1; y >= 0; y--) {
+                for (var x = mapWidth - 1; x >= 0; x--) {
+                    if (currentMap[y * mapWidth + x] == type) {
+                        path.push({x: x, y: y});
+                    }
+                }
+            }
+            return path;
         },
         /**
          * Set one or more (de)buffs to a map tile position

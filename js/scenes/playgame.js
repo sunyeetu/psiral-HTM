@@ -297,14 +297,43 @@ game.PlayScene = me.ScreenObject.extend({
 
         if (!game.gamemaster.isCanCast(game.gamemaster.currentWizard, type)) {
             // No mana! Go back to selection menu.
-            //TODO: notification msg
+            this.statsHUD.drawText('Not enough mana to cast!');
             return;
         }
 
         this.removeHUD();
 
         var parent = this;
+        var substractMana = true;
 
+        /**
+         * Multiple tiles spells
+         */
+
+        if (type == _Globals.spells.Freeze) {
+            parent.gameboard.changeTiles(game.map.Tiles.Frozen, 
+                game.map.getAllTiles(game.map.Tiles.Water), function() {
+                    // wait for transition to complete and then proceed with next plr move
+                    parent.setState(parent.SceneStates.NextMove);
+                });
+        } else {
+            // player must first select a tile to cast spell
+            substractMana = false;
+        } 
+
+        if (substractMana) {
+            // substract mana
+            game.gamemaster.doCast(game.gamemaster.currentWizard, type);
+            parent.statsHUD.updateMana(game.gamemaster.currentWizard, 
+                game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));
+            // aaaaand, we're done with spellcasting! :)
+            return;
+        }
+
+        /**
+         * Single-Tile spells
+         */
+        
         this.statsHUD.drawText('Select a target tile to cast spell on');
 
         // dim board tiles and make them selectable 
@@ -318,10 +347,13 @@ game.PlayScene = me.ScreenObject.extend({
 
             // play magic animation
             // TODO: types!?
-            var animation = game.GFX.anims.Teleport;
+            var animation = null;
             switch(type) {
                 case _Globals.spells.Abyss:
-                    animation = game.GFX.anims.Teleport;
+                    parent.gameboard.changeTiles(game.map.Tiles.Abyss, {x: tileX, y: tileY}, function() {
+                        // wait for transition to complete and then proceed with next plr move
+                        parent.setState(parent.SceneStates.NextMove);                        
+                    });
                 break;
                 case _Globals.spells.Change:
                    animation = game.GFX.anims.Teleport;
@@ -332,9 +364,6 @@ game.PlayScene = me.ScreenObject.extend({
                 case _Globals.spells.Blind:
                     // nothing
                 break;
-                case _Globals.spells.Freeze:
-                    // nothing
-                break;
                 case _Globals.spells.Teleport:
                     // nothing
                 break;
@@ -343,10 +372,12 @@ game.PlayScene = me.ScreenObject.extend({
                 break;
             }
 
-            parent.gfx.play(animation, tileX, tileY, function() {
-                // setState to nextMove
-                parent.setState(parent.SceneStates.NextMove);
-            });
+            if (animation) {
+                parent.gfx.play(animation, tileX, tileY, function() {
+                    // setState to nextMove
+                    parent.setState(parent.SceneStates.NextMove);
+                });
+            }
         });
     },
 
