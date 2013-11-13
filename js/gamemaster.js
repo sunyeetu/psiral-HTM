@@ -30,6 +30,7 @@
     };
 
     var wizards = {};
+    var spells = [];
 
     var match = {
         move: {
@@ -55,6 +56,8 @@
         wizards[who].log.moves = []; 
         wizards[who].log.casts = []; 
         wizards[who].log.dice = [];
+        // reset spells
+        spells.length = 0;
     }
 
     function throwDice() {
@@ -80,9 +83,28 @@
             case _Globals.spells.Path:
                 return 6;
         }
-
         throw "GM: Unknown spell " + spell;
     }
+
+    function getSpellDuration(spell) {
+        switch(spell) {
+            case _Globals.spells.Abyss:
+                return 1;
+            case _Globals.spells.Change:
+                return 2;
+            case _Globals.spells.Clay:
+                return 2;
+            case _Globals.spells.Blind:
+                return 0;
+            case _Globals.spells.Freeze:
+                return 0;
+            case _Globals.spells.Teleport:
+                return 0;
+            case _Globals.spells.Path:
+                return 0;
+        }
+        throw "GM: Unknown spell " + spell;
+    }    
 
     /**
      * Public interface
@@ -129,6 +151,16 @@
                 match.move.current = -1;
                 match.turn++;
                 console.log('-----------turn ' +  match.turn + ' start --------------------');
+
+                // check which spells expire
+                for (var i = spells.length - 1; i >= 0; i--) {
+                    if (spells[i].turn < match.turn) {
+                        console.log('Removing spell ' + spells[i].type);
+                        spells.splice(i, 1);
+                        // TODO: notify listener
+                    }
+                };
+                // notify listener on next game turn
                 this.onEvent('onNextTurn', match.turn);
                 return;
             }
@@ -195,11 +227,23 @@
             return false;
         },
 
-        doCast: function(wizard, spell) {
-            //TODO
+        doCast: function(wizard, spell, tiles) {
             var w = wizards[wizard];
             w.mana -= getSpellCost(spell);
             //TODO save cast in logs
+
+            // save spell cast
+            var entry = {
+                type: spell,
+                turn: match.turn + getSpellDuration(spell)
+            };
+            if (Object.prototype.toString.call(tiles) === '[object Array]') {
+                entry.tiles = tiles;
+            } else {
+                entry.tiles = [];
+                entry.tiles.push(tiles);
+            }
+            spells.push(entry);
         }
     };
     Object.defineProperty(_instance, 'currentWizard', {
@@ -208,7 +252,5 @@
     Object.defineProperty(_instance, 'currentTurn', {
         get: function() { return match.turn; }
     });
-
     game.gamemaster = _instance;
-
 }(game || {}));

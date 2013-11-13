@@ -113,8 +113,7 @@ game.BoardEntity = me.ObjectContainer.extend({
     },
 
     onDestroyEvent: function() {
-        // TODO:
-        // cleanup
+        // TODO: cleanup
     }
 });
 /**

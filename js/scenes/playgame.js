@@ -351,7 +351,7 @@ game.PlayScene = me.ScreenObject.extend({
             switch(type) {
                 case _Globals.spells.Abyss:
                     parent.gameboard.changeTiles(game.map.Tiles.Abyss, {x: tileX, y: tileY}, function() {
-                        // wait for transition to complete and then proceed with next plr move
+                        // wait for transition to complete and then proceed with next plr movement
                         parent.setState(parent.SceneStates.NextMove);                        
                     });
                 break;
