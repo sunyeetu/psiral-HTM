@@ -64,10 +64,21 @@ game.BoardEntity = me.ObjectContainer.extend({
         //me.game.sort.defer();       
     },
 
-    setAlpha: function(alpha) {
-        for (var i = this.tileMap.length - 1; i >= 0; i--) {
-            this.tileMap[i].alpha = alpha;
+    setAlpha: function(alpha, path) {
+        //if (Object.prototype.toString.call(buffs) === '[object Array]') {
+        if (path) {
+            for (var i = path.length - 1; i >= 0; i--) {
+                this.tileMap[path[i].x + path[i].y * game.map.width].alpha = alpha;
+            }
+        } else {
+            for (var i = this.tileMap.length - 1; i >= 0; i--) {
+                this.tileMap[i].alpha = alpha;
+            }
         }
+    },
+
+    clearAlpha: function() {
+        this.setAlpha(1.0);
     },
 
     enableSelect: function(callback) {
