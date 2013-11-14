@@ -50,6 +50,9 @@ var game = {
         // Load the resources.
         me.loader.preload(game.resources);
 
+        // register plugins
+        me.plugin.register(FnDelay, "fnDelay");
+
         // load some sfx
         // me.plugin.register(howlerAudio, "howlerAudio", "ogg,mp3");
         // me.plugin.howlerAudio.load(game.resources);

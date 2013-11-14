@@ -65,7 +65,10 @@ game.PlayScene = me.ScreenObject.extend({
 
             // Gamemaster checks who's turn it is
             case this.SceneStates.NextMove:
-                game.gamemaster.nextMove();
+                // start player turn in 750ms
+                me.plugin.fnDelay.add(function() {
+                    game.gamemaster.nextMove();
+                }, 750);
             break;
 
             case this.SceneStates.NextTurn:
