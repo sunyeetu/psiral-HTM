@@ -388,6 +388,7 @@ game.PlayScene = me.ScreenObject.extend({
         function() {
             // bring player back to select next move menu
             parent.gameboard.disableSelect();
+            parent.gameboard.setAlpha(0.5, game.map.getPath(game.gamemaster.currentWizard));
             parent.setState(parent.SceneStates.HUDSelectMove);
         });
     },
