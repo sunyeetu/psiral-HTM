@@ -66,9 +66,11 @@ game.PlayScene = me.ScreenObject.extend({
             // Gamemaster checks who's turn it is
             case this.SceneStates.NextMove:
                 // start player turn in 750ms
-                me.plugin.fnDelay.add(function() {
-                    game.gamemaster.nextMove();
-                }, 750);
+                // me.plugin.fnDelay.add(function() {
+                //     game.gamemaster.nextMove();
+                // }, 750);
+
+                game.gamemaster.nextMove();
             break;
 
             case this.SceneStates.NextTurn:
@@ -381,6 +383,12 @@ game.PlayScene = me.ScreenObject.extend({
                     parent.setState(parent.SceneStates.NextMove);
                 });
             }
+        },
+        // cancel selection
+        function() {
+            // bring player back to select next move menu
+            parent.gameboard.disableSelect();
+            parent.setState(parent.SceneStates.HUDSelectMove);
         });
     },
 

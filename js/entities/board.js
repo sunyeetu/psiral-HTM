@@ -19,6 +19,12 @@ game.BoardEntity = me.ObjectContainer.extend({
         // give a name
         this.name = "Board";
 
+        // cancel selection rectangle
+        this.cancelTouchRect = new me.Rect(
+            new me.Vector2d(0, 0), 
+            _Globals.canvas.width, 
+            _Globals.canvas.yOffset - 1);
+        // select tile rectangle
         this.touchRect = new me.Rect(
             new me.Vector2d(_Globals.canvas.xOffset, _Globals.canvas.yOffset), 
             _Globals.gfx.mapPixelWidth, 
@@ -76,14 +82,17 @@ game.BoardEntity = me.ObjectContainer.extend({
         this.setAlpha(1.0);
     },
 
-    enableSelect: function(callback) {
+    enableSelect: function(callback, cancelCallback) {
         this.setAlpha(0.5);
         me.input.registerPointerEvent('mousedown', this.touchRect, this.onSelectTile.bind(this, callback));
+        me.input.registerPointerEvent('mousedown', 
+            this.cancelTouchRect, this.onCancelSelectTile.bind(this, cancelCallback));
     },
 
     disableSelect: function() {
         this.setAlpha(1.0);
         me.input.releasePointerEvent('mousedown', this.touchRect);
+        me.input.releasePointerEvent('mousedown', this.cancelTouchRect);
     },
 
     onSelectTile: function(callback, event) {
@@ -110,6 +119,15 @@ game.BoardEntity = me.ObjectContainer.extend({
         this.tileMap[tileIdx].enableFade();
         this.lastSelX = tileX;
         this.lastSelY = tileY;
+    },
+
+    onCancelSelectTile: function(callback, event) {
+        if (this.lastSelX) {
+            var oldSelTileIdx = this.lastSelX + this.lastSelY * game.map.width;
+            this.tileMap[oldSelTileIdx].disableFade();
+            this.lastSelX = null;
+        }
+        callback && callback();
     },
 
     onDestroyEvent: function() {
