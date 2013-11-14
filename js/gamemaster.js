@@ -146,6 +146,15 @@
             }
         },
 
+        getWizardName: function(wizard) {
+            switch(wizard) {
+                case _Globals.wizards.Earth: return 'Entria-Sil';
+                case _Globals.wizards.Fire: return 'Valeriya';
+                case _Globals.wizards.Water: return 'Azalsor';
+                case _Globals.wizards.Air: return 'Rafel';
+            }
+        },
+
         nextMove: function() {
             if (++match.move.current >= match.sequence.length) {
                 match.move.current = -1;
@@ -172,9 +181,9 @@
             wizards[current].lastdice = throwDice();
 
             if (wizards[current].control == Controls.Human) {
-                this.onEvent('onMoveHuman');
+                this.onEvent('onMoveHuman', current, this.getWizardName(current));
             } else if (wizards[current].control == Controls.AI) {
-                this.onEvent('onMoveAI');
+                this.onEvent('onMoveAI', current, this.getWizardName(current));
             } else {
                 throw "GM: Invalid actor control!";
             }

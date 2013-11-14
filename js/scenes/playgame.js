@@ -384,17 +384,19 @@ game.PlayScene = me.ScreenObject.extend({
         });
     },
 
-    onMoveHuman: function() {
+    onMoveHuman: function(data) {
+        this.statsHUD.drawText(data[1] + '\'s move');
         this.gameboard.clearAlpha();
         this.gameboard.setAlpha(0.5, game.map.getPath(game.gamemaster.currentWizard));
         this.setState(this.SceneStates.HUDSelectMove);
     },
 
     onMoveAI: function(data) {
-        console.log('AI skipped!');
-        // TODO
+        this.statsHUD.drawText(data[1] + '\'s move');
         this.gameboard.clearAlpha();
         this.gameboard.setAlpha(0.5, game.map.getPath(game.gamemaster.currentWizard));
+        // TODO
+        console.log('AI skipped!');
         this.setState(this.SceneStates.NextMove);
     },
 
