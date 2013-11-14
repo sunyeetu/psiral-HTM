@@ -100,6 +100,11 @@ game.BoardEntity = me.ObjectContainer.extend({
         var tileY = Math.floor((event.gameY - _Globals.canvas.yOffset) / _Globals.gfx.tileHeight);
         var tileIdx = tileX + tileY * game.map.width;
 
+        // do not allow occupied tiles to be selected
+        if (game.map.isTileOccupied(tileX, tileY)) {
+            return;
+        }
+
         if (this.lastSelX) {
             var oldSelTileIdx = this.lastSelX + this.lastSelY * game.map.width;
 

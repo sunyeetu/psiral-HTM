@@ -251,7 +251,15 @@
             }
 
             return false;
-        },        
+        },
+
+        isTileOccupied: function(x, y) {
+            for(var player in players) {
+                if (players[player].x == x && players[player].y == y)
+                    return true;
+            }
+            return false;
+        },
 
         // getCornerPos: function(corner) {
         //     if (corner === 'top-left') {
