@@ -164,9 +164,8 @@
                 // check which spells expire
                 for (var i = spells.length - 1; i >= 0; i--) {
                     if (spells[i].turn < match.turn) {
-                        console.log('Removing spell ' + spells[i].type);
+                        this.onEvent('onExpireSpell', spells[i].type, spells[i].tiles);
                         spells.splice(i, 1);
-                        // TODO: notify listener
                     }
                 };
                 // notify listener on next game turn
@@ -239,8 +238,9 @@
         doCast: function(wizard, spell, tiles) {
             var w = wizards[wizard];
             w.mana -= getSpellCost(spell);
-            //TODO save cast in logs
-
+            
+            // TODO save cast in wizard logs
+            
             // save spell cast
             var entry = {
                 type: spell,

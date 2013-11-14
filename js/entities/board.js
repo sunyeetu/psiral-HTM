@@ -65,6 +65,26 @@ game.BoardEntity = me.ObjectContainer.extend({
         });
     },
 
+    restoreTiles: function(path, callback) {
+        var tx, ty;
+
+        if (Object.prototype.toString.call(path) === '[object Array]') {
+            // array of tiles
+            for (var i = path.length - 1; i >= 1; i--) {
+                this.tileMap[path[i].x + path[i].y * game.map.width].restore();
+            }
+            tx = path[0].x;
+            ty = path[0].y;
+        } else {
+            tx = path.x;
+            ty = path.y;
+        }
+        // single tile
+        this.tileMap[tx + ty * game.map.width].restore(function() {
+            callback && callback();
+        });
+    },
+
     setAlpha: function(alpha, path) {
         //if (Object.prototype.toString.call(buffs) === '[object Array]') {
         if (path) {
@@ -98,12 +118,14 @@ game.BoardEntity = me.ObjectContainer.extend({
     onSelectTile: function(callback, event) {
         var tileX = Math.floor((event.gameX - _Globals.canvas.xOffset) / _Globals.gfx.tileWidth);
         var tileY = Math.floor((event.gameY - _Globals.canvas.yOffset) / _Globals.gfx.tileHeight);
-        var tileIdx = tileX + tileY * game.map.width;
-
+        
         // do not allow occupied tiles to be selected
         if (game.map.isTileOccupied(tileX, tileY)) {
+            //XXX: perhaps use this as spell cancellation
             return;
         }
+
+        var tileIdx = tileX + tileY * game.map.width;
 
         if (this.lastSelX) {
             var oldSelTileIdx = this.lastSelX + this.lastSelY * game.map.width;
@@ -156,7 +178,6 @@ game.TileEntity = me.AnimationSheet.extend({
         this.z = _Globals.gfx.zTile;
         
         // setup animations
-        //this.renderable.animationspeed = 450; // + Math.random() * 200;
         this.addAnimation('earth', [5]);
         this.addAnimation('water', [3]);
         this.addAnimation('fire', [2]);
@@ -169,11 +190,9 @@ game.TileEntity = me.AnimationSheet.extend({
         this.addAnimation('base3', [0]);
         this.addAnimation('base4', [0]);
 
-        // TODO: alpha on player path
-        // if (settings.name != 'earth' && settings.name != 'water') {
-        //     this.renderable.alpha = 0.15;
-        // }
-        
+        // save original type
+        this.originalType = settings.type;
+
         this.setCurrentAnimation(this.getNameFromType(settings.type));
         this.animationpause = true;
         this.fadeInOut = false;
@@ -197,6 +216,13 @@ game.TileEntity = me.AnimationSheet.extend({
             case  game.map.Tiles.Frozen: return 'frozen';
         }
         throw "Board: unknown tile type " + type;
+    },
+
+    restore: function(callback) {
+        this.changeWith(this.originalType, function() {
+            // notify when transition is completed
+            callback && callback();            
+        })
     },
 
     changeWith: function(type, callback) {

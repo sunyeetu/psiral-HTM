@@ -346,9 +346,9 @@ game.PlayScene = me.ScreenObject.extend({
             parent.gameboard.disableSelect();
 
             // substract mana
-            game.gamemaster.doCast(game.gamemaster.currentWizard, type);
+            game.gamemaster.doCast(game.gamemaster.currentWizard, type, {x: tileX, y: tileY});
             parent.statsHUD.updateMana(game.gamemaster.currentWizard, 
-                game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));
+                game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));            
 
             // play magic animation
             // TODO: types!?
@@ -412,6 +412,16 @@ game.PlayScene = me.ScreenObject.extend({
     onNextTurn: function(data) {
         this.statsHUD.drawText('Turn ' + data[0] + ' started');
         this.setState(this.SceneStates.NextTurn);
+    },
+
+    onExpireSpell: function(data) {
+        var type = data[0];
+        var tiles = data[1];
+        console.log('Removing spell ' + type);
+        
+        if (tiles) {
+            this.gameboard.restoreTiles(tiles);
+        }
     }
 
 });
