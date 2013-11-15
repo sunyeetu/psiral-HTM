@@ -69,7 +69,7 @@
     function getSpellCost(spell) {
         switch(spell) {
             case _Globals.spells.Abyss:
-                return 1;
+                return 6;
             case _Globals.spells.Change:
                 return 2;
             case _Globals.spells.Clay:
@@ -165,6 +165,14 @@
                 for (var i = spells.length - 1; i >= 0; i--) {
                     if (spells[i].turn < match.turn) {
                         this.onEvent('onExpireSpell', spells[i].type, spells[i].tiles);
+                        
+                        // TODO: remove
+                        for (var j = spells[i].tiles.length - 1; j >= 0; j--) {
+                            game.map.removeTileBuffs(spells[i].tiles[j].x, 
+                                spells[i].tiles[j].y,
+                                spells[i].type);
+                        }
+
                         spells.splice(i, 1);
                     }
                 };
@@ -248,9 +256,15 @@
             };
             if (Object.prototype.toString.call(tiles) === '[object Array]') {
                 entry.tiles = tiles;
+                // mark tiles on map
+                for (var i = tiles.length - 1; i >= 0; i--) {
+                    game.map.setTileBuffs(tiles[i].x ,tiles[i].y, spell);
+                }
             } else {
                 entry.tiles = [];
                 entry.tiles.push(tiles);
+                // mark tiles on map
+                game.map.setTileBuffs(tiles.x ,tiles.y, spell);
             }
             spells.push(entry);
         }

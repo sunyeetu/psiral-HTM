@@ -214,15 +214,18 @@
          */
         setTileBuffs: function(x, y, buffs) {
             if (Object.prototype.toString.call(buffs) === '[object Array]') {
-                for(var b in buffs) {
-                    this.setTileBuffs(x, y, buffs[b]);
+                for (var i = buffs.length - 1; i >= 0; i--) {
+                    this.setTileBuffs(x, y, buffs[i]);
                 }
             } else {
                 var idx = y * mapWidth + x;
                 if (typeof buffsMap[idx] === 'undefined') {
                     buffsMap[idx] = [];
                 }
+                console.log('putting bufs at ' + idx);
                 buffsMap[idx].push(buffs);
+                console.log(buffsMap[idx]);
+                console.log(this.getTileBuff(x, y));
             }
         },
         /**
@@ -231,19 +234,20 @@
          * @param  {Number} y tile row
          * @return {Array}   Array of (de)buff types
          */
-        getTileBuffs: function(x, y) {
-            return buffsMap[y * mapWidth + x];
+        getTileBuff: function(x, y) {
+            var idx = y * mapWidth + x;
+            return buffsMap[idx];
         },
         /**
          * Check if any (de)buffs exist at given tile location
          * @param  {[String]}  type (Optional) Will look for specific (de)buff type.
          * @return {Boolean}
          */
-        isTileBuffs: function(x, y, type) {
-            var buffs = this.getTileBuffs(x, y);
+        isTileBuff: function(x, y, type) {
+            var buffs = this.getTileBuff(x, y);
             if (type) {
-                for(var b in buffs) {
-                    if (buffs[b].type === type)
+                for (var i in buffs) {
+                    if (buffs[i] === type)
                         return true;
                 }
             } else {
@@ -251,6 +255,16 @@
             }
 
             return false;
+        },
+
+        removeTileBuffs: function(x, y, buffs) {
+            var tileBuffs = this.getTileBuff(x, y);
+            if (tileBuffs) {
+                var clr = _.without(tileBuffs, buffs);
+                console.log('remove');
+                console.log(clr);
+                this.setTileBuffs(clr);
+            }
         },
 
         isTileOccupied: function(x, y) {
@@ -340,7 +354,13 @@
                         throw "Unexpected tile at " + tmpx + "," + tmpy + "!";
                 }
 
-                //TODO: check for obstacle
+                // check for obstacles
+                // if (buffsMap[where] && buffsMap[where].length > 0) {
+                    if (this.isTileBuff(tmpx, tmpy, _Globals.spells.Abyss)) {
+                        found = true;
+                        break;
+                    }
+                // }
                 
                 path.push({x: tmpx, y: tmpy});
 

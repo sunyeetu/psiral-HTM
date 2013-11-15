@@ -277,8 +277,7 @@ game.PlayScene = me.ScreenObject.extend({
             break;
         }
 
-        if (path) {
-            // console.log(path);
+        if (path && path.length > 0) {
             this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
                 var lastMove = path.pop();
                 // update 
