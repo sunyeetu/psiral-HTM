@@ -69,7 +69,7 @@
     function getSpellCost(spell) {
         switch(spell) {
             case _Globals.spells.Abyss:
-                return 6;
+                return 1;
             case _Globals.spells.Change:
                 return 2;
             case _Globals.spells.Clay:
@@ -89,7 +89,7 @@
     function getSpellDuration(spell) {
         switch(spell) {
             case _Globals.spells.Abyss:
-                return 1;
+                return 3;
             case _Globals.spells.Change:
                 return 2;
             case _Globals.spells.Clay:
@@ -167,11 +167,11 @@
                         this.onEvent('onExpireSpell', spells[i].type, spells[i].tiles);
                         
                         // TODO: remove
-                        for (var j = spells[i].tiles.length - 1; j >= 0; j--) {
-                            game.map.removeTileBuffs(spells[i].tiles[j].x, 
-                                spells[i].tiles[j].y,
-                                spells[i].type);
-                        }
+                        // for (var j = spells[i].tiles.length - 1; j >= 0; j--) {
+                        //     game.map.removeTileBuffs(spells[i].tiles[j].x, 
+                        //         spells[i].tiles[j].y,
+                        //         spells[i].type);
+                        // }
 
                         spells.splice(i, 1);
                     }
@@ -226,6 +226,26 @@
             }            
         },
 
+        getWalkablePath: function(wizard, steps) {
+            var path = game.map.getPath(wizard, steps);
+            for (var i = 0; i < path.length; i++) {
+                for (var j = spells.length - 1; j >= 0; j--) {
+                    //TODO: check tile type
+                    
+                    for (var k = spells[j].tiles.length - 1; k >= 0; k--) {
+                        //XXX: O(n^3) :(
+                        var tile = spells[j].tiles[k];
+
+                        if (path[i].x == tile.x && path[i].y == tile.y) {
+                            path.splice(i);
+                            return path;
+                        }
+                    }
+                }
+            }
+            return path;
+        },
+
         isCanCast: function(wizard, spell) {
             var w = wizards[wizard];
             switch(spell) {
@@ -257,14 +277,14 @@
             if (Object.prototype.toString.call(tiles) === '[object Array]') {
                 entry.tiles = tiles;
                 // mark tiles on map
-                for (var i = tiles.length - 1; i >= 0; i--) {
-                    game.map.setTileBuffs(tiles[i].x ,tiles[i].y, spell);
-                }
+                // for (var i = tiles.length - 1; i >= 0; i--) {
+                //     game.map.setTileBuffs(tiles[i].x ,tiles[i].y, spell);
+                // }
             } else {
                 entry.tiles = [];
                 entry.tiles.push(tiles);
                 // mark tiles on map
-                game.map.setTileBuffs(tiles.x ,tiles.y, spell);
+                // game.map.setTileBuffs(tiles.x ,tiles.y, spell);
             }
             spells.push(entry);
         }

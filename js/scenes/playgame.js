@@ -258,16 +258,16 @@ game.PlayScene = me.ScreenObject.extend({
 
         switch(chance) {
             case _Globals.chance.Move1:
-                path = game.map.getPath(game.gamemaster.currentWizard, 1);
+                path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 1);
             break;
             case _Globals.chance.Move2:
-                path = game.map.getPath(game.gamemaster.currentWizard, 2);
+                path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 2);
             break;
             case _Globals.chance.Move3:
-                path = game.map.getPath(game.gamemaster.currentWizard, 3);
+                path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 3);
             break;
             case _Globals.chance.Move4:
-                path = game.map.getPath(game.gamemaster.currentWizard, 4);
+                path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 4);
             break;
             case _Globals.chance.Jump:
                 // path = game.map.getPath('player1');
