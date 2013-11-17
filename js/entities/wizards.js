@@ -29,9 +29,9 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.z = _Globals.gfx.zActor;
         this.type = 'wizard';
         this.setMaxVelocity(2.0, 2.0);
-        this.renderable.animationspeed = _Globals.gfx.animSpeed;
+        this.renderable.animationspeed = 125; //_Globals.gfx.animSpeed;
         
-        this.speed = 0.25;
+        this.speed = 0.125;
         this.moving = false;
         this.movement = {};
         this.animation = {};
@@ -237,8 +237,8 @@ game.WizardEntity = me.ObjectEntity.extend({
 game.EarthWizardEntity = game.WizardEntity.extend({
 
     init: function(x, y, settings) {
-        settings.image = 'earth_small';
-        settings.spriteheight = 100;
+        settings.image = 'earth_south';
+        settings.spriteheight = 98;
         this.parent(x, y, settings);
 
         // setup props
@@ -249,10 +249,10 @@ game.EarthWizardEntity = game.WizardEntity.extend({
         this.renderable.addAnimation('stand_right', [0]);
         this.renderable.addAnimation('stand_up', [0]);
         this.renderable.addAnimation('stand_down', [0]);
-        this.renderable.addAnimation('walk_up', [0, 1, 2, 3]);
-        this.renderable.addAnimation('walk_left', [0, 1, 2, 3]);
-        this.renderable.addAnimation('walk_down', [0, 1, 2, 3]);
-        this.renderable.addAnimation('walk_right', [0, 1, 2, 3]);
+        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_left', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_down', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_right', [0, 1, 2, 3, 4, 5]);
 
         this.renderable.addAnimation('spellcast_left', [0, 1, 2, 3]);
         this.renderable.addAnimation('spellcast_right', [0, 1, 2, 3]);
@@ -268,8 +268,8 @@ game.EarthWizardEntity = game.WizardEntity.extend({
 game.WaterWizardEntity = game.WizardEntity.extend({
 
     init: function(x, y, settings) {
-        settings.image = 'earth_small';
-        settings.spriteheight = 100;
+        settings.image = 'earth_south';
+        settings.spriteheight = 98;
         // settings.image = 'earth_wizard';
         this.parent(x, y, settings);
 
@@ -281,15 +281,15 @@ game.WaterWizardEntity = game.WizardEntity.extend({
         this.renderable.addAnimation('stand_right', [0]);
         this.renderable.addAnimation('stand_up', [0]);
         this.renderable.addAnimation('stand_down', [0]);
-        this.renderable.addAnimation('walk_up', [0, 1, 2, 3]);
-        this.renderable.addAnimation('walk_left', [0, 1, 2, 3]);
-        this.renderable.addAnimation('walk_down', [0, 1, 2, 3]);
-        this.renderable.addAnimation('walk_right', [0, 1, 2, 3]);
+        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_left', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_down', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_right', [0, 1, 2, 3, 4, 5]);
 
         this.renderable.addAnimation('spellcast_left', [0, 1, 2, 3]);
         this.renderable.addAnimation('spellcast_right', [0, 1, 2, 3]);
 
-        this.playAnimation('stand_left');        
+        this.playAnimation('stand_right');        
     }
 
 });
