@@ -231,14 +231,18 @@
             for (var i = 0; i < path.length; i++) {
                 for (var j = spells.length - 1; j >= 0; j--) {
                     //TODO: check tile type
-                    
-                    for (var k = spells[j].tiles.length - 1; k >= 0; k--) {
-                        //XXX: O(n^3) :(
-                        var tile = spells[j].tiles[k];
 
-                        if (path[i].x == tile.x && path[i].y == tile.y) {
-                            path.splice(i);
-                            return path;
+                    // can't move over tiles casted abyss     
+                    if (spells.type === _Globals.spells.Abyss) {
+
+                        for (var k = spells[j].tiles.length - 1; k >= 0; k--) {
+                            //XXX: O(n^3) :(
+                            var tile = spells[j].tiles[k];
+
+                            if (path[i].x == tile.x && path[i].y == tile.y) {
+                                path.splice(i);
+                                return path;
+                            }
                         }
                     }
                 }
