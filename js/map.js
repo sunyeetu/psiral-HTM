@@ -22,7 +22,7 @@
     var X = 5; // fountain
     var E = 6, W = 7, F = 8, A = 9; // elements
     var H = 10; // hole
-    var F = 11; // undefined tile
+    var UF = 11; // undefined tile
 
     var tilemap = [
         S1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, S2,
@@ -153,14 +153,14 @@
             Air: A,
             Fountain: X,
             Hole: H,
-            Undefined: F,
+            Clay: UF,
             Base1: S1,
             Base2: S2,
             Base3: S3,
             Base4: S4,
             // others
-            Frozen: F + 5,
-            Abyss: F + 6
+            Frozen: UF + 5,
+            Abyss: UF + 6
         },
 
         Directions: {

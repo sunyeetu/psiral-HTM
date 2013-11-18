@@ -97,7 +97,7 @@
             case _Globals.spells.Blind:
                 return 0;
             case _Globals.spells.Freeze:
-                return 0;
+                return 1;
             case _Globals.spells.Teleport:
                 return 0;
             case _Globals.spells.Path:
@@ -272,6 +272,23 @@
             w.mana -= getSpellCost(spell);
             
             // TODO save cast in wizard logs
+
+            var rnd;
+            switch(spell) {
+                case _Globals.spells.Change:
+                    rnd = Math.floor(Math.random() * 5);
+                    switch(rnd) {
+                        case 0: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Earth); break;
+                        case 1: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Water); break;
+                        case 2: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Fire); break;
+                        case 3: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Air); break;
+                        case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen); break;
+                    }
+                    return;
+                case _Globals.spells.Clay:
+                    game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Clay);
+                    return;
+            }
             
             // save spell cast
             var entry = {
@@ -280,15 +297,9 @@
             };
             if (Object.prototype.toString.call(tiles) === '[object Array]') {
                 entry.tiles = tiles;
-                // mark tiles on map
-                // for (var i = tiles.length - 1; i >= 0; i--) {
-                //     game.map.setTileBuffs(tiles[i].x ,tiles[i].y, spell);
-                // }
-            } else {
+            } else if (typeof tiles !== 'undefined') {
                 entry.tiles = [];
                 entry.tiles.push(tiles);
-                // mark tiles on map
-                // game.map.setTileBuffs(tiles.x ,tiles.y, spell);
             }
             spells.push(entry);
         }

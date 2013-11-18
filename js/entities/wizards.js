@@ -63,7 +63,7 @@ game.WizardEntity = me.ObjectEntity.extend({
             var updatePath = false;
             var animToSet, endx, endy;
 
-            //TODO: use Tween
+            //TODO: use Tweens
 
             switch(this.movement.direction) {
                 case _Globals.directions.Left:

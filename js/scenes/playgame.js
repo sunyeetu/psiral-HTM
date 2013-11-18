@@ -315,10 +315,12 @@ game.PlayScene = me.ScreenObject.extend({
         /**
          * Multiple tiles spells
          */
+        
+        var affectedTiles;
 
         if (type == _Globals.spells.Freeze) {
-            parent.gameboard.changeTiles(game.map.Tiles.Frozen, 
-                game.map.getAllTiles(game.map.Tiles.Water), function() {
+            affectedTiles = game.map.getAllTiles(game.map.Tiles.Water);
+            parent.gameboard.changeTiles(game.map.Tiles.Frozen, affectedTiles, function() {
                     // wait for transition to complete and then proceed with next plr move
                     parent.setState(parent.SceneStates.NextMove);
                 });
@@ -329,7 +331,7 @@ game.PlayScene = me.ScreenObject.extend({
 
         if (substractMana) {
             // substract mana
-            game.gamemaster.doCast(game.gamemaster.currentWizard, type);
+            game.gamemaster.doCast(game.gamemaster.currentWizard, type, affectedTiles);
             parent.statsHUD.updateMana(game.gamemaster.currentWizard, 
                 game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));
             // aaaaand, we're done with spellcasting! :)
@@ -352,7 +354,6 @@ game.PlayScene = me.ScreenObject.extend({
                 game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));            
 
             // play magic animation
-            // TODO: types!?
             var animation = null;
             switch(type) {
                 case _Globals.spells.Abyss:
@@ -362,10 +363,14 @@ game.PlayScene = me.ScreenObject.extend({
                     });
                 break;
                 case _Globals.spells.Change:
-                   animation = game.GFX.anims.Teleport;
+                    parent.gameboard.changeTiles(game.map.getTile(tileX, tileY), {x: tileX, y: tileY}, function() {
+                        parent.setState(parent.SceneStates.NextMove);                        
+                    });
                 break;
                 case _Globals.spells.Clay:
-                    animation = game.GFX.anims.Teleport;
+                    parent.gameboard.changeTiles(game.map.Tiles.Clay, {x: tileX, y: tileY}, function() {
+                        parent.setState(parent.SceneStates.NextMove);                        
+                    });
                 break;
                 case _Globals.spells.Blind:
                     // nothing
@@ -419,7 +424,7 @@ game.PlayScene = me.ScreenObject.extend({
         var type = data[0];
         var tiles = data[1];
         console.log('Removing spell ' + type);
-        
+
         if (tiles) {
             this.gameboard.restoreTiles(tiles);
         }

@@ -68,6 +68,8 @@ game.BoardEntity = me.ObjectContainer.extend({
     restoreTiles: function(path, callback) {
         var tx, ty;
 
+        //TODO: restore only unchanged tiles
+        
         if (Object.prototype.toString.call(path) === '[object Array]') {
             // array of tiles
             for (var i = path.length - 1; i >= 1; i--) {
@@ -185,6 +187,7 @@ game.TileEntity = me.AnimationSheet.extend({
         this.addAnimation('frozen', [6]);
         this.addAnimation('abyss', [7]);
         this.addAnimation('fountain', [0]);
+        this.addAnimation('clay', [1]);
         this.addAnimation('base1', [0]);
         this.addAnimation('base2', [0]);
         this.addAnimation('base3', [0]);
@@ -208,6 +211,7 @@ game.TileEntity = me.AnimationSheet.extend({
             case  game.map.Tiles.Fire: return 'fire';
             case  game.map.Tiles.Air: return 'air';
             case  game.map.Tiles.Fountain: return 'fountain';
+            case  game.map.Tiles.Clay: return 'clay';
             case  game.map.Tiles.Base1: return 'base1';
             case  game.map.Tiles.Base2: return 'base2';
             case  game.map.Tiles.Base3: return 'base3';
