@@ -29,7 +29,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.z = _Globals.gfx.zActor;
         this.type = 'wizard';
         this.setMaxVelocity(2.0, 2.0);
-        this.renderable.animationspeed = 125; //_Globals.gfx.animSpeed;
+        this.renderable.animationspeed = 100; //_Globals.gfx.animSpeed;
         
         this.speed = 0.125;
         this.moving = false;
@@ -59,8 +59,11 @@ game.WizardEntity = me.ObjectEntity.extend({
             var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;
             var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight + this.yOffset;
             dx = game.getRealX(dx);
-            dy = game.getRealY(dy);            
+            dy = game.getRealY(dy);
             var updatePath = false;
+            var animToSet, endx, endy;
+
+            //TODO: use Tween
 
             switch(this.movement.direction) {
                 case _Globals.directions.Left:
@@ -71,9 +74,7 @@ game.WizardEntity = me.ObjectEntity.extend({
 
                     if (this.pos.x <= dx) {
                         updatePath = true;
-                        this.pos.x = dx;
-                        this.vel.x = 0;
-                        this.renderable.setCurrentAnimation('stand_left');
+                        animToSet = 'stand_left';
                     }
                 break;
                 case _Globals.directions.Right:
@@ -84,10 +85,8 @@ game.WizardEntity = me.ObjectEntity.extend({
 
                     if (this.pos.x >= dx) {
                         updatePath = true;
-                        this.pos.x = dx;
-                        this.vel.x = 0;
-                        this.renderable.setCurrentAnimation('stand_right');
-                    }                
+                        animToSet = 'stand_right';
+                    }
                 break;
                 case _Globals.directions.Up:
                     this.vel.y -= this.speed * me.timer.tick;
@@ -96,11 +95,9 @@ game.WizardEntity = me.ObjectEntity.extend({
                         this.renderable.setCurrentAnimation("walk_up");
 
                     if (this.pos.y <= dy) {
-                        this.pos.y = dy;
-                        this.vel.y = 0;
                         updatePath = true;
-                        this.renderable.setCurrentAnimation('stand_up');
-                    }                
+                        animToSet = 'stand_up';
+                    }
                 break;  
                 case _Globals.directions.Down:
                     this.vel.y += this.speed * me.timer.tick;
@@ -109,11 +106,9 @@ game.WizardEntity = me.ObjectEntity.extend({
                         this.renderable.setCurrentAnimation("walk_down");
 
                     if (this.pos.y >= dy) {
-                        this.pos.y = dy;
-                        this.vel.y = 0;
                         updatePath = true;
-                        this.renderable.setCurrentAnimation('stand_down');
-                    }                    
+                        animToSet = 'stand_down';
+                    }
                 break;
             }
 
@@ -121,11 +116,20 @@ game.WizardEntity = me.ObjectEntity.extend({
                 if (++this.movement.goalIdx >= this.movement.path.length) {
                     this.vel.x = 0;
                     this.vel.y = 0;
+                    this.pos.x = dx;
+                    this.pos.y = dy;
                     this.moving = false;
+                    this.renderable.setCurrentAnimation(animToSet);
                     // notify
                     this.movement.cb && this.movement.cb();
                 } else {
-                    this.movement.direction = this.getDirection();
+                    var newDirection = this.getDirection();
+                    if (this.movement.direction != newDirection) {
+                        this.vel.x = 0;
+                        this.vel.y = 0;
+                    }
+                    this.movement.direction = newDirection;
+                    // sanity check
                     if (this.movement.direction == _Globals.directions.None) {
                         console.error('*** LOST DIRECTION ***');
                         console.error(this.movement);
@@ -273,7 +277,7 @@ game.WaterWizardEntity = game.WizardEntity.extend({
         // setup props
         this.name = 'Azalsor';
 
-        this.playAnimation('walk_down');        
+        this.playAnimation('stand_down');        
     }
 
 });
