@@ -16,7 +16,10 @@ game.resources = [
     {name: "earth_wizard", type:"image", src: "assets/gfx/walk_cycle.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
     {name: "wizards_faces", type:"image", src: "assets/gfx/faces.png"},
-    {name: "earth_south", type:"image", src: "assets/gfx/earth_south_56.png"},
+    {name: "earth_front", type:"image", src: "assets/gfx/Earth_front_56.png"},
+    {name: "water_front", type:"image", src: "assets/gfx/Water_front_56.png"},
+    {name: "fire_front", type:"image", src: "assets/gfx/Fire_front_56.png"},
+    {name: "air_front", type:"image", src: "assets/gfx/Air_front_56.png"},
         
     // Hud
     {name: "dialog", type:"image", src: "assets/gui/dialog.png"},
