@@ -92,7 +92,7 @@
     
     var mapWidth = _Globals.gfx.mapWidth;
     var mapHeight = _Globals.gfx.mapHeight;
-    var tileRepetitions = [1, 2, 2, 1];
+    var tileRepetitions = [2, 1, 2, 1, 2, 1];
     var currentMap = null;
     // var buffsMap = null;
     var players = {};
