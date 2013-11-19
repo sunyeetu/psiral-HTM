@@ -324,10 +324,11 @@ game.PlayScene = me.ScreenObject.extend({
                     // wait for transition to complete and then proceed with next plr move
                     parent.setState(parent.SceneStates.NextMove);
                 });
-        } else if (type === _Globals.spells.Freeze) {
+        } else if (type === _Globals.spells.Path) {
             affectedTiles = game.map.getPath(game.gamemaster.currentWizard, 4);
-            // TODO:
-
+            parent.gameboard.changeTiles(game.map.Tiles.Earth, affectedTiles, function() {
+                    parent.setState(parent.SceneStates.NextMove);
+                });            
         } else {
             // player must first select a tile to cast spell
             substractMana = false;

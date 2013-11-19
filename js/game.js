@@ -87,7 +87,7 @@ var game = {
 
         // setup PLAYER 
         this.session = {};
-        this.session.wizard = _Globals.wizards.Water;
+        this.session.wizard = _Globals.wizards.Earth;
 
         // Start the game.
         me.state.change(me.state.PLAY);
