@@ -123,10 +123,12 @@ game.WizardEntity = me.ObjectEntity.extend({
                     // notify
                     this.movement.cb && this.movement.cb();
                 } else {
-                    var newDirection = this.getDirection();
+                    var newDirection = this.getDirection(dx, dy);
                     if (this.movement.direction != newDirection) {
                         this.vel.x = 0;
                         this.vel.y = 0;
+                        // this.pos.x = dx;
+                        // this.pos.y = dy;                        
                     }
                     this.movement.direction = newDirection;
                     // sanity check
@@ -187,23 +189,26 @@ game.WizardEntity = me.ObjectEntity.extend({
         }
     },
 
-    getDirection: function() {
+    getDirection: function(currentX, currentY) {
         // TODO: cache in movement object
         var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;
-        var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight;
+        var dy = this.movement.path[this.movement.goalIdx].y * _Globals.gfx.tileHeight + this.yOffset;
         dx = game.getRealX(dx);
         dy = game.getRealY(dy);
 
-        if (this.pos.x < dx) {
+        currentX = currentX ? currentX : this.pos.x;
+        currentY = currentY ? currentY : this.pos.y;
+
+        if (currentX < dx) {
             return _Globals.directions.Right;
-        } else if (this.pos.x > dx) {
+        } else if (currentX > dx) {
             return _Globals.directions.Left;
-        } else if (this.pos.y < dy) {
+        } else if (currentY < dy) {
             return _Globals.directions.Down;
-        } else if (this.pos.y > dy) {
+        } else if (currentY > dy) {
             return _Globals.directions.Up;
         } else {
-            console.log(" pos: %d %d", this.pos.x, this.pos.y)
+            console.log(" pos: %d %d", currentX, currentY)
             console.log("dest: %d %d", dx, dy)
             return _Globals.directions.None;    
         }
