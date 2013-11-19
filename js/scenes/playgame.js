@@ -406,7 +406,9 @@ game.PlayScene = me.ScreenObject.extend({
     onMoveHuman: function(data) {
         this.statsHUD.drawText(data[1] + '\'s move');
         this.gameboard.clearAlpha();
-        this.gameboard.setAlpha(0.5, game.map.getPath(game.gamemaster.currentWizard));
+        // TODO: optimize. set alpha in one pass
+        this.gameboard.setAlpha(0.5);
+        this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
         this.setState(this.SceneStates.HUDSelectMove);
     },
 
