@@ -171,13 +171,19 @@ game.BoardEntity = me.ObjectContainer.extend({
  */
 game.TileEntity = me.AnimationSheet.extend({
     init: function(x, y, settings) {
+        
         settings.image = 'boardtileset';
         settings.spritewidth = _Globals.gfx.tileWidth;
         settings.spriteheight = _Globals.gfx.tileHeight;
+
+        this.tileX = x;
+        this.tileY = y;
+
         x *= _Globals.gfx.tileWidth;
         y *= _Globals.gfx.tileHeight;
         x += _Globals.canvas.xOffset;
         y += _Globals.canvas.yOffset;
+
         this.parent(x, y, me.loader.getImage(settings.image), settings.spritewidth);
 
         this.z = _Globals.gfx.zTile;

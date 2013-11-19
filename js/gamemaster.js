@@ -29,8 +29,7 @@
     };
 
     var wizards = {};
-    var spells = [];
-
+    // var spells = [];
     var match = {
         move: {
             current: 0,
@@ -56,7 +55,7 @@
         wizards[who].log.casts = []; 
         wizards[who].log.dice = [];
         // reset spells
-        spells.length = 0;
+        // spells.length = 0;
     }
 
     function throwDice() {
@@ -88,19 +87,19 @@
     function getSpellDuration(spell) {
         switch(spell) {
             case _Globals.spells.Abyss:
-                return 3;
+                return 1;
             case _Globals.spells.Change:
-                return 2;
+                return 1;
             case _Globals.spells.Clay:
-                return 2;
+                return 1;
             case _Globals.spells.Blind:
-                return 0;
+                return -1;
             case _Globals.spells.Freeze:
                 return 1;
             case _Globals.spells.Teleport:
                 return 0;
             case _Globals.spells.Path:
-                return 0;
+                return -1;
         }
         throw "GM: Unknown spell " + spell;
     }    
@@ -155,26 +154,37 @@
         },
 
         nextMove: function() {
+            var self = this;
+
             if (++match.move.current >= match.sequence.length) {
                 match.move.current = -1;
                 match.turn++;
                 console.log('-----------turn ' +  match.turn + ' start --------------------');
 
                 // check which spells expire
-                for (var i = spells.length - 1; i >= 0; i--) {
-                    if (spells[i].turn < match.turn) {
-                        this.onEvent('onExpireSpell', spells[i].type, spells[i].tiles);
-                        
-                        // TODO: remove
-                        // for (var j = spells[i].tiles.length - 1; j >= 0; j--) {
-                        //     game.map.removeTileBuffs(spells[i].tiles[j].x, 
-                        //         spells[i].tiles[j].y,
-                        //         spells[i].type);
-                        // }
-
-                        spells.splice(i, 1);
+                
+                game.map.walkBuffs(function(buff) {
+                    if (buff.turn < match.turn) {
+                        game.map.restoreTile(buff.x, buff.y);
+                        game.map.removeTileBuff(buff.x, buff.y);
+                        self.onEvent('onExpireSpell', buff.type, {x: buff.x, y: buff.y});
                     }
-                };
+                });
+                
+                // for (var i = spells.length - 1; i >= 0; i--) {
+                //     if (spells[i].turn < match.turn) {
+                //         // restore affected tiles
+                //         if (spells[i].tiles) {
+                //             for (var j = spells[i].tiles.length - 1; j >= 0; j--) {
+                //                 game.map.restoreTile(spells[i].tiles[j].x, spells[i].tiles[j].y);
+                //             }
+                //         }
+                //         // notify listener
+                //         this.onEvent('onExpireSpell', spells[i].type, spells[i].tiles);
+                //         // remove spell
+                //         spells.splice(i, 1);
+                //     }
+                // }
                 // notify listener on next game turn
                 this.onEvent('onNextTurn', match.turn);
                 return;
@@ -272,10 +282,28 @@
             
             // TODO save cast in wizard logs
 
-            var rnd;
+            // save spell cast
+            var buff = {
+                type: spell,
+                turn: match.turn + getSpellDuration(spell)
+            };
+            // if (Object.prototype.toString.call(tiles) === '[object Array]') {
+            //     buff.tiles = tiles;
+            // } else if (typeof tiles !== 'undefined') {
+            //     buff.tiles = [];
+            //     buff.tiles.push(tiles);
+            // }
+            // spells.push(buff);
+
             switch(spell) {
+                case _Globals.spells.Abyss:
+                    game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Hole);
+                    // set new buff
+                    game.map.setTileBuff(tiles.x, tiles.y, buff);
+                break;
+
                 case _Globals.spells.Change:
-                    rnd = Math.floor(Math.random() * 5);
+                    var rnd = Math.floor(Math.random() * 5);
                     switch(rnd) {
                         case 0: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Earth); break;
                         case 1: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Water); break;
@@ -283,26 +311,41 @@
                         case 3: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Air); break;
                         case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen); break;
                     }
+                    // remove previous buff
+                    game.map.removeTileBuff(tiles.x, tiles.y);               
                     // spell lasts forever
                     return;
 
                 case _Globals.spells.Clay:
-                    //game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Clay);
-                    break;
+                    game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Clay);
+                    // set new buff
+                    game.map.setTileBuff(tiles.x, tiles.y, buff);                    
+                break;
+
+                case _Globals.spells.Blind:
+                // nothing
+                break;
+
+                case _Globals.spells.Freeze:
+                    for (var i = tiles.length - 1; i >= 0; i--) {
+                        game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Frozen);
+                        // set new buff
+                        game.map.setTileBuff(tiles[i].x, tiles[i].y, buff);                        
+                    }
+                break;
+
+                case _Globals.spells.Teleport:
+                // nothing
+                break;
+
+                case _Globals.spells.Path:
+                    for (var i = tiles.length - 1; i >= 0; i--) {
+                        game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Earth);
+                        // remove previous buff
+                        game.map.removeTileBuff(tiles[i].x, tiles[i].y);                        
+                    }
+                break;
             }
-            
-            // save spell cast
-            var entry = {
-                type: spell,
-                turn: match.turn + getSpellDuration(spell)
-            };
-            if (Object.prototype.toString.call(tiles) === '[object Array]') {
-                entry.tiles = tiles;
-            } else if (typeof tiles !== 'undefined') {
-                entry.tiles = [];
-                entry.tiles.push(tiles);
-            }
-            spells.push(entry);
         }
     };
     Object.defineProperty(_instance, 'currentWizard', {

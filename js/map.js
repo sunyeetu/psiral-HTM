@@ -94,6 +94,7 @@
     var mapHeight = _Globals.gfx.mapHeight;
     var tileRepetitions = [2, 1, 2, 1, 2, 1];
     var currentMap = null;
+    var originalMap = null;
     // var buffsMap = null;
     var players = {};
 
@@ -172,11 +173,19 @@
 
         reset: function() {
             currentMap = tilemap.slice(0);
-            // buffsMap = {};
+            buffsMap = {};
+            // fill in tiles
             resetWizardPosition(_Globals.wizards.Earth, currentMap);
             resetWizardPosition(_Globals.wizards.Water, currentMap);
             resetWizardPosition(_Globals.wizards.Fire, currentMap);
             resetWizardPosition(_Globals.wizards.Air, currentMap);
+            // create a copy of the original tilemap
+            originalMap = currentMap.slice(0);
+        },
+
+        restoreTile: function(x, y) {
+            var idx = y * mapWidth + x;
+            currentMap[idx] = originalMap[idx];
         },
 
         setTile: function(x, y, type) {
@@ -199,7 +208,7 @@
             var path = [];
             for (var y = mapHeight - 1; y >= 0; y--) {
                 for (var x = mapWidth - 1; x >= 0; x--) {
-                    if (currentMap[y * mapWidth + x] == type) {
+                    if (currentMap[y * mapWidth + x] === type) {
                         path.push({x: x, y: y});
                     }
                 }
@@ -207,65 +216,61 @@
             return path;
         },
         /**
-         * Set one or more (de)buffs to a map tile position
+         * Set (de)buff to a map tile position
          * @param  {Number} x tile column
          * @param  {Number} y tile row
-         * @param {Object} buffs Object or Array of objects.
+         * @param {Object} buff Object 
          */
-        // setTileBuffs: function(x, y, buffs) {
-        //     if (Object.prototype.toString.call(buffs) === '[object Array]') {
-        //         for (var i = buffs.length - 1; i >= 0; i--) {
-        //             this.setTileBuffs(x, y, buffs[i]);
-        //         }
-        //     } else {
-        //         var idx = y * mapWidth + x;
-        //         if (typeof buffsMap[idx] === 'undefined') {
-        //             buffsMap[idx] = [];
-        //         }
-        //         console.log('putting bufs at ' + idx);
-        //         buffsMap[idx].push(buffs);
-        //         console.log(buffsMap[idx]);
-        //         console.log(this.getTileBuff(x, y));
-        //     }
-        // },
+        setTileBuff: function(x, y, buff) {
+            var idx = y * mapWidth + x;
+            // if (typeof buffsMap[idx] === 'undefined') {
+            //     buffsMap[idx] = buff;
+            // }
+            buff.x = x;
+            buff.y = y;
+            console.log('putting buff at ' + idx);
+            console.log(buff);
+            buffsMap[idx] = buff;
+            return idx;
+        },
         /**
-         * Get any possible buffs or debuffs associated with given tile
-         * @param  {Number} x tile column
+         * Get buff or debuff associated with given tile
+         * @param  {Number} x tile column or tilemap index. If you pass index, y must be keft undefined.
          * @param  {Number} y tile row
-         * @return {Array}   Array of (de)buff types
+         * @return {Object} (de)buff Object
          */
-        // getTileBuff: function(x, y) {
-        //     var idx = y * mapWidth + x;
-        //     return buffsMap[idx];
-        // },
+        getTileBuff: function(x, y) {
+            if (typeof y === 'undefined') {
+                return buffsMap[x];
+            }
+            return buffsMap[y * mapWidth + x];
+        },
         /**
          * Check if any (de)buffs exist at given tile location
          * @param  {[String]}  type (Optional) Will look for specific (de)buff type.
          * @return {Boolean}
          */
-        // isTileBuff: function(x, y, type) {
-        //     var buffs = this.getTileBuff(x, y);
-        //     if (type) {
-        //         for (var i in buffs) {
-        //             if (buffs[i] === type)
-        //                 return true;
-        //         }
-        //     } else {
-        //         return (typeof buffs !== 'undefined' && buffs.length > 0)    
-        //     }
+        isTileBuff: function(x, y, type) {
+            var buff = this.getTileBuff(x, y);
+            if (buff && type) {
+                return buff.type === type;
+            }
+            return (typeof buffs !== 'undefined');
+        },
 
-        //     return false;
-        // },
+        removeTileBuff: function(x, y) {
+            buffsMap[y * mapWidth + x] = null;
+            // delete buffsMap[y * mapWidth + x];
+            // var clr = _.without(tileBuffs, buffs);
+            console.log('removed buff');
+            console.log(this.getTileBuff(x, y));
+        },
 
-        // removeTileBuffs: function(x, y, buffs) {
-        //     var tileBuffs = this.getTileBuff(x, y);
-        //     if (tileBuffs) {
-        //         var clr = _.without(tileBuffs, buffs);
-        //         console.log('remove');
-        //         console.log(clr);
-        //         this.setTileBuffs(clr);
-        //     }
-        // },
+        walkBuffs: function(callback) {
+            _.each(buffsMap, function(value, key) {
+                value && callback(value);
+            });
+        },
 
         isTileOccupied: function(x, y) {
             for(var player in players) {
@@ -274,7 +279,12 @@
             }
             return false;
         },
-
+        /**
+         * Is it possible to cast spell on given tile position
+         * @param  {Number} x tile column
+         * @param  {Number} y tile row
+         * @return {Boolean}
+         */
         isTileSelectable: function(x, y) {
             var type = this.getTile(x, y);
             return type == X || type == UF || type == S1 || type == S2 || type == S3 || type == S4;
