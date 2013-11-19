@@ -126,6 +126,9 @@ game.BoardEntity = me.ObjectContainer.extend({
             //XXX: perhaps use this as spell cancellation
             return;
         }
+        if (game.map.isTileSelectable(tileX, tileY)) {
+            return;
+        }
 
         var tileIdx = tileX + tileY * game.map.width;
 

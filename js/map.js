@@ -275,6 +275,11 @@
             return false;
         },
 
+        isTileSelectable: function(x, y) {
+            var type = this.getTile(x, y);
+            return type == X || type == UF || type == S1 || type == S2 || type == S3 || type == S4;
+        },
+
         // getCornerPos: function(corner) {
         //     if (corner === 'top-left') {
         //         return {x: 0, y: 0};

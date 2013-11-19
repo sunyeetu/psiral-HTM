@@ -239,12 +239,10 @@ game.WizardEntity = me.ObjectEntity.extend({
     },
 
 });
-
 /**
  * EARTH: Entria-Sil
  */
 game.EarthWizardEntity = game.WizardEntity.extend({
-
     init: function(x, y, settings) {
         settings.image = 'earth_front';
         this.parent(x, y, settings);
@@ -267,14 +265,11 @@ game.EarthWizardEntity = game.WizardEntity.extend({
 
         this.playAnimation('stand_right');
     }
-
 });
-
 /**
  * WATER: Azalsor
  */
 game.WaterWizardEntity = game.WizardEntity.extend({
-
     init: function(x, y, settings) {
         settings.image = 'water_front';
         this.parent(x, y, settings);
@@ -284,14 +279,11 @@ game.WaterWizardEntity = game.WizardEntity.extend({
 
         this.playAnimation('stand_down');        
     }
-
 });
-
 /**
  * FIRE: Valeriya
  */
 game.FireWizardEntity = game.WizardEntity.extend({
-
     init: function(x, y, settings) {
         settings.image = 'fire_front';
         this.parent(x, y, settings);
@@ -301,14 +293,11 @@ game.FireWizardEntity = game.WizardEntity.extend({
 
         this.playAnimation('stand_left');
     }
-
 });
-
 /**
  * AIR: Rafel
  */
 game.AirWizardEntity = game.WizardEntity.extend({
-
     init: function(x, y, settings) {
         settings.image = 'air_front';
         this.parent(x, y, settings);
@@ -318,5 +307,4 @@ game.AirWizardEntity = game.WizardEntity.extend({
 
         this.playAnimation('stand_right');
     }
-
 });
