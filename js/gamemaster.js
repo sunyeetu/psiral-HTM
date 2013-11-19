@@ -238,22 +238,12 @@
         getWalkablePath: function(wizard, steps) {
             var path = game.map.getPath(wizard, steps);
             for (var i = 0; i < path.length; i++) {
-                for (var j = spells.length - 1; j >= 0; j--) {
-                    //TODO: check tile type
-
-                    // can't move over tiles casted abyss     
-                    if (spells.type === _Globals.spells.Abyss) {
-
-                        for (var k = spells[j].tiles.length - 1; k >= 0; k--) {
-                            //XXX: O(n^3) :(
-                            var tile = spells[j].tiles[k];
-
-                            if (path[i].x == tile.x && path[i].y == tile.y) {
-                                path.splice(i);
-                                return path;
-                            }
-                        }
-                    }
+                var buff = game.map.getTileBuff(path[i].x, path[i].y);
+                // check for blockers
+                // TODO: step transitions
+                if (buff && buff.type === _Globals.spells.Abyss) {
+                    path.splice(i);
+                    return path;
                 }
             }
             return path;

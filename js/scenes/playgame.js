@@ -277,7 +277,7 @@ game.PlayScene = me.ScreenObject.extend({
             break;
         }
 
-        path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 10);
+        // path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 10);
 
         if (path && path.length > 0) {
             this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
