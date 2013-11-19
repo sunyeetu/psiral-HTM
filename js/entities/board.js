@@ -261,7 +261,7 @@ game.TileEntity = me.AnimationSheet.extend({
     update: function() {
         // this.parent();
         if (this.fadeInOut) {
-            this.alpha -= this.fadeStep;
+            this.alpha -= this.fadeStep * me.timer.tick;
             if (this.alpha < 0.35) {
                 this.alpha = 0.35;
                 this.fadeStep = -this.fadeStep;

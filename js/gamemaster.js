@@ -23,7 +23,6 @@
         Human: 1,
         AI: 2,
     };
-
     var AI = {
         Explorer: 1,
         Ruler: 2,
@@ -284,10 +283,12 @@
                         case 3: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Air); break;
                         case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen); break;
                     }
+                    // spell lasts forever
                     return;
+
                 case _Globals.spells.Clay:
-                    game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Clay);
-                    return;
+                    //game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Clay);
+                    break;
             }
             
             // save spell cast
