@@ -160,6 +160,7 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.ycenter = this.cy +  this.height / 2;
 
         this.imageBackground = new me.SpriteObject(this.cx, this.cy, me.loader.getImage('dialog'));
+        this.imageBackground.alpha = 0.75;
         this.addChild(this.imageBackground);
 
         // wizard face

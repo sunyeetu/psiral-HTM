@@ -13,6 +13,7 @@ game.resources = [
      * {name: "example", type:"image", src: "data/img/example.png"},
      */
     {name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
+    {name: "fountain", type:"image", src: "assets/gfx/fountain.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
     {name: "wizards_faces", type:"image", src: "assets/gfx/faces.png"},
     {name: "earth_front", type:"image", src: "assets/gfx/Earth_front_56.png"},

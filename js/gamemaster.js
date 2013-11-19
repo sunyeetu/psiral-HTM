@@ -9,14 +9,14 @@
 
 (function GameMaster(game) {
     /**
-     * This is the Game Master. 
+     * This is the Game Master. He doesn't know about your vectors and spritesheets.
      * He knows about logic. He knows what has happened. He knows what will happen.
-     * But he doesn't know about your vectors and spritesheets.
      */
 
     /**
      * Constants
-     */
+     */ 
+    
     var MaxMana = 10;
 
     var Controls = {
@@ -28,6 +28,10 @@
         Ruler: 2,
     };
 
+    /**
+     * Private routines
+     */     
+
     var wizards = {};
     // var spells = [];
     var match = {
@@ -38,10 +42,6 @@
         turn: 0,
         sequence: [_Globals.wizards.Earth, _Globals.wizards.Water, _Globals.wizards.Fire, _Globals.wizards.Air]
     };
-
-    /**
-     * Private routines
-     */    
 
     function resetWizard(who) {
         // XXX better way?
@@ -231,7 +231,7 @@
                     wizards[wizard].log.dice.push(data);
                 break;
                 default:
-                throw "GM: Sorry, not implemented!"
+                throw "GM: Sorry! Not implemented!"
             }            
         },
 

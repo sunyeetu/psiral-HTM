@@ -318,12 +318,16 @@ game.PlayScene = me.ScreenObject.extend({
         
         var affectedTiles;
 
-        if (type == _Globals.spells.Freeze) {
+        if (type === _Globals.spells.Freeze) {
             affectedTiles = game.map.getAllTiles(game.map.Tiles.Water);
             parent.gameboard.changeTiles(game.map.Tiles.Frozen, affectedTiles, function() {
                     // wait for transition to complete and then proceed with next plr move
                     parent.setState(parent.SceneStates.NextMove);
                 });
+        } else if (type === _Globals.spells.Freeze) {
+            affectedTiles = game.map.getPath(game.gamemaster.currentWizard, 4);
+            // TODO:
+
         } else {
             // player must first select a tile to cast spell
             substractMana = false;
@@ -348,8 +352,10 @@ game.PlayScene = me.ScreenObject.extend({
         this.gameboard.enableSelect(function(tileX, tileY) {
             parent.gameboard.disableSelect();
 
+            var where = {x: tileX, y: tileY};
+
             // substract mana
-            game.gamemaster.doCast(game.gamemaster.currentWizard, type, {x: tileX, y: tileY});
+            game.gamemaster.doCast(game.gamemaster.currentWizard, type, where);
             parent.statsHUD.updateMana(game.gamemaster.currentWizard, 
                 game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));            
 
@@ -357,18 +363,18 @@ game.PlayScene = me.ScreenObject.extend({
             var animation = null;
             switch(type) {
                 case _Globals.spells.Abyss:
-                    parent.gameboard.changeTiles(game.map.Tiles.Abyss, {x: tileX, y: tileY}, function() {
+                    parent.gameboard.changeTiles(game.map.Tiles.Abyss, where, function() {
                         // wait for transition to complete and then proceed with next plr movement
                         parent.setState(parent.SceneStates.NextMove);                        
                     });
                 break;
                 case _Globals.spells.Change:
-                    parent.gameboard.changeTiles(game.map.getTile(tileX, tileY), {x: tileX, y: tileY}, function() {
+                    parent.gameboard.changeTiles(game.map.getTile(tileX, tileY), where, function() {
                         parent.setState(parent.SceneStates.NextMove);                        
                     });
                 break;
                 case _Globals.spells.Clay:
-                    parent.gameboard.changeTiles(game.map.Tiles.Clay, {x: tileX, y: tileY}, function() {
+                    parent.gameboard.changeTiles(game.map.Tiles.Clay, where, function() {
                         parent.setState(parent.SceneStates.NextMove);                        
                     });
                 break;
@@ -376,9 +382,6 @@ game.PlayScene = me.ScreenObject.extend({
                     // nothing
                 break;
                 case _Globals.spells.Teleport:
-                    // nothing
-                break;
-                case _Globals.spells.Path:
                     // nothing
                 break;
             }

@@ -7,9 +7,10 @@
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
  */
 (function TileMap(game) {
+    
     /**
-     * Lookup maps
-     */
+     * Constants
+     */ 
     
     var S1 = -1;
     var S2 = -2;

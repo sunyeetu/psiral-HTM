@@ -37,12 +37,25 @@ game.BoardEntity = me.ObjectContainer.extend({
 
         for (var y = 0; y < height; y++) {
             for (var x = 0; x < width; x++) {
-                var tile = new game.TileEntity(x, y, {type: game.map.getTile(x, y)});
-                this.tileMap[x + y * width] = tile;
-                this.addChild(tile);
+                var tileType = game.map.getTile(x, y);
+                //TODO: remove fountain tiles beneath
+                // if (tileType !== game.map.Tiles.Fountain) {
+                    var tile = new game.TileEntity(x, y, {type: tileType});
+                    this.tileMap[x + y * width] = tile;
+                    this.addChild(tile);
+                // }
             }
         }
-        //me.game.sort.defer();       
+        
+        var fx = 7 * _Globals.gfx.tileWidth + _Globals.canvas.xOffset;;
+        var fy = 4 * _Globals.gfx.tileHeight + _Globals.canvas.yOffset;
+        var fountain = new me.AnimationSheet(fx, fy, me.loader.getImage('fountain'), 168);
+        fountain.addAnimation('main', [0, 1, 2, 3], 450);
+        fountain.setCurrentAnimation('main');
+        fountain.z = _Globals.gfx.zHUD;
+        this.addChild(fountain);
+        
+        this.sort(); //defer();
     },
 
     changeTiles: function(type, path, callback) {
@@ -171,7 +184,7 @@ game.BoardEntity = me.ObjectContainer.extend({
  */
 game.TileEntity = me.AnimationSheet.extend({
     init: function(x, y, settings) {
-        
+
         settings.image = 'boardtileset';
         settings.spritewidth = _Globals.gfx.tileWidth;
         settings.spriteheight = _Globals.gfx.tileHeight;
