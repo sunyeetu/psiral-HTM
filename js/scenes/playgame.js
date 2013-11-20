@@ -256,6 +256,7 @@ game.PlayScene = me.ScreenObject.extend({
         var path;
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
 
+        chance = _Globals.chance.Jump;
         switch(chance) {
             case _Globals.chance.Move1:
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 1);
@@ -270,11 +271,33 @@ game.PlayScene = me.ScreenObject.extend({
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 4);
             break;
             case _Globals.chance.Jump:
-                // path = game.map.getPath('player1');
+                var actor = self.actors[game.gamemaster.currentWizard];
+                var pos = game.map.getPos(game.gamemaster.currentWizard);
+                var dest = game.map.getNextMove(game.gamemaster.currentWizard, 2);
+                
+                // actor.setVisible(false);
+                actor.visible = false;
+
+                this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
+
+                    actor.setPosition(dest.x, dest.y);
+                    actor.visible = true;
+                    game.map.setPos(game.gamemaster.currentWizard, dest.x, dest.y);
+
+                    self.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
+                        // done moving, on to next move
+                        self.setState(self.SceneStates.NextMove);                        
+                    });
+
+                });
             break;
             case _Globals.chance.Skip:
                 // nothing
+                this.statsHUD.drawText('Skip turn');
+                self.setState(self.SceneStates.NextMove);
             break;
+            default:
+                throw "Invalid chance value - " + chance;
         }
 
         // path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 10);
@@ -289,10 +312,6 @@ game.PlayScene = me.ScreenObject.extend({
                 // done moving, on to next move
                 self.setState(self.SceneStates.NextMove);
             });
-        } else {
-            // TODO
-            // nothing happened
-            self.setState(self.SceneStates.NextMove);
         }
     },
 

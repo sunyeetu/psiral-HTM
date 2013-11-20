@@ -152,15 +152,12 @@ game.WizardEntity = me.ObjectEntity.extend({
      * Actor functions
      */
     
-    // getMana: function() {
-    //     return this.mana;
+    // setVisible: function(value) {
+    //     if (value)
+    //         this.renderable.visible = value;
+    //     return this.renderable.visible;
     // },
-
-    // addMana: function(value) {
-    //     this.mana += value;
-    //     this.mana = this.mana > _Globals.defaults.manaMax ? _Globals.defaults.manaMax : this.mana;
-    // },
-
+    
     playAnimation: function(name, cb) {
         this.animation.prev = this.animation.current;
         this.renderable.setCurrentAnimation(name, cb);
@@ -187,6 +184,11 @@ game.WizardEntity = me.ObjectEntity.extend({
             // we're already there!
             cb && cb();
         }
+    },
+
+    setPosition: function(x, y) {
+        this.pos.x = game.getRealX(x * _Globals.gfx.tileWidth);
+        this.pos.y = game.getRealY(y * _Globals.gfx.tileHeight + this.yOffset);
     },
 
     getDirection: function(currentX, currentY) {
