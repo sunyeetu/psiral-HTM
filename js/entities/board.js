@@ -216,7 +216,7 @@ game.TileEntity = me.AnimationSheet.extend({
         this.addAnimation('base4', [0]);
 
         // save original type
-        this.originalType = settings.type;
+        // this.originalType = settings.type;
 
         this.setCurrentAnimation(this.getNameFromType(settings.type));
         this.animationpause = true;
@@ -245,7 +245,9 @@ game.TileEntity = me.AnimationSheet.extend({
     },
 
     restore: function(callback) {
-        this.changeWith(this.originalType, function() {
+        // var type = this.originalType;
+        var type = game.map.getTile(this.tileX, this.tileY, true);
+        this.changeWith(type, function() {
             // notify when transition is completed
             callback && callback();            
         })

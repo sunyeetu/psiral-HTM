@@ -87,15 +87,15 @@
     function getSpellDuration(spell) {
         switch(spell) {
             case _Globals.spells.Abyss:
-                return 1;
+                return 2;
             case _Globals.spells.Change:
-                return 1;
+                return 2;
             case _Globals.spells.Clay:
-                return 1;
+                return 2;
             case _Globals.spells.Blind:
                 return -1;
             case _Globals.spells.Freeze:
-                return 1;
+                return 2;
             case _Globals.spells.Teleport:
                 return 0;
             case _Globals.spells.Path:
@@ -167,6 +167,7 @@
                     if (buff.turn < match.turn) {
                         game.map.restoreTile(buff.x, buff.y);
                         game.map.removeTileBuff(buff.x, buff.y);
+                        console.log({x: buff.x, y: buff.y});
                         self.onEvent('onExpireSpell', buff.type, {x: buff.x, y: buff.y});
                     }
                 });
@@ -318,6 +319,10 @@
 
                 case _Globals.spells.Freeze:
                     for (var i = tiles.length - 1; i >= 0; i--) {
+                        var buff = {
+                            type: spell,
+                            turn: match.turn + getSpellDuration(spell)
+                        };                        
                         game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Frozen);
                         // set new buff
                         game.map.setTileBuff(tiles[i].x, tiles[i].y, buff);                        

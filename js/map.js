@@ -189,11 +189,16 @@
             currentMap[idx] = originalMap[idx];
         },
 
-        setTile: function(x, y, type) {
+        setTile: function(x, y, type, forever) {
             currentMap[y * mapWidth + x] = type;
+            if (!!forever)
+                originalMap[y * mapWidth + x] = type;
         },
 
-        getTile: function(x, y) {
+        getTile: function(x, y, original) {
+            if (original)
+                return originalMap[y * mapWidth + x];
+
             return currentMap[y * mapWidth + x];
         },
 
@@ -229,8 +234,8 @@
             // }
             buff.x = x;
             buff.y = y;
-            console.log('putting buff at ' + idx);
-            console.log(buff);
+            // console.log('putting buff at ' + idx);
+            // console.log(buff);
             buffsMap[idx] = buff;
             return idx;
         },
@@ -264,7 +269,7 @@
             // delete buffsMap[y * mapWidth + x];
             // var clr = _.without(tileBuffs, buffs);
             console.log('removed buff');
-            console.log(this.getTileBuff(x, y));
+            // console.log(this.getTileBuff(x, y));
         },
 
         walkBuffs: function(callback) {
