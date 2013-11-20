@@ -40,7 +40,7 @@ var game = {
         me.sys.gravity = 0;
         me.sys.fps = 60;
         // disable interpolation when scaling
-        // me.video.setImageSmoothing(false);        
+        me.video.setImageSmoothing(false);        
 
         // Initialize the audio.
         // me.audio.init("mp3,ogg");

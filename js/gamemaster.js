@@ -198,8 +198,7 @@
             wizards[current].lastdice = throwDice();
 
             if (wizards[current].skipTurnUntil > match.turn) {
-                //TODO: add Event
-                console.log('WIZARD SKIPS TURN!');
+                this.onEvent('onSkipMove', current, this.getWizardName(current));
                 return;
             }
 

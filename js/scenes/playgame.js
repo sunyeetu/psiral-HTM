@@ -66,11 +66,11 @@ game.PlayScene = me.ScreenObject.extend({
             // Gamemaster checks who's turn it is
             case this.SceneStates.NextMove:
                 // start player turn in 750ms
-                // me.plugin.fnDelay.add(function() {
-                //     game.gamemaster.nextMove();
-                // }, 750);
+                me.plugin.fnDelay.add(function() {
+                    game.gamemaster.nextMove();
+                }, 750);
 
-                game.gamemaster.nextMove();
+                // game.gamemaster.nextMove();
             break;
 
             case this.SceneStates.NextTurn:
@@ -257,7 +257,7 @@ game.PlayScene = me.ScreenObject.extend({
         var mana;
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         
-        chance = _Globals.chance.Mana2;
+        // chance = _Globals.chance.Mana2;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -373,8 +373,24 @@ game.PlayScene = me.ScreenObject.extend({
             /**
              * Fire Wizard - Blind
              */
-            // TODO
-            // game.gamemaster.skipTurn([], 4);
+            var pos;
+            var affectedWizards = _.without(this.wizards, game.gamemaster.currentWizard);
+            
+            // skip 4 turns
+            game.gamemaster.skipTurn(affectedWizards, 4);
+
+            // play blind animation for all affected wizards
+            for (var i = affectedWizards.length - 1; i >= 1; i--) {
+                pos = game.map.getPos(affectedWizards[i]);
+                parent.gfx.play(game.GFX.anims.Blind, pos.x, pos.y);
+
+            };
+            var pos = game.map.getPos(affectedWizards[0]);
+            parent.gfx.play(game.GFX.anims.Blind, pos.x, pos.y, function() {
+                // on to next move
+                parent.setState(parent.SceneStates.NextMove);
+            });            
+          
         } else if (type === _Globals.spells.Teleport) {
             /**
              * Air Wizard - Teleport
@@ -490,6 +506,11 @@ game.PlayScene = me.ScreenObject.extend({
         this.gameboard.setAlpha(0.5, game.map.getPath(game.gamemaster.currentWizard));
         // TODO
         console.log('AI skipped!');
+        this.setState(this.SceneStates.NextMove);
+    },
+
+    onSkipMove: function(data) {
+        this.statsHUD.drawText(data[1] + 'skips this move');
         this.setState(this.SceneStates.NextMove);
     },
 

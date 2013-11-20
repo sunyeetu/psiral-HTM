@@ -10,9 +10,8 @@
 game.GFX = game.GFX || {};
 
 game.GFX.anims = {
-    Abyss: 'abyss',
     Teleport: 'teleport',
-    Ensnare: 'ensnare',
+    Blind: 'blind',
 };
 
 game.GFX.animationSpeed = 75;
@@ -71,9 +70,8 @@ game.GFX.SpellEntity = me.ObjectEntity.extend({
 
         // setup animations
         this.renderable.animationspeed = game.GFX.animationSpeed;
-        this.renderable.addAnimation(game.GFX.anims.Abyss, [0, 1, 2, 3, 4, 5, 6, 7]);
         this.renderable.addAnimation(game.GFX.anims.Teleport, [0, 1, 2, 3, 4, 5, 6, 7]);
-        this.renderable.addAnimation(game.GFX.anims.Ensnare, [0, 1, 2, 3, 4, 5, 6, 7]);
+        this.renderable.addAnimation(game.GFX.anims.Blind, [0, 1, 2, 3, 4, 5, 6, 7]);
 
         // play animation
         this.renderable.setCurrentAnimation(settings.animation, function() {
