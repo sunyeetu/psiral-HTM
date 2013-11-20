@@ -16,7 +16,7 @@ var game = {
     "onload": function () {
         // Initialize the video.
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, true, 
-            me.device.isMobile ? 2.0 : null)) {
+            me.device.isMobile ? 1.99 : 'auto')) {
 
             console.error("Your browser does not support HTML5 canvas.");
             return;
@@ -39,6 +39,8 @@ var game = {
         me.sys.preRender = false;
         me.sys.gravity = 0;
         me.sys.fps = 60;
+        // disable interpolation when scaling
+        // me.video.setImageSmoothing(false);        
 
         // Initialize the audio.
         // me.audio.init("mp3,ogg");
@@ -87,7 +89,7 @@ var game = {
 
         // setup PLAYER 
         this.session = {};
-        this.session.wizard = _Globals.wizards.Air;
+        this.session.wizard = _Globals.wizards.Fire;
 
         // Start the game.
         me.state.change(me.state.PLAY);

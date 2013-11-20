@@ -5,6 +5,30 @@
  */
 
 body {
-	background: #000;
-	/*border: 1px solid red;*/
+    background: #000;
+    /*border: 1px solid red;*/
+    margin: 0;
+    padding: 0;
+}
+#screen {
+    width: 1024px;
+    height: 672;
+    margin: 0 auto;
+    /*https://developer.mozilla.org/en-US/docs/Web/CSS/image-rendering*/
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;   
+}
+@media (min-width: 1023px) {
+    #canvas {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
 }
