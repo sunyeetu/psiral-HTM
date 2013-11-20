@@ -205,6 +205,12 @@
             }
         },
 
+        addMana: function(wizard, amount) {
+            amount = amount ? amount : 1;
+            wizards[wizard].mana += amount;
+            wizards[wizard].mana = Math.min(wizards[wizard].mana, MaxMana);
+        },
+
         getData: function(wizard, what) {
             switch(what) {
                 case this.Props.Mana:

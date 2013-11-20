@@ -45,10 +45,10 @@ var _Globals = {
     chance: {
         Move1: 1,
         Move2: 2,
-        Move3: 3,
-        Move4: 4,
-        Jump: 5,
-        Skip: 6
+        Numb: 3,
+        Mana1: 4,
+        Mana2: 5,
+        Jump: 6,
     },
     spells: {
         Abyss: 10,

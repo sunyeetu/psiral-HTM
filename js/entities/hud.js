@@ -324,17 +324,17 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             case _Globals.chance.Move2:
                 icon_image = 'icon_move2';
             break;
-            case _Globals.chance.Move3:
-                icon_image = 'icon_move3';
+            case _Globals.chance.Numb:
+                icon_image = 'icon_pass';
             break;
-            case _Globals.chance.Move4:
-                icon_image = 'icon_move4';
+            case _Globals.chance.Mana1:
+                icon_image = 'icon_move1';
+            break;
+            case _Globals.chance.Mana2:
+                icon_image = 'icon_move2';
             break;
             case _Globals.chance.Jump:
                 icon_image = 'icon_jump';
-            break;
-            case _Globals.chance.Skip:
-                icon_image = 'icon_pass';
             break;            
         }
 

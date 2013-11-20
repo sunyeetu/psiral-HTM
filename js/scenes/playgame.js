@@ -254,9 +254,11 @@ game.PlayScene = me.ScreenObject.extend({
         this.removeHUD();
 
         var path;
+        var mana;
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
+        
+        chance = _Globals.chance.Mana2;
 
-        chance = _Globals.chance.Jump;
         switch(chance) {
             case _Globals.chance.Move1:
                 this.statsHUD.drawText('Move 1 tile');
@@ -266,14 +268,17 @@ game.PlayScene = me.ScreenObject.extend({
                 this.statsHUD.drawText('Move 2 tiles');
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 2);
             break;
-            case _Globals.chance.Move3:
-                this.statsHUD.drawText('Move 3 tiles');
-                path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 3);
+            case _Globals.chance.Numb:
+                // nothing
+                this.statsHUD.drawText('Numbed. You skip 1 move.');
+                self.setState(self.SceneStates.NextMove);            
             break;
-            case _Globals.chance.Move4:
-                this.statsHUD.drawText('Move 4 tiles');
-                path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 4);
+            case _Globals.chance.Mana1:
+                mana = 1;
             break;
+            case _Globals.chance.Mana2:
+                mana = 2;
+            break;            
             case _Globals.chance.Jump:
                 this.statsHUD.drawText('Teleport 2 tiles');
                 var actor = self.actors[game.gamemaster.currentWizard];
@@ -294,15 +299,10 @@ game.PlayScene = me.ScreenObject.extend({
 
                     self.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
                         // on to next move
-                        self.setState(self.SceneStates.NextMove);                        
+                        self.setState(self.SceneStates.NextMove);
                     });
 
                 });
-            break;
-            case _Globals.chance.Skip:
-                // nothing
-                this.statsHUD.drawText('Skip move');
-                self.setState(self.SceneStates.NextMove);
             break;
             default:
                 throw "Invalid chance value - " + chance;
@@ -320,6 +320,12 @@ game.PlayScene = me.ScreenObject.extend({
                 // done moving, on to next move
                 self.setState(self.SceneStates.NextMove);
             });
+        } else if (mana) {
+            this.statsHUD.drawText('You gain +' + mana + ' mana');
+            game.gamemaster.addMana(game.gamemaster.currentWizard, mana);
+            this.statsHUD.updateMana(game.gamemaster.currentWizard, 
+                game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));
+            self.setState(self.SceneStates.NextMove);            
         }
     },
 
@@ -346,22 +352,32 @@ game.PlayScene = me.ScreenObject.extend({
         var affectedTiles;
 
         if (type === _Globals.spells.Path) {
+            /**
+             * Earth Wizard - Path
+             */
             affectedTiles = game.map.getPath(game.gamemaster.currentWizard, 4);
             parent.gameboard.changeTiles(game.map.Tiles.Earth, affectedTiles, function() {
-                    // wait for transition to complete and then proceed to next move
-                    parent.setState(parent.SceneStates.NextMove);
-                });            
+                // wait for transition to complete and then proceed to next move
+                parent.setState(parent.SceneStates.NextMove);
+            });            
         } else if (type === _Globals.spells.Freeze) {
+            /**
+             * Water Wizard - Freeze
+             */
             affectedTiles = game.map.getAllTiles(game.map.Tiles.Water);
             parent.gameboard.changeTiles(game.map.Tiles.Frozen, affectedTiles, function() {
-                    // wait for transition to complete and then proceed to next move
-                    parent.setState(parent.SceneStates.NextMove);
-                });
+                // wait for transition to complete and then proceed to next move
+                parent.setState(parent.SceneStates.NextMove);
+            });
         } else if (type === _Globals.spells.Blind) {
+            /**
+             * Fire Wizard - Blind
+             */                    
             // TODO
         } else if (type === _Globals.spells.Teleport) {
-            // TODO
-            
+            /**
+             * Air Wizard - Teleport
+             */
             var actor = this.actors[game.gamemaster.currentWizard];
             var pos = game.map.getPos(game.gamemaster.currentWizard);
             var dest = game.map.getNextMove(game.gamemaster.currentWizard, 4);
