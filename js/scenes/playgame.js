@@ -259,18 +259,23 @@ game.PlayScene = me.ScreenObject.extend({
         chance = _Globals.chance.Jump;
         switch(chance) {
             case _Globals.chance.Move1:
+                this.statsHUD.drawText('Move 1 tile');
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 1);
             break;
             case _Globals.chance.Move2:
+                this.statsHUD.drawText('Move 2 tiles');
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 2);
             break;
             case _Globals.chance.Move3:
+                this.statsHUD.drawText('Move 3 tiles');
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 3);
             break;
             case _Globals.chance.Move4:
+                this.statsHUD.drawText('Move 4 tiles');
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 4);
             break;
             case _Globals.chance.Jump:
+                this.statsHUD.drawText('Teleport 2 tiles');
                 var actor = self.actors[game.gamemaster.currentWizard];
                 var pos = game.map.getPos(game.gamemaster.currentWizard);
                 var dest = game.map.getNextMove(game.gamemaster.currentWizard, 2);
@@ -279,13 +284,16 @@ game.PlayScene = me.ScreenObject.extend({
                 actor.visible = false;
 
                 this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
-
+                    // make wizard visible again at new position
                     actor.setPosition(dest.x, dest.y);
                     actor.visible = true;
+                    // XXX update logs
                     game.map.setPos(game.gamemaster.currentWizard, dest.x, dest.y);
+                    game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
+                    game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);                    
 
                     self.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
-                        // done moving, on to next move
+                        // on to next move
                         self.setState(self.SceneStates.NextMove);                        
                     });
 
@@ -293,7 +301,7 @@ game.PlayScene = me.ScreenObject.extend({
             break;
             case _Globals.chance.Skip:
                 // nothing
-                this.statsHUD.drawText('Skip turn');
+                this.statsHUD.drawText('Skip move');
                 self.setState(self.SceneStates.NextMove);
             break;
             default:
@@ -305,7 +313,7 @@ game.PlayScene = me.ScreenObject.extend({
         if (path && path.length > 0) {
             this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
                 var lastMove = path.pop();
-                // update 
+                // XXX update logs
                 game.map.setPos(game.gamemaster.currentWizard, lastMove.x, lastMove.y);
                 game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
                 game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, lastMove);
