@@ -167,7 +167,6 @@
                     if (buff.turn < match.turn) {
                         game.map.restoreTile(buff.x, buff.y);
                         game.map.removeTileBuff(buff.x, buff.y);
-                        console.log({x: buff.x, y: buff.y});
                         self.onEvent('onExpireSpell', buff.type, {x: buff.x, y: buff.y});
                     }
                 });
@@ -273,18 +272,12 @@
             
             // TODO save cast in wizard logs
 
-            // save spell cast
+            // new spell
+            // XXX Note that, unless cloned, this will be ONE object instance assigned below!
             var buff = {
                 type: spell,
                 turn: match.turn + getSpellDuration(spell)
             };
-            // if (Object.prototype.toString.call(tiles) === '[object Array]') {
-            //     buff.tiles = tiles;
-            // } else if (typeof tiles !== 'undefined') {
-            //     buff.tiles = [];
-            //     buff.tiles.push(tiles);
-            // }
-            // spells.push(buff);
 
             switch(spell) {
                 case _Globals.spells.Abyss:
@@ -296,11 +289,11 @@
                 case _Globals.spells.Change:
                     var rnd = Math.floor(Math.random() * 5);
                     switch(rnd) {
-                        case 0: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Earth); break;
-                        case 1: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Water); break;
-                        case 2: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Fire); break;
-                        case 3: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Air); break;
-                        case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen); break;
+                        case 0: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Earth, true); break;
+                        case 1: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Water, true); break;
+                        case 2: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Fire, true); break;
+                        case 3: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Air, true); break;
+                        case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen, true); break;
                     }
                     // remove previous buff
                     game.map.removeTileBuff(tiles.x, tiles.y);               
@@ -319,13 +312,9 @@
 
                 case _Globals.spells.Freeze:
                     for (var i = tiles.length - 1; i >= 0; i--) {
-                        var buff = {
-                            type: spell,
-                            turn: match.turn + getSpellDuration(spell)
-                        };                        
                         game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Frozen);
                         // set new buff
-                        game.map.setTileBuff(tiles[i].x, tiles[i].y, buff);                        
+                        game.map.setTileBuff(tiles[i].x, tiles[i].y, _.clone(buff));
                     }
                 break;
 
@@ -335,7 +324,7 @@
 
                 case _Globals.spells.Path:
                     for (var i = tiles.length - 1; i >= 0; i--) {
-                        game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Earth);
+                        game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Earth, true);
                         // remove previous buff
                         game.map.removeTileBuff(tiles[i].x, tiles[i].y);                        
                     }
