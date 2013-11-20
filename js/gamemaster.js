@@ -49,6 +49,7 @@
         wizards[who].control = Controls.AI;
         wizards[who].mana = MaxMana;
         wizards[who].lastdice = 0;
+        wizards[who].skipTurnUntil = -1;
         // XXX length = 0
         wizards[who].log = {};
         wizards[who].log.moves = []; 
@@ -196,6 +197,12 @@
             // this.setData(current, this.Props.LastDice, throwDice());
             wizards[current].lastdice = throwDice();
 
+            if (wizards[current].skipTurnUntil > match.turn) {
+                //TODO: add Event
+                console.log('WIZARD SKIPS TURN!');
+                return;
+            }
+
             if (wizards[current].control == Controls.Human) {
                 this.onEvent('onMoveHuman', current, this.getWizardName(current));
             } else if (wizards[current].control == Controls.AI) {
@@ -203,42 +210,6 @@
             } else {
                 throw "GM: Invalid actor control!";
             }
-        },
-
-        addMana: function(wizard, amount) {
-            amount = amount ? amount : 1;
-            wizards[wizard].mana += amount;
-            wizards[wizard].mana = Math.min(wizards[wizard].mana, MaxMana);
-        },
-
-        getData: function(wizard, what) {
-            switch(what) {
-                case this.Props.Mana:
-                    return wizards[wizard].mana;
-                case this.Props.AllDice:
-                    return wizards[wizard].log.dice;
-                case this.Props.LastDice:
-                    console.log('getting chance ' + wizards[wizard].lastdice);
-                    return wizards[wizard].lastdice;
-                default:
-                throw "GM: Sorry, not implemented!"
-            }
-        },
-
-        setData: function(wizard, what, data) {
-            switch(what) {
-                case this.Props.Mana:
-                    wizards[wizard].mana = data;
-                case this.Props.LastMove:
-                    wizards[wizard].log.moves.push(data);
-                break;
-                case this.Props.LastDice:
-                    wizards[wizard].lastdice = data;
-                    wizards[wizard].log.dice.push(data);
-                break;
-                default:
-                throw "GM: Sorry! Not implemented!"
-            }            
         },
 
         getWalkablePath: function(wizard, steps) {
@@ -270,6 +241,56 @@
                     return w.mana >= getSpellCost(spell);
             }
             return false;
+        },
+
+        /**
+         * TODO: call below should not be called externally but only via onEvent() proxy
+         */
+
+        addMana: function(who, amount) {
+            amount = amount ? amount : 1;
+            wizards[who].mana += amount;
+            wizards[who].mana = Math.min(wizards[who].mana, MaxMana);
+        },
+
+        skipTurn: function(who, amount) {
+            if (Object.prototype.toString.call(who) === '[object Array]') {
+                for (var i = who.length - 1; i >= 0; i--) {
+                    this.skipTurn(who[i], amount);
+                };
+            } else {
+                wizards[who].skipTurnUntil = match.turn + amount;
+            }
+        },
+
+        getData: function(wizard, what) {
+            switch(what) {
+                case this.Props.Mana:
+                    return wizards[wizard].mana;
+                case this.Props.AllDice:
+                    return wizards[wizard].log.dice;
+                case this.Props.LastDice:
+                    console.log('getting chance ' + wizards[wizard].lastdice);
+                    return wizards[wizard].lastdice;
+                default:
+                throw "GM: Sorry, not implemented!"
+            }
+        },
+
+        setData: function(wizard, what, data) {
+            switch(what) {
+                case this.Props.Mana:
+                    wizards[wizard].mana = data;
+                case this.Props.LastMove:
+                    wizards[wizard].log.moves.push(data);
+                break;
+                case this.Props.LastDice:
+                    wizards[wizard].lastdice = data;
+                    wizards[wizard].log.dice.push(data);
+                break;
+                default:
+                throw "GM: Sorry! Not implemented!"
+            }            
         },
 
         doCast: function(wizard, spell, tiles) {

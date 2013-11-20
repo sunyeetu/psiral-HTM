@@ -372,8 +372,9 @@ game.PlayScene = me.ScreenObject.extend({
         } else if (type === _Globals.spells.Blind) {
             /**
              * Fire Wizard - Blind
-             */                    
+             */
             // TODO
+            // game.gamemaster.skipTurn([], 4);
         } else if (type === _Globals.spells.Teleport) {
             /**
              * Air Wizard - Teleport
