@@ -345,17 +345,45 @@ game.PlayScene = me.ScreenObject.extend({
         
         var affectedTiles;
 
-        if (type === _Globals.spells.Freeze) {
-            affectedTiles = game.map.getAllTiles(game.map.Tiles.Water);
-            parent.gameboard.changeTiles(game.map.Tiles.Frozen, affectedTiles, function() {
-                    // wait for transition to complete and then proceed with next plr move
-                    parent.setState(parent.SceneStates.NextMove);
-                });
-        } else if (type === _Globals.spells.Path) {
+        if (type === _Globals.spells.Path) {
             affectedTiles = game.map.getPath(game.gamemaster.currentWizard, 4);
             parent.gameboard.changeTiles(game.map.Tiles.Earth, affectedTiles, function() {
+                    // wait for transition to complete and then proceed to next move
                     parent.setState(parent.SceneStates.NextMove);
                 });            
+        } else if (type === _Globals.spells.Freeze) {
+            affectedTiles = game.map.getAllTiles(game.map.Tiles.Water);
+            parent.gameboard.changeTiles(game.map.Tiles.Frozen, affectedTiles, function() {
+                    // wait for transition to complete and then proceed to next move
+                    parent.setState(parent.SceneStates.NextMove);
+                });
+        } else if (type === _Globals.spells.Blind) {
+            // TODO
+        } else if (type === _Globals.spells.Teleport) {
+            // TODO
+            
+            var actor = this.actors[game.gamemaster.currentWizard];
+            var pos = game.map.getPos(game.gamemaster.currentWizard);
+            var dest = game.map.getNextMove(game.gamemaster.currentWizard, 4);
+            affectedTiles = dest;
+            
+            actor.visible = false;
+
+            this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
+                // make wizard visible again at new position
+                actor.setPosition(dest.x, dest.y);
+                actor.visible = true;
+                // XXX update logs
+                game.map.setPos(game.gamemaster.currentWizard, dest.x, dest.y);
+                // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
+                // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);                    
+
+                parent.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
+                    // on to next move
+                    parent.setState(parent.SceneStates.NextMove);                        
+                });
+
+            });
         } else {
             // player must first select a tile to cast spell
             substractMana = false;
