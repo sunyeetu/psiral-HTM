@@ -16,7 +16,7 @@ var game = {
     "onload": function () {
         // Initialize the video.
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, true, 
-            me.device.isMobile ? 1.99 : 'auto')) {
+            me.device.isMobile ? 1.99 : null)) {
 
             console.error("Your browser does not support HTML5 canvas.");
             return;
