@@ -211,31 +211,35 @@
             }
         },
 
-        getWalkablePath: function(wizard, steps) {
-            var path = game.map.getPath(wizard, steps);
+        getWalkablePath: function(who, steps) {
+            var path = game.map.getPath(who, steps);
             for (var i = 0; i < path.length; i++) {
                 var buff = game.map.getTileBuff(path[i].x, path[i].y);
                 // check for blockers
                 // TODO: step transitions
-                if (buff && buff.type === _Globals.spells.Abyss) {
-                    path.splice(i);
-                    return path;
+                if (buff) {
+                    switch(buff.type) {
+                        case _Globals.spells.Abyss:
+                        case _Globals.spells.Freeze:
+                            path.splice(i);
+                            return path;
+                    }
                 }
             }
             return path;
         },
 
-        isCanCast: function(wizard, spell) {
-            var w = wizards[wizard];
+        isCanCast: function(who, spell) {
+            var w = wizards[who];
             switch(spell) {
                 case _Globals.spells.Blind:
-                    return wizard == _Globals.wizards.Fire && w.mana >= getSpellCost(spell);
+                    return who == _Globals.wizards.Fire && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Freeze:
-                    return wizard == _Globals.wizards.Water && w.mana >= getSpellCost(spell);
+                    return who == _Globals.wizards.Water && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Teleport:
-                    return wizard == _Globals.wizards.Air && w.mana >= getSpellCost(spell);
+                    return who == _Globals.wizards.Air && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Path:
-                    return wizard == _Globals.wizards.Earth && w.mana >= getSpellCost(spell);
+                    return who == _Globals.wizards.Earth && w.mana >= getSpellCost(spell);
                 default:
                     return w.mana >= getSpellCost(spell);
             }
@@ -262,38 +266,38 @@
             }
         },
 
-        getData: function(wizard, what) {
+        getData: function(who, what) {
             switch(what) {
                 case this.Props.Mana:
-                    return wizards[wizard].mana;
+                    return wizards[who].mana;
                 case this.Props.AllDice:
-                    return wizards[wizard].log.dice;
+                    return wizards[who].log.dice;
                 case this.Props.LastDice:
-                    console.log('getting chance ' + wizards[wizard].lastdice);
-                    return wizards[wizard].lastdice;
+                    console.log('getting chance ' + wizards[who].lastdice);
+                    return wizards[who].lastdice;
                 default:
                 throw "GM: Sorry, not implemented!"
             }
         },
 
-        setData: function(wizard, what, data) {
+        setData: function(who, what, data) {
             switch(what) {
                 case this.Props.Mana:
-                    wizards[wizard].mana = data;
+                    wizards[who].mana = data;
                 case this.Props.LastMove:
-                    wizards[wizard].log.moves.push(data);
+                    wizards[who].log.moves.push(data);
                 break;
                 case this.Props.LastDice:
-                    wizards[wizard].lastdice = data;
-                    wizards[wizard].log.dice.push(data);
+                    wizards[who].lastdice = data;
+                    wizards[who].log.dice.push(data);
                 break;
                 default:
                 throw "GM: Sorry! Not implemented!"
             }            
         },
 
-        doCast: function(wizard, spell, tiles) {
-            var w = wizards[wizard];
+        doCast: function(who, spell, tiles) {
+            var w = wizards[who];
             w.mana -= getSpellCost(spell);
             
             // TODO save cast in wizard logs
