@@ -92,8 +92,8 @@ var game = {
         this.session.wizard = _Globals.wizards.Earth;
 
         // Start the game.
-        // me.state.change(me.state.MENU);
-        me.state.change(me.state.PLAY);
+        me.state.change(me.state.MENU);
+        // me.state.change(me.state.PLAY);
     },
     /**
      * Get X cooridnate relevant to tilemap position

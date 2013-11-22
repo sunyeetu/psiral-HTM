@@ -157,6 +157,10 @@ game.WizardEntity = me.ObjectEntity.extend({
     //         this.renderable.visible = value;
     //     return this.renderable.visible;
     // },
+
+    setAlpha: function(value) {
+        this.renderable.alpha = value;
+    },
     
     playAnimation: function(name, cb) {
         this.animation.prev = this.animation.current;

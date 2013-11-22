@@ -182,16 +182,6 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                     }
                 }
         });
-        // this.btnHowTo = new game.MenuScene.HUD.Clickable(100, 320, {
-        //     image: 'menu-buttons',
-        //     frame: 1,
-        //     onClick: function() {
-        //         parent.onEvent('onClick_HowTo');
-        //     }
-        // });
-
-        this.addChild(this.btnStart);
-        // this.addChild(this.btnHowTo);
 
         this.sort();
     },
@@ -200,8 +190,21 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         var self = this;
         
         // me.input.releasePointerEvent('mousedown', this.touchRects[who]);
-        this.selectedActor = who;
         
+        // show start button
+        if (!this.selectedActor) {
+            this.addChild(this.btnStart);
+        }
+        this.addChild(this.btnStart);
+        this.selectedActor = who;
+
+        // dim all but selected
+        for (var i in this.actors) {
+            this.actors[i].setAlpha(0.5);
+        }
+        this.actors[who].setAlpha(1.0);
+
+        // play select actors animation
         this.actors[who].playAnimation('walk_down', function() {
             self.actors[who].playAnimation('stand_down');
         });
