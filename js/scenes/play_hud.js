@@ -205,8 +205,7 @@ game.HUD.Clickable = me.GUI_Object.extend({
         settings.spritewidth = settings.spritewidth || 64;
         settings.spriteheight = settings.spriteheight || 64;
         this.parent(x, y, settings);
-        settings.z = settings.z || (_Globals.gfx.zHUD + 1);
-        this.z = settings.z;
+        this.z = settings.z || (_Globals.gfx.zHUD + 1);
         this.handler = settings.onClick;
     },
     onClick: function(event) {
@@ -223,7 +222,7 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
         this.parent(x, y, me.loader.getImage(settings.image), 64);
         
         this.handler = settings.onClick;
-        settings.z = settings.z || (_Globals.gfx.zHUD + 5);
+        this.z = settings.z || (_Globals.gfx.zHUD + 5);
         // override animation speed
         this.addAnimation('main', [0, 1, 2, 3, 4, 5], 75);
         this.setCurrentAnimation('main');
