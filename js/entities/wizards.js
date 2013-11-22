@@ -191,6 +191,10 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.pos.y = game.getRealY(y * _Globals.gfx.tileHeight + this.yOffset);
     },
 
+    getPosition: function() {
+        return {x: this.pos.x, y: this.pos.y, w: this.width, h: this.height};
+    },
+
     getDirection: function(currentX, currentY) {
         // TODO: cache in movement object
         var dx = this.movement.path[this.movement.goalIdx].x * _Globals.gfx.tileWidth;

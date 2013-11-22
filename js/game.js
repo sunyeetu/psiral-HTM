@@ -84,7 +84,7 @@ var game = {
 
     // Run on game resources loaded.
     "loaded": function () {
-        me.state.set(me.state.MENU, new game.SplashScene());
+        me.state.set(me.state.MENU, new game.MenuScene());
         me.state.set(me.state.PLAY, new game.PlayScene());
 
         // setup PLAYER 
@@ -92,7 +92,8 @@ var game = {
         this.session.wizard = _Globals.wizards.Fire;
 
         // Start the game.
-        me.state.change(me.state.PLAY);
+        me.state.change(me.state.MENU);
+        // me.state.change(me.state.PLAY);
     },
     /**
      * Get X cooridnate relevant to tilemap position

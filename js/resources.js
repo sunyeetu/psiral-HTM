@@ -53,6 +53,11 @@ game.resources = [
     {name: "manabar", type:"image", src: "assets/gui/mana-bar.png"},
     {name: "dice", type:"image", src: "assets/gui/dice.png"},
 
+    // Menu
+    {name: "menu-background", type:"image", src: "assets/gui/menu-background.png"},
+    {name: "menu-title", type:"image", src: "assets/gui/menu-title.png"},
+    {name: "menu-buttons", type:"image", src: "assets/gui/menu-buttons.png"},
+
     /* Sound effects. 
      * @example
      * {name: "example_sfx", type: "audio", src: "data/sfx/", channel : 2}

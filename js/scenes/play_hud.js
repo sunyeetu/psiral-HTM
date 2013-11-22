@@ -1,5 +1,5 @@
 /**
- * hud.js
+ * play_hud.js
  *
  * Copyright (c) 2013 Petar Petrov
  *
@@ -202,10 +202,11 @@ game.HUD.Clickable = me.GUI_Object.extend({
         if (!settings.image)
             throw "Clickable image not specified!";
 
-        settings.spritewidth = 64;
-        settings.spriteheight = 64;
+        settings.spritewidth = settings.spritewidth || 64;
+        settings.spriteheight = settings.spriteheight || 64;
         this.parent(x, y, settings);
-        this.z = _Globals.gfx.zHUD + 1;
+        settings.z = settings.z || (_Globals.gfx.zHUD + 1);
+        this.z = settings.z;
         this.handler = settings.onClick;
     },
     onClick: function(event) {
@@ -222,7 +223,7 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
         this.parent(x, y, me.loader.getImage(settings.image), 64);
         
         this.handler = settings.onClick;
-        this.z = _Globals.gfx.zHUD + 5;
+        settings.z = settings.z || (_Globals.gfx.zHUD + 5);
         // override animation speed
         this.addAnimation('main', [0, 1, 2, 3, 4, 5], 75);
         this.setCurrentAnimation('main');
@@ -267,7 +268,7 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
          * after the fadeout post animation completes.
          */
         if (this.blend) {
-            this.alpha -= this.fadeoutspeed;
+            this.alpha -= this.fadeoutspeed * me.timer.tick;
             if (this.alpha <= 0) {
                 this.alpha = 0;
                 this.visible = false;
