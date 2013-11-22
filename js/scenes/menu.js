@@ -31,7 +31,7 @@ game.MenuScene = me.ScreenObject.extend({
      *  action to perform when leaving this screen (state change)
      */
     onDestroyEvent: function() {
-        me.game.world.removeChild(this.hudTitle);
+        // me.game.world.removeChild(this.hudTitle);
         me.game.world.removeChild(this.hudChar);
     },
 
@@ -46,9 +46,12 @@ game.MenuScene = me.ScreenObject.extend({
 
     onClick_HowTo: function() {
         console.log('howto');
+        // TODO
     },
 
-    onClick_StartGame: function() {
+    onClick_StartGame: function(data) {
         console.log('start game');
+        game.session.wizard = data[0];
+        me.state.change(me.state.PLAY);
     }      
 });

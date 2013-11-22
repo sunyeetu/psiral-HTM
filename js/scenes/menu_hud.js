@@ -151,6 +151,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
 
         this.actors = {};
         this.touchRects = {};
+        this.selectedActor = null;
         // draw wizards
         var wx = 5, wy = 5;
         this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(wx, wy, {});
@@ -176,7 +177,9 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                 image: 'menu-buttons',
                 frame: 2,
                 onClick: function() {
-                    parent.onEvent('onClick_StartGame');
+                    if (parent.selectedActor) {
+                        parent.onEvent('onClick_StartGame', parent.selectedActor);
+                    }
                 }
         });
         // this.btnHowTo = new game.MenuScene.HUD.Clickable(100, 320, {
@@ -194,7 +197,13 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
     },
 
     touchWizard: function(who) {
-        console.log('touched ' + who);
-        me.input.releasePointerEvent('mousedown', this.touchRects[who]);
+        var self = this;
+        
+        // me.input.releasePointerEvent('mousedown', this.touchRects[who]);
+        this.selectedActor = who;
+        
+        this.actors[who].playAnimation('walk_down', function() {
+            self.actors[who].playAnimation('stand_down');
+        });
     }
 });
