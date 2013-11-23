@@ -10,6 +10,10 @@ body {
     margin: 0;
     padding: 0;
 }
+@font-face {
+    font-family: walkaway;
+    src: url('Walkway Black.ttf');
+}
 #screen {
     width: 1024px;
     height: 672;

@@ -66,7 +66,7 @@ game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
 game.MenuScene.HUD.Base = me.ObjectContainer.extend({
     init: function(eventHandler, settings) {
         // call the constructor
-        this.parent(false);
+        this.parent();
         
         // non collidable
         this.collidable = false;
@@ -87,15 +87,39 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         this.titleTouchRect = new me.Rect(new me.Vector2d(50, 100), 350, 150);
         this.imageTitle = new me.SpriteObject(50, 100, me.loader.getImage('menu-title'));
         this.addChild(this.imageTitle);
-
+        // create font
+        // font to draw texts
+        this.text = null;
+        this.font = new me.Font('walkaway', '2.0em', 'white', 'center');
+        // sort renderable        
         this.sort();
+
+        this.yText = 0;
+        this.xText = 0;
     },
+    /**
+     * @override
+     */
+    draw: function(context) {
+        this.parent(context);
+        if (this.text) {
+            this.font.draw(context, this.text, this.xText, this.yText);
+        }
+    },    
     // Propagate UI event to handler
     onEvent: function(name) {
         if (this.eventHandler) {
             this.eventHandler[name].call(this.eventHandler, Array.prototype.slice.call(arguments, 1));
         }
-    }
+    },
+
+    drawText: function(text) {
+        this.text = text;
+    },
+
+    clearText: function() {
+        this.text = null;
+    }        
 });
 /**
  * Title HUD
@@ -144,7 +168,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.selectedActor = null;
         
         // draw wizards
-        var wx = 5, wy = 5;
+        var wx = 5, wy = 4;
         this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(wx, wy, {});
         wx += 2;
         this.actors[_Globals.wizards.Water] = new game.WaterWizardEntity(wx, wy, {});
@@ -160,6 +184,9 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
             this.touchRects[i] = new me.Rect(new me.Vector2d(pos.x, pos.y), pos.w, pos.h);
             me.input.registerPointerEvent('mousedown', this.touchRects[i], this.touchWizard.bind(this, i));
         }
+
+        this.xText = 400;
+        this.yText = 415;
 
         // add buttons
         this.btnStart = new game.MenuScene.HUD.Clickable(400, 
@@ -186,7 +213,6 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
      * Release wizards onClick events before destroying object container
      */
     destroy: function() {
-        console.log('destroy');
         for (var i in this.actors) {
             me.input.releasePointerEvent('mousedown', this.touchRects[i]);
         }
@@ -214,5 +240,20 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.actors[who].playAnimation('walk_down', function() {
             self.actors[who].playAnimation('stand_down');
         });
+
+        switch(who) {
+            case _Globals.wizards.Earth:
+                this.drawText('Earth ');
+            break;
+            case _Globals.wizards.Water:
+                this.drawText('Water ');
+            break;
+            case _Globals.wizards.Fire:
+                this.drawText('Fire ');
+            break;
+            case _Globals.wizards.Air:
+                this.drawText('Air ');
+            break;
+        }
     }
 });

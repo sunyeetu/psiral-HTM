@@ -4,5 +4,6 @@
 build.number
 assets.todo/*
 build/*
+css/*.zip
 howler.js
 

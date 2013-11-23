@@ -71,7 +71,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
         });
         // font to draw texts
         this.text = null;
-        this.font = new me.Font('Arial', '1.8em', 'white', 'center');
+        this.font = new me.Font('walkaway', '2.0em', 'white', 'center');
     },
 
     draw: function(context) {
