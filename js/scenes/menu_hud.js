@@ -32,7 +32,6 @@ game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
         this.blend = false;
         this.alpha = 1.0;
 
-        console.log(this.touchRect);
         this.touchRect = new me.Rect(new me.Vector2d(x, y), 
             game.MenuScene.HUD.ButtonWidth, 
             game.MenuScene.HUD.ButtonHeight);
@@ -81,20 +80,11 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         // (default) event handler 
         this.eventHandler = eventHandler;
 
-        // background
-        this.width = _Globals.canvas.width;
-        this.height = _Globals.canvas.height;
-        this.cx = _Globals.canvas.gameWidth / 2 - this.width / 2;
-        this.cy = _Globals.canvas.height / 2 - this.height / 2;
-        this.endx = this.cx + this.width;
-        this.endy = this.cy + this.height;
-        this.xcenter = this.cx +  this.width / 2;
-        this.ycenter = this.cy +  this.height / 2;
-
         // draw background
         this.imageBackground = new me.SpriteObject(0, 0, me.loader.getImage('menu-background'));
         this.addChild(this.imageBackground);
         // draw title
+        this.titleTouchRect = new me.Rect(new me.Vector2d(50, 100), 350, 150);
         this.imageTitle = new me.SpriteObject(50, 100, me.loader.getImage('menu-title'));
         this.addChild(this.imageTitle);
 
@@ -152,6 +142,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.actors = {};
         this.touchRects = {};
         this.selectedActor = null;
+        
         // draw wizards
         var wx = 5, wy = 5;
         this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(wx, wy, {});
@@ -182,8 +173,24 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                     }
                 }
         });
+        // back to title screen
+        me.input.registerPointerEvent('mousedown', this.titleTouchRect, function() {
+            me.input.releasePointerEvent('mousedown', parent.titleTouchRect);
+            parent.onEvent('onClick_Title');
+        });
 
         this.sort();
+    },
+    /**
+     * @override
+     * Release wizards onClick events before destroying object container
+     */
+    destroy: function() {
+        console.log('destroy');
+        for (var i in this.actors) {
+            me.input.releasePointerEvent('mousedown', this.touchRects[i]);
+        }
+        this.parent();
     },
 
     touchWizard: function(who) {
@@ -197,7 +204,6 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         }
         this.addChild(this.btnStart);
         this.selectedActor = who;
-
         // dim all but selected
         for (var i in this.actors) {
             this.actors[i].setAlpha(0.5);

@@ -23,24 +23,31 @@ game.MenuScene = me.ScreenObject.extend({
      */
     onResetEvent: function() {
         this.hudTitle = new game.MenuScene.HUD.Title(this, {});
-        this.hudChar = new game.MenuScene.HUD.SelectCharacter(this, {});
-
         me.game.world.addChild(this.hudTitle);
     },
     /**        
      *  action to perform when leaving this screen (state change)
      */
     onDestroyEvent: function() {
-        // me.game.world.removeChild(this.hudTitle);
-        me.game.world.removeChild(this.hudChar);
+        this.hudTitle && me.game.world.removeChild(this.hudTitle);
+        this.hudChar && me.game.world.removeChild(this.hudChar);
     },
 
     /************************************************************************
      * UI Events
      */
     
+    onClick_Title: function() {
+        me.game.world.removeChild(this.hudChar);
+        this.hudChar = null;
+        this.hudTitle = new game.MenuScene.HUD.Title(this, {});
+        me.game.world.addChild(this.hudTitle);
+    },
+
     onClick_Play: function() {
         me.game.world.removeChild(this.hudTitle);
+        this.hudTitle = null;
+        this.hudChar = new game.MenuScene.HUD.SelectCharacter(this, {});        
         me.game.world.addChild(this.hudChar);
     },
 
