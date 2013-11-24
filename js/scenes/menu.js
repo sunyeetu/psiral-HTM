@@ -24,11 +24,17 @@ game.MenuScene = me.ScreenObject.extend({
     onResetEvent: function() {
         this.hudTitle = new game.MenuScene.HUD.Title(this, {});
         me.game.world.addChild(this.hudTitle);
+
+        // play music
+        me.audio.play('elementary_wave', true);
     },
     /**        
      *  action to perform when leaving this screen (state change)
      */
     onDestroyEvent: function() {
+        // stop music
+        me.audio.stop('elementary_wave');
+
         this.hudTitle && me.game.world.removeChild(this.hudTitle);
         this.hudChar && me.game.world.removeChild(this.hudChar);
     },

@@ -160,7 +160,7 @@ game.PlayScene = me.ScreenObject.extend({
         me.game.world.addChild(this.gfx);
 
         // play music
-        // me.audio.play('observingthestar', false);
+        me.audio.play('observingthestar', false);
 
         // Start game
         this.setState(this.SceneStates.StartGame);

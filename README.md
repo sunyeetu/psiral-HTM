@@ -50,6 +50,7 @@ The following javascript libraries are used:
 
 ### Music
   * [ObservingTheStar](http://opengameart.org/content/another-space-background-track) by [yd](http://opengameart.org/users/yd)
+  * [Elementary Wave](http://www.freesound.org/people/Erokia/sounds/183881/) by [Erokia](http://www.freesound.org/people/Erokia/)
 
 ### Sounds
   * [pen click.WAV](http://www.freesound.org/people/Millavsb/sounds/197877/)

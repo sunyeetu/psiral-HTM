@@ -57,7 +57,9 @@ var game = {
 
         // load some sfx
         me.plugin.register(howlerAudio, "howlerAudio", "mp3,ogg");
-        me.plugin.howlerAudio.load(game.resources);
+        me.audio.disable();
+        // me.plugin.howlerAudio.load(game.resources);
+
 
         // Initialize melonJS and display a loading screen.
         me.state.change(me.state.LOADING);
@@ -95,8 +97,8 @@ var game = {
         this.session.wizard = _Globals.wizards.Earth;
 
         // Start the game.
-        // me.state.change(me.state.MENU);
-        me.state.change(me.state.PLAY);
+        me.state.change(me.state.MENU);
+        // me.state.change(me.state.PLAY);
     },
     /**
      * Get X cooridnate relevant to tilemap position
