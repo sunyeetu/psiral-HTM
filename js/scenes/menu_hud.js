@@ -241,19 +241,19 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
             self.actors[who].playAnimation('stand_down');
         });
 
-        switch(who) {
-            case _Globals.wizards.Earth:
-                this.drawText('Earth ');
-            break;
-            case _Globals.wizards.Water:
-                this.drawText('Water ');
-            break;
-            case _Globals.wizards.Fire:
-                this.drawText('Fire ');
-            break;
-            case _Globals.wizards.Air:
-                this.drawText('Air ');
-            break;
-        }
+        // switch(who) {
+        //     case _Globals.wizards.Earth:
+        //         this.drawText(nls.get('menu.wiz_earth'));
+        //     break;
+        //     case _Globals.wizards.Water:
+        //         this.drawText(nls.get('menu.wiz_water'));
+        //     break;
+        //     case _Globals.wizards.Fire:
+        //         this.drawText(nls.get('menu.wiz_fire'));
+        //     break;
+        //     case _Globals.wizards.Air:
+        //         this.drawText(nls.get('menu.wiz_air'));
+        //     break;
+        // }
     }
 });
