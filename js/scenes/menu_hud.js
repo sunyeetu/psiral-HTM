@@ -38,9 +38,10 @@ game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
 
         var parent = this;
         me.input.registerPointerEvent('mousedown', this.touchRect, function() {
-            me.audio.play('click', false);
             me.input.releasePointerEvent('mousedown', parent.touchRect);
             parent.blend = true;
+            // play sound
+            me.audio.play('click', false);
         });
         
     },

@@ -70,6 +70,8 @@ game.resources = [
     {name: "freeze", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "blind", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "path", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "change", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "abyss", type: "audio", src: "assets/sfx/", channel : 1},
     
     // {name: "observingthestar", type: "audio", src: "assets/muzik/", channel: 1, stream: true}
 ];

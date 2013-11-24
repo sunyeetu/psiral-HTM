@@ -54,9 +54,10 @@ The following javascript libraries are used:
 ### Sounds
   * [pen click.WAV](http://www.freesound.org/people/Millavsb/sounds/197877/)
   * [Shaking Dice.flac](http://www.freesound.org/people/qubodup/sounds/189320/)
-  * [teleport.mp3](http://www.freesound.org/people/outroelison/sounds/150950/)
+  * [teleport.wav](http://opengameart.org/content/teleport-spell)
   * [ice_cracking_01.flac](http://www.freesound.org/people/Mooe/sounds/169897/)
   * [Fire Magic Spell Sound Effect](http://www.freesound.org/people/qubodup/sounds/159725/)
+  * [Magical fizzlerz](http://www.freesound.org/people/jobro/sounds/204303/) by [jobro](http://www.freesound.org/people/jobro/)
   * Info pending ...
 
 All sounds were edited with [Audacity](http://audacity.sourceforge.net/) in order to suit the in-game atmosphere.

@@ -208,6 +208,9 @@ game.HUD.Clickable = me.GUI_Object.extend({
         this.handler = settings.onClick;
     },
     onClick: function(event) {
+        // play sound
+        me.audio.play('click', false);
+        
         this.handler && this.handler(event);
         // don't propagate the event
         return false;
