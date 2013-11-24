@@ -12,7 +12,7 @@ body {
 }
 @font-face {
     font-family: walkaway;
-    src: url('Walkway Black.ttf');
+    src: url('/css/walkwayblack.ttf');
 }
 #screen {
     width: 1024px;

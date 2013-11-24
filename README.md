@@ -49,7 +49,7 @@ The following javascript libraries are used:
   * Info pending ...
 
 ### Music
-  * Info pending ...
+  * [ObservingTheStar](http://opengameart.org/content/another-space-background-track) by [yd](http://opengameart.org/users/yd)
 
 ### Sounds
   * [pen click.WAV](http://www.freesound.org/people/Millavsb/sounds/197877/)

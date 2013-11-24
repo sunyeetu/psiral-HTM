@@ -71,6 +71,5 @@ game.resources = [
     {name: "blind", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "path", type: "audio", src: "assets/sfx/", channel : 1},
     
-    // {name: "observingthestar", type: "audio", src: "assets/sfx/", channel: 1, stream: true}
-    // {name: "song18_0", type: "audio", src: "assets/sfx/", channel: 1, stream: true}
+    // {name: "observingthestar", type: "audio", src: "assets/muzik/", channel: 1, stream: true}
 ];
