@@ -3,7 +3,6 @@
 *.psd
 
 ### sound
-*.mp3
 *.flac
 *.txt
 *.wave

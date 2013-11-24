@@ -257,7 +257,7 @@ game.PlayScene = me.ScreenObject.extend({
         var mana;
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         
-        // chance = _Globals.chance.Mana2;
+        chance = _Globals.chance.Jump;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -287,6 +287,9 @@ game.PlayScene = me.ScreenObject.extend({
                 
                 // actor.setVisible(false);
                 actor.visible = false;
+
+                // play sound
+                me.audio.play('teleport', false);
 
                 this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
                     // make wizard visible again at new position
@@ -359,7 +362,10 @@ game.PlayScene = me.ScreenObject.extend({
             parent.gameboard.changeTiles(game.map.Tiles.Earth, affectedTiles, function() {
                 // wait for transition to complete and then proceed to next move
                 parent.setState(parent.SceneStates.NextMove);
-            });            
+            });
+            // play sound
+            me.audio.play('path', false);
+            
         } else if (type === _Globals.spells.Freeze) {
             /**
              * Water Wizard - Freeze
@@ -369,6 +375,9 @@ game.PlayScene = me.ScreenObject.extend({
                 // wait for transition to complete and then proceed to next move
                 parent.setState(parent.SceneStates.NextMove);
             });
+            // play sound
+            me.audio.play('freeze', false);
+
         } else if (type === _Globals.spells.Blind) {
             /**
              * Fire Wizard - Blind
@@ -389,7 +398,9 @@ game.PlayScene = me.ScreenObject.extend({
             parent.gfx.play(game.GFX.anims.Blind, pos.x, pos.y, function() {
                 // on to next move
                 parent.setState(parent.SceneStates.NextMove);
-            });            
+            });
+            // play sound
+            me.audio.play('blind', false);            
           
         } else if (type === _Globals.spells.Teleport) {
             /**
@@ -417,6 +428,9 @@ game.PlayScene = me.ScreenObject.extend({
                 });
 
             });
+            // play sound
+            me.audio.play('teleport', false);
+
         } else {
             // player must first select a tile to cast spell
             substractMana = false;

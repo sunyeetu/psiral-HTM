@@ -94,7 +94,6 @@ game.HUD.Stats = me.ObjectContainer.extend({
     updateMana: function(wizard, amount) {
         // TODO: use local references instead of getEntityByProp
         var bars = this.getEntityByProp('name', 'manabar_' + wizard);
-        console.log(bars.length);
         for (var i = bars.length - 1; i >= 0; i--) {
             this.removeChild(bars[i]);
         }
@@ -347,6 +346,9 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         // only clickable when the dice side is revealed
         icon.isClickable = false;
 
+        // play sound
+        me.audio.play('rolldice', true);
+        
         this.diceAnim = new game.HUD.ClickableAnimation(dx, dy, {
             image: 'dice',
             fadeout: true,
@@ -355,6 +357,10 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
                 parent.diceAnim.animationpause = true;
                 parent.addChild(icon);
                 icon.isClickable = true;
+
+                // play sound
+                me.audio.stop('rolldice');
+                me.audio.play('rolldice2', false);
             }
         }, parent);
 

@@ -63,7 +63,12 @@ game.resources = [
      * {name: "example_sfx", type: "audio", src: "data/sfx/", channel : 2}
      * {name: "example_bgm", type: "audio", src: "data/bgm/", channel : 1},
      */
-    // {name: "rolldice", type: "audio", src: "assets/sfx/", channel : 2},
-    // {name: "burp", type: "audio", src: "assets/sfx/", channel: 1},
- //    {name: "song18_0", type: "audio", src: "assets/sfx/", channel: 1, stream: true}
+    {name: "click", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "rolldice", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "rolldice2", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "teleport", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "freeze", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "blind", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "path", type: "audio", src: "assets/sfx/", channel : 1},
+    // {name: "song18_0", type: "audio", src: "assets/sfx/", channel: 1, stream: true}
 ];
