@@ -120,6 +120,8 @@ game.WizardEntity = me.ObjectEntity.extend({
                     this.pos.y = dy;
                     this.moving = false;
                     this.renderable.setCurrentAnimation(animToSet);
+                    // stop sound
+                    me.audio.stop('walk_earth');                    
                     // notify
                     this.movement.cb && this.movement.cb();
                 } else {
@@ -128,7 +130,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                         this.vel.x = 0;
                         this.vel.y = 0;
                         // this.pos.x = dx;
-                        // this.pos.y = dy;                        
+                        // this.pos.y = dy;
                     }
                     this.movement.direction = newDirection;
                     // sanity check
@@ -184,6 +186,8 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.movement.cb = cb;
         if (this.movement.direction != _Globals.directions.None) {
             this.moving = true;
+            // play sound
+            me.audio.play('walk_earth', true);
         } else {
             // we're already there!
             cb && cb();

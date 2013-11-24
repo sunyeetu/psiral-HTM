@@ -260,7 +260,7 @@ game.PlayScene = me.ScreenObject.extend({
         var mana;
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         
-        chance = _Globals.chance.Jump;
+        chance = _Globals.chance.Move1;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -316,7 +316,7 @@ game.PlayScene = me.ScreenObject.extend({
 
         // path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 10);
 
-        if (path && path.length > 0) {
+        if (path && path.length > 0) {          
             this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
                 var lastMove = path.pop();
                 // XXX update logs
