@@ -159,6 +159,9 @@ game.PlayScene = me.ScreenObject.extend({
         this.gfx = new game.GFX.Container();
         me.game.world.addChild(this.gfx);
 
+        // play music
+        // me.audio.play('observingthestar', false);
+
         // Start game
         this.setState(this.SceneStates.StartGame);
     },
@@ -365,12 +368,13 @@ game.PlayScene = me.ScreenObject.extend({
             });
             // play sound
             me.audio.play('path', false);
-            
+
         } else if (type === _Globals.spells.Freeze) {
             /**
              * Water Wizard - Freeze
              */
             affectedTiles = game.map.getAllTiles(game.map.Tiles.Water);
+            parent.gameboard.setAlpha(1.0);
             parent.gameboard.changeTiles(game.map.Tiles.Frozen, affectedTiles, function() {
                 // wait for transition to complete and then proceed to next move
                 parent.setState(parent.SceneStates.NextMove);
