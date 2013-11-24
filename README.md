@@ -3,7 +3,7 @@ _.o0 Psiral 0o._
 
 HTML5/Javascript web browser game. GitHub [game-off-2013](https://github.com/github/game-off-2013) challenge entry.
 
-# Supported Browsers
+## Supported Browsers
 
 <table>
   <tr>
@@ -33,22 +33,24 @@ HTML5/Javascript web browser game. GitHub [game-off-2013](https://github.com/git
   </tr>  
 </table>
 
-# Open Source Libraries
-Raging Gardens uses the following javascript libraries:
+## Open Source Libraries
+The following javascript libraries are used:
 
   * [melonJS](http://melonjs.org/) - A lightweight HTML5 game engine.  
   * [howler.js](http://howlerjs.com) - Javascript audio library for the modern web.
   * [underscorejs](http://underscorejs.org/) - A utility-belt library for JavaScript.
   * [fnDelay](https://github.com/greghouston/fnDelay) - melonJS plugin: fnDelay allows you to delay a function.
 
-# License
-The game **without** game art is under Attribution-NoDerivs 3.0 Unported [(CC BY-ND 3.0)](http://creativecommons.org/licenses/by-nd/3.0/). Check the [LICNESE](LICENSE) file for more info.
+## License
+The game **without** game art is under Attribution-NoDerivs 3.0 Unported [(CC BY-ND 3.0)](http://creativecommons.org/licenses/by-nd/3.0/). 
 
-# Credits
-## Game Art
+Check the [LICNESE](LICENSE) file for more info.
+
+## Credits
+### Game Art
 Info pending ...
 
-## Sound and Music
+### Sound and Music
 Music score:
   * Info pending ...
 
@@ -62,6 +64,6 @@ Using the following sounds:
 
 In order to suit the in-game atmosphere, all sounds were edited with [Audacity](http://audacity.sourceforge.net/).
 
-# Game Off 2013
+---
 
 ![GitHub Game Off Game Jam](https://f.cloud.github.com/assets/121322/1436486/25f88b78-4158-11e3-9b23-43596516362c.png)
