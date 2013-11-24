@@ -27,7 +27,6 @@
      */
     var _instance = {
         init: function(locale) {
-            console.log(locale);
             switch(locale) {
                 case 'en':
                 default:

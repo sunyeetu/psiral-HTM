@@ -221,7 +221,7 @@ game.TileEntity = me.AnimationSheet.extend({
         this.setCurrentAnimation(this.getNameFromType(settings.type));
         this.animationpause = true;
         this.fadeInOut = false;
-        this.fadeStep = 0.025;
+        this.fadeStep = 0.0075;
         this.fadeInCallback = null;
         this.fadeOutCallback = null;
     },
@@ -267,7 +267,7 @@ game.TileEntity = me.AnimationSheet.extend({
     enableFade: function(fadeOutCallback, fadeInCallback) {
         this.fadeInOut = true;
         // this.alpha = 1.0;
-        this.fadeStep = 0.025;
+        this.fadeStep = 0.0075;
 
         // XXX: This can get ugly if called simultaneously from different places!!
         this.fadeOutCallback = fadeOutCallback;
