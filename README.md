@@ -14,22 +14,22 @@ HTML5/Javascript web browser game. GitHub [game-off-2013](https://github.com/git
   <tr>
     <th>Google Chrome</th>
     <td>Yes</td>
-    <td>23.0; 24.0</td>
+    <td>31.0</td>
   </tr>
   <tr>
     <th>Firefox</th>
     <td>Yes</td>
-    <td>17.0; 18.02</td>
+    <td>25.0</td>
   </tr>
   <tr>
     <th>Safari</th>
-    <td>Yes*</td>
-    <td>5.1.7</td>
+    <td>?</td>
+    <td>?</td>
   </tr>   
   <tr>
     <th>IE</th>
-    <td>Yes*</td>
-    <td>10.0</td>
+    <td>?</td>
+    <td>?</td>
   </tr>  
 </table>
 
@@ -41,20 +41,14 @@ The following javascript libraries are used:
   * [underscorejs](http://underscorejs.org/) - A utility-belt library for JavaScript.
   * [fnDelay](https://github.com/greghouston/fnDelay) - melonJS plugin: fnDelay allows you to delay a function.
 
-## License
-The game **without** game art is under Attribution-NoDerivs 3.0 Unported [(CC BY-ND 3.0)](http://creativecommons.org/licenses/by-nd/3.0/). 
-
-Check the [LICNESE](LICENSE) file for more info.
-
 ## Credits
-### Game Art
-Info pending ...
-
-### Sound and Music
-Music score:
+### Team
   * Info pending ...
 
-Using the following sounds:
+### Music
+  * Info pending ...
+
+### Sounds
   * [pen click.WAV](http://www.freesound.org/people/Millavsb/sounds/197877/)
   * [Shaking Dice.flac](http://www.freesound.org/people/qubodup/sounds/189320/)
   * [teleport.mp3](http://www.freesound.org/people/outroelison/sounds/150950/)
@@ -62,7 +56,12 @@ Using the following sounds:
   * [Fire Magic Spell Sound Effect](http://www.freesound.org/people/qubodup/sounds/159725/)
   * Info pending ...
 
-In order to suit the in-game atmosphere, all sounds were edited with [Audacity](http://audacity.sourceforge.net/).
+All sounds were edited with [Audacity](http://audacity.sourceforge.net/) in order to suit the in-game atmosphere.
+
+## License
+The game **without** game art is under Attribution-NoDerivs 3.0 Unported [(CC BY-ND 3.0)](http://creativecommons.org/licenses/by-nd/3.0/). 
+
+Check the [LICNESE](LICENSE) file for more info.
 
 ---
 
