@@ -81,8 +81,7 @@ game.GFX.SpellEntity = me.ObjectEntity.extend({
     }
 });
 /**
- * Clear background
- *
+ * Clear background. Taken from the following places (with minor adjustments):
  * http://pastie.org/4752451
  * https://groups.google.com/forum/#!searchin/melonjs/transparent$20background/melonjs/9khmjV8ytIo/3H68gG6xycMJ
  */
