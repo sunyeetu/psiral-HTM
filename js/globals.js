@@ -64,5 +64,12 @@ var _Globals = {
         Water: 'water',
         Fire: 'fire',
         Air: 'air'
+    },
+
+    // DBG
+    isDebug: true,
+    debug: function() {
+        if (this.isDebug)
+            console.log(arguments);
     },    
 };
