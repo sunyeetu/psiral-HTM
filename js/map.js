@@ -234,8 +234,6 @@
             // }
             buff.x = x;
             buff.y = y;
-            // console.log('putting buff at ' + idx);
-            // console.log(buff);
             buffsMap[idx] = buff;
             return idx;
         },
@@ -258,7 +256,6 @@
          */
         isTileBuff: function(x, y, type) {
             var buff = this.getTileBuff(x, y);
-            console.log(buff);
             if (buff && type) {
                 return buff.type === type;
             }
@@ -269,8 +266,7 @@
             buffsMap[y * mapWidth + x] = null;
             // delete buffsMap[y * mapWidth + x];
             // var clr = _.without(tileBuffs, buffs);
-            console.log('removed buff');
-            // console.log(this.getTileBuff(x, y));
+            _Globals.debug('removed buff at: ', x, y);
         },
 
         walkBuffs: function(callback) {

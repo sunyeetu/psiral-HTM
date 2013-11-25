@@ -222,8 +222,8 @@ game.WizardEntity = me.ObjectEntity.extend({
         } else if (currentY > dy) {
             return _Globals.directions.Up;
         } else {
-            console.log(" pos: %d %d", currentX, currentY)
-            console.log("dest: %d %d", dx, dy)
+            _Globals.debug("nodir!  pos:", currentX, currentY);
+            _Globals.debug("nodir! dest:", dx, dy);
             return _Globals.directions.None;    
         }
     },

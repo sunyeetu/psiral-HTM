@@ -63,7 +63,6 @@ game.MenuScene = me.ScreenObject.extend({
     },
 
     onClick_StartGame: function(data) {
-        console.log('start game');
         game.session.wizard = data[0];
         me.state.change(me.state.PLAY);
     }      

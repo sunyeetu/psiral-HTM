@@ -151,9 +151,10 @@ game.BoardEntity = me.ObjectContainer.extend({
             var oldSelTileIdx = this.lastSelX + this.lastSelY * game.map.width;
 
             if (tileIdx === oldSelTileIdx) {
-                // confirm selection
+                // confirm and cleanup selection
                 this.tileMap[tileIdx].disableFade();
                 this.lastSelX = undefined;
+                // notify caller
                 callback && callback(tileX, tileY);
                 return;
             } else {

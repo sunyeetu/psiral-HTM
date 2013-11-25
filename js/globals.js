@@ -69,7 +69,12 @@ var _Globals = {
     // DBG
     isDebug: true,
     debug: function() {
-        if (this.isDebug)
-            console.log(arguments);
+        if (this.isDebug) {
+            if (arguments.length > 1) {
+                console.log(arguments);
+            } else {
+                console.log(arguments[0]);
+            }
+        }
     },    
 };

@@ -160,7 +160,7 @@
             if (++match.move.current >= match.sequence.length) {
                 match.move.current = -1;
                 match.turn++;
-                console.log('-----------turn ' +  match.turn + ' start --------------------');
+                _Globals.debug('-----------turn ' +  match.turn + ' start --------------------');
 
                 // check which spells expire
                 
@@ -196,6 +196,7 @@
             // get chance before actually the user requests it
             // this.setData(current, this.Props.LastDice, throwDice());
             wizards[current].lastdice = throwDice();
+            _Globals.debug('generating chance: ', wizards[current].lastdice);
 
             if (wizards[current].skipTurnUntil > match.turn) {
                 this.onEvent('onSkipMove', current, this.getWizardName(current));
@@ -273,7 +274,6 @@
                 case this.Props.AllDice:
                     return wizards[who].log.dice;
                 case this.Props.LastDice:
-                    console.log('getting chance ' + wizards[who].lastdice);
                     return wizards[who].lastdice;
                 default:
                 throw "GM: Sorry, not implemented!"

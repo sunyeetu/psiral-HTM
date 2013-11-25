@@ -234,19 +234,19 @@ game.PlayScene = me.ScreenObject.extend({
      */
     
     onSelectDice: function() {
-        console.log('selected throw dice');
+        _Globals.debug('selected throw dice');
         this.removeHUD();
         this.setState(this.SceneStates.HUDThrowDice);
     },
 
     onSelectSpell: function() {
-        console.log('selected spell');
+        _Globals.debug('selected spell');
         this.removeHUD();
         this.setState(this.SceneStates.HUDSelectSpell);
     },
 
     onCancelSelectSpell: function() {
-        console.log('cancel spell');
+        _Globals.debug('cancel spell');
         this.removeHUD();
         this.setState(this.SceneStates.HUDSelectMove);
     },    
@@ -357,7 +357,7 @@ game.PlayScene = me.ScreenObject.extend({
     onCastSpell: function(data) {
         var type = data[0];
         var where = data[1];
-        console.log('casting ' + type);
+        _Globals.debug('casting:', type);
 
         if (!game.gamemaster.isCanCast(game.gamemaster.currentWizard, type)) {
             // No mana! Go back to selection menu.
@@ -549,7 +549,8 @@ game.PlayScene = me.ScreenObject.extend({
         this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
         // TODO
         this.onDiceThrown();
-        // console.log('AI skipped!');
+
+        // _Globals.debug('AI skipped!');
         // this.setState(this.SceneStates.NextMove);
     },
 
@@ -566,7 +567,7 @@ game.PlayScene = me.ScreenObject.extend({
     onExpireSpell: function(data) {
         var type = data[0];
         var tiles = data[1];
-        console.log('Removing spell ' + type);
+        _Globals.debug('Removing spell ', type);
 
         if (tiles) {
             this.gameboard.restoreTiles(tiles);
