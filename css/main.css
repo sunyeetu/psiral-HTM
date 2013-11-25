@@ -6,7 +6,7 @@
 
 body {
     background: #192b2f;
-    background-image: url('/assets/gfx/bg.jpg');
+    background-image: url('/assets/gui/bg.jpg');
     background-position:top;
     background-repeat:no-repeat;
     background-attachment:fixed;
