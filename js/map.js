@@ -154,7 +154,7 @@
             Fire: F,
             Air: A,
             Fountain: X,
-            Hole: H,
+            Abyss: H,
             Clay: UF,
             Base1: S1,
             Base2: S2,
@@ -162,7 +162,7 @@
             Base4: S4,
             // others
             Frozen: UF + 5,
-            Abyss: UF + 6
+            // Abyss: UF + 6
         },
 
         Directions: {
@@ -258,6 +258,7 @@
          */
         isTileBuff: function(x, y, type) {
             var buff = this.getTileBuff(x, y);
+            console.log(buff);
             if (buff && type) {
                 return buff.type === type;
             }

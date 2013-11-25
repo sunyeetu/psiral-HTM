@@ -137,21 +137,23 @@ game.BoardEntity = me.ObjectContainer.extend({
         // do not allow occupied tiles to be selected
         if (game.map.isTileOccupied(tileX, tileY)) {
             //XXX: perhaps use this as spell cancellation
+            _Globals.debug('occupied tile: ', tileX, tileY);
             return;
         }
         if (game.map.isTileSelectable(tileX, tileY)) {
+            _Globals.debug('not selectable tile: ', tileX, tileY);
             return;
         }
 
         var tileIdx = tileX + tileY * game.map.width;
 
-        if (this.lastSelX) {
+        if (typeof this.lastSelX !== 'undefined') {
             var oldSelTileIdx = this.lastSelX + this.lastSelY * game.map.width;
 
             if (tileIdx === oldSelTileIdx) {
                 // confirm selection
                 this.tileMap[tileIdx].disableFade();
-                this.lastSelX = null;
+                this.lastSelX = undefined;
                 callback && callback(tileX, tileY);
                 return;
             } else {
