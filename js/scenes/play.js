@@ -259,31 +259,34 @@ game.PlayScene = me.ScreenObject.extend({
         var path;
         var mana;
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
+        var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        chance = _Globals.chance.Move1;
+        // chance = _Globals.chance.Move1;
 
         switch(chance) {
             case _Globals.chance.Move1:
-                this.statsHUD.drawText('Move 1 tile');
+                this.statsHUD.drawText(wizardName + ' moves 1 tile');
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 1);
             break;
             case _Globals.chance.Move2:
-                this.statsHUD.drawText('Move 2 tiles');
+                this.statsHUD.drawText(wizardName + ' moves 2 tiles');
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 2);
             break;
             case _Globals.chance.Numb:
                 // nothing
-                this.statsHUD.drawText('Numbed. You skip 1 move.');
+                this.statsHUD.drawText(wizardName + ' got numbed. Skips 1 move.');
                 self.setState(self.SceneStates.NextMove);            
             break;
             case _Globals.chance.Mana1:
+                this.statsHUD.drawText(wizardName + ' gains +1 mana');
                 mana = 1;
             break;
             case _Globals.chance.Mana2:
+                this.statsHUD.drawText(wizardName + ' gains +2 mana');
                 mana = 2;
             break;            
             case _Globals.chance.Jump:
-                this.statsHUD.drawText('Teleport 2 tiles');
+                this.statsHUD.drawText(wizardName + ' teleports 2 tiles');
                 var actor = self.actors[game.gamemaster.currentWizard];
                 var pos = game.map.getPos(game.gamemaster.currentWizard);
                 var dest = game.map.getNextMove(game.gamemaster.currentWizard, 2);
@@ -316,22 +319,28 @@ game.PlayScene = me.ScreenObject.extend({
 
         // path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 10);
 
-        if (path && path.length > 0) {          
-            this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
-                var lastMove = path.pop();
-                // XXX update logs
-                game.map.setPos(game.gamemaster.currentWizard, lastMove.x, lastMove.y);
-                game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
-                game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, lastMove);
-                // done moving, on to next move
-                self.setState(self.SceneStates.NextMove);
-            });
+        if (path) {
+            if (path.length > 0) {
+                this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
+                    var lastMove = path.pop();
+                    // XXX update logs
+                    game.map.setPos(game.gamemaster.currentWizard, lastMove.x, lastMove.y);
+                    game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
+                    game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, lastMove);
+                    // done moving, on to next move
+                    self.setState(self.SceneStates.NextMove);
+                });
+            } else {
+                me.plugin.fnDelay.add(function() {
+                    this.statsHUD.drawText(wizardName + ' cannot move ahead!');
+                    self.setState(self.SceneStates.NextMove);
+                }, 750);                
+            }
         } else if (mana) {
-            this.statsHUD.drawText('You gain +' + mana + ' mana');
             game.gamemaster.addMana(game.gamemaster.currentWizard, mana);
             this.statsHUD.updateMana(game.gamemaster.currentWizard, 
                 game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));
-            self.setState(self.SceneStates.NextMove);            
+            self.setState(self.SceneStates.NextMove);
         }
     },
 
@@ -529,8 +538,9 @@ game.PlayScene = me.ScreenObject.extend({
         this.gameboard.setAlpha(0.5);
         this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
         // TODO
-        console.log('AI skipped!');
-        this.setState(this.SceneStates.NextMove);
+        this.onDiceThrown();
+        // console.log('AI skipped!');
+        // this.setState(this.SceneStates.NextMove);
     },
 
     onSkipMove: function(data) {
