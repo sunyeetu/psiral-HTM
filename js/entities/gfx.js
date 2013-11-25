@@ -80,4 +80,25 @@ game.GFX.SpellEntity = me.ObjectEntity.extend({
         });
     }
 });
+/**
+ * Clear background
+ *
+ * http://pastie.org/4752451
+ * https://groups.google.com/forum/#!searchin/melonjs/transparent$20background/melonjs/9khmjV8ytIo/3H68gG6xycMJ
+ */
+game.GFX.ClearScreen = me.Renderable.extend({
+    init: function() {
+        this.parent(new me.Vector2d(0, 0), me.video.getWidth(), me.video.getHeight());
+        this.z = -Infinity;
+        this.isPersistent = true;
+        this.visible = true;
+    },
 
+    update: function() {
+        return true;
+    },
+
+    draw: function(context) {
+        context.clearRect(0, 0, this.width, this.height);
+    }
+});

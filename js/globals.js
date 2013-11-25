@@ -13,7 +13,7 @@ var _Globals = {
         height: 672,
         gameWidth: 952,
         gameHeight: 672,
-        xOffset: 0,
+        xOffset: 36,
         yOffset: 96, //56,
         yOffsetHUD: 4,
     },

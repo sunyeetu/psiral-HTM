@@ -15,7 +15,7 @@ var game = {
     // Run on page load.
     "onload": function () {
         // Initialize the video.
-        if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, true, 
+        if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false, 
             me.device.isMobile ? 1.99 : null)) {
 
             console.error("Your browser does not support HTML5 canvas.");
@@ -62,6 +62,7 @@ var game = {
 
 
         // Initialize melonJS and display a loading screen.
+        me.state.set(me.state.LOADING, new game.SplashScreen());
         me.state.change(me.state.LOADING);
 
         // Init global locales

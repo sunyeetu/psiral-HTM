@@ -231,18 +231,18 @@ game.TileEntity = me.AnimationSheet.extend({
 
     getNameFromType: function(type) {
         switch(type) {
-            case  game.map.Tiles.Earth: return 'earth';
-            case  game.map.Tiles.Water: return 'water';
-            case  game.map.Tiles.Fire: return 'fire';
-            case  game.map.Tiles.Air: return 'air';
-            case  game.map.Tiles.Fountain: return 'fountain';
-            case  game.map.Tiles.Clay: return 'clay';
-            case  game.map.Tiles.Base1: return 'base1';
-            case  game.map.Tiles.Base2: return 'base2';
-            case  game.map.Tiles.Base3: return 'base3';
-            case  game.map.Tiles.Base4: return 'base4';
-            case  game.map.Tiles.Abyss: return 'abyss';
-            case  game.map.Tiles.Frozen: return 'frozen';
+            case game.map.Tiles.Earth: return 'earth';
+            case game.map.Tiles.Water: return 'water';
+            case game.map.Tiles.Fire: return 'fire';
+            case game.map.Tiles.Air: return 'air';
+            case game.map.Tiles.Fountain: return 'fountain';
+            case game.map.Tiles.Clay: return 'clay';
+            case game.map.Tiles.Base1: return 'base1';
+            case game.map.Tiles.Base2: return 'base2';
+            case game.map.Tiles.Base3: return 'base3';
+            case game.map.Tiles.Base4: return 'base4';
+            case game.map.Tiles.Abyss: return 'abyss';
+            case game.map.Tiles.Frozen: return 'frozen';
         }
         throw "Board: unknown tile type " + type;
     },

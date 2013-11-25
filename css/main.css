@@ -5,7 +5,11 @@
  */
 
 body {
-    background: #000;
+    background: #192b2f;
+    background-image: url('/assets/gfx/bg.jpg');
+    background-position:top;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
     /*border: 1px solid red;*/
     margin: 0;
     padding: 0;

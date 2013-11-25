@@ -111,9 +111,9 @@ game.PlayScene = me.ScreenObject.extend({
         }
     },
 
-    draw: function(ctx) {
-        me.video.clearSurface(ctx, 'black'); 
-    },
+    // draw: function(ctx) {
+    //     me.video.clearSurface(ctx, 'transparent'); 
+    // },
     /**        
      * Action to perform on state change
      */
@@ -158,6 +158,13 @@ game.PlayScene = me.ScreenObject.extend({
         // add gfx manager
         this.gfx = new game.GFX.Container();
         me.game.world.addChild(this.gfx);
+
+        // clear transparent background
+        this.cls = new game.GFX.ClearScreen();
+        me.game.world.addChild(this.cls);
+
+        // sort all objects
+        me.game.world.sort();
 
         // play music
         me.audio.play('observingthestar', false);
