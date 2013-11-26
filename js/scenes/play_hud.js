@@ -175,41 +175,50 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.eventHandler = eventHandler;
 
         // background
-        this.width = 505;
-        this.height = 150;
-        this.cx = _Globals.canvas.gameWidth / 2 - this.width / 2;
-        this.cy = _Globals.canvas.height / 2 - this.height / 2;
+        settings.dlg_type = settings.dlg_type || 'dlg_small';
+        if (settings.dlg_type === 'dlg_small') {
+            this.width = 448;
+            this.height = 120;
+        } else { // if (settings.dlg_type === 'dlg_big') {
+            settings.dlg_type = 'dlg_big';
+            this.width = 503;
+            this.height = 120;
+        }
+
+        this.cx = _Globals.canvas.xOffsetHUD + _Globals.canvas.gameWidth / 2 - this.width / 2;
+        this.cy = _Globals.canvas.gameHeight - 120;
         this.endx = this.cx + this.width;
         this.endy = this.cy + this.height;
         this.xcenter = this.cx +  this.width / 2;
         this.ycenter = this.cy +  this.height / 2;
 
-        this.imageBackground = new me.SpriteObject(this.cx, this.cy, me.loader.getImage('dialog'));
-        this.imageBackground.alpha = 0.75;
+        this.imageBackground = new me.SpriteObject(this.cx, this.cy, me.loader.getImage(settings.dlg_type));
+        this.imageBackground.alpha = 0.95;
         this.addChild(this.imageBackground);
 
         // wizard face
-        var slot = "slot_empty";
+        var faceWidth = 79;
+        this.imageFaceSlot = new me.AnimationSheet(this.cx + 14, this.cy + 14, me.loader.getImage('dlg_faces'), faceWidth);
         switch(settings.wizard) {
             case _Globals.wizards.Earth:
-            slot = 'slot_earth';
+                this.imageFaceSlot.setAnimationFrame(0);
             break;
             case _Globals.wizards.Water:
-            slot = 'slot_water';
+                this.imageFaceSlot.setAnimationFrame(1);
             break;
             case _Globals.wizards.Fire:
-            slot = 'slot_fire';
+                this.imageFaceSlot.setAnimationFrame(2);
             break;
             case _Globals.wizards.Air:
-            slot = 'slot_air';
+                this.imageFaceSlot.setAnimationFrame(3);
+            break;
+            default:
+                throw "HUD: Unknown wizard " + wizard;
             break;
         }
-        this.imageFaceSlot = new me.SpriteObject(this.cx - 50, this.cy - 50, me.loader.getImage(slot));
+        this.imageFaceSlot.animationpause = true;
         this.imageFaceSlot.z =  _Globals.gfx.zHUD + 1;
         this.addChild(this.imageFaceSlot);
-
-        this.iconWidth = 64;
-        this.iconHeight = 64;
     },
     // Propagate UI event to handler
     onEvent: function(name) {
@@ -246,47 +255,51 @@ game.HUD.Clickable = me.GUI_Object.extend({
  * Clickable Animation UI element
  */
 game.HUD.ClickableAnimation = me.AnimationSheet.extend({
-    init: function(x, y, settings, container) {
-        this.parent(x, y, me.loader.getImage(settings.image), 64);
+    init: function(x, y, settings) {
+
+        // default size
+        settings.width = settings.width || 64;
+        settings.height = settings.height || 64;
+        // init base obj
+        this.parent(x, y, me.loader.getImage(settings.image), settings.width, settings.height);
         
         this.handler = settings.onClick;
         this.z = settings.z || (_Globals.gfx.zHUD + 5);
+
         // override animation speed
-        this.addAnimation('main', [0, 1, 2, 3, 4, 5], 75);
+        // this.addAnimation('main', [0, 1, 2, 3, 4, 5], 75);
+        this.addAnimation('main', settings.frames, 75);
         this.setCurrentAnimation('main');
+        if (settings.paused === true)
+            this.animationpause = true;
+
         this.fadeout = settings.fadeout || false;
         this.fadeoutspeed = settings.fadeoutspeed || 0.035;
         this.stopFrame = settings.stopFrame || false;
         this.blend = false;
 
         var parent = this;
-        /**
-         * We got a lil' hack here due to the fact that clickable animations are not available
-         * in MelonJS, yet. So, simply draw a clickable GUI_Object behind the animation. :)
-         */
-        var dummyClickable = new game.HUD.Clickable(x, y, {
-            image: 'button_ok',
-            onClick: function(event) {
-                container.removeChild(this);
 
-                if (parent.stopFrame) {
-                    parent.setAnimationFrame(parent.stopFrame);
-                    parent.animationpause = true;
-                }
+        // click event
+        this.touchRect = new me.Rect(new me.Vector2d(x, y), settings.width, settings.height);
+        me.input.registerPointerEvent('mousedown', this.touchRect, function() {
+            me.input.releasePointerEvent('mousedown', parent.touchRect);
 
-                if (parent.fadeout === true) {
-                    parent.blend = true;
-                    parent.animationpause = true;
-                } else {
-                   parent.handler && parent.handler(event); 
-                }
+            // play sound
+            me.audio.play('click', false);
+            
+            if (parent.stopFrame) {
+                parent.setAnimationFrame(parent.stopFrame);
+                parent.animationpause = true;
+            }
+
+            if (parent.fadeout === true) {
+                parent.blend = true;
+                parent.animationpause = true;
+            } else {
+               parent.handler && parent.handler(event); 
             }
         });
-        /**
-         * Important: This will not be visible to the caller!
-         * We rely on the dummyClickable.onClick() to clean it up from the container.
-         */
-        container.addChild(dummyClickable);
     },
     update: function() {
         this.parent();
@@ -313,24 +326,38 @@ game.HUD.SelectMove = game.HUD.Container.extend({
     init: function(eventHandler, settings) {
         this.parent(eventHandler, settings);
 
+        this.iconWidth = 148;
+        this.iconHeight = 85;
+        this.iconX = this.cx + 112;
+        this.iconY = this.cy + this.height / 2 - this.iconHeight / 2;
+
         var parent = this;
 
-        this.addChild(
-            new game.HUD.Clickable(this.cx + this.iconWidth * 2, this.cy + this.iconHeight / 2, {
-                image: 'icon_chance',
-                onClick: function(event) {
-                    parent.onEvent('onSelectDice');
-                }
-            }));
-        this.addChild(
-            new game.HUD.Clickable(this.endx - this.iconWidth * 3, this.cy + this.iconHeight / 2, {
-                image: 'icon_spell',
-                onClick: function(event) {
-                    parent.onEvent('onSelectSpell');
-                }
-            }));
+        this.addChild(new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+            image: 'dlg_btn_choice',
+            width: this.iconWidth,
+            height: this.iconHeight,
+            frames: [0],
+            paused: true,
+            fadeout: true,
+            fadeoutspeed: 0.1,
+            onClick: function(event) {
+                parent.onEvent('onSelectDice');
+            }
+        }));
 
-        // this.visible = false;
+        this.addChild(new game.HUD.ClickableAnimation(this.iconX + this.iconWidth + 8, this.iconY, {
+            image: 'dlg_btn_choice',
+            width: this.iconWidth,
+            height: this.iconHeight,
+            frames: [1],
+            paused: true,
+            fadeout: true,
+            fadeoutspeed: 0.1,
+            onClick: function(event) {
+                parent.onEvent('onSelectSpell');
+            }
+        }));
     }
 });
 /**
@@ -403,6 +430,8 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
 game.HUD.SelectSpell = game.HUD.Container.extend({
 
     init: function(eventHandler, settings) {
+        settings = settings || {};
+        settings.dlg_type = 'dlg_big';
         this.parent(eventHandler, settings);
 
         var parent = this;

@@ -33,6 +33,8 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
+    waitBetweenMoves: 50,
+
     init: function() {
         // use the update & draw functions
         this.parent(true);
@@ -68,7 +70,7 @@ game.PlayScene = me.ScreenObject.extend({
                 // start player turn in 750ms
                 me.plugin.fnDelay.add(function() {
                     game.gamemaster.nextMove();
-                }, 750);
+                }, this.waitBetweenMoves);
 
                 // game.gamemaster.nextMove();
             break;
@@ -303,7 +305,7 @@ game.PlayScene = me.ScreenObject.extend({
                     me.plugin.fnDelay.add(function() {
                         self.statsHUD.drawText(wizardName + ' cannot teleport! Blocked.');
                         self.setState(self.SceneStates.NextMove);
-                    }, 750);
+                    }, this.waitBetweenMoves);
 
                     return;
                 }
@@ -351,7 +353,7 @@ game.PlayScene = me.ScreenObject.extend({
                 me.plugin.fnDelay.add(function() {
                     self.statsHUD.drawText(wizardName + ' cannot move ahead! Blocked.');
                     self.setState(self.SceneStates.NextMove);
-                }, 750);                
+                }, this.waitBetweenMoves);                
             }
         } else if (mana) {
             game.gamemaster.addMana(game.gamemaster.currentWizard, mana);

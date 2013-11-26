@@ -24,15 +24,16 @@ game.resources = [
     {name: "hud_faces", type:"image", src: "assets/gui/mana_character_icons.png"},
     {name: "hud_mana", type:"image", src: "assets/gui/mana_points.png"},
     {name: "hud_text", type:"image", src: "assets/gui/upper_text_box.png"},
-    
 
-    {name: "dialog", type:"image", src: "assets/gui/dialog.png"},
+    {name: "dlg_big", type:"image", src: "assets/gui/popup_bg_01.png"},
+    {name: "dlg_small", type:"image", src: "assets/gui/popup_bg_02.png"},
+    {name: "dlg_faces", type:"image", src: "assets/gui/popup_menu_character_icons.png"},
+    {name: "dlg_btn_choice", type:"image", src: "assets/gui/choice_btns.png"},
+
     {name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
     {name: "button_cancel", type:"image", src: "assets/gui/button_cancel.png"},
     {name: "button_empty", type:"image", src: "assets/gui/button_empty.png"},
 
-    {name: "icon_chance", type:"image", src: "assets/gui/icon_select_chance.png"},
-    {name: "icon_spell", type:"image", src: "assets/gui/icon_select_spell.png"},
     {name: "icon_spell_abyss", type:"image", src: "assets/gui/icon_spell_abyss.png"},
     {name: "icon_spell_change", type:"image", src: "assets/gui/icon_spell_change.png"},
     {name: "icon_spell_clay", type:"image", src: "assets/gui/icon_spell_clay.png"},
@@ -47,12 +48,6 @@ game.resources = [
     {name: "icon_move4", type:"image", src: "assets/gui/icon_move4.png"},
     {name: "icon_jump", type:"image", src: "assets/gui/icon_jump.png"},
     {name: "icon_pass", type:"image", src: "assets/gui/icon_pass.png"},
-
-    {name: "slot_empty", type:"image", src: "assets/gui/slot_empty.png"},
-    {name: "slot_earth", type:"image", src: "assets/gui/slot_earth.png"},
-    {name: "slot_water", type:"image", src: "assets/gui/slot_water.png"},
-    {name: "slot_fire", type:"image", src: "assets/gui/slot_fire.png"},
-    {name: "slot_air", type:"image", src: "assets/gui/slot_air.png"},
 
     {name: "dice", type:"image", src: "assets/gui/dice.png"},
 
