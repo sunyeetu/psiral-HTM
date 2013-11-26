@@ -272,8 +272,8 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
         this.z = settings.z || (_Globals.gfx.zHUD + 5);
 
         // override animation speed
-        // this.addAnimation('main', [0, 1, 2, 3, 4, 5], 75);
-        this.addAnimation('main', settings.frames, 75);
+        settings.speed = settings.speed || 75;
+        this.addAnimation('main', settings.frames, settings.speed);
         this.setCurrentAnimation('main');
         if (settings.paused === true)
             this.animationpause = true;
@@ -374,7 +374,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         var parent = this;
         this.iconWidth = 148;
         this.iconHeight = 85;
-        this.iconX = this.cx + this.faceWidth + this.width / 2 - this.iconWidth / 2;
+        this.iconX = this.cx + this.width / 2 - this.iconWidth / 2 + this.faceWidth / 2;
         this.iconY = this.cy + this.height / 2 - this.iconHeight / 2;
 
         var icon_image;
@@ -400,23 +400,35 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             break;            
         }
 
-        var icon = new game.HUD.Clickable(this.iconX, this.iconY, {
+        this.addChild(new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+            image: 'dlg_btn_choice',
+            width: this.iconWidth,
+            height: this.iconHeight,
+            frames: [2],
+            paused: true,
+            fadeout: true,
+            fadeoutspeed: 0.1
+        }));   
+
+        var icon = new game.HUD.Clickable(this.iconX + 46, this.iconY + 20, {
                 image: icon_image,
                 onClick: function(event) {
-                    // parent.onEvent('onDiceThrown');
+                    parent.onEvent('onDiceThrown');
                 }
             });
         // only clickable when the dice side is revealed
         icon.isClickable = false;
 
-        // play sound
+        // // play sound
         me.audio.play('rolldice', true);
         
-        this.diceAnim = new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+        this.diceAnim = new game.HUD.ClickableAnimation(this.iconX + 46, this.iconY + 20, {
             image: 'dlg_dice_anim',
+            z: _Globals.gfx.zHUD + 6,
             width: 51,
             height: 49,
             frames: [0, 1, 2, 3, 4, 5],
+            speed: 100,
             fadeout: true,
             stopFrame: (settings.chance - 1), // set dice side
             onClick: function(event) {
