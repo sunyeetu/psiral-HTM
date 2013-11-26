@@ -422,10 +422,10 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         // // play sound
         me.audio.play('rolldice', true);
         
-        this.diceAnim = new game.HUD.ClickableAnimation(this.iconX + 46, this.iconY + 20, {
+        this.diceAnim = new game.HUD.ClickableAnimation(this.iconX + 50, this.iconY + 20, {
             image: 'dlg_dice_anim',
             z: _Globals.gfx.zHUD + 6,
-            width: 51,
+            width: 52,
             height: 49,
             frames: [0, 1, 2, 3, 4, 5],
             speed: 100,
@@ -457,76 +457,99 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
         settings.dlg_type = 'dlg_big';
         this.parent(eventHandler, settings);
 
+        this.iconWidth = 74;
+        this.iconHeight = 85;        
+
         var parent = this;
         var special;
 
         this.spells = [
             {
-                image: 'icon_spell_abyss',
+                frames: [0],
                 type: _Globals.spells.Abyss,
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Abyss); }
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Abyss); }
             },
             {
-                image: 'icon_spell_change', 
+                image: 'dlg_btn_spells',
+                width: this.iconWidth,
+                height: this.iconHeight,
+                frames: [1],
                 type: _Globals.spells.Change,
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Change); }
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Change); }
             },
             {
-                image: 'icon_spell_clay', 
+                frames: [2],
+                fadeout: true,
                 type: _Globals.spells.Clay,
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Clay); }
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Clay); }
             },
         ];
 
         switch(settings.wizard) {
             case _Globals.wizards.Earth:
             special = {
-                image: 'icon_spell_path',
+                frames: [3],
                 type: _Globals.spells.Path,
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Path); }
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Path); }
             };
             break;
             case _Globals.wizards.Water:
             special = {
-                image: 'icon_spell_freeze',
+                frames: [3],
                 type: _Globals.spells.Freeze,
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Freeze); }
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Freeze); }
             };
             break;
             case _Globals.wizards.Fire:
             special = {
-                image: 'icon_spell_blind',
+                frames: [3],
                 type: _Globals.spells.Blind,
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Blind); }
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Blind); }
             };
             break;
             case _Globals.wizards.Air:
             special = {
-                image: 'icon_spell_teleport',
+                frames: [3],
                 type: _Globals.spells.Teleport,
-                notify: function() {parent.onEvent('onCastSpell', _Globals.spells.Teleport); }
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Teleport); }
             };       
             break;
         }
         
         this.spells.push(special);
 
-        var startx = this.cx + this.iconWidth;
+        // set common animation properties
+        for (var i = this.spells.length - 1; i >= 0; i--) {
+            _.extend(this.spells[i], {
+                image: 'dlg_btn_spells',
+                width: this.iconWidth,
+                height: this.iconHeight,
+                fadeout: true,
+                fadeoutspeed: 0.1,
+            });
+        };
+
+        // adjust positions
+        var startx = this.cx + this.faceWidth + 56;
+        var starty = this.cy + this.height / 2 - this.iconHeight / 2;
+
         for(var i = 0; i < this.spells.length; i++) {
             if (game.gamemaster.isCanCast(settings.wizard, this.spells[i].type)) {
                 this.addChild(
-                    new game.HUD.Clickable(startx, this.cy + this.iconHeight / 2, {
-                        image: this.spells[i].image,
-                        onClick: this.spells[i].notify
-                    }));
+                    new game.HUD.ClickableAnimation(startx, starty, this.spells[i]));
                 startx += this.iconWidth + 4;
             }
         }
         // add exit button
-        startx += this.iconWidth + 4;
+        startx += 4;
         this.addChild(
-            new game.HUD.Clickable(startx, this.cy + this.iconHeight / 2, {
-                image: 'button_cancel',
+            new game.HUD.ClickableAnimation(startx, starty + 10, {
+                image: 'dlg_btn_back',
+                width: 38,
+                height: 65,
+                frames: [0],
+                fadeout: true,
+                fadeoutspeed: 0.1,
                 onClick: function() {
                     parent.onEvent('onCancelSelectSpell');
                 }

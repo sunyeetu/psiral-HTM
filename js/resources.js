@@ -8,10 +8,7 @@
  */
 
 game.resources = [
-    /* Graphics. 
-     * @example
-     * {name: "example", type:"image", src: "data/img/example.png"},
-     */
+    // Gfx
     {name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
     {name: "fountain", type:"image", src: "assets/gfx/fountain.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
@@ -19,7 +16,7 @@ game.resources = [
     {name: "water_front", type:"image", src: "assets/gfx/Water_front_56.png"},
     {name: "fire_front", type:"image", src: "assets/gfx/Fire_front_56.png"},
     {name: "air_front", type:"image", src: "assets/gfx/Air_front_56.png"},
-        
+
     // Hud
     {name: "hud_faces", type:"image", src: "assets/gui/mana_character_icons.png"},
     {name: "hud_mana", type:"image", src: "assets/gui/mana_points.png"},
@@ -30,18 +27,8 @@ game.resources = [
     {name: "dlg_faces", type:"image", src: "assets/gui/popup_menu_character_icons.png"},
     {name: "dlg_btn_choice", type:"image", src: "assets/gui/choice_btns.png"},
     {name: "dlg_dice_anim", type:"image", src: "assets/gui/dice_points.png"},
-
-    {name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
-    {name: "button_cancel", type:"image", src: "assets/gui/button_cancel.png"},
-    {name: "button_empty", type:"image", src: "assets/gui/button_empty.png"},
-
-    {name: "icon_spell_abyss", type:"image", src: "assets/gui/icon_spell_abyss.png"},
-    {name: "icon_spell_change", type:"image", src: "assets/gui/icon_spell_change.png"},
-    {name: "icon_spell_clay", type:"image", src: "assets/gui/icon_spell_clay.png"},
-    {name: "icon_spell_blind", type:"image", src: "assets/gui/icon_spell_blind.png"},
-    {name: "icon_spell_freeze", type:"image", src: "assets/gui/icon_spell_freeze.png"},
-    {name: "icon_spell_path", type:"image", src: "assets/gui/icon_spell_path.png"},
-    {name: "icon_spell_teleport", type:"image", src: "assets/gui/icon_spell_teleport.png"},
+    {name: "dlg_btn_spells", type:"image", src: "assets/gui/magic_btns.png"},
+    {name: "dlg_btn_back", type:"image", src: "assets/gui/magic_btn_back.png"},
 
     {name: "icon_move1", type:"image", src: "assets/gui/icon_move1.png"},
     {name: "icon_move2", type:"image", src: "assets/gui/icon_move2.png"},
@@ -50,18 +37,12 @@ game.resources = [
     {name: "icon_jump", type:"image", src: "assets/gui/icon_jump.png"},
     {name: "icon_pass", type:"image", src: "assets/gui/icon_pass.png"},
 
-    {name: "dice", type:"image", src: "assets/gui/dice.png"},
-
     // Menu
     {name: "menu-background", type:"image", src: "assets/gui/menu-background.png"},
     {name: "menu-title", type:"image", src: "assets/gui/menu-title.png"},
     {name: "menu-buttons", type:"image", src: "assets/gui/menu-buttons.png"},
 
-    /* Sound effects. 
-     * @example
-     * {name: "example_sfx", type: "audio", src: "data/sfx/", channel : 2}
-     * {name: "example_bgm", type: "audio", src: "data/bgm/", channel : 1},
-     */
+    // Sound
     {name: "click", type: "audio", src: "assets/sfx/", channel: 1},
     {name: "rolldice", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "rolldice2", type: "audio", src: "assets/sfx/", channel : 1},
@@ -73,6 +54,7 @@ game.resources = [
     {name: "abyss", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "walk_earth", type: "audio", src: "assets/sfx/", channel : 1},
     
+    // Music
     {name: "elementary_wave", type: "audio", src: "assets/muzik/", channel: 1, stream: true},
     {name: "observingthestar", type: "audio", src: "assets/muzik/", channel: 1, stream: true}
 ];
