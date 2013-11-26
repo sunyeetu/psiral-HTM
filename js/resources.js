@@ -29,6 +29,7 @@ game.resources = [
     {name: "dlg_small", type:"image", src: "assets/gui/popup_bg_02.png"},
     {name: "dlg_faces", type:"image", src: "assets/gui/popup_menu_character_icons.png"},
     {name: "dlg_btn_choice", type:"image", src: "assets/gui/choice_btns.png"},
+    {name: "dlg_dice_anim", type:"image", src: "assets/gui/dice_points.png"},
 
     {name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
     {name: "button_cancel", type:"image", src: "assets/gui/button_cancel.png"},

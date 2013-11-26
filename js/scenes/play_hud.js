@@ -189,16 +189,17 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.cy = _Globals.canvas.gameHeight - 120;
         this.endx = this.cx + this.width;
         this.endy = this.cy + this.height;
-        this.xcenter = this.cx +  this.width / 2;
-        this.ycenter = this.cy +  this.height / 2;
 
         this.imageBackground = new me.SpriteObject(this.cx, this.cy, me.loader.getImage(settings.dlg_type));
         this.imageBackground.alpha = 0.95;
         this.addChild(this.imageBackground);
 
         // wizard face
-        var faceWidth = 79;
-        this.imageFaceSlot = new me.AnimationSheet(this.cx + 14, this.cy + 14, me.loader.getImage('dlg_faces'), faceWidth);
+        this.faceWidth = 79;
+        this.imageFaceSlot = new me.AnimationSheet(this.cx + 14, this.cy + 14, 
+            me.loader.getImage('dlg_faces'), 
+            this.faceWidth);
+
         switch(settings.wizard) {
             case _Globals.wizards.Earth:
                 this.imageFaceSlot.setAnimationFrame(0);
@@ -219,6 +220,10 @@ game.HUD.Container = me.ObjectContainer.extend({
         this.imageFaceSlot.animationpause = true;
         this.imageFaceSlot.z =  _Globals.gfx.zHUD + 1;
         this.addChild(this.imageFaceSlot);
+
+        // dialog center
+        this.xcenter = this.cx + this.width / 2;
+        this.ycenter = this.cy + this.height / 2;        
     },
     // Propagate UI event to handler
     onEvent: function(name) {
@@ -326,12 +331,11 @@ game.HUD.SelectMove = game.HUD.Container.extend({
     init: function(eventHandler, settings) {
         this.parent(eventHandler, settings);
 
+        var parent = this;
         this.iconWidth = 148;
         this.iconHeight = 85;
         this.iconX = this.cx + 112;
         this.iconY = this.cy + this.height / 2 - this.iconHeight / 2;
-
-        var parent = this;
 
         this.addChild(new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
             image: 'dlg_btn_choice',
@@ -368,8 +372,11 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         this.parent(eventHandler, settings);
 
         var parent = this;
-        var dx = this.xcenter - this.iconWidth / 2;
-        var dy = this.ycenter - this.iconHeight / 2;
+        this.iconWidth = 148;
+        this.iconHeight = 85;
+        this.iconX = this.cx + this.faceWidth + this.width / 2 - this.iconWidth / 2;
+        this.iconY = this.cy + this.height / 2 - this.iconHeight / 2;
+
         var icon_image;
 
         switch(settings.chance) {
@@ -393,10 +400,10 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             break;            
         }
 
-        var icon = new game.HUD.Clickable(dx, dy, {
+        var icon = new game.HUD.Clickable(this.iconX, this.iconY, {
                 image: icon_image,
                 onClick: function(event) {
-                    parent.onEvent('onDiceThrown');
+                    // parent.onEvent('onDiceThrown');
                 }
             });
         // only clickable when the dice side is revealed
@@ -405,21 +412,25 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         // play sound
         me.audio.play('rolldice', true);
         
-        this.diceAnim = new game.HUD.ClickableAnimation(dx, dy, {
-            image: 'dice',
+        this.diceAnim = new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+            image: 'dlg_dice_anim',
+            width: 51,
+            height: 49,
+            frames: [0, 1, 2, 3, 4, 5],
             fadeout: true,
             stopFrame: (settings.chance - 1), // set dice side
             onClick: function(event) {
                 parent.diceAnim.animationpause = true;
                 parent.addChild(icon);
-                icon.isClickable = true;
+                icon.isClickable = true;                
 
                 // play sound
                 me.audio.stop('rolldice');
                 me.audio.play('rolldice2', false);
-            }
-        }, parent);
 
+                // parent.onEvent('onSelectDice');
+            }
+        });
         this.addChild(this.diceAnim);
     }
 });
