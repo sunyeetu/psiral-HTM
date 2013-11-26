@@ -25,9 +25,9 @@ game.HUD.Stats = me.ObjectContainer.extend({
         // give a name
         this.name = "HUD";
 
-        this.x = 0;
+        this.x = _Globals.canvas.xOffsetHUD;
         this.y = _Globals.canvas.yOffsetHUD;
-        this.xStep = _Globals.canvas.gameWidth / 4;
+        this.xStep = 176;
         this.cxScreen = _Globals.canvas.gameWidth / 2;
 
         var parent = this;
@@ -40,24 +40,24 @@ game.HUD.Stats = me.ObjectContainer.extend({
         var wx = this.x;
         var wy = this.y;
         var face;
-        var faceWidth = 48;
+        var faceWidth = 56;
         this.faceWidth = faceWidth;
 
         wizards.forEach(function(w) {
-            var sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('wizards_faces'), faceWidth);
+            var sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('hud_faces'), faceWidth);
 
             switch(w) {
                 case _Globals.wizards.Earth:
-                    sprite.setAnimationFrame(3);
+                    sprite.setAnimationFrame(0);
                 break;
                 case _Globals.wizards.Water:
                     sprite.setAnimationFrame(1);
                 break;
                 case _Globals.wizards.Fire:
-                    sprite.setAnimationFrame(0);
+                    sprite.setAnimationFrame(2);
                 break;
                 case _Globals.wizards.Air:
-                    sprite.setAnimationFrame(2);
+                    sprite.setAnimationFrame(3);
                 break;
                 default:
                     throw "HUD: Unknown wizard " + wizard;
@@ -99,18 +99,23 @@ game.HUD.Stats = me.ObjectContainer.extend({
         }
 
         var mx;
+        var icon;
         switch(wizard) {
             case _Globals.wizards.Earth:
                 mx = 0;
+                icon = 0;
             break;
             case _Globals.wizards.Water:
                 mx = this.xStep;
+                icon = 1;
             break;
             case _Globals.wizards.Fire:
                 mx = this.xStep * 2;
+                icon = 2;
             break;
             case _Globals.wizards.Air:
                 mx = this.xStep * 3;
+                icon = 3;
             break;
             default:
                 throw "HUD: Unknown wizard " + wizard;
@@ -119,13 +124,28 @@ game.HUD.Stats = me.ObjectContainer.extend({
 
         mx += this.x + this.faceWidth + 2;
 
+        // draw mana bars
         for(var i = 0; i < amount; i++) {
-            var manabar = new me.SpriteObject(mx, this.y, me.loader.getImage('manabar'));
+            var manabar = new me.AnimationSheet(mx, this.y + 28, me.loader.getImage('hud_mana'), 10);
+            manabar.setAnimationFrame(icon);
+            manabar.animationpause = true;
             manabar.name = 'manabar_' + wizard;
             manabar.isEntity = true;
-            this.addChild(manabar);
-            mx += 16 + 2;
+            this.addChild(manabar);            
+
+            mx += 10 + 1;
         }        
+        // draw empty mana bars (MaxMana=10)
+        for(var i = 0; i < 10 - amount; i++) {
+            var manabar = new me.AnimationSheet(mx, this.y + 28, me.loader.getImage('hud_mana'), 10);
+            manabar.setAnimationFrame(4);
+            manabar.animationpause = true;
+            manabar.name = 'manabar_' + wizard;
+            manabar.isEntity = true;
+            this.addChild(manabar);            
+
+            mx += 10 + 1;
+        }         
     }
 });
 /**

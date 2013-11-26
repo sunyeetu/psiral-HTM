@@ -15,13 +15,14 @@ game.resources = [
     {name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
     {name: "fountain", type:"image", src: "assets/gfx/fountain.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
-    {name: "wizards_faces", type:"image", src: "assets/gfx/faces.png"},
     {name: "earth_front", type:"image", src: "assets/gfx/Earth_front_56.png"},
     {name: "water_front", type:"image", src: "assets/gfx/Water_front_56.png"},
     {name: "fire_front", type:"image", src: "assets/gfx/Fire_front_56.png"},
     {name: "air_front", type:"image", src: "assets/gfx/Air_front_56.png"},
         
     // Hud
+    {name: "hud_faces", type:"image", src: "assets/gui/mana_character_icons.png"},
+    {name: "hud_mana", type:"image", src: "assets/gui/mana_points.png"},
     {name: "dialog", type:"image", src: "assets/gui/dialog.png"},
     {name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
     {name: "button_cancel", type:"image", src: "assets/gui/button_cancel.png"},
@@ -50,7 +51,6 @@ game.resources = [
     {name: "slot_fire", type:"image", src: "assets/gui/slot_fire.png"},
     {name: "slot_air", type:"image", src: "assets/gui/slot_air.png"},
 
-    {name: "manabar", type:"image", src: "assets/gui/mana-bar.png"},
     {name: "dice", type:"image", src: "assets/gui/dice.png"},
 
     // Menu
