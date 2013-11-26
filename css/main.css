@@ -15,8 +15,8 @@ body {
     padding: 0;
 }
 @font-face {
-    font-family: walkaway;
-    src: url('/css/walkwayblack.ttf');
+    font-family: 'dafont';
+    src: url('arkham_bold.ttf');
 }
 #top {
     top: 0;

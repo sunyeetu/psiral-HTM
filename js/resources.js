@@ -23,6 +23,9 @@ game.resources = [
     // Hud
     {name: "hud_faces", type:"image", src: "assets/gui/mana_character_icons.png"},
     {name: "hud_mana", type:"image", src: "assets/gui/mana_points.png"},
+    {name: "hud_text", type:"image", src: "assets/gui/upper_text_box.png"},
+    
+
     {name: "dialog", type:"image", src: "assets/gui/dialog.png"},
     {name: "button_ok", type:"image", src: "assets/gui/button_ok.png"},
     {name: "button_cancel", type:"image", src: "assets/gui/button_cancel.png"},

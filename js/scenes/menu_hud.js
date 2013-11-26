@@ -92,12 +92,11 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         // create font
         // font to draw texts
         this.text = null;
-        this.font = new me.Font('walkaway', '2.0em', 'white', 'center');
+        this.font = new me.Font('dafont', '2.0em', 'white', 'left');
+        this.xText = 0;
+        this.yText = 0;        
         // sort renderable        
         this.sort();
-
-        this.yText = 0;
-        this.xText = 0;
     },
     /**
      * @override

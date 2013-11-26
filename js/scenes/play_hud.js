@@ -69,17 +69,23 @@ game.HUD.Stats = me.ObjectContainer.extend({
 
             wx += parent.xStep;
         });
+        // text placeholder
+        var pcX = this.x + _Globals.canvas.gameWidth - 227;
+        var pcY = wy + 8;
+        var sprite = new me.SpriteObject(pcX, pcY, me.loader.getImage('hud_text'));
+        parent.addChild(sprite);
         // font to draw texts
         this.text = null;
-        this.font = new me.Font('walkaway', '1.2em', 'white', 'center');
+        this.font = new me.Font('dafont', '0.8em', 'white', 'left');
+        this.font.textBaseline  = 'top';
+        this.xText = pcX + 4;
+        this.yText = pcY + 5;
     },
 
     draw: function(context) {
         this.parent(context);
         if (this.text) {
-            this.font.draw(context, this.text, 
-                this.cxScreen, 
-                _Globals.canvas.yOffsetHUD + 60);
+            this.font.draw(context, this.text, this.xText, this.yText);
         }
     },
 
