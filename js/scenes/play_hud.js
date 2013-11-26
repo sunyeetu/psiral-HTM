@@ -287,25 +287,28 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
 
         // click event
         this.touchRect = new me.Rect(new me.Vector2d(x, y), settings.width, settings.height);
-        me.input.registerPointerEvent('mousedown', this.touchRect, function() {
-            me.input.releasePointerEvent('mousedown', parent.touchRect);
-
-            // play sound
-            me.audio.play('click', false);
-            
-            if (parent.stopFrame) {
-                parent.setAnimationFrame(parent.stopFrame);
-                parent.animationpause = true;
-            }
-
-            if (parent.fadeout === true) {
-                parent.blend = true;
-                parent.animationpause = true;
-            } else {
-               parent.handler && parent.handler(event); 
-            }
-        });
+        me.input.registerPointerEvent('mousedown', this.touchRect, this.onClick.bind(this));
     },
+    
+    onClick: function() {
+        me.input.releasePointerEvent('mousedown', this.touchRect);
+
+        // play sound
+        me.audio.play('click', false);
+        
+        if (this.stopFrame) {
+            this.setAnimationFrame(this.stopFrame);
+            this.animationpause = true;
+        }
+
+        if (this.fadeout === true) {
+            this.blend = true;
+            this.animationpause = true;
+        } else {
+           this.handler && this.handler(event); 
+        }
+    },
+
     update: function() {
         this.parent();
         /**
@@ -398,7 +401,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             case _Globals.chance.Jump:
                 icon_image = 'icon_jump';
             break;            
-        }
+        }  
 
         this.addChild(new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
             image: 'dlg_btn_choice',
@@ -407,15 +410,18 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             frames: [2],
             paused: true,
             fadeout: true,
-            fadeoutspeed: 0.1
+            fadeoutspeed: 0.1,
+            onClick: function(event) {
+                parent.diceAnim.onClick();
+            }
         }));   
 
         var icon = new game.HUD.Clickable(this.iconX + 46, this.iconY + 20, {
-                image: icon_image,
-                onClick: function(event) {
-                    parent.onEvent('onDiceThrown');
-                }
-            });
+            image: icon_image,
+            onClick: function(event) {
+                parent.onEvent('onDiceThrown');
+            }
+        });
         // only clickable when the dice side is revealed
         icon.isClickable = false;
 
@@ -439,10 +445,8 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
                 // play sound
                 me.audio.stop('rolldice');
                 me.audio.play('rolldice2', false);
-
-                // parent.onEvent('onSelectDice');
             }
-        });
+        });            
         this.addChild(this.diceAnim);
     }
 });
