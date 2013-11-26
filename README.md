@@ -46,7 +46,8 @@ The following javascript libraries are used:
 
 ## Credits
 ### Team
-  * Info pending ...
+  * [Petar Petrov](http://petarov.vexelon.net/) - Programming and game design.
+  * [Stremena Tuzsuzova](http://stremena.com/) - Artwork, graphics and animations.
 
 ### Music
   * [ObservingTheStar](http://opengameart.org/content/another-space-background-track) by [yd](http://opengameart.org/users/yd)
