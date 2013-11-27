@@ -78,6 +78,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
         this.text = null;
         this.font = new me.Font('dafont', '14px', 'white', 'left');
         this.font.textBaseline  = 'top';
+        this.font.lineHeight = 1.2;
         this.xText = pcX + 5;
         this.yText = pcY + 7;
     },

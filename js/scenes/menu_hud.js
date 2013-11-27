@@ -110,6 +110,7 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         // create font to draw texts
         this.text = null;
         this.font = new me.Font('dafont', '16px', 'white', 'left');
+        this.font.lineHeight = 1.2;
         this.fontBlack = new me.Font('dafont', '24px', 'black', 'left');
         this.xText = 0;
         this.yText = 0;        
@@ -223,7 +224,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         // var btnX = _Globals.canvas.width / 2 - 167 / 2;
         var btnX = _Globals.canvas.gameWidth - 167 - 15;
 
-        this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 107, {
+        this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 127, {
                 width: 167,
                 height: 107,                
                 image: 'menu_btn_play',
@@ -246,7 +247,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         
         // text positions
         this.xText = _Globals.canvas.xOffset + 30;
-        this.yText = _Globals.canvas.height - 120;
+        this.yText = _Globals.canvas.height - 110;
 
         this.sort();
     },
