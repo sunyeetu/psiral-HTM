@@ -310,7 +310,6 @@ game.TileEntity = me.AnimationSheet.extend({
     disableFade: function(alpha) {
         this.fadeIn = false;
         this.fadeOut = false;
-        console.log('disabled with ' + alpha);
         this.alpha = alpha || 1.0;
     },
 

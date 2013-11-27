@@ -33,7 +33,7 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: 150,
+    waitBetweenMoves: 750,
 
     init: function() {
         // use the update & draw functions
@@ -176,8 +176,8 @@ game.PlayScene = me.ScreenObject.extend({
         me.audio.play('observingthestar', true);
 
         // Start game
-        // this.setState(this.SceneStates.StartGame);
-        this.setState(this.SceneStates.Tests);
+        this.setState(this.SceneStates.StartGame);
+        // this.setState(this.SceneStates.Tests);
     },
     /**        
      * Action to perform when leaving this screen (state change)
@@ -275,7 +275,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        chance = _Globals.chance.Jump;
+        // chance = _Globals.chance.Jump;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -593,6 +593,10 @@ game.PlayScene = me.ScreenObject.extend({
         var who = data[0];
         var parent = this;
 
+        // disable states switching
+        // TODO: fix this because its unguaranteed!!!
+        this.stopStates = true;
+
         this.gameboard.setAlpha(1.0);
         this.gameboard.changeTiles(game.gamemaster.getWizardTile(who), function() {
 
@@ -615,9 +619,6 @@ game.PlayScene = me.ScreenObject.extend({
         // play sound
         me.audio.play('win', false);
         me.audio.play('lifeline', false);
-
-        this.stopStates = true;
-        this.setState(this.SceneStates.AIMove);
     }
 
 });
