@@ -12,19 +12,10 @@ var game = {
 
     onload: function () {
 
-        me.state.onPause = function() {
-            console.log('paused');
-            me.audio.muteAll();
-        }
-        me.state.onResume = function() {
-            me.audio.unmuteAll();
-        }
-
         // Initialize the video.
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false, 
             me.device.isMobile ? 1.99 : null)) {
-
-            console.error("Your browser does not support HTML5 canvas.");
+            console.error("Your browser does not support HTML5 canvas!");
             return;
         }
 
@@ -46,7 +37,7 @@ var game = {
         me.sys.gravity = 0;
         me.sys.fps = 60;
         // disable interpolation when scaling
-        me.video.setImageSmoothing(false);        
+        me.video.setImageSmoothing(false);
 
         // Disable melonJS audio. This should prevent audio resorce from being loaded.
         me.audio.disable();
@@ -65,12 +56,19 @@ var game = {
         // me.audio.disable();
         me.plugin.howlerAudio.load(game.resources);
 
-        // Initialize melonJS and display a loading screen.
+        // Init global locales
+        nls.init('en');        
+
+        // Display loading screen.
         me.state.set(me.state.LOADING, new game.SplashScreen());
         me.state.change(me.state.LOADING);
 
-        // Init global locales
-        nls.init('en');
+        me.state.onPause = function() {
+            me.audio.muteAll();
+        }
+        me.state.onResume = function() {
+            me.audio.unmuteAll();
+        }
     },
 
     // Run on game resources loaded.

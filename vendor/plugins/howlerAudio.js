@@ -6,7 +6,8 @@
  * howler.js Audio plugin
  * https://github.com/goldfire/howler.js
  *
- * Adapted by Petar Petrov
+ * Plugin coded by Petar Petrov
+ * https://github.com/petarov
  */
 
 (function($) {
@@ -100,7 +101,8 @@
             me.plugin.patch(me.audio, "getCurrentTrack", function () {
                 if (!self.enabled)
                     return;                
-                throw "howlerAudio: Not implemented!"
+                
+                console.error("howlerAudio: getCurrentTrack() Not implemented!");
             });
             /**
              * @return {Number} current volume value in Float [0.0 - 1.0].
@@ -135,8 +137,9 @@
 
             me.plugin.patch(me.audio, "pauseTrack", function () {
                 if (!self.enabled)
-                    return;                
-                throw "howlerAudio: Not implemented!"
+                    return;
+
+                console.error("howlerAudio: pauseTrack() Not implemented!");
             });
             /**
              * play the specified sound
@@ -165,14 +168,15 @@
 
             me.plugin.patch(me.audio, "playTrack", function (sound_id, volume) {
                 if (!self.enabled)
-                    return;                
-                throw "howlerAudio: Not implemented!"
+                    return;
+                console.error("howlerAudio: playTrack() Not implemented!");
             });
 
             me.plugin.patch(me.audio, "resumeTrack", function (sound_id) {
                 if (!self.enabled)
-                    return;                
-                throw "howlerAudio: Not implemented!"
+                    return;
+
+                console.error("howlerAudio: resumeTrack() Not implemented!");
             });
 
             me.plugin.patch(me.audio, "setVolume", function (volume) {
@@ -189,8 +193,9 @@
 
             me.plugin.patch(me.audio, "stopTrack", function () {
                 if (!self.enabled)
-                    return;                
-                throw "howlerAudio: Not implemented!"
+                    return;
+                
+                console.error("howlerAudio: stopTrack() Not implemented!");
             });
 
             me.plugin.patch(me.audio, "unload", function (sound_id) {
