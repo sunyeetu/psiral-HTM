@@ -18,33 +18,48 @@ game.MenuScene.HUD.ButtonFadeSpeed = 0.075;
  */
 game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
     init: function(x, y, settings) {
-        this.parent(x, y, me.loader.getImage(settings.image), game.MenuScene.HUD.ButtonWidth);
+        settings.width = settings.width || game.MenuScene.HUD.ButtonWidth;
+        settings.height = settings.height || game.MenuScene.HUD.ButtonHeight;
+        this.parent(x, y, me.loader.getImage(settings.image), settings.width, settings.height);
         
         this.handler = settings.onClick;
         settings.z = settings.z || (_Globals.gfx.zHUD + 5);
         
         // override animation speed
-        this.addAnimation('main', [settings.frame]);
+        if (Object.prototype.toString.call(settings.frame) === '[object Array]') {
+            this.addAnimation('main', settings.frame);
+        } else {
+            this.addAnimation('main', [settings.frame]);
+        }
         this.setCurrentAnimation('main');
         this.animationpause = true;
         // reset blending
+        this.fade = (typeof settings.fade !== 'undefined') ? settings.fade : true;
         this.fadeoutspeed = settings.fadeoutspeed || game.MenuScene.HUD.ButtonFadeSpeed;
         this.blend = false;
         this.alpha = 1.0;
 
-        this.touchRect = new me.Rect(new me.Vector2d(x, y), 
-            game.MenuScene.HUD.ButtonWidth, 
-            game.MenuScene.HUD.ButtonHeight);
+        this.touchRect = new me.Rect(new me.Vector2d(x, y), settings.width, settings.height);
 
         var parent = this;
         me.input.registerPointerEvent('mousedown', this.touchRect, function() {
             me.input.releasePointerEvent('mousedown', parent.touchRect);
-            parent.blend = true;
+
             // play sound
             me.audio.play('click', false);
+
+            if (parent.fade === true) {
+                parent.blend = true;    
+            } else {
+                parent.handler && parent.handler();
+            }
         });
-        
     },
+
+    onClick: function(handler) {
+        this.handler = handler;
+    },
+
     update: function() {
         this.parent();
         /**
@@ -83,12 +98,8 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         this.eventHandler = eventHandler;
 
         // draw background
-        this.imageBackground = new me.SpriteObject(0, 0, me.loader.getImage('menu-background'));
-        this.addChild(this.imageBackground);
-        // draw title
-        this.titleTouchRect = new me.Rect(new me.Vector2d(50, 100), 350, 150);
-        this.imageTitle = new me.SpriteObject(50, 100, me.loader.getImage('menu-title'));
-        this.addChild(this.imageTitle);
+        // this.imageBackground = new me.SpriteObject(0, 0, me.loader.getImage('menu-background'));
+        // this.addChild(this.imageBackground);
         // create font
         // font to draw texts
         this.text = null;
@@ -130,6 +141,11 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
         // call the constructor
         this.parent(eventHandler, settings);
 
+        // draw title
+        this.titleTouchRect = new me.Rect(new me.Vector2d(50, 100), 350, 150);
+        this.imageTitle = new me.SpriteObject(50, 100, me.loader.getImage('menu-title'));
+        this.addChild(this.imageTitle);        
+
         var parent = this;
 
         // add buttons
@@ -163,49 +179,77 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.parent(eventHandler, settings);
 
         var parent = this;
+        var sequence = [_Globals.wizards.Earth, _Globals.wizards.Water, _Globals.wizards.Fire, _Globals.wizards.Air];
 
         this.actors = {};
         this.touchRects = {};
         this.selectedActor = null;
         
         // draw wizards
-        var wx = 5, wy = 4;
-        this.actors[_Globals.wizards.Earth] = new game.EarthWizardEntity(wx, wy, {});
-        wx += 2;
-        this.actors[_Globals.wizards.Water] = new game.WaterWizardEntity(wx, wy, {});
-        wx += 2;
-        this.actors[_Globals.wizards.Fire] = new game.FireWizardEntity(wx, wy, {});
-        wx += 2;
-        this.actors[_Globals.wizards.Air] = new game.AirWizardEntity(wx, wy, {});
 
-        for (var i in this.actors) {
-            this.addChild(this.actors[i]);
+        // for (var i in this.actors) {
+        //     this.addChild(this.actors[i]);
 
-            var pos = this.actors[i].getPosition();
-            this.touchRects[i] = new me.Rect(new me.Vector2d(pos.x, pos.y), pos.w, pos.h);
-            me.input.registerPointerEvent('mousedown', this.touchRects[i], this.touchWizard.bind(this, i));
+        //     var pos = this.actors[i].getPosition();
+        //     this.touchRects[i] = new me.Rect(new me.Vector2d(pos.x, pos.y), pos.w, pos.h);
+        //     me.input.registerPointerEvent('mousedown', this.touchRects[i], this.touchWizard.bind(this, i));
+        // }
+     
+        var wx = _Globals.canvas.xOffset + 45, wy = _Globals.canvas.yOffset;
+        var frames = [[0, 1], [2, 3], [4, 5], [6, 7]];
+
+        for (var i = 0; i < sequence.length; i++) {
+            this.actors[sequence[i]] = new game.MenuScene.HUD.Clickable(wx, wy, {
+                width: 208,
+                height: 444,
+                image: 'menu_characters',
+                frame: frames[i],
+                fade: false
+            });            
+            this.addChild(this.actors[sequence[i]]);
+
+            wx += 208 + 15;
         }
+
+        //TODO
+        this.actors[_Globals.wizards.Earth].onClick(function() {
+            this.setAnimationFrame(1);
+        });
+        this.actors[_Globals.wizards.Water].onClick(function() {
+            this.setAnimationFrame(3);
+        });
+        this.actors[_Globals.wizards.Fire].onClick(function() {
+            this.setAnimationFrame(5);
+        });
+        this.actors[_Globals.wizards.Air].onClick(function() {
+            this.setAnimationFrame(7);
+        });
+
 
         this.xText = 400;
         this.yText = 415;
 
         // add buttons
-        this.btnStart = new game.MenuScene.HUD.Clickable(400, 
-            _Globals.canvas.height - game.MenuScene.HUD.ButtonHeight * 2, 
-            {
-                image: 'menu-buttons',
-                frame: 2,
+        var btnX = _Globals.canvas.width / 2 - 167 / 2;
+
+        this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 107, {
+                width: 167,
+                height: 107,                
+                image: 'menu_btn_play',
+                frame: 0,
                 onClick: function() {
                     if (parent.selectedActor) {
                         parent.onEvent('onClick_StartGame', parent.selectedActor);
                     }
                 }
         });
+        this.addChild(this.btnStart);
+
         // back to title screen
-        me.input.registerPointerEvent('mousedown', this.titleTouchRect, function() {
-            me.input.releasePointerEvent('mousedown', parent.titleTouchRect);
-            parent.onEvent('onClick_Title');
-        });
+        // me.input.registerPointerEvent('mousedown', this.titleTouchRect, function() {
+        //     me.input.releasePointerEvent('mousedown', parent.titleTouchRect);
+        //     parent.onEvent('onClick_Title');
+        // });
 
         this.sort();
     },
@@ -223,24 +267,22 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
     touchWizard: function(who) {
         var self = this;
         
-        // me.input.releasePointerEvent('mousedown', this.touchRects[who]);
-        
-        // show start button
-        if (!this.selectedActor) {
-            this.addChild(this.btnStart);
-        }
-        this.addChild(this.btnStart);
-        this.selectedActor = who;
-        // dim all but selected
-        for (var i in this.actors) {
-            this.actors[i].setAlpha(0.5);
-        }
-        this.actors[who].setAlpha(1.0);
+        // // show start button
+        // if (!this.selectedActor) {
+        //     this.addChild(this.btnStart);
+        // }
+        // this.addChild(this.btnStart);
+        // this.selectedActor = who;
+        // // dim all but selected
+        // for (var i in this.actors) {
+        //     this.actors[i].setAlpha(0.5);
+        // }
+        // this.actors[who].setAlpha(1.0);
 
-        // play select actors animation
-        this.actors[who].playAnimation('walk_down', function() {
-            self.actors[who].playAnimation('stand_down');
-        });
+        // // play select actors animation
+        // this.actors[who].playAnimation('walk_down', function() {
+        //     self.actors[who].playAnimation('stand_down');
+        // });
 
         // switch(who) {
         //     case _Globals.wizards.Earth:

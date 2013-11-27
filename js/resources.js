@@ -38,9 +38,10 @@ game.resources = [
     {name: "icon_pass", type:"image", src: "assets/gui/icon_pass.png"},
 
     // Menu
-    {name: "menu-background", type:"image", src: "assets/gui/menu-background.png"},
     {name: "menu-title", type:"image", src: "assets/gui/menu-title.png"},
     {name: "menu-buttons", type:"image", src: "assets/gui/menu-buttons.png"},
+    {name: "menu_characters", type:"image", src: "assets/gui/character_choice.png"},
+    {name: "menu_btn_play", type:"image", src: "assets/gui/play_btn.png"},
 
     // Sound
     {name: "click", type: "audio", src: "assets/sfx/", channel: 1},

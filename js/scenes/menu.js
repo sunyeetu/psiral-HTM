@@ -15,15 +15,19 @@ game.MenuScene = me.ScreenObject.extend({
         
     },
 
-    draw: function(ctx) {
-        me.video.clearSurface(ctx, 'black'); 
-    },
+    // draw: function(ctx) {
+    //     me.video.clearSurface(ctx, 'black'); 
+    // },
     /**        
      *  action to perform on state change
      */
     onResetEvent: function() {
         this.hudTitle = new game.MenuScene.HUD.Title(this, {});
         me.game.world.addChild(this.hudTitle);
+
+        // clear transparent background
+        this.cls = new game.GFX.ClearScreen();
+        me.game.world.addChild(this.cls);        
 
         // play music
         me.audio.play('elementary_wave', true);
@@ -37,6 +41,7 @@ game.MenuScene = me.ScreenObject.extend({
 
         this.hudTitle && me.game.world.removeChild(this.hudTitle);
         this.hudChar && me.game.world.removeChild(this.hudChar);
+        this.hudChar && me.game.world.removeChild(this.cls);
     },
 
     /************************************************************************
