@@ -18,8 +18,8 @@ game.MenuScene = me.ScreenObject.extend({
     // draw: function(ctx) {
     //     me.video.clearSurface(ctx, 'black'); 
     // },
-    /**        
-     *  action to perform on state change
+    /**
+     * action to perform on state change
      */
     onResetEvent: function() {
         this.hudTitle = new game.MenuScene.HUD.Title(this, {});
@@ -32,8 +32,8 @@ game.MenuScene = me.ScreenObject.extend({
         // play music
         me.audio.play('elementary_wave', true);
     },
-    /**        
-     *  action to perform when leaving this screen (state change)
+    /**
+     * action to perform when leaving this screen (state change)
      */
     onDestroyEvent: function() {
         // stop music

@@ -76,10 +76,10 @@ game.HUD.Stats = me.ObjectContainer.extend({
         parent.addChild(sprite);
         // font to draw texts
         this.text = null;
-        this.font = new me.Font('dafont', '0.8em', 'white', 'left');
+        this.font = new me.Font('dafont', '14px', 'white', 'left');
         this.font.textBaseline  = 'top';
-        this.xText = pcX + 4;
-        this.yText = pcY + 5;
+        this.xText = pcX + 5;
+        this.yText = pcY + 7;
     },
 
     draw: function(context) {
@@ -305,7 +305,7 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
             this.blend = true;
             this.animationpause = true;
         } else {
-           this.handler && this.handler(event); 
+           this.handler && this.handler(); 
         }
     },
 

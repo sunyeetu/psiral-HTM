@@ -33,7 +33,7 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: 50,
+    waitBetweenMoves: 750,
 
     init: function() {
         // use the update & draw functions
@@ -274,28 +274,28 @@ game.PlayScene = me.ScreenObject.extend({
 
         switch(chance) {
             case _Globals.chance.Move1:
-                this.statsHUD.drawText(wizardName + ' moves 1 tile');
+                this.statsHUD.drawText(wizardName + nls.get('play.move1'));
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 1);
             break;
             case _Globals.chance.Move2:
-                this.statsHUD.drawText(wizardName + ' moves 2 tiles');
+                this.statsHUD.drawText(wizardName + nls.get('play.move2'));
                 path = game.gamemaster.getWalkablePath(game.gamemaster.currentWizard, 2);
             break;
             case _Globals.chance.Numb:
                 // nothing
-                this.statsHUD.drawText(wizardName + ' got numbed. Skips 1 move.');
+                this.statsHUD.drawText(wizardName + nls.get('play.numbed'));
                 self.setState(self.SceneStates.NextMove);            
             break;
             case _Globals.chance.Mana1:
-                this.statsHUD.drawText(wizardName + ' gains +1 mana');
+                this.statsHUD.drawText(wizardName + nls.get('play.mana1'));
                 mana = 1;
             break;
             case _Globals.chance.Mana2:
-                this.statsHUD.drawText(wizardName + ' gains +2 mana');
+                this.statsHUD.drawText(wizardName + nls.get('play.mana2'));
                 mana = 2;
             break;            
             case _Globals.chance.Jump:
-                this.statsHUD.drawText(wizardName + ' teleports 2 tiles');
+                this.statsHUD.drawText(wizardName + nls.get('play.teleport'));
                 var actor = self.actors[game.gamemaster.currentWizard];
                 var pos = game.map.getPos(game.gamemaster.currentWizard);
                 var dest = game.map.getNextMove(game.gamemaster.currentWizard, 2);
@@ -303,7 +303,7 @@ game.PlayScene = me.ScreenObject.extend({
                 // check if wizard would teleport to abyss tile
                 if (game.map.isTileBuff(dest.x, dest.y, game.map.Tiles.Abyss)) {
                     me.plugin.fnDelay.add(function() {
-                        self.statsHUD.drawText(wizardName + ' cannot teleport! Blocked.');
+                        self.statsHUD.drawText(wizardName + nls.get('play.teleport_blocked'));
                         self.setState(self.SceneStates.NextMove);
                     }, this.waitBetweenMoves);
 
@@ -351,7 +351,7 @@ game.PlayScene = me.ScreenObject.extend({
                 });
             } else {
                 me.plugin.fnDelay.add(function() {
-                    self.statsHUD.drawText(wizardName + ' cannot move ahead! Blocked.');
+                    self.statsHUD.drawText(wizardName + nls.get('play.move_blocked'));
                     self.setState(self.SceneStates.NextMove);
                 }, this.waitBetweenMoves);                
             }
@@ -370,7 +370,7 @@ game.PlayScene = me.ScreenObject.extend({
 
         if (!game.gamemaster.isCanCast(game.gamemaster.currentWizard, type)) {
             // No mana! Go back to selection menu.
-            this.statsHUD.drawText('Not enough mana to cast!');
+            this.statsHUD.drawText(nls.get('play.no_mana'));
             return;
         }
 
@@ -481,7 +481,7 @@ game.PlayScene = me.ScreenObject.extend({
          * Single-Tile spells
          */
         
-        this.statsHUD.drawText('Select a target tile to cast spell on');
+        this.statsHUD.drawText(nls.get('play.select_tile'));
 
         // dim board tiles and make them selectable 
         this.gameboard.enableSelect(function(tileX, tileY) {
@@ -544,7 +544,7 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onMoveHuman: function(data) {
-        this.statsHUD.drawText(data[1] + '\'s move');
+        this.statsHUD.drawText(data[1] + nls.get('play.smove'));
         // TODO: optimize. set alpha in one pass
         this.gameboard.setAlpha(0.5);
         this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
@@ -552,7 +552,7 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onMoveAI: function(data) {
-        this.statsHUD.drawText(data[1] + '\'s move');
+        this.statsHUD.drawText(data[1] + nls.get('play.smove'));
         // TODO: optimize. set alpha in one pass
         this.gameboard.setAlpha(0.5);
         this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
@@ -564,12 +564,12 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onSkipMove: function(data) {
-        this.statsHUD.drawText(data[1] + 'skips this move');
+        this.statsHUD.drawText(data[1] + nls.get('play.skips_move'));
         this.setState(this.SceneStates.NextMove);
     },
 
     onNextTurn: function(data) {
-        this.statsHUD.drawText('Turn ' + data[0] + ' started');
+        this.statsHUD.drawText(nls.get('play.next_turn', data[0]));
         this.setState(this.SceneStates.NextTurn);
     },
 

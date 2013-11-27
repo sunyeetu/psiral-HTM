@@ -281,6 +281,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
             j++;
         }
 
+        // mark selected character
         this.selectedActor = who;
         actor.setAnimationFrame(frames[1]);
         // show play button

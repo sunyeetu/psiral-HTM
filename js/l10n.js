@@ -32,6 +32,22 @@
             enemies. He devours their energy in order to content his lust for eternal youth.",
 
             "select_character": "Choose your character"
+        },
+
+        'play': {
+            "next_turn": "Turn {} starts",
+            "smove": "\'s move",
+            "skips_move": " skips this move",
+            "no_mana": "Not enough mana to cast!",
+            "select_tile": "Select a target tile to cast \n spell on",
+            "move1": " moves 1 tile",
+            "move2": " moves 2 tiles",
+            "numbed": " got numbed. Skips 1 move.",
+            "mana1": " gains +1 mana",
+            "mana2": " gains +2 mana",
+            "teleport": " teleports 2 tiles",
+            "teleport_blocked": " cannot teleport! Blocked.",
+            "move_blocked": " cannot move ahead! Blocked."
         }
     };
 
@@ -51,13 +67,15 @@
             throw locale + " is unsupported locale!";
         },
 
-        get: function(what) {
+        get: function(what, arg) {
             var parts = what.split('.');
             var obj = current[parts[0]];
             for (var i = 1; i < parts.length; i++) {
                 obj = obj[parts[i]];
-                // if (typeof obj !== '[Object object]') {
-                // }
+            }
+            // format
+            if (obj && arg) {
+                obj = obj.replace('{}', arg);
             }
             return (obj ? obj : '');
         }
