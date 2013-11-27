@@ -29,7 +29,9 @@
             Water and fire clashed and out of the dynamic of the this great battle the wizard \n \
             of air was born. The most beautiful of his kind. He carries the grace of being and \n \
             the seeds of life. But his looks are deceiving. He will absorb the very life out of his \n \
-            enemies. He devours their energy in order to content his lust for eternal youth."
+            enemies. He devours their energy in order to content his lust for eternal youth.",
+
+            "select_character": "Choose your character"
         }
     };
 

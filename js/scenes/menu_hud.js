@@ -110,6 +110,7 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         // create font to draw texts
         this.text = null;
         this.font = new me.Font('dafont', '16px', 'white', 'left');
+        this.fontBlack = new me.Font('dafont', '24px', 'black', 'left');
         this.xText = 0;
         this.yText = 0;        
         // sort renderable        
@@ -259,6 +260,16 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         }
         this.parent();
     },
+    /**
+     * @override
+     */
+    draw: function(context) {
+        this.parent(context);
+
+        var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
+        var xpos = _Globals.canvas.width / 2 - width / 2;
+        this.fontBlack.draw(context, nls.get('menu.select_character'), xpos, 28);
+    }, 
 
     touchWizard: function(who, frames) {
         var self = this;
