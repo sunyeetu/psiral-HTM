@@ -39,11 +39,11 @@ game.BoardEntity = me.ObjectContainer.extend({
             for (var x = 0; x < width; x++) {
                 var tileType = game.map.getTile(x, y);
                 //TODO: remove fountain tiles beneath
-                // if (tileType !== game.map.Tiles.Fountain) {
+                if (tileType !== 0) {
                     var tile = new game.TileEntity(x, y, {type: tileType});
                     this.tileMap[x + y * width] = tile;
                     this.addChild(tile);
-                // }
+                }
             }
         }
         

@@ -121,7 +121,7 @@
         // place start position
         map[pos.sy * mapWidth + pos.sx] = pos.sign;
         // populate tilemap
-        for(var i = 0; i < path.length - 2; i++) {
+        for(var i = 0; i < path.length - 1; i++) {
             map[path[i].y * mapWidth + path[i].x] = pattern[tilePos];
             if (++pc >= tileRepetitions[rc]) {
                 if (++tilePos >= pattern.length) {
@@ -368,9 +368,14 @@
                     case R: tmpx += 1; break;
                     case X: found = true; break;
                     case H: found = true; break;
+                    break;
                     default:
                         throw "Unexpected tile at " + tmpx + "," + tmpy + "!";
                 }
+                
+                // console.log("x: %d, y: %d", tmpx, tmpy);
+                if (found === true)
+                    break;
 
                 // // check for obstacles
                 // // if (buffsMap[where] && buffsMap[where].length > 0) {
@@ -379,7 +384,7 @@
                 //         break;
                 //     }
                 // // }
-                
+
                 path.push({x: tmpx, y: tmpy});
 
                 if (steps && ++i >= steps) {
@@ -404,7 +409,6 @@
             //         throw "Invalid " + player + " path!"
             //     }
             // }
-
             return path;            
         }
 

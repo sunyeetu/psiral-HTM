@@ -105,10 +105,13 @@ game.PlayScene = me.ScreenObject.extend({
 
             case this.SceneStates.Tests:
             // XXX
-            // test spell
-            // this.actors[_Globals.wizards.Earth].doSpellCast(game.map.getPos('player3'));
-            // this.gfx.play(game.GFX.anims.Teleport, 5, 5);
-            
+            console.log('tests');
+            var p = game.map.getPath(game.session.wizard);
+            p = p[p.length - 3];
+            this.actors[game.session.wizard].setPosition(p.x, p.y);
+            game.map.setPos(game.session.wizard, p.x, p.y);
+
+            this.setState(this.SceneStates.NextMove);
             break;
         }
     },
@@ -172,7 +175,8 @@ game.PlayScene = me.ScreenObject.extend({
         me.audio.play('observingthestar', true);
 
         // Start game
-        this.setState(this.SceneStates.StartGame);
+        // this.setState(this.SceneStates.StartGame);
+        this.setState(this.SceneStates.Tests);
     },
     /**        
      * Action to perform when leaving this screen (state change)
@@ -270,7 +274,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        // chance = _Globals.chance.Move2;
+        chance = _Globals.chance.Move2;
 
         switch(chance) {
             case _Globals.chance.Move1:
