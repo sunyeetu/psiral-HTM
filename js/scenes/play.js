@@ -597,19 +597,18 @@ game.PlayScene = me.ScreenObject.extend({
         this.gameboard.changeTiles(game.gamemaster.getWizardTile(who), function() {
 
             parent.statsHUD.drawText(data[1] + nls.get('play.move_2win'));
-            
-            // remove wizards
-            for (var i =0; i < parent.wizards.length; i++) {
-                if (parent.wizards[i] !== who) {
-                    parent.actors[parent.wizards[i]].fadeAway();
-                }
-            }
-        });
 
-        // fade all tiles
-        // me.plugin.fnDelay.add(function() {
-        //     game.gamemaster.nextMove();
-        // }, this.waitBetweenMoves);        
+            // fade out board
+            parent.gameboard.fadeTiles('out', function() {
+                // fade out wizards
+                for (var i =0; i < parent.wizards.length; i++) {
+                    if (parent.wizards[i] !== who) {
+                        parent.actors[parent.wizards[i]].fadeAway(0.005);
+                    }
+                }                
+            })
+
+        });
 
         me.audio.stop('observingthestar');
         

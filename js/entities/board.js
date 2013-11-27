@@ -58,6 +58,24 @@ game.BoardEntity = me.ObjectContainer.extend({
         this.sort(); //defer();
     },
 
+    fadeTiles: function(how, callback) {
+        // all tiles
+        var size = game.map.width * game.map.height;
+        for (var i = size - 1; i >= 1; i--) {
+            if (how == 'in') {
+                this.tileMap[i].enableFadeIn();
+            } else if (how == 'out') {
+                this.tileMap[i].enableFadeOut();
+            }
+        }
+        // last tile
+        if (how == 'in') {
+            this.tileMap[0].enableFadeIn(callback);
+        } else if (how == 'out') {
+            this.tileMap[0].enableFadeOut(callback);
+        }      
+    },
+
     changeTiles: function(type, path, callback) {
         var tx, ty;
 
@@ -100,7 +118,7 @@ game.BoardEntity = me.ObjectContainer.extend({
             }
             tx = path[0].x;
             ty = path[0].y;
-        } else {
+        } else if (typeof path === 'object') {
             tx = path.x;
             ty = path.y;
         }
@@ -233,7 +251,8 @@ game.TileEntity = me.AnimationSheet.extend({
 
         this.setCurrentAnimation(this.getNameFromType(settings.type));
         this.animationpause = true;
-        this.fadeInOut = false;
+        this.fadeIn = false;
+        this.fadeOut = false;
         this.fadeStep = 0.0095;
         this.fadeInCallback = null;
         this.fadeOutCallback = null;
@@ -277,8 +296,9 @@ game.TileEntity = me.AnimationSheet.extend({
         });
     },
 
-    enableFade: function(fadeOutCallback, fadeInCallback) {
-        this.fadeInOut = true;
+    enableFade: function(fadeOutCallback, fadeInCallback, fadeIn, fadeOut) {
+        this.fadeIn = fadeIn === false ? false : true;
+        this.fadeOut = fadeOut === false ? false : true;
         // this.alpha = 1.0;
         this.fadeStep = 0.0095;
 
@@ -287,20 +307,42 @@ game.TileEntity = me.AnimationSheet.extend({
         this.fadeInCallback = fadeInCallback;
     },
 
-    disableFade: function() {
-        this.fadeInOut = false;
-        this.alpha = 1.0;
+    disableFade: function(alpha) {
+        this.fadeIn = false;
+        this.fadeOut = false;
+        console.log('disabled with ' + alpha);
+        this.alpha = alpha || 1.0;
     },
+
+    enableFadeOut: function(callback) {
+        this.enableFade(function(self) {
+            self.disableFade(0.01);
+            // notify when fade out is completed
+            callback && callback();            
+        }, undefined, false, true);
+    },
+
+    enableFadeIn: function(callback) {
+        this.enableFade(undefined, function(self) {
+            self.disableFade(1.0);
+            // notify when fade in is completed
+            callback && callback();            
+        }, true, false);
+    },    
 
     update: function() {
         // this.parent();
-        if (this.fadeInOut) {
+        if (this.fadeOut) {
             this.alpha -= this.fadeStep * me.timer.tick;
-            if (this.alpha < 0.35) {
-                this.alpha = 0.35;
+            if (this.alpha < 0.1) {
+                this.alpha = 0.1;
                 this.fadeStep = -this.fadeStep;
                 this.fadeOutCallback && this.fadeOutCallback(this);
-            } else if (this.alpha > 1.0) {
+            }
+        } 
+        if (this.fadeIn) {
+            this.alpha -= this.fadeStep * me.timer.tick;
+            if (this.alpha > 1.0) {
                 this.alpha = 1.0;
                 this.fadeStep = -this.fadeStep;
                 this.fadeInCallback && this.fadeInCallback(this);
