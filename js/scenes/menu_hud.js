@@ -106,10 +106,10 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         // draw background
         // this.imageBackground = new me.SpriteObject(0, 0, me.loader.getImage('menu-background'));
         // this.addChild(this.imageBackground);
-        // create font
-        // font to draw texts
+
+        // create font to draw texts
         this.text = null;
-        this.font = new me.Font('dafont', '2.0em', 'white', 'left');
+        this.font = new me.Font('dafont', '16px', 'white', 'left');
         this.xText = 0;
         this.yText = 0;        
         // sort renderable        
@@ -219,7 +219,8 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         }
 
         // add buttons
-        var btnX = _Globals.canvas.width / 2 - 167 / 2;
+        // var btnX = _Globals.canvas.width / 2 - 167 / 2;
+        var btnX = _Globals.canvas.gameWidth - 167 - 15;
 
         this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 107, {
                 width: 167,
@@ -233,6 +234,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                     }
                 }
         });
+        this.btnStart.visible = false;
         this.addChild(this.btnStart);
 
         // back to title screen
@@ -242,8 +244,8 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         // });
         
         // text positions
-        this.xText = 400;
-        this.yText = 415;
+        this.xText = _Globals.canvas.xOffset + 30;
+        this.yText = _Globals.canvas.height - 120;
 
         this.sort();
     },
@@ -269,7 +271,9 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         }
 
         this.selectedActor = who;
-        actor.setAnimationFrame(frames[1]);        
+        actor.setAnimationFrame(frames[1]);
+        // show play button
+        this.btnStart.visible = true;
         
         switch(who) {
             case _Globals.wizards.Earth:
