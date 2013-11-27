@@ -68,9 +68,19 @@ game.BoardEntity = me.ObjectContainer.extend({
             }
             tx = path[0].x;
             ty = path[0].y;
-        } else {
+        } else if (typeof path === 'object') {
             tx = path.x;
             ty = path.y;
+        } else if (typeof path === 'function') {
+            // all tiles
+            var size = game.map.width * game.map.height;
+            for (var i = size - 1; i >= 1; i--) {
+                this.tileMap[i].changeWith(type);
+            }
+            tx = 0;
+            ty = 0;
+            // cb is 2nd parameter
+            callback = path;
         }
         // single tile
         this.tileMap[tx + ty * game.map.width].changeWith(type, function() {

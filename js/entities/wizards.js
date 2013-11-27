@@ -35,6 +35,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.moving = false;
         this.movement = {};
         this.animation = {};
+        this.fade = false; // fade away sprite
 
         // setup common animations
         this.renderable.addAnimation('stand_left', [0]);
@@ -146,6 +147,15 @@ game.WizardEntity = me.ObjectEntity.extend({
 
         this.updateMovement();
 
+        if (this.fade) {
+            this.renderable.alpha -= this.fadeStep * me.timer.tick;
+            if (this.renderable.alpha < 0) {
+                this.renderable.alpha = 0;
+                this.fade = false;
+                this.fadeCallback && this.fadeCallback();
+            }            
+        }
+
         this.parent();
         return true;
     },
@@ -153,6 +163,12 @@ game.WizardEntity = me.ObjectEntity.extend({
     /************************************************************************
      * Actor functions
      */
+    
+    fadeAway: function(step, callback) {
+        this.fade = true;
+        this.fadeStep = step || 0.0095;
+        this.fadeCallback = callback;
+    },
     
     // setVisible: function(value) {
     //     if (value)

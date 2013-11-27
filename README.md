@@ -54,6 +54,7 @@ The following javascript libraries are used:
 ### Music
   * [ObservingTheStar](http://opengameart.org/content/another-space-background-track) by [yd](http://opengameart.org/users/yd)
   * [Elementary Wave](http://www.freesound.org/people/Erokia/sounds/183881/) by [Erokia](http://www.freesound.org/people/Erokia/)
+  * [life line.wav](http://www.freesound.org/people/stk13/sounds/121329/) by [stk13](http://www.freesound.org/people/stk13/)
 
 ### Sounds
   * [pen click.WAV](http://www.freesound.org/people/Millavsb/sounds/197877/)
@@ -63,7 +64,6 @@ The following javascript libraries are used:
   * [Fire Magic Spell Sound Effect](http://www.freesound.org/people/qubodup/sounds/159725/)
   * [Magical fizzlerz](http://www.freesound.org/people/jobro/sounds/204303/) by [jobro](http://www.freesound.org/people/jobro/)
   * [grass1.wav](http://www.freesound.org/people/freefire66/sounds/175955/)
-  * Info pending ...
 
 All sounds were edited with [Audacity](http://audacity.sourceforge.net/) in order to suit the in-game atmosphere.
 

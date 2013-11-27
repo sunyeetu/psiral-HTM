@@ -53,8 +53,8 @@ var game = {
 
         // register custom Audio plugin
         me.plugin.register(howlerAudio, "howlerAudio", "mp3,ogg");
-        me.audio.disable();
-        // me.plugin.howlerAudio.load(game.resources);
+        // me.audio.disable();
+        me.plugin.howlerAudio.load(game.resources);
 
         // Init global locales
         nls.init('en');        

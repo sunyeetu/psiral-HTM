@@ -154,6 +154,15 @@
             }
         },
 
+        getWizardTile: function(wizard) {
+            switch(wizard) {
+                case _Globals.wizards.Earth: return game.map.Tiles.Earth;
+                case _Globals.wizards.Fire: return game.map.Tiles.Fire;
+                case _Globals.wizards.Water: return game.map.Tiles.Water;
+                case _Globals.wizards.Air: return game.map.Tiles.Air;
+            }
+        },        
+
         nextMove: function() {
             var self = this;
 
@@ -234,7 +243,7 @@
             game.map.setPos(who, pos.x, pos.y);
             if (game.map.isTile(pos.x, pos.y, game.map.Tiles.Fountain)) {
                 // notify
-                this.onEvent('onReachGoal', who);
+                this.onEvent('onReachGoal', who, this.getWizardName(who));
             }
         },
 

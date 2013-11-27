@@ -54,8 +54,10 @@ game.resources = [
     {name: "change", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "abyss", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "walk_earth", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "win", type: "audio", src: "assets/sfx/", channel : 1},
     
     // Music
     {name: "elementary_wave", type: "audio", src: "assets/muzik/", channel: 1, stream: true},
-    {name: "observingthestar", type: "audio", src: "assets/muzik/", channel: 1, stream: true}
+    {name: "observingthestar", type: "audio", src: "assets/muzik/", channel: 1, stream: true},
+    {name: "lifeline", type: "audio", src: "assets/muzik/", channel: 1, stream: true},
 ];

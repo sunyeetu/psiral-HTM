@@ -589,7 +589,33 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onReachGoal: function(data) {
-        console.log('we have a winner ' + data[0]);
+        _Globals.debug('Winner - ', data[0]);
+        var who = data[0];
+        var parent = this;
+
+        this.gameboard.setAlpha(1.0);
+        this.gameboard.changeTiles(game.gamemaster.getWizardTile(who), function() {
+
+            parent.statsHUD.drawText(data[1] + nls.get('play.move_2win'));
+            
+            // remove wizards
+            for (var i =0; i < parent.wizards.length; i++) {
+                if (parent.wizards[i] !== who) {
+                    parent.actors[parent.wizards[i]].fadeAway();
+                }
+            }
+        });
+
+        // fade all tiles
+        // me.plugin.fnDelay.add(function() {
+        //     game.gamemaster.nextMove();
+        // }, this.waitBetweenMoves);        
+
+        me.audio.stop('observingthestar');
+        
+        // play sound
+        me.audio.play('win', false);
+        me.audio.play('lifeline', false);
 
         this.stopStates = true;
         this.setState(this.SceneStates.AIMove);
