@@ -31,10 +31,12 @@ Play and find out. (*I really should stop watching TV ads.*)
   </tr>   
   <tr>
     <th>IE</th>
-    <td>?</td>
-    <td>?</td>
+    <td>Yes</td>
+    <td>10.0</td>
   </tr>  
 </table>
+
+_*Game sound is currently (and sadly) not working under IE & Safari browsers!_
 
 ## Open Source Libraries
 The following javascript libraries are used:
