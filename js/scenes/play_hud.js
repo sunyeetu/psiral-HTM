@@ -309,6 +309,10 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
         }
     },
 
+    setFadeout: function(enabled) {
+        this.fadeout = enabled;
+    },
+
     update: function() {
         this.parent();
         /**
@@ -499,21 +503,21 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
             break;
             case _Globals.wizards.Water:
             special = {
-                frames: [3],
+                frames: [4],
                 type: _Globals.spells.Freeze,
                 onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Freeze); }
             };
             break;
             case _Globals.wizards.Fire:
             special = {
-                frames: [3],
+                frames: [5],
                 type: _Globals.spells.Blind,
                 onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Blind); }
             };
             break;
             case _Globals.wizards.Air:
             special = {
-                frames: [3],
+                frames: [6],
                 type: _Globals.spells.Teleport,
                 onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Teleport); }
             };       
@@ -538,11 +542,13 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
         var starty = this.cy + this.height / 2 - this.iconHeight / 2;
 
         for(var i = 0; i < this.spells.length; i++) {
-            if (game.gamemaster.isCanCast(settings.wizard, this.spells[i].type)) {
-                this.addChild(
-                    new game.HUD.ClickableAnimation(startx, starty, this.spells[i]));
-                startx += this.iconWidth + 4;
+            var icon = new game.HUD.ClickableAnimation(startx, starty, this.spells[i]);
+            if (!game.gamemaster.isCanCast(settings.wizard, this.spells[i].type)) {
+                icon.alpha = 0.5;
+                icon.setFadeout(false);
             }
+            this.addChild(icon);
+            startx += this.iconWidth + 4;
         }
         // add exit button
         startx += 4;
