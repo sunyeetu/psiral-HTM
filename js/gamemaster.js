@@ -230,6 +230,14 @@
             return path;
         },
 
+        setPosition: function(who, pos) {
+            game.map.setPos(who, pos.x, pos.y);
+            if (game.map.isTile(pos.x, pos.y, game.map.Tiles.Fountain)) {
+                // notify
+                this.onEvent('onReachGoal', who);
+            }
+        },
+
         isCanCast: function(who, spell) {
             var w = wizards[who];
             switch(spell) {

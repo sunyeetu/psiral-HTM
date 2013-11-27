@@ -335,6 +335,8 @@
                     tmpx -= 1;
                 } else if (pos.route[where] == R) {
                     tmpx += 1;
+                } else {
+                    break; // we (hopefully) reached the goal
                 }
             } while(--i > 0);
 

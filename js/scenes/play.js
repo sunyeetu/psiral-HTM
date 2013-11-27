@@ -33,13 +33,14 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: 750,
+    waitBetweenMoves: 150,
 
     init: function() {
         // use the update & draw functions
         this.parent(true);
         this.state = this.SceneStates.InitBoard;
         this.stateUpdated = false;
+        this.stopStates = false;
         // ui
         this.hud = {};
         this.hud.current = null;
@@ -55,7 +56,7 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     update: function() {
-        if (!this.stateUpdated)
+        if (!this.stateUpdated || this.stopStates)
             return;
 
         this.stateUpdated = false;
@@ -100,18 +101,18 @@ game.PlayScene = me.ScreenObject.extend({
 
             case this.SceneStates.AIMove:
             // skip turn
-            //this.setState(this.SceneStates.HUDSelectMove);
+                // this.setState(this.SceneStates.HUDSelectMove);
             break;
 
             case this.SceneStates.Tests:
             // XXX
-            console.log('tests');
-            var p = game.map.getPath(game.session.wizard);
-            p = p[p.length - 3];
-            this.actors[game.session.wizard].setPosition(p.x, p.y);
-            game.map.setPos(game.session.wizard, p.x, p.y);
+                console.log('tests');
+                var p = game.map.getPath(game.session.wizard);
+                p = p[p.length - 2];
+                this.actors[game.session.wizard].setPosition(p.x, p.y);
+                game.gamemaster.setPosition(game.session.wizard, p);
 
-            this.setState(this.SceneStates.NextMove);
+                this.setState(this.SceneStates.NextMove);
             break;
         }
     },
@@ -274,7 +275,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        chance = _Globals.chance.Move2;
+        chance = _Globals.chance.Jump;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -325,7 +326,7 @@ game.PlayScene = me.ScreenObject.extend({
                     actor.setPosition(dest.x, dest.y);
                     actor.visible = true;
                     // XXX update logs
-                    game.map.setPos(game.gamemaster.currentWizard, dest.x, dest.y);
+                    game.gamemaster.setPosition(game.gamemaster.currentWizard, dest);
                     game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
                     game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);                    
 
@@ -347,7 +348,7 @@ game.PlayScene = me.ScreenObject.extend({
                 this.actors[game.gamemaster.currentWizard].moveTo(path, function() {
                     var lastMove = path.pop();
                     // XXX update logs
-                    game.map.setPos(game.gamemaster.currentWizard, lastMove.x, lastMove.y);
+                    game.gamemaster.setPosition(game.gamemaster.currentWizard, lastMove);
                     game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
                     game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, lastMove);
                     // done moving, on to next move
@@ -454,7 +455,7 @@ game.PlayScene = me.ScreenObject.extend({
                 actor.setPosition(dest.x, dest.y);
                 actor.visible = true;
                 // XXX update logs
-                game.map.setPos(game.gamemaster.currentWizard, dest.x, dest.y);
+                game.gamemaster.setPosition(game.gamemaster.currentWizard, dest);
                 // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
                 // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);                    
 
@@ -585,6 +586,13 @@ game.PlayScene = me.ScreenObject.extend({
         if (tiles) {
             this.gameboard.restoreTiles(tiles);
         }
+    },
+
+    onReachGoal: function(data) {
+        console.log('we have a winner ' + data[0]);
+
+        this.stopStates = true;
+        this.setState(this.SceneStates.AIMove);
     }
 
 });
