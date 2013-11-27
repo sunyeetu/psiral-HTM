@@ -254,8 +254,8 @@ game.PlayScene = me.ScreenObject.extend({
         this.setState(this.SceneStates.HUDSelectSpell);
     },
 
-    onCancelSelectSpell: function() {
-        _Globals.debug('cancel spell');
+    onCancelSelect: function() {
+        _Globals.debug('cancel select');
         this.removeHUD();
         this.setState(this.SceneStates.HUDSelectMove);
     },    

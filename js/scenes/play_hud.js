@@ -444,7 +444,11 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             onClick: function(event) {
                 parent.diceAnim.animationpause = true;
                 parent.addChild(icon);
-                icon.isClickable = true;                
+                icon.isClickable = true;
+
+                // disable exit btn
+                parent.btnExit.visible.isClickable = false;
+                parent.btnExit.visible = false;
 
                 // play sound
                 me.audio.stop('rolldice');
@@ -452,6 +456,21 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             }
         });            
         this.addChild(this.diceAnim);
+
+        // add exit button
+        this.btnExit = new game.HUD.ClickableAnimation(this.endx - 55, this.iconY + 10, {
+            image: 'dlg_btn_back',
+            width: 38,
+            height: 65,
+            frames: [0],
+            fadeout: true,
+            fadeoutspeed: 0.1,
+            onClick: function() {
+                me.audio.stop('rolldice');
+                parent.onEvent('onCancelSelect');
+            }
+        });
+        this.addChild(this.btnExit)
     }
 });
 /**
@@ -552,17 +571,16 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
         }
         // add exit button
         startx += 4;
-        this.addChild(
-            new game.HUD.ClickableAnimation(startx, starty + 10, {
-                image: 'dlg_btn_back',
-                width: 38,
-                height: 65,
-                frames: [0],
-                fadeout: true,
-                fadeoutspeed: 0.1,
-                onClick: function() {
-                    parent.onEvent('onCancelSelectSpell');
-                }
-            }));        
+        this.addChild(new game.HUD.ClickableAnimation(startx, starty + 10, {
+            image: 'dlg_btn_back',
+            width: 38,
+            height: 65,
+            frames: [0],
+            fadeout: true,
+            fadeoutspeed: 0.1,
+            onClick: function() {
+                parent.onEvent('onCancelSelect');
+            }
+        }));        
     }
 });
