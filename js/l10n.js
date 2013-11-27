@@ -42,12 +42,12 @@
             "select_tile": "Select a target tile to cast \n spell on",
             "move1": " moves 1 tile",
             "move2": " moves 2 tiles",
-            "numbed": " got numbed. Skips 1 move.",
+            "numbed": " got numbed. \n Skips 1 move.",
             "mana1": " gains +1 mana",
             "mana2": " gains +2 mana",
             "teleport": " teleports 2 tiles",
-            "teleport_blocked": " cannot teleport! Blocked.",
-            "move_blocked": " cannot move ahead! Blocked."
+            "teleport_blocked": " cannot teleport! \n Blocked.",
+            "move_blocked": " cannot move \n ahead! Blocked."
         }
     };
 

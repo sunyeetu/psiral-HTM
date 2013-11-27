@@ -11,6 +11,15 @@
 var game = {
 
     onload: function () {
+
+        me.state.onPause = function() {
+            console.log('paused');
+            me.audio.muteAll();
+        }
+        me.state.onResume = function() {
+            me.audio.unmuteAll();
+        }
+
         // Initialize the video.
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false, 
             me.device.isMobile ? 1.99 : null)) {
@@ -53,8 +62,8 @@ var game = {
 
         // register custom Audio plugin
         me.plugin.register(howlerAudio, "howlerAudio", "mp3,ogg");
-        me.audio.disable();
-        // me.plugin.howlerAudio.load(game.resources);
+        // me.audio.disable();
+        me.plugin.howlerAudio.load(game.resources);
 
         // Initialize melonJS and display a loading screen.
         me.state.set(me.state.LOADING, new game.SplashScreen());
@@ -62,25 +71,6 @@ var game = {
 
         // Init global locales
         nls.init('en');
-
-        // var done = function() {
-        //     console.log('ok')
-        // };
-        // me.audio.play('burp', false, done);
-        // me.audio.play('burp', false, function() {
-        //     console.log("aghaa");
-        // });
-        // me.audio.play('burp', false);
-        // me.audio.play('song18_0', false);
-        
-        // game.map.reset(); 
-        // game.map.setTileBuffs(4, 3, {type: 'bad', val: 231});
-        // var bufs = game.map.getTileBuffs(4, 3);
-        // console.log(bufs);
-        // console.log(game.map.isTileBuffs(4, 3));
-        // console.log(game.map.isTileBuffs(4, 4));
-        // console.log(game.map.isTileBuffs(4, 3, 'bad'));
-
     },
 
     // Run on game resources loaded.
@@ -93,8 +83,8 @@ var game = {
         
         if (_Globals.isDebug) {
             this.session.wizard = _Globals.wizards.Earth;
-            // me.state.change(me.state.MENU);
-            me.state.change(me.state.PLAY);
+            me.state.change(me.state.MENU);
+            // me.state.change(me.state.PLAY);
             return;
         }
 

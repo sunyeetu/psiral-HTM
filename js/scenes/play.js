@@ -169,7 +169,7 @@ game.PlayScene = me.ScreenObject.extend({
         me.game.world.sort();
 
         // play music
-        me.audio.play('observingthestar', false);
+        me.audio.play('observingthestar', true);
 
         // Start game
         this.setState(this.SceneStates.StartGame);
@@ -270,7 +270,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        chance = _Globals.chance.Move2;
+        // chance = _Globals.chance.Move2;
 
         switch(chance) {
             case _Globals.chance.Move1:
