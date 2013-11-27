@@ -38,12 +38,14 @@ game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
         this.fadeoutspeed = settings.fadeoutspeed || game.MenuScene.HUD.ButtonFadeSpeed;
         this.blend = false;
         this.alpha = 1.0;
+        this.clickOnce = (typeof settings.clickOnce !== 'undefined') ? settings.clickOnce : true;
 
         this.touchRect = new me.Rect(new me.Vector2d(x, y), settings.width, settings.height);
 
         var parent = this;
         me.input.registerPointerEvent('mousedown', this.touchRect, function() {
-            me.input.releasePointerEvent('mousedown', parent.touchRect);
+            if (this.clickOnce)
+                me.input.releasePointerEvent('mousedown', parent.touchRect);
 
             // play sound
             me.audio.play('click', false);
@@ -58,6 +60,10 @@ game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
 
     onClick: function(handler) {
         this.handler = handler;
+    },
+
+    clear: function() {
+        me.input.releasePointerEvent('mousedown', this.touchRect);
     },
 
     update: function() {
@@ -196,38 +202,21 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         // }
      
         var wx = _Globals.canvas.xOffset + 45, wy = _Globals.canvas.yOffset;
-        var frames = [[0, 1], [2, 3], [4, 5], [6, 7]];
+        this.actorsFrames = [[0, 1], [2, 3], [4, 5], [6, 7]];
 
         for (var i = 0; i < sequence.length; i++) {
             this.actors[sequence[i]] = new game.MenuScene.HUD.Clickable(wx, wy, {
                 width: 208,
                 height: 444,
                 image: 'menu_characters',
-                frame: frames[i],
-                fade: false
+                frame: this.actorsFrames[i],
+                fade: false,
+                onClick: this.touchWizard.bind(this, sequence[i], this.actorsFrames[i])
             });            
             this.addChild(this.actors[sequence[i]]);
 
             wx += 208 + 15;
         }
-
-        //TODO
-        this.actors[_Globals.wizards.Earth].onClick(function() {
-            this.setAnimationFrame(1);
-        });
-        this.actors[_Globals.wizards.Water].onClick(function() {
-            this.setAnimationFrame(3);
-        });
-        this.actors[_Globals.wizards.Fire].onClick(function() {
-            this.setAnimationFrame(5);
-        });
-        this.actors[_Globals.wizards.Air].onClick(function() {
-            this.setAnimationFrame(7);
-        });
-
-
-        this.xText = 400;
-        this.yText = 415;
 
         // add buttons
         var btnX = _Globals.canvas.width / 2 - 167 / 2;
@@ -237,6 +226,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                 height: 107,                
                 image: 'menu_btn_play',
                 frame: 0,
+                onceClick: false,
                 onClick: function() {
                     if (parent.selectedActor) {
                         parent.onEvent('onClick_StartGame', parent.selectedActor);
@@ -250,6 +240,10 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         //     me.input.releasePointerEvent('mousedown', parent.titleTouchRect);
         //     parent.onEvent('onClick_Title');
         // });
+        
+        // text positions
+        this.xText = 400;
+        this.yText = 415;
 
         this.sort();
     },
@@ -259,44 +253,37 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
      */
     destroy: function() {
         for (var i in this.actors) {
-            me.input.releasePointerEvent('mousedown', this.touchRects[i]);
+            this.actors[i].clear();
         }
         this.parent();
     },
 
-    touchWizard: function(who) {
+    touchWizard: function(who, frames) {
         var self = this;
+        var actor = this.actors[who];
+
+        var j = 0;
+        for (var i in this.actors) {
+            this.actors[i].setAnimationFrame(this.actorsFrames[j][0]);
+            j++;
+        }
+
+        this.selectedActor = who;
+        actor.setAnimationFrame(frames[1]);        
         
-        // // show start button
-        // if (!this.selectedActor) {
-        //     this.addChild(this.btnStart);
-        // }
-        // this.addChild(this.btnStart);
-        // this.selectedActor = who;
-        // // dim all but selected
-        // for (var i in this.actors) {
-        //     this.actors[i].setAlpha(0.5);
-        // }
-        // this.actors[who].setAlpha(1.0);
-
-        // // play select actors animation
-        // this.actors[who].playAnimation('walk_down', function() {
-        //     self.actors[who].playAnimation('stand_down');
-        // });
-
-        // switch(who) {
-        //     case _Globals.wizards.Earth:
-        //         this.drawText(nls.get('menu.wiz_earth'));
-        //     break;
-        //     case _Globals.wizards.Water:
-        //         this.drawText(nls.get('menu.wiz_water'));
-        //     break;
-        //     case _Globals.wizards.Fire:
-        //         this.drawText(nls.get('menu.wiz_fire'));
-        //     break;
-        //     case _Globals.wizards.Air:
-        //         this.drawText(nls.get('menu.wiz_air'));
-        //     break;
-        // }
+        switch(who) {
+            case _Globals.wizards.Earth:
+                this.drawText(nls.get('menu.wiz_earth'));
+            break;
+            case _Globals.wizards.Water:
+                this.drawText(nls.get('menu.wiz_water'));
+            break;
+            case _Globals.wizards.Fire:
+                this.drawText(nls.get('menu.wiz_fire'));
+            break;
+            case _Globals.wizards.Air:
+                this.drawText(nls.get('menu.wiz_air'));
+            break;
+        }
     }
 });
