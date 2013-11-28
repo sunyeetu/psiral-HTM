@@ -91,7 +91,10 @@
         throw "GM: Unknown spell " + spell;
     }
 
-    var _ai {
+    /**
+     * AI impl.
+     */
+    var _ai = {
 
         decide: function(who) {
             switch(who) {

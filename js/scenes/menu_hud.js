@@ -269,7 +269,6 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
 
         var j = 0;
         for (var i in this.actors) {
-            console.log('set frame ' + this.actorsFrames[j][0]);
             this.actors[i].setAnimationFrame(0);
             j++;
         }
