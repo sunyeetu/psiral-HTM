@@ -265,6 +265,7 @@ game.TileEntity = me.AnimationSheet.extend({
             case game.map.Tiles.Base4: return 'base4';
             case game.map.Tiles.Abyss: return 'abyss';
             case game.map.Tiles.Frozen: return 'frozen';
+            case game.map.Tiles.Stone: return 'base1'; // XXX
         }
         throw "Board: unknown tile type " + type;
     },

@@ -443,7 +443,7 @@ game.PlayScene = me.ScreenObject.extend({
              */
             var actor = this.actors[game.gamemaster.currentWizard];
             var pos = game.map.getPos(game.gamemaster.currentWizard);
-            var dest = game.map.getNextMove(game.gamemaster.currentWizard, 4);
+            var dest = game.map.getNextMove(game.gamemaster.currentWizard, 3);
             affectedTiles = dest;
             
             actor.visible = false;
@@ -508,13 +508,21 @@ game.PlayScene = me.ScreenObject.extend({
                     // play sound
                     me.audio.play('abyss', false);                    
                 break;
-                case _Globals.spells.Change:
-                    parent.gameboard.changeTiles(game.map.getTile(tileX, tileY), where, function() {
+                case _Globals.spells.Stone:
+                    parent.gameboard.changeTiles(game.map.Tiles.Stone, where, function() {
+                        // wait for transition to complete and then proceed with next plr movement
                         parent.setState(parent.SceneStates.NextMove);                        
                     });
                     // play sound
                     me.audio.play('change', false);
                 break;
+                // case _Globals.spells.Change:
+                //     parent.gameboard.changeTiles(game.map.getTile(tileX, tileY), where, function() {
+                //         parent.setState(parent.SceneStates.NextMove);                        
+                //     });
+                //     // play sound
+                //     me.audio.play('change', false);
+                // break;                
                 case _Globals.spells.Clay:
                     parent.gameboard.changeTiles(game.map.Tiles.Clay, where, function() {
                         parent.setState(parent.SceneStates.NextMove);                        

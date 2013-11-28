@@ -502,8 +502,8 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
                 width: this.iconWidth,
                 height: this.iconHeight,
                 frames: [1],
-                type: _Globals.spells.Change,
-                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Change); }
+                type: _Globals.spells.Stone,
+                onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Stone); }
             },
             {
                 frames: [2],

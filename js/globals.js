@@ -53,7 +53,7 @@ var _Globals = {
     },
     spells: {
         Abyss: 10,
-        Change: 20,
+        Stone: 20,
         Clay: 30,
         Blind: 40,
         Freeze: 50,

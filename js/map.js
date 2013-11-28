@@ -162,7 +162,7 @@
             Base4: S4,
             // others
             Frozen: UF + 5,
-            // Abyss: UF + 6
+            Stone: UF + 6,
         },
 
         Directions: {
