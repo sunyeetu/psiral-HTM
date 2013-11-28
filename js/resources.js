@@ -12,7 +12,7 @@ game.resources = [
     {name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
     {name: "fountain", type:"image", src: "assets/gfx/fountain.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
-    {name: "earth_front", type:"image", src: "assets/gfx/Earth_front_56.png"},
+    {name: "earth", type:"image", src: "assets/gfx/earth.png"},
     {name: "water_front", type:"image", src: "assets/gfx/Water_front_56.png"},
     {name: "fire_front", type:"image", src: "assets/gfx/Fire_front_56.png"},
     {name: "air_front", type:"image", src: "assets/gfx/Air_front_56.png"},
