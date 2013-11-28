@@ -72,7 +72,7 @@
             case _Globals.spells.Clay: return 3;
             case _Globals.spells.Blind: return 6;
             case _Globals.spells.Freeze: return 6;
-            case _Globals.spells.Teleport: return 6;
+            case _Globals.spells.Teleport: return 7;
             case _Globals.spells.Path: return 5;
         }
         throw "GM: Unknown spell " + spell;
@@ -300,14 +300,22 @@
                 return false;
             }
 
+            // TODO: unless on Path!
+
             if (spell == _Globals.spells.Abyss) {
                 // do not allow occupied tiles to be selected
                 if (game.map.isTileOccupied(x, y)) {
                     _Globals.debug('nocast: occupied ', x, y);
                     return false;
-                }                
+                }
+                // TODO: unless on Path!
+                
             } else if (spell == _Globals.spells.Clay) {
-                // cast clay anywhere you want
+                // cast clay anywhere you want but on a stone tile
+                return !(game.map.isTile(x, y, game.map.Tiles.Stone));
+            } else if (spell == _Globals.spells.Stone) {
+                // stone is allowed everywhere
+                // TODO: unless on Path!
                 return true;
             }
 

@@ -33,7 +33,7 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: 250,
+    waitBetweenMoves: 950,
 
     init: function() {
         // use the update & draw functions
@@ -275,7 +275,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        chance = _Globals.chance.Move2;
+        // chance = _Globals.chance.Move2;
 
         switch(chance) {
             case _Globals.chance.Move1:
