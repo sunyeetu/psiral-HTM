@@ -328,6 +328,16 @@ game.FireWizardEntity = game.WizardEntity.extend({
         // setup props
         this.name = 'Valeriya';
 
+        // {!} EXPR
+        this.renderable.addAnimation('stand_left', [0]);
+        this.renderable.addAnimation('stand_right', [6]);
+        this.renderable.addAnimation('stand_up', [0]);
+        this.renderable.addAnimation('stand_down', [0]);
+        this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_left', [12, 13, 14, 15, 16, 17]);
+        this.renderable.addAnimation('walk_down', [0, 1, 2, 3, 4, 5]);
+        this.renderable.addAnimation('walk_right', [6, 7, 8, 9, 10, 11]);                
+
         this.playAnimation('stand_left');
     }
 });
