@@ -89,7 +89,42 @@
             case _Globals.spells.Path: return -1;
         }
         throw "GM: Unknown spell " + spell;
-    }    
+    }
+
+    var _ai {
+
+        decide: function(who) {
+            switch(who) {
+                case _Globals.wizards.Earth: return this._earth();
+                case _Globals.wizards.Fire: return this._water();
+                case _Globals.wizards.Water: return this._fire();
+                case _Globals.wizards.Air: return this._air();
+                default:
+                    throw "GM: In _ai, Invalid wizard - " + who;
+            }
+        },
+
+        _common: function() {
+
+        },
+
+        _earth: function() {
+
+        },
+
+        _water: function() {
+            //TODO
+        },
+
+        _fire: function() {
+
+        },
+
+        _air: function() {
+
+        }
+
+    };
 
     /**
      * Public interface
@@ -175,20 +210,6 @@
                     }
                 });
                 
-                // for (var i = spells.length - 1; i >= 0; i--) {
-                //     if (spells[i].turn < match.turn) {
-                //         // restore affected tiles
-                //         if (spells[i].tiles) {
-                //             for (var j = spells[i].tiles.length - 1; j >= 0; j--) {
-                //                 game.map.restoreTile(spells[i].tiles[j].x, spells[i].tiles[j].y);
-                //             }
-                //         }
-                //         // notify listener
-                //         this.onEvent('onExpireSpell', spells[i].type, spells[i].tiles);
-                //         // remove spell
-                //         spells.splice(i, 1);
-                //     }
-                // }
                 // notify listener on next game turn
                 this.onEvent('onNextTurn', match.turn);
                 return;
@@ -209,6 +230,7 @@
             if (wizards[current].control == Controls.Human) {
                 this.onEvent('onMoveHuman', current, this.getWizardName(current));
             } else if (wizards[current].control == Controls.AI) {
+                // TODO: add AI logic here and ship results to the event call
                 this.onEvent('onMoveAI', current, this.getWizardName(current));
             } else {
                 throw "GM: Invalid actor control!";
