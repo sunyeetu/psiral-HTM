@@ -303,9 +303,9 @@
             // cast only on allowed tiles
             var tile = game.map.getTile(x, y);
             var myTile = this.getWizardTile(who);
-            if (tile != myTile) {
+            if (tile !== myTile && tile !== game.map.Tiles.Clay) {
                 if (!game.map.isTile(x, y, this.getWizardTile(who))) {
-                    _Globals.debug('nocast: not a wizard tile ', x, y, who);
+                    _Globals.debug('nocast: not a wizard tile ', x, y, who, tile);
                     return false;
                 }
             }
