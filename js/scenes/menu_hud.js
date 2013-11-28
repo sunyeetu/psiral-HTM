@@ -109,6 +109,7 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
 
         // create font to draw texts
         this.text = null;
+        this.showVersion = true;
         this.fontSmall = new me.Font('dafont', '12px', 'white', 'left');
         this.font = new me.Font('dafont', '16px', 'white', 'left');
         this.font.lineHeight = 1.2;
@@ -126,8 +127,10 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         if (this.text) {
             this.font.draw(context, this.text, this.xText, this.yText);
         }
-        this.fontSmall.draw(context, 'v' + _version.buildnumber, 
-            _Globals.canvas.gameWidth - 10, _Globals.canvas.gameHeight - 26);
+        if (!!this.showVersion) {
+            this.fontSmall.draw(context, 'v' + _version.buildnumber, 
+                _Globals.canvas.gameWidth - 10, _Globals.canvas.gameHeight - 26);
+        }
     },    
     // Propagate UI event to handler
     onEvent: function(name) {
@@ -142,7 +145,7 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
 
     clearText: function() {
         this.text = null;
-    }        
+    }
 });
 /**
  * Title HUD
@@ -234,11 +237,12 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.addChild(this.btnStart);
        
         // text positions
+        this.showVersion = false;
         this.xText = _Globals.canvas.xOffset + 30;
         this.yText = _Globals.canvas.height - 110;
 
         // back to title screen
-        this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 80, 28),
+        this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 140, 28),
             60, 40);
         
         me.input.registerPointerEvent('mousedown', this.backBtnRect, function() {
@@ -270,7 +274,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.parent(context);
 
         var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
-        var xpos = _Globals.canvas.width / 2 - width / 2;
+        var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
         this.fontBlack.draw(context, nls.get('menu.select_character'), xpos, 28);
         this.fontBlack.draw(context, nls.get('menu.back'), this.backBtnRect.pos.x, this.backBtnRect.pos.y);
     }, 
