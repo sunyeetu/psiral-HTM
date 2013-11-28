@@ -68,11 +68,11 @@
     function getSpellCost(spell) {
         switch(spell) {
             case _Globals.spells.Abyss:
-                return 1;
+                return 4;
             case _Globals.spells.Change:
-                return 2;
+                return 5;
             case _Globals.spells.Clay:
-                return 2;
+                return 3;
             case _Globals.spells.Blind:
                 return 6;
             case _Globals.spells.Freeze:
@@ -80,7 +80,7 @@
             case _Globals.spells.Teleport:
                 return 6;
             case _Globals.spells.Path:
-                return 6;
+                return 5;
         }
         throw "GM: Unknown spell " + spell;
     }
@@ -96,9 +96,9 @@
             case _Globals.spells.Blind:
                 return -1;
             case _Globals.spells.Freeze:
-                return 2;
+                return 4;
             case _Globals.spells.Teleport:
-                return 0;
+                return -1;
             case _Globals.spells.Path:
                 return -1;
         }
@@ -222,17 +222,42 @@
         },
 
         getWalkablePath: function(who, steps) {
-            var path = game.map.getPath(who, steps);
+
+            // check current tile position for blockers
+            var path = [];
+            var pos = game.map.getPos(who);
+            var buff = game.map.getTileBuff(pos.x, pos.y);
+            if (buff) {
+                switch(buff.type) {
+                    case _Globals.spells.Freeze:
+                        if (who != _Globals.wizards.Water) {
+                            return path;
+                        }
+                    break;                    
+                }
+            }
+
+            // check path for blockers
+            path = game.map.getPath(who, steps);
             for (var i = 0; i < path.length; i++) {
-                var buff = game.map.getTileBuff(path[i].x, path[i].y);
-                // check for blockers
-                // TODO: step transitions
+                buff = game.map.getTileBuff(path[i].x, path[i].y);
                 if (buff) {
                     switch(buff.type) {
                         case _Globals.spells.Abyss:
-                        case _Globals.spells.Freeze:
                             path.splice(i);
                             return path;
+                        case _Globals.spells.Freeze:
+                            if (who != _Globals.wizards.Water) {
+                                
+                                if (i + 1 < path.length) {
+                                    path.splice(i + 1);
+                                } else {
+                                    path.splice(i);
+                                }
+
+                                return path;
+                            }
+                        break;
                     }
                 }
             }
