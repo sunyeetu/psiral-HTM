@@ -90,11 +90,11 @@
             case _Globals.spells.Abyss:
                 return 2;
             case _Globals.spells.Change:
-                return 2;
-            case _Globals.spells.Clay:
-                return 2;
-            case _Globals.spells.Blind:
                 return -1;
+            case _Globals.spells.Clay:
+                return 4;
+            case _Globals.spells.Blind:
+                return 4;
             case _Globals.spells.Freeze:
                 return 4;
             case _Globals.spells.Teleport:
@@ -119,6 +119,13 @@
             AllDice: 'dice',
             LastDice: 'lastdice'
         },
+
+        WizardsList: [
+            _Globals.wizards.Earth,
+            _Globals.wizards.Water,
+            _Globals.wizards.Fire,
+            _Globals.wizards.Air
+        ],
 
         /**
          * Reset vars and prepare for a new game
@@ -239,14 +246,11 @@
         },
 
         getWalkablePath: function(who, steps) {
-
-            var path = [];
-            var buff;
+            var path = game.map.getPath(who, steps);
 
             // check path for blockers
-            path = game.map.getPath(who, steps);
             for (var i = 0; i < path.length; i++) {
-                buff = game.map.getTileBuff(path[i].x, path[i].y);
+                var buff = game.map.getTileBuff(path[i].x, path[i].y);
                 if (buff) {
                     switch(buff.type) {
                         case _Globals.spells.Abyss:
@@ -254,7 +258,7 @@
                             return path;
                         case _Globals.spells.Freeze:
                             if (who != _Globals.wizards.Water) {
-                                
+                                // make plr step on the first frozen tile found
                                 if (i + 1 < path.length) {
                                     path.splice(i + 1);
                                 } else {
@@ -276,6 +280,37 @@
                 // notify
                 this.onEvent('onReachGoal', who, this.getWizardName(who));
             }
+        },
+
+        isCanCastAt: function(who, spell, x, y) {
+            // start places and fountain are not selectable
+            if (game.map.isTileSelectable(x, y)) {
+                _Globals.debug('nocast: unselectable ', x, y);
+                return false;
+            }
+
+            if (spell == _Globals.spells.Abyss) {
+                // do not allow occupied tiles to be selected
+                if (game.map.isTileOccupied(x, y)) {
+                    _Globals.debug('nocast: occupied ', x, y);
+                    return false;
+                }                
+            } else if (spell == _Globals.spells.Clay) {
+                // cast clay anywhere you want
+                return true;
+            }
+
+            // cast only on allowed tiles
+            var tile = game.map.getTile(x, y);
+            var myTile = this.getWizardTile(who);
+            if (tile != myTile) {
+                if (!game.map.isTile(x, y, this.getWizardTile(who))) {
+                    _Globals.debug('nocast: not a wizard tile ', x, y, who);
+                    return false;
+                }
+            }
+
+            return true;
         },
 
         isCanCast: function(who, spell) {
@@ -365,13 +400,13 @@
                 break;
 
                 case _Globals.spells.Change:
-                    var rnd = Math.floor(Math.random() * 5);
+                    var rnd = Math.floor(Math.random() * 4);
                     switch(rnd) {
                         case 0: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Earth, true); break;
                         case 1: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Water, true); break;
                         case 2: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Fire, true); break;
                         case 3: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Air, true); break;
-                        case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen, true); break;
+                        // case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen, true); break;
                     }
                     // remove previous buff
                     game.map.removeTileBuff(tiles.x, tiles.y);               
@@ -385,7 +420,8 @@
                 break;
 
                 case _Globals.spells.Blind:
-                // nothing
+                    // skip 4 turns
+                    game.gamemaster.skipTurn(_.without(this.WizardsList, who), getSpellDuration(spell));
                 break;
 
                 case _Globals.spells.Freeze:
@@ -397,7 +433,7 @@
                 break;
 
                 case _Globals.spells.Teleport:
-                // nothing
+                    // nothing
                 break;
 
                 case _Globals.spells.Path:

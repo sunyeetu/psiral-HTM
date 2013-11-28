@@ -145,9 +145,9 @@ game.BoardEntity = me.ObjectContainer.extend({
         this.setAlpha(1.0);
     },
 
-    enableSelect: function(callback, cancelCallback) {
+    enableSelect: function(wizard, spell, callback, cancelCallback) {
         this.setAlpha(0.5);
-        me.input.registerPointerEvent('mousedown', this.touchRect, this.onSelectTile.bind(this, callback));
+        me.input.registerPointerEvent('mousedown', this.touchRect, this.onSelectTile.bind(this, wizard, spell, callback));
         me.input.registerPointerEvent('mousedown', 
             this.cancelTouchRect, this.onCancelSelectTile.bind(this, cancelCallback));
     },
@@ -158,20 +158,13 @@ game.BoardEntity = me.ObjectContainer.extend({
         me.input.releasePointerEvent('mousedown', this.cancelTouchRect);
     },
 
-    onSelectTile: function(callback, event) {
+    onSelectTile: function(wizard, spell, callback, event) {
         var tileX = Math.floor((event.gameX - _Globals.canvas.xOffset) / _Globals.gfx.tileWidth);
         var tileY = Math.floor((event.gameY - _Globals.canvas.yOffset) / _Globals.gfx.tileHeight);
         
         // do not allow occupied tiles to be selected
-        if (game.map.isTileOccupied(tileX, tileY)) {
-            //XXX: perhaps use this as spell cancellation
-            _Globals.debug('occupied tile: ', tileX, tileY);
+        if (!game.gamemaster.isCanCastAt(wizard, spell, tileX, tileY))
             return;
-        }
-        if (game.map.isTileSelectable(tileX, tileY)) {
-            _Globals.debug('not selectable tile: ', tileX, tileY);
-            return;
-        }
 
         var tileIdx = tileX + tileY * game.map.width;
 

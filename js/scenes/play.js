@@ -421,9 +421,6 @@ game.PlayScene = me.ScreenObject.extend({
              */
             var pos;
             var affectedWizards = _.without(this.wizards, game.gamemaster.currentWizard);
-            
-            // skip 4 turns
-            game.gamemaster.skipTurn(affectedWizards, 4);
 
             // play blind animation for all affected wizards
             for (var i = affectedWizards.length - 1; i >= 1; i--) {
@@ -431,7 +428,8 @@ game.PlayScene = me.ScreenObject.extend({
                 parent.gfx.play(game.GFX.anims.Blind, pos.x, pos.y);
 
             };
-            var pos = game.map.getPos(affectedWizards[0]);
+            // notify when animation over last wizard finishes
+            pos = game.map.getPos(affectedWizards[0]);
             parent.gfx.play(game.GFX.anims.Blind, pos.x, pos.y, function() {
                 // on to next move
                 parent.setState(parent.SceneStates.NextMove);
@@ -489,7 +487,7 @@ game.PlayScene = me.ScreenObject.extend({
         this.statsHUD.drawText(nls.get('play.select_tile'));
 
         // dim board tiles and make them selectable 
-        this.gameboard.enableSelect(function(tileX, tileY) {
+        this.gameboard.enableSelect(game.gamemaster.currentWizard, type, function(tileX, tileY) {
             parent.gameboard.disableSelect();
 
             var where = {x: tileX, y: tileY};
