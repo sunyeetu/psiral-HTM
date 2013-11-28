@@ -394,7 +394,7 @@ game.PlayScene = me.ScreenObject.extend({
             /**
              * Earth Wizard - Path
              */
-            affectedTiles = game.map.getPath(game.gamemaster.currentWizard, 4);
+            affectedTiles = game.map.getPath(game.gamemaster.currentWizard, 3, true);
             parent.gameboard.changeTiles(game.map.Tiles.Earth, affectedTiles, function() {
                 // wait for transition to complete and then proceed to next move
                 parent.setState(parent.SceneStates.NextMove);
@@ -549,7 +549,8 @@ game.PlayScene = me.ScreenObject.extend({
         function() {
             // bring player back to select next move menu
             parent.gameboard.disableSelect();
-            parent.gameboard.setAlpha(0.5, game.map.getPath(game.gamemaster.currentWizard));
+            parent.gameboard.setAlpha(0.5);
+            parent.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard, undefined, true));
             parent.setState(parent.SceneStates.HUDSelectMove);
         });
     },
@@ -559,7 +560,7 @@ game.PlayScene = me.ScreenObject.extend({
 
         // TODO: optimize. set alpha in one pass
         this.gameboard.setAlpha(0.5);
-        this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
+        this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard, undefined, true));
         
         this.setState(this.SceneStates.HUDSelectMove);    
     },
@@ -569,7 +570,7 @@ game.PlayScene = me.ScreenObject.extend({
 
         // TODO: optimize. set alpha in one pass
         this.gameboard.setAlpha(0.5);
-        this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
+        this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard, undefined, true));
 
         this.onDiceThrown();
         

@@ -351,7 +351,7 @@
         /**
          * Get path from current position to goal
          */
-        getPath: function(wizard, steps) {
+        getPath: function(wizard, steps, includePos) {
             var pos = this.getPos(wizard);
             var where;
             var tmpx = pos.x;
@@ -360,6 +360,12 @@
             var path = [];
             var found = false;
             var i = 0;
+
+            // include current player position
+            if (includePos === true) {
+                if (pos.x != pos.sx || pos.y != pos.sy)
+                    path.push({x: pos.x, y: pos.y});
+            }
 
             do {
                 where = tmpy * mapWidth + tmpx;
