@@ -109,6 +109,7 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
 
         // create font to draw texts
         this.text = null;
+        this.fontSmall = new me.Font('dafont', '12px', 'white', 'left');
         this.font = new me.Font('dafont', '16px', 'white', 'left');
         this.font.lineHeight = 1.2;
         this.fontBlack = new me.Font('dafont', '24px', 'black', 'left');
@@ -125,6 +126,8 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         if (this.text) {
             this.font.draw(context, this.text, this.xText, this.yText);
         }
+        this.fontSmall.draw(context, 'v' + _version.buildnumber, 
+            _Globals.canvas.gameWidth - 10, _Globals.canvas.gameHeight - 26);
     },    
     // Propagate UI event to handler
     onEvent: function(name) {
