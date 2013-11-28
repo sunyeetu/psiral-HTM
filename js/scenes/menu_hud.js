@@ -194,7 +194,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.selectedActor = null;
         
         // draw wizards
-        var wx = _Globals.canvas.xOffset + 45, wy = _Globals.canvas.yOffset;
+        var wx = _Globals.canvas.xOffset + 36, wy = _Globals.canvas.yOffset;
         this.actorsFrames = [[0, 4], [1, 5], [2, 6], [3, 7]];
 
         for (var i = 0; i < sequence.length; i++) {
@@ -208,14 +208,14 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
             });            
             this.addChild(this.actors[sequence[i]]);
 
-            wx += 220 + 15;
+            wx += 220;
         }
 
         // add buttons
         // var btnX = _Globals.canvas.width / 2 - 167 / 2;
         var btnX = _Globals.canvas.gameWidth - 167 - 15;
 
-        this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 127, {
+        this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 124, {
                 width: 167,
                 height: 107,                
                 image: 'menu_btn_play',
