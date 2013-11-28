@@ -31,7 +31,8 @@
             the seeds of life. But his looks are deceiving. He will absorb the very life out of his \n \
             enemies. He devours their energy in order to content his lust for eternal youth.",
 
-            "select_character": "Choose your character"
+            "select_character": "Choose your character",
+            "back": "Back"
         },
 
         'play': {

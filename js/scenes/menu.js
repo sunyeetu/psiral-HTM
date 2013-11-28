@@ -63,8 +63,7 @@ game.MenuScene = me.ScreenObject.extend({
     },
 
     onClick_HowTo: function() {
-        console.log('howto');
-        // TODO
+        window.location = "https://github.com/petarov/game-off-2013/blob/master/HOWTO.md";
     },
 
     onClick_StartGame: function(data) {

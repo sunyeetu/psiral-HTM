@@ -229,16 +229,23 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         });
         this.btnStart.visible = false;
         this.addChild(this.btnStart);
-
-        // back to title screen
-        // me.input.registerPointerEvent('mousedown', this.titleTouchRect, function() {
-        //     me.input.releasePointerEvent('mousedown', parent.titleTouchRect);
-        //     parent.onEvent('onClick_Title');
-        // });
-        
+       
         // text positions
         this.xText = _Globals.canvas.xOffset + 30;
         this.yText = _Globals.canvas.height - 110;
+
+        // back to title screen
+        this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 80, 28),
+            60, 40);
+        
+        me.input.registerPointerEvent('mousedown', this.backBtnRect, function() {
+            me.input.releasePointerEvent('mousedown', parent.backBtnRect);
+
+            parent.onEvent('onClick_Title');
+
+            // play sound
+            me.audio.play('click', false);            
+        });        
 
         this.sort();
     },
@@ -249,6 +256,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
     destroy: function() {
         for (var i in this.actors) {
             this.actors[i].clear();
+            this.removeChild(this.actors[i]);
         }
         this.parent();
     },
@@ -261,6 +269,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
         var xpos = _Globals.canvas.width / 2 - width / 2;
         this.fontBlack.draw(context, nls.get('menu.select_character'), xpos, 28);
+        this.fontBlack.draw(context, nls.get('menu.back'), this.backBtnRect.pos.x, this.backBtnRect.pos.y);
     }, 
 
     touchWizard: function(who) {
