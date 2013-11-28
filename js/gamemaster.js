@@ -177,6 +177,7 @@
                     if (buff.turn < match.turn) {
                         game.map.restoreTile(buff.x, buff.y);
                         game.map.removeTileBuff(buff.x, buff.y);
+                        //TODO: Fix bug with tiles getting full alpha after spell expires
                         self.onEvent('onExpireSpell', buff.type, {x: buff.x, y: buff.y});
                     }
                 });
@@ -207,7 +208,7 @@
             wizards[current].lastdice = throwDice();
             _Globals.debug('generating chance: ', wizards[current].lastdice);
 
-            if (wizards[current].skipTurnUntil > match.turn) {
+            if (wizards[current].skipTurnUntil > match.turn || !this.isCanMove(current)) {
                 this.onEvent('onSkipMove', current, this.getWizardName(current));
                 return;
             }
@@ -221,21 +222,26 @@
             }
         },
 
-        getWalkablePath: function(who, steps) {
-
+        isCanMove: function(who) {
             // check current tile position for blockers
-            var path = [];
             var pos = game.map.getPos(who);
             var buff = game.map.getTileBuff(pos.x, pos.y);
             if (buff) {
                 switch(buff.type) {
                     case _Globals.spells.Freeze:
                         if (who != _Globals.wizards.Water) {
-                            return path;
+                            return false;
                         }
                     break;                    
                 }
             }
+            return true;
+        },
+
+        getWalkablePath: function(who, steps) {
+
+            var path = [];
+            var buff;
 
             // check path for blockers
             path = game.map.getPath(who, steps);

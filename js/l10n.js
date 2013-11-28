@@ -48,7 +48,7 @@
             "teleport": " teleports 2 tiles",
             "teleport_blocked": " cannot teleport! \n Blocked.",
             "move_blocked": " cannot move \n ahead! Blocked.",
-            "move_2win": " has reached the \n fountain. \n The story ends here."
+            "move_2win": " has reached the \n fountain. \n The story ends here.",
         }
     };
 

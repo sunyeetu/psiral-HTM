@@ -33,7 +33,7 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: 750,
+    waitBetweenMoves: 250,
 
     init: function() {
         // use the update & draw functions
@@ -275,7 +275,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        // chance = _Globals.chance.Jump;
+        chance = _Globals.chance.Move2;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -550,20 +550,23 @@ game.PlayScene = me.ScreenObject.extend({
 
     onMoveHuman: function(data) {
         this.statsHUD.drawText(data[1] + nls.get('play.smove'));
+
         // TODO: optimize. set alpha in one pass
         this.gameboard.setAlpha(0.5);
         this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
-        this.setState(this.SceneStates.HUDSelectMove);
+        
+        this.setState(this.SceneStates.HUDSelectMove);    
     },
 
     onMoveAI: function(data) {
         this.statsHUD.drawText(data[1] + nls.get('play.smove'));
+
         // TODO: optimize. set alpha in one pass
         this.gameboard.setAlpha(0.5);
         this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard));
-        // TODO
-        this.onDiceThrown();
 
+        this.onDiceThrown();
+        
         // _Globals.debug('AI skipped!');
         // this.setState(this.SceneStates.NextMove);
     },
