@@ -194,30 +194,21 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.selectedActor = null;
         
         // draw wizards
-
-        // for (var i in this.actors) {
-        //     this.addChild(this.actors[i]);
-
-        //     var pos = this.actors[i].getPosition();
-        //     this.touchRects[i] = new me.Rect(new me.Vector2d(pos.x, pos.y), pos.w, pos.h);
-        //     me.input.registerPointerEvent('mousedown', this.touchRects[i], this.touchWizard.bind(this, i));
-        // }
-     
         var wx = _Globals.canvas.xOffset + 45, wy = _Globals.canvas.yOffset;
-        this.actorsFrames = [[0, 1], [2, 3], [4, 5], [6, 7]];
+        this.actorsFrames = [[0, 4], [1, 5], [2, 6], [3, 7]];
 
         for (var i = 0; i < sequence.length; i++) {
             this.actors[sequence[i]] = new game.MenuScene.HUD.Clickable(wx, wy, {
-                width: 208,
-                height: 444,
+                width: 220,
+                height: 450,
                 image: 'menu_characters',
                 frame: this.actorsFrames[i],
                 fade: false,
-                onClick: this.touchWizard.bind(this, sequence[i], this.actorsFrames[i])
+                onClick: this.touchWizard.bind(this, sequence[i])
             });            
             this.addChild(this.actors[sequence[i]]);
 
-            wx += 208 + 15;
+            wx += 220 + 15;
         }
 
         // add buttons
@@ -272,19 +263,20 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.fontBlack.draw(context, nls.get('menu.select_character'), xpos, 28);
     }, 
 
-    touchWizard: function(who, frames) {
+    touchWizard: function(who) {
         var self = this;
         var actor = this.actors[who];
 
         var j = 0;
         for (var i in this.actors) {
-            this.actors[i].setAnimationFrame(this.actorsFrames[j][0]);
+            console.log('set frame ' + this.actorsFrames[j][0]);
+            this.actors[i].setAnimationFrame(0);
             j++;
         }
 
         // mark selected character
         this.selectedActor = who;
-        actor.setAnimationFrame(frames[1]);
+        actor.setAnimationFrame(1);
         // show play button
         this.btnStart.visible = true;
         
