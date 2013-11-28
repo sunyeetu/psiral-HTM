@@ -12,10 +12,10 @@ game.resources = [
     {name: "boardtileset", type:"image", src: "assets/gfx/tiles.png"},
     {name: "fountain", type:"image", src: "assets/gfx/fountain.png"},
     {name: "spells", type:"image", src: "assets/gfx/spells.png"},
-    {name: "earth", type:"image", src: "assets/gfx/earth.png"},
-    {name: "water_front", type:"image", src: "assets/gfx/water.png"},
-    {name: "fire_front", type:"image", src: "assets/gfx/fire.png"},
-    {name: "air_front", type:"image", src: "assets/gfx/air.png"},
+    {name: "earth", type:"image", src: "assets/gfx/wz_earth.png"},
+    {name: "water_front", type:"image", src: "assets/gfx/wz_water.png"},
+    {name: "fire_front", type:"image", src: "assets/gfx/wz_fire.png"},
+    {name: "air_front", type:"image", src: "assets/gfx/wz_air.png"},
 
     // Hud
     {name: "hud_faces", type:"image", src: "assets/gui/mana_character_icons.png"},
