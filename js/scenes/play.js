@@ -370,6 +370,8 @@ game.PlayScene = me.ScreenObject.extend({
     onCastSpell: function(data) {
         var type = data[0];
         var where = data[1];
+        var isAI = !!data[2];
+
         _Globals.debug('casting:', type);
 
         if (!game.gamemaster.isCanCast(game.gamemaster.currentWizard, type)) {
@@ -482,11 +484,7 @@ game.PlayScene = me.ScreenObject.extend({
         /**
          * Single-Tile spells
          */
-        
-        this.statsHUD.drawText(nls.get('play.select_tile'));
-
-        // dim board tiles and make them selectable 
-        this.gameboard.enableSelect(game.gamemaster.currentWizard, type, function(tileX, tileY) {
+        var onSelectedTile = function(tileX, tileY) {
             parent.gameboard.disableSelect();
 
             var where = {x: tileX, y: tileY};
@@ -543,15 +541,24 @@ game.PlayScene = me.ScreenObject.extend({
                     parent.setState(parent.SceneStates.NextMove);
                 });
             }
-        },
-        // cancel selection
-        function() {
-            // bring player back to select next move menu
-            parent.gameboard.disableSelect();
-            parent.gameboard.setAlpha(0.5);
-            parent.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard, undefined, true));
-            parent.setState(parent.SceneStates.HUDSelectMove);
-        });
+        }
+
+        // bring UI for human player or cast directly if AI
+
+        if (isAI) {
+            onSelectedTile(where.x, where.y);
+        } else {
+            this.statsHUD.drawText(nls.get('play.select_tile'));
+            // dim board tiles and make them selectable 
+            this.gameboard.enableSelect(game.gamemaster.currentWizard, type, onSelectedTile, function() {
+                // cancel selection
+                // bring player back to select next move menu
+                parent.gameboard.disableSelect();
+                parent.gameboard.setAlpha(0.5);
+                parent.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard, undefined, true));
+                parent.setState(parent.SceneStates.HUDSelectMove);
+            });            
+        }
     },
 
     onMoveHuman: function(data) {
@@ -565,13 +572,24 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onMoveAI: function(data) {
-        this.statsHUD.drawText(data[1] + nls.get('play.smove'));
+        var decision = data[2];
+        _Globals.debug('AI: ', data[0], decision);
 
+        this.statsHUD.drawText(data[1] + nls.get('play.smove'));
         // TODO: optimize. set alpha in one pass
         this.gameboard.setAlpha(0.5);
         this.gameboard.setAlpha(1.0, game.map.getPath(game.gamemaster.currentWizard, undefined, true));
 
-        this.onDiceThrown();
+        if (decision.cast === true) {
+            data[0] = decision.spell.type;
+            data[1] = decision.spell.where;
+            data[2] = true;
+            this.onCastSpell(data);
+        } else if (decision.dice === true) {
+            this.onDiceThrown();
+        } else {
+            throw "Unexpected AI decision " + decision;
+        }
         
         // _Globals.debug('AI skipped!');
         // this.setState(this.SceneStates.NextMove);

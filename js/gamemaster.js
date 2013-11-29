@@ -103,41 +103,65 @@
         decide: function(who) {
             switch(who) {
                 case _Globals.wizards.Earth: return this._earth();
-                case _Globals.wizards.Fire: return this._water();
-                case _Globals.wizards.Water: return this._fire();
+                case _Globals.wizards.Water: return this._water();
+                case _Globals.wizards.Fire: return this._fire();
                 case _Globals.wizards.Air: return this._air();
                 default:
                     throw "GM: In _ai, Invalid wizard - " + who;
             }
         },
 
-        _common: function() {
+        _common: function(who) {
+            var decision = {};
+            var pos = game.map.getPos(who);
+            decision.pos = pos;
+            
+            console.log(who + ' has mana ' + wizards[who].mana);
+            if (wizards[who].mana < 3) {
+                decision.dice = true;
+            } else {
 
+                // if (game.map.isTileBuff(dest.x, dest.y, game.map.Tiles.Abyss))
+                decision.cast = true;
+                decision.spell = {
+                    type: _Globals.spells.Clay,
+                    where: game.map.getNextMove(who, 2)
+                }                
+            }
+
+            return decision;
         },
         /**
          * Entria-Sil
          */
         _earth: function() {
-
+            var decision = this._common(_Globals.wizards.Earth);
+            //TODO:
+            return decision;
         },
         /**
          * Azalsor
          */
         _water: function() {
-
-
+            var decision = this._common(_Globals.wizards.Water);
+            //TODO:
+            return decision;
         },
         /**
          * Valeriya
          */
         _fire: function() {
-
+            var decision = this._common(_Globals.wizards.Fire);
+            //TODO:
+            return decision;
         },
         /**
          * Rafel
          */
         _air: function() {
-
+            var decision = this._common(_Globals.wizards.Air);
+            //TODO:
+            return decision;
         }
     };
 
@@ -247,11 +271,8 @@
             if (wizards[current].control == Controls.Human) {
                 this.onEvent('onMoveHuman', current, this.getWizardName(current));
             } else if (wizards[current].control == Controls.AI) {
-                
-                _ai.decide(current);
-                // TODO: add AI logic here and ship results to the event call
-
-                this.onEvent('onMoveAI', current, this.getWizardName(current));
+                var decision = _ai.decide(current);
+                this.onEvent('onMoveAI', current, this.getWizardName(current), decision);
             } else {
                 throw "GM: Invalid actor control!";
             }
