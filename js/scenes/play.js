@@ -275,7 +275,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        // chance = _Globals.chance.Move2;
+        chance = _Globals.chance.Jump;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -301,20 +301,19 @@ game.PlayScene = me.ScreenObject.extend({
             break;            
             case _Globals.chance.Jump:
                 this.statsHUD.drawText(wizardName + nls.get('play.teleport'));
-                var actor = self.actors[game.gamemaster.currentWizard];
-                var pos = game.map.getPos(game.gamemaster.currentWizard);
-                var dest = game.map.getNextMove(game.gamemaster.currentWizard, 2);
-
-                // check if wizard would teleport to abyss tile
-                if (game.map.isTileBuff(dest.x, dest.y, game.map.Tiles.Abyss)) {
+                
+                var dest = game.gamemaster.isCanTeleport(game.gamemaster.currentWizard, 2);
+                if (dest === false) {
                     me.plugin.fnDelay.add(function() {
                         self.statsHUD.drawText(wizardName + nls.get('play.teleport_blocked'));
                         self.setState(self.SceneStates.NextMove);
                     }, this.waitBetweenMoves);
 
-                    return;
+                    return;                    
                 }
                 
+                var pos = game.map.getPos(game.gamemaster.currentWizard);
+                var actor = self.actors[game.gamemaster.currentWizard];
                 // actor.setVisible(false);
                 actor.visible = false;
 

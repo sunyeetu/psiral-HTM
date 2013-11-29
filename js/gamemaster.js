@@ -309,6 +309,25 @@
                 this.onEvent('onReachGoal', who, this.getWizardName(who));
             }
         },
+        /**
+         * Recursive call that check which is the last possible tile that a wizard can teleport to
+         * @param  {String}  who   One of the available wizard types
+         * @param  {Number}  steps How many steps ahead to look
+         * @return {Object}  Destination x,y object or False 
+         */
+        isCanTeleport: function(who, steps) {
+            var dest = game.map.getNextMove(who, steps);
+
+            // check if wizard would teleport to abyss tile. teleport to last tile that is not abyss
+            if (game.map.isTileBuff(dest.x, dest.y, game.map.Tiles.Abyss)) {
+                if (steps > 0) {
+                    return this.isCanTeleport(who, steps - 1);
+                } else {
+                    return false;
+                }
+            }
+            return dest;
+        },
 
         isCanCastAt: function(who, spell, x, y) {
             // start places and fountain are not selectable
