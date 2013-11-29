@@ -100,16 +100,16 @@
     var players = {};
 
     players[_Globals.wizards.Earth] = {
-        x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A], sign: S1
+        x: 0, y: 0, sx: 0, sy: 0, ex: 7, ey: 4, route: player1, pattern: [E, W, F, A], sign: S1, steps2go: undefined
     };
     players[_Globals.wizards.Water] = {
-        x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E], sign: S2
+        x: 16, y: 0, sx: 16, sy: 0, ex: 9, ey: 4, route: player2, pattern: [W, F, A, E], sign: S2, steps2go: undefined
     };
     players[_Globals.wizards.Fire] = {
-        x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W], sign: S3
+        x: 16, y: 9, sx: 16, sy: 9, ex: 9, ey: 5, route: player3, pattern: [F, A, E, W], sign: S3, steps2go: undefined
     };
     players[_Globals.wizards.Air] = {
-        x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F], sign: S4
+        x: 0, y: 9, sx: 0, sy: 9, ex: 7, ey: 5, route: player4, pattern: [A, E, W, F], sign: S4, steps2go: undefined
     };
 
     function buildTileMap(wizard, path, map) {
@@ -137,10 +137,11 @@
     }
 
     function resetWizardPosition(who, tilemap) {
-        // this.setPos(who, players[who].sx, players[who].sy);
+        var path = _instance.getPath(who);
+        players[who].steps2go = path.length;
         players[who].x = players[who].sx;
         players[who].y = players[who].sy;
-        buildTileMap(who, _instance.getPath(who), tilemap);
+        buildTileMap(who, path, tilemap);
     }
 
     /**
@@ -314,6 +315,15 @@
         setPos: function(wizard, x, y) {
             players[wizard].x = x;
             players[wizard].y = y;
+
+            // TODO: optimize !
+            var path = this.getPath(wizard);
+            players[wizard].steps2go = path.length;
+            console.log(wizard + ' has ' + players[wizard].steps2go + ' left');
+        },
+
+        getStepsLeft: function(wizard) {
+            return players[wizard].steps2go;
         },
 
         getNextMove: function(wizard, steps) {
@@ -343,11 +353,11 @@
             return {x: tmpx, y: tmpy};
         },
 
-        move: function(wizard, steps) {
-            var nextPos = this.getNextMove(wizard, steps);
-            //TODO: obstacles!?
-            this.setPos(nextPos.x, nextPos.y);
-        },
+        // move: function(wizard, steps) {
+        //     var nextPos = this.getNextMove(wizard, steps);
+        //     //TODO: obstacles!?
+        //     this.setPos(nextPos.x, nextPos.y);
+        // },
         /**
          * Get path from current position to goal
          */

@@ -86,7 +86,7 @@
             case _Globals.spells.Blind: return 3;
             case _Globals.spells.Freeze: return 3;
             case _Globals.spells.Teleport: return -1;
-            case _Globals.spells.Path: return -1;
+            case _Globals.spells.Path: return 3;
         }
         throw "GM: Unknown spell " + spell;
     }
@@ -95,6 +95,10 @@
      * AI impl.
      */
     var _ai = {
+
+        init: function(gamemaster) {
+            this.gm = gamemaster;
+        },
 
         decide: function(who) {
             switch(who) {
@@ -110,23 +114,31 @@
         _common: function() {
 
         },
-
+        /**
+         * Entria-Sil
+         */
         _earth: function() {
 
         },
-
+        /**
+         * Azalsor
+         */
         _water: function() {
-            //TODO
-        },
 
+
+        },
+        /**
+         * Valeriya
+         */
         _fire: function() {
 
         },
-
+        /**
+         * Rafel
+         */
         _air: function() {
 
         }
-
     };
 
     /**
@@ -166,6 +178,8 @@
             match.turn = 0;
             // propagate events to
             this.eventHandler = handler;
+
+            _ai.init(this);
         },
         /** 
          * Propagate UI event to handler
@@ -200,7 +214,7 @@
             if (++match.move.current >= match.sequence.length) {
                 match.move.current = -1;
                 match.turn++;
-                _Globals.debug('-----------turn ' +  match.turn + ' start --------------------');
+                _Globals.debug('------ Turn ' +  match.turn + ' starts ------');
 
                 // check which spells expire
                 
@@ -223,7 +237,7 @@
             // get chance before actually the user requests it
             // this.setData(current, this.Props.LastDice, throwDice());
             wizards[current].lastdice = throwDice();
-            _Globals.debug('generating chance: ', wizards[current].lastdice);
+            // _Globals.debug('generating chance: ', wizards[current].lastdice);
 
             if (wizards[current].skipTurnUntil > match.turn || !this.isCanMove(current)) {
                 this.onEvent('onSkipMove', current, this.getWizardName(current));
@@ -233,7 +247,10 @@
             if (wizards[current].control == Controls.Human) {
                 this.onEvent('onMoveHuman', current, this.getWizardName(current));
             } else if (wizards[current].control == Controls.AI) {
+                
+                _ai.decide(current);
                 // TODO: add AI logic here and ship results to the event call
+
                 this.onEvent('onMoveAI', current, this.getWizardName(current));
             } else {
                 throw "GM: Invalid actor control!";
@@ -308,15 +325,19 @@
                     _Globals.debug('nocast: occupied ', x, y);
                     return false;
                 }
-                // TODO: unless on Path!
-                
+                // unless on Path!
+                return !(game.map.isTileBuff(x, y, _Globals.spells.Path));
+
             } else if (spell == _Globals.spells.Clay) {
-                // cast clay anywhere you want but on a stone tile
-                return !(game.map.isTile(x, y, game.map.Tiles.Stone));
+                // cast clay anywhere you want but on a stone, abyss or path casted tile
+                return !(game.map.isTile(x, y, game.map.Tiles.Stone)) 
+                    && !(game.map.isTile(x, y, game.map.Tiles.Abyss))
+                    && !(game.map.isTileBuff(x, y, _Globals.spells.Path));
+
             } else if (spell == _Globals.spells.Stone) {
-                // stone is allowed everywhere
-                // TODO: unless on Path!
-                return true;
+                // stone is allowed everywhere unless on Abyss or Path casted
+                return !(game.map.isTile(x, y, game.map.Tiles.Abyss))
+                    && !(game.map.isTileBuff(x, y, _Globals.spells.Path));
             }
 
             // cast only on allowed tiles
@@ -413,7 +434,7 @@
 
             switch(spell) {
                 case _Globals.spells.Abyss:
-                    game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Hole);
+                    game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Abyss);
                     // set new buff
                     game.map.setTileBuff(tiles.x, tiles.y, buff);
                 break;
@@ -434,7 +455,7 @@
                 //         // case 4: game.map.setTile(tiles.x, tiles.y, game.map.Tiles.Frozen, true); break;
                 //     }
                 //     // remove previous buff
-                //     game.map.removeTileBuff(tiles.x, tiles.y);               
+                //     game.map.removeTileBuff(tiles.x, tiles.y);
                 //     // spell lasts forever
                 //     return;
 
@@ -463,9 +484,12 @@
 
                 case _Globals.spells.Path:
                     for (var i = tiles.length - 1; i >= 0; i--) {
-                        game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Earth, true);
+                        // game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Earth, true);
+                        // // remove previous buff
+                        // game.map.removeTileBuff(tiles[i].x, tiles[i].y);
+                        game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Earth);
                         // remove previous buff
-                        game.map.removeTileBuff(tiles[i].x, tiles[i].y);                        
+                        game.map.setTileBuff(tiles[i].x, tiles[i].y, _.clone(buff));
                     }
                 break;
             }

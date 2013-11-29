@@ -33,7 +33,7 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: 950,
+    waitBetweenMoves: 150, // 950,
 
     init: function() {
         // use the update & draw functions
