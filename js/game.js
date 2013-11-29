@@ -73,16 +73,16 @@ var game = {
 
     // Run on game resources loaded.
     loaded: function () {
-        me.state.set(me.state.MENU, new game.MenuScene());
+        // me.state.set(me.state.MENU, new game.MenuScene());
         me.state.set(me.state.PLAY, new game.PlayScene());
 
         // setup 
         this.session = {};
         
         if (_Globals.isDebug) {
-            this.session.wizard = _Globals.wizards.Earth;
-            me.state.change(me.state.MENU);
-            // me.state.change(me.state.PLAY);
+            this.session.wizard = _Globals.wizards.Water;
+            // me.state.change(me.state.MENU);
+            me.state.change(me.state.PLAY);
             return;
         }
 

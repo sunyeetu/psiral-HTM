@@ -485,14 +485,16 @@ game.PlayScene = me.ScreenObject.extend({
          * Single-Tile spells
          */
         var onSelectedTile = function(tileX, tileY) {
-            parent.gameboard.disableSelect();
+            if (!isAI) {
+                parent.gameboard.disableSelect();
+            }
 
             var where = {x: tileX, y: tileY};
-
+            
             // substract mana
             game.gamemaster.doCast(game.gamemaster.currentWizard, type, where);
             parent.statsHUD.updateMana(game.gamemaster.currentWizard, 
-                game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));            
+                game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.Mana));
 
             // play magic animation
             var animation = null;
