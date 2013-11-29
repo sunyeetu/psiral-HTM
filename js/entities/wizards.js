@@ -123,7 +123,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                     this.moving = false;
                     this.renderable.setCurrentAnimation(animToSet);
                     // stop sound
-                    me.audio.stop('walk_earth');                    
+                    me.audio.stop('walk');                    
                     // notify
                     this.movement.cb && this.movement.cb();
                 } else {
@@ -204,7 +204,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         if (this.movement.direction != _Globals.directions.None) {
             this.moving = true;
             // play sound
-            me.audio.play('walk_earth', true);
+            me.audio.play('walk', true);
         } else {
             // we're already there!
             cb && cb();

@@ -46,7 +46,7 @@ game.resources = [
     {name: "path", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "change", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "abyss", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "walk_earth", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "walk", type: "audio", src: "assets/sfx/", channel : 1},
     {name: "win", type: "audio", src: "assets/sfx/", channel : 1},
     
     // Music
