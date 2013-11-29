@@ -444,6 +444,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             fadeoutspeed: 0.1,
             onClick: function(event) {
                 parent.onEvent('onDiceThrown');
+            }
         });
         // only clickable when the dice side is revealed
         icon.setClickable(false);
