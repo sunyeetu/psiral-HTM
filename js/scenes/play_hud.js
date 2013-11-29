@@ -288,7 +288,17 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
 
         // click event
         this.touchRect = new me.Rect(new me.Vector2d(x, y), settings.width, settings.height);
-        me.input.registerPointerEvent('mousedown', this.touchRect, this.onClick.bind(this));
+        this.setClickable(true);
+    },
+
+    setClickable: function(enabled) {
+        if (enabled === true) {
+            me.input.registerPointerEvent('mousedown', this.touchRect, this.onClick.bind(this));
+            this.clickable = true;
+        } else {
+            me.input.releasePointerEvent('mousedown', this.touchRect);
+            this.clickable = false;
+        }
     },
     
     onClick: function() {
@@ -380,34 +390,36 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         this.parent(eventHandler, settings);
 
         var parent = this;
-        this.iconWidth = 148;
+        this.iconWidth = 149;
         this.iconHeight = 85;
         this.iconX = this.cx + this.width / 2 - this.iconWidth / 2 + this.faceWidth / 2;
         this.iconY = this.cy + this.height / 2 - this.iconHeight / 2;
 
         var icon_image;
+        var frame = 0;
 
         switch(settings.chance) {
             case _Globals.chance.Move1:
-                icon_image = 'icon_move1';
+                frame = 3;
             break;
             case _Globals.chance.Move2:
-                icon_image = 'icon_move2';
+                frame = 4;
             break;
             case _Globals.chance.Numb:
-                icon_image = 'icon_pass';
+                frame = 5;
             break;
             case _Globals.chance.Mana1:
-                icon_image = 'icon_move1';
+                frame = 6;
             break;
             case _Globals.chance.Mana2:
-                icon_image = 'icon_move2';
+                frame = 7;
             break;
             case _Globals.chance.Jump:
-                icon_image = 'icon_jump';
+                frame = 8;
             break;            
-        }  
+        }
 
+        // add dice background layer
         this.addChild(new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
             image: 'dlg_btn_choice',
             width: this.iconWidth,
@@ -421,15 +433,21 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             }
         }));   
 
-        var icon = new game.HUD.Clickable(this.iconX + 46, this.iconY + 20, {
-            image: icon_image,
+        // chance icon to reveal
+        var icon = new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+            image: 'dlg_btn_choice',
+            width: this.iconWidth,
+            height: this.iconHeight,
+            frames: [frame],
+            paused: true,
+            fadeout: true,
+            fadeoutspeed: 0.1,
             onClick: function(event) {
                 parent.onEvent('onDiceThrown');
-            }
         });
         // only clickable when the dice side is revealed
-        icon.isClickable = false;
-
+        icon.setClickable(false);
+        
         // // play sound
         me.audio.play('rolldice', true);
         
@@ -445,7 +463,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             onClick: function(event) {
                 parent.diceAnim.animationpause = true;
                 parent.addChild(icon);
-                icon.isClickable = true;
+                icon.setClickable(true);
 
                 // disable exit btn
                 parent.btnExit.visible.isClickable = false;

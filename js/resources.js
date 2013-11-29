@@ -30,13 +30,6 @@ game.resources = [
     {name: "dlg_btn_spells", type:"image", src: "assets/gui/magic_btns.png"},
     {name: "dlg_btn_back", type:"image", src: "assets/gui/magic_btn_back.png"},
 
-    {name: "icon_move1", type:"image", src: "assets/gui/icon_move1.png"},
-    {name: "icon_move2", type:"image", src: "assets/gui/icon_move2.png"},
-    {name: "icon_move3", type:"image", src: "assets/gui/icon_move3.png"},
-    {name: "icon_move4", type:"image", src: "assets/gui/icon_move4.png"},
-    {name: "icon_jump", type:"image", src: "assets/gui/icon_jump.png"},
-    {name: "icon_pass", type:"image", src: "assets/gui/icon_pass.png"},
-
     // Menu
     {name: "menu-title", type:"image", src: "assets/gui/menu-title.png"},
     {name: "menu-buttons", type:"image", src: "assets/gui/menu-buttons.png"},
