@@ -111,8 +111,8 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         this.text = null;
         this.showVersion = true;
         this.fontSmall = new me.Font('dafont', '12px', 'white', 'left');
-        this.font = new me.Font('dafont', '16px', 'white', 'left');
-        this.font.lineHeight = 1.2;
+        this.font = new me.Font('dafont', '15px', 'white', 'left');
+        this.font.lineHeight = 1.4;
         this.fontBlack = new me.Font('dafont', '24px', 'black', 'left');
         this.xText = 0;
         this.yText = 0;        
@@ -219,7 +219,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
 
         // add buttons
         // var btnX = _Globals.canvas.width / 2 - 167 / 2;
-        var btnX = _Globals.canvas.gameWidth - 167 - 15;
+        var btnX = _Globals.canvas.gameWidth - 167;
 
         this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 124, {
                 width: 167,
@@ -238,11 +238,11 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
        
         // text positions
         this.showVersion = false;
-        this.xText = _Globals.canvas.xOffset + 30;
+        this.xText = _Globals.canvas.xOffset + 50;
         this.yText = _Globals.canvas.height - 110;
 
         // back to title screen
-        this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 140, 28),
+        this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 70, 28),
             60, 40);
         
         me.input.registerPointerEvent('mousedown', this.backBtnRect, function() {
