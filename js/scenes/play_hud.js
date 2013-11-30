@@ -72,8 +72,8 @@ game.HUD.Stats = me.ObjectContainer.extend({
         // text placeholder
         var pcX = this.x + _Globals.canvas.gameWidth - 227;
         var pcY = wy + 8;
-        var sprite = new me.SpriteObject(pcX, pcY, me.loader.getImage('hud_text'));
-        parent.addChild(sprite);
+        this.textPlaceHolder = new me.SpriteObject(pcX, pcY, me.loader.getImage('hud_text'));
+        parent.addChild(this.textPlaceHolder);
         // font to draw texts
         this.text = null;
         this.font = new me.Font('dafont', '14px', 'white', 'left');
@@ -81,6 +81,11 @@ game.HUD.Stats = me.ObjectContainer.extend({
         this.font.lineHeight = 1.2;
         this.xText = pcX + 5;
         this.yText = pcY + 7;
+
+        // fade props
+        this.fadeOutEnabled = false;
+        this.fadeStep = 0.0095;
+        this.fadeOutCallback = null;
     },
 
     draw: function(context) {
@@ -153,6 +158,29 @@ game.HUD.Stats = me.ObjectContainer.extend({
 
             mx += 10 + 1;
         }         
+    },
+
+    fadeOut: function(step, callback) {
+        this.fadeOutEnabled = true;
+        this.fadeStep = step || 0.0095;
+        this.fadeOutCallback = callback;
+    },
+
+    update: function() {
+
+        if (this.fadeOutEnabled) {
+            this.alpha -= this.fadeStep * me.timer.tick;
+            if (this.alpha < 0) {
+                this.alpha = 0;
+                this.fadeOutEnabled = false;
+                // this.fadeStep = -this.fadeStep;
+                this.fadeOutCallback && this.fadeOutCallback(this);
+            }
+            this.textPlaceHolder.alpha = 1.0;
+        }
+
+        this.parent();
+        return false;
     }
 });
 /**

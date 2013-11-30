@@ -168,7 +168,7 @@ game.WizardEntity = me.ObjectEntity.extend({
      * Actor functions
      */
     
-    fadeAway: function(step, callback) {
+    fadeOut: function(step, callback) {
         this.fade = true;
         this.fadeStep = step || 0.0095;
         this.fadeCallback = callback;

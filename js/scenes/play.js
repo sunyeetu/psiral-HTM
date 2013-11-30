@@ -111,6 +111,11 @@ game.PlayScene = me.ScreenObject.extend({
                 p = p[p.length - 2];
                 this.actors[game.session.wizard].setPosition(p.x, p.y);
                 game.gamemaster.setPosition(game.session.wizard, p);
+                
+                // zorder
+                // var p = game.map.getPos(_Globals.wizards.Water);
+                // p.y += 1;
+                // this.actors[game.session.wizard].setPosition(p.x, p.y);
 
                 this.setState(this.SceneStates.NextMove);
             break;
@@ -176,8 +181,8 @@ game.PlayScene = me.ScreenObject.extend({
         me.audio.play('observingthestar', true);
 
         // Start game
-        this.setState(this.SceneStates.StartGame);
-        // this.setState(this.SceneStates.Tests);
+        // this.setState(this.SceneStates.StartGame);
+        this.setState(this.SceneStates.Tests);
     },
     /**        
      * Action to perform when leaving this screen (state change)
@@ -275,7 +280,7 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        chance = _Globals.chance.Jump;
+        chance = _Globals.chance.Move2;
 
         switch(chance) {
             case _Globals.chance.Move1:
@@ -636,9 +641,11 @@ game.PlayScene = me.ScreenObject.extend({
                 // fade out wizards
                 for (var i =0; i < parent.wizards.length; i++) {
                     if (parent.wizards[i] !== who) {
-                        parent.actors[parent.wizards[i]].fadeAway(0.005);
+                        parent.actors[parent.wizards[i]].fadeOut(0.005);
                     }
-                }                
+                }
+                // fade hud
+                parent.statsHUD.fadeOut(0.005);
             })
 
         });
