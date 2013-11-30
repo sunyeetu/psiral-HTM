@@ -1,13 +1,15 @@
 _.o0 How To Play Psiral 0o._
 =============================
 
-## Turns
+## Turns and Rules
 
 ![Psiral Game Wizards](assets/gui/popup_menu_character_icons.png)
 
 Game starts with the 4 players (wizards) taking positions in the 4 corners of the map. 
 The goal is to reach the fountain of fountain of endless energy in the center of the map. 
-Each turn, players can choose whether to throw the dice of *chance* or cast a *spell*.
+Each turn, players can choose whether to throw the dice of *chance* or cast a *spell*. 
+Wizards move only forward on predefined spiral-alike paths displayed. Paths can be seen on
+each player move.
 
 ## Chance
 
