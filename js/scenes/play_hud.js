@@ -43,8 +43,12 @@ game.HUD.Stats = me.ObjectContainer.extend({
         var faceWidth = 56;
         this.faceWidth = faceWidth;
 
+        // hold all UI elements added
+        this.sprites = {};
+        var sprite;
+
         wizards.forEach(function(w) {
-            var sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('hud_faces'), faceWidth);
+            sprite = new me.AnimationSheet(wx, wy, me.loader.getImage('hud_faces'), faceWidth);
 
             switch(w) {
                 case _Globals.wizards.Earth:
@@ -65,15 +69,16 @@ game.HUD.Stats = me.ObjectContainer.extend({
             }
             
             sprite.animationpause = true;
+            parent.sprites[w] = sprite;
             parent.addChild(sprite);
 
             wx += parent.xStep;
         });
+
         // text placeholder
         var pcX = this.x + _Globals.canvas.gameWidth - 227;
         var pcY = wy + 8;
-        this.textPlaceHolder = new me.SpriteObject(pcX, pcY, me.loader.getImage('hud_text'));
-        parent.addChild(this.textPlaceHolder);
+        parent.addChild(new me.SpriteObject(pcX, pcY, me.loader.getImage('hud_text')));
         // font to draw texts
         this.text = null;
         this.font = new me.Font('dafont', '14px', 'white', 'left');
@@ -86,6 +91,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
         this.fadeOutEnabled = false;
         this.fadeStep = 0.0095;
         this.fadeOutCallback = null;
+        this.fadeFactor = 1.0;
     },
 
     draw: function(context) {
@@ -143,7 +149,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
             manabar.animationpause = true;
             manabar.name = 'manabar_' + wizard;
             manabar.isEntity = true;
-            this.addChild(manabar);            
+            this.addChild(manabar);
 
             mx += 10 + 1;
         }        
@@ -154,29 +160,40 @@ game.HUD.Stats = me.ObjectContainer.extend({
             manabar.animationpause = true;
             manabar.name = 'manabar_' + wizard;
             manabar.isEntity = true;
-            this.addChild(manabar);            
+            this.addChild(manabar);
 
             mx += 10 + 1;
         }         
     },
 
-    fadeOut: function(step, callback) {
+    fadeOut: function(step, callback, without) {
         this.fadeOutEnabled = true;
         this.fadeStep = step || 0.0095;
         this.fadeOutCallback = callback;
+        this.fadeFactor = 1.0;
+        this.fadeWithout = without;
     },
 
     update: function() {
 
         if (this.fadeOutEnabled) {
-            this.alpha -= this.fadeStep * me.timer.tick;
-            if (this.alpha < 0) {
-                this.alpha = 0;
+            this.fadeFactor -= this.fadeStep * me.timer.tick;
+            if (this.fadeFactor < 0) {
+                this.fadeFactor = 0;
                 this.fadeOutEnabled = false;
                 // this.fadeStep = -this.fadeStep;
                 this.fadeOutCallback && this.fadeOutCallback(this);
             }
-            this.textPlaceHolder.alpha = 1.0;
+
+            // TODO: refactor this loop
+            var wizards = _.without(game.gamemaster.WizardsList, this.fadeWithout);
+            for (var i = wizards.length - 1; i >= 0; i--) {
+                var bars = this.getEntityByProp('name', 'manabar_' + wizards[i]);
+                for (var j = bars.length - 1; j >= 0; j--) {
+                    bars[j].alpha = this.fadeFactor;
+                }
+                this.sprites[wizards[i]].alpha = this.fadeFactor;
+            }
         }
 
         this.parent();

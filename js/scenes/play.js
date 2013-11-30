@@ -634,6 +634,7 @@ game.PlayScene = me.ScreenObject.extend({
         this.gameboard.setAlpha(1.0);
         this.gameboard.changeTiles(game.gamemaster.getWizardTile(who), function() {
 
+            // TODO: draw at game board center
             parent.statsHUD.drawText(data[1] + nls.get('play.move_2win'));
 
             // fade out board
@@ -644,8 +645,8 @@ game.PlayScene = me.ScreenObject.extend({
                         parent.actors[parent.wizards[i]].fadeOut(0.005);
                     }
                 }
-                // fade hud
-                parent.statsHUD.fadeOut(0.005);
+                // fade out hud
+                parent.statsHUD.fadeOut(0.005, null, who);
             })
 
         });
