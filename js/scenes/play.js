@@ -631,6 +631,9 @@ game.PlayScene = me.ScreenObject.extend({
         // TODO: fix this because its unguaranteed!!!
         this.stopStates = true;
 
+        // make actor sprite face the fountain
+        this.actors[who].faceFountain();
+
         this.gameboard.setAlpha(1.0);
         this.gameboard.changeTiles(game.gamemaster.getWizardTile(who), function() {
 

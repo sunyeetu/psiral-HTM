@@ -38,13 +38,13 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.fade = false; // fade away sprite
 
         // setup common animations
-        this.renderable.addAnimation('stand_left', [0]);
-        this.renderable.addAnimation('stand_right', [0]);
-        this.renderable.addAnimation('stand_up', [0]);
+        this.renderable.addAnimation('stand_left', [17]);
+        this.renderable.addAnimation('stand_right', [6]);
+        this.renderable.addAnimation('stand_up', [6]);
         this.renderable.addAnimation('stand_down', [0]);
         // this.renderable.addAnimation('walk_up', [0, 1, 2, 3, 4, 5]);
         this.renderable.addAnimation('walk_up', [6, 7, 8, 9, 10, 11], 75);
-        this.renderable.addAnimation('walk_left', [12, 13, 14, 15, 16, 17]);
+        this.renderable.addAnimation('walk_left', [17, 16, 15, 14, 13, 12]); // mirrored
         this.renderable.addAnimation('walk_down', [0, 1, 2, 3, 4, 5]);
         this.renderable.addAnimation('walk_right', [6, 7, 8, 9, 10, 11]);
 
@@ -79,7 +79,7 @@ game.WizardEntity = me.ObjectEntity.extend({
 
                     if (this.pos.x <= dx) {
                         updatePath = true;
-                        animToSet = 'stand_left';
+                        animToSet = 'stand_down';//'stand_left';
                     }
                 break;
                 case _Globals.directions.Right:
@@ -90,7 +90,7 @@ game.WizardEntity = me.ObjectEntity.extend({
 
                     if (this.pos.x >= dx) {
                         updatePath = true;
-                        animToSet = 'stand_right';
+                        animToSet = 'stand_down'; //'stand_right';
                     }
                 break;
                 case _Globals.directions.Up:
@@ -101,7 +101,7 @@ game.WizardEntity = me.ObjectEntity.extend({
 
                     if (this.pos.y <= dy) {
                         updatePath = true;
-                        animToSet = 'stand_up';
+                        animToSet = 'stand_down'; //'stand_up';
                     }
                 break;  
                 case _Globals.directions.Down:
@@ -251,11 +251,20 @@ game.WizardEntity = me.ObjectEntity.extend({
     },
 
     getFacing: function(targetTile) {
-        if (this.pos.x < game.getRealX(targetTile.x)) {
+        if (this.pos.x < game.getRealX(targetTile.x * _Globals.gfx.tileWidth)) {
             return _Globals.directions.Right;
         } else {
             return _Globals.directions.Left;
         }         
+    },
+
+    faceFountain: function() {
+        // get pos. relative to center
+        if (this.pos.x < game.getRealX(8 * _Globals.gfx.tileWidth)) {
+            this.playAnimation('stand_right');
+        } else {
+            this.playAnimation('stand_left');
+        }
     },
 
     doSpellCast: function(targetTile, cb) {
@@ -286,7 +295,7 @@ game.EarthWizardEntity = game.WizardEntity.extend({
         // setup props
         this.name = 'Entria-Sil';
         
-        this.playAnimation('stand_right');
+        this.playAnimation('stand_down');
     }
 });
 /**
@@ -314,7 +323,7 @@ game.FireWizardEntity = game.WizardEntity.extend({
         // setup props
         this.name = 'Valeriya';            
 
-        this.playAnimation('stand_left');
+        this.playAnimation('stand_down');
     }
 });
 /**
@@ -328,6 +337,6 @@ game.AirWizardEntity = game.WizardEntity.extend({
         // setup props
         this.name = 'Rafel';
 
-        this.playAnimation('stand_right');
+        this.playAnimation('stand_down');
     }
 });
