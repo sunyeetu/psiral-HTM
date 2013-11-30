@@ -50,6 +50,7 @@
             "teleport_blocked": " cannot teleport! \n Blocked.",
             "move_blocked": " cannot move \n ahead! Blocked.",
             "move_2win": " has reached the \n fountain. \n The story ends here.",
+            "casts": "{} casts {}"
         }
     };
 
@@ -69,15 +70,18 @@
             throw locale + " is unsupported locale!";
         },
 
-        get: function(what, arg) {
+        get: function(what) {
             var parts = what.split('.');
             var obj = current[parts[0]];
             for (var i = 1; i < parts.length; i++) {
                 obj = obj[parts[i]];
             }
             // format
-            if (obj && arg) {
-                obj = obj.replace('{}', arg);
+            if (obj && arguments.length > 1) {
+                var args = Array.prototype.slice.call(arguments, 1);
+                for (var i = 0; i < args.length; i++) {
+                    obj = obj.replace('{}', args[i]);
+                }
             }
             return (obj ? obj : '');
         }
