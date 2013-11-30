@@ -65,7 +65,10 @@ game.WizardEntity = me.ObjectEntity.extend({
             var updatePath = false;
             var animToSet, endx, endy;
 
-            //TODO: use Tweens
+            // fix z-order 
+            this.z = _Globals.gfx.zActor + dy;
+
+            //TODO: use Tweens for movement
 
             switch(this.movement.direction) {
                 case _Globals.directions.Left:
@@ -214,6 +217,8 @@ game.WizardEntity = me.ObjectEntity.extend({
     setPosition: function(x, y) {
         this.pos.x = game.getRealX(x * _Globals.gfx.tileWidth);
         this.pos.y = game.getRealY(y * _Globals.gfx.tileHeight + this.yOffset);
+        // fix z-order 
+        this.z = _Globals.gfx.zActor + y;
     },
 
     getPosition: function() {
