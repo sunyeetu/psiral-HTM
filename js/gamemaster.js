@@ -219,8 +219,9 @@
                 var path = this.paths[target];
                 if (path.length >= 2) {
                     var casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
+                    var len = Math.min(path.length - 1, 2);
 
-                    for (var i = 0; i <= 2; i++) {
+                    for (var i = 0; i <= len; i++) {
                         if (this.gm.isCanCastAt(who, _Globals.spells.Abyss, path[i].x, path[i].y)) {
 
                             decision.cast = true;
@@ -286,7 +287,22 @@
             var decision = this._common(who, enemies);
 
             // Cast Path, if path to fountain is less than 4 tiles ahead.
-            
+            if (decision.dice && this.gm.isCanCast(who, _Globals.spells.Path)) {
+                console.log('checking for abyss');
+                var path = this.paths[who];
+                if (path.length <= 5) {
+                    console.log('checking for abyss 2');
+                    if (game.map.isTileOnPath(path, game.map.Tiles.Abyss)) {
+                        console.log('checking for abyss 3');
+                        decision.cast = true;
+                        decision.spell = {
+                            type: _Globals.spells.Path,
+                            // where: null
+                        };
+                        return decision;                        
+                    }
+                }                
+            }
             
             return decision;
         },

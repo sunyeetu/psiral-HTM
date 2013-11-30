@@ -319,7 +319,7 @@
             // TODO: optimize !
             var path = this.getPath(wizard);
             players[wizard].steps2go = path.length;
-            console.log(wizard + ' has ' + players[wizard].steps2go + ' left');
+            // console.log(wizard + ' has ' + players[wizard].steps2go + ' left');
         },
 
         getStepsLeft: function(wizard) {
@@ -440,6 +440,7 @@
             }
 
             var len = range || path.length;
+            len = Math.min(path.length, len);
 
             for (var i = 0; i < len; i++) {
                 if (type && this.isTile(path[i].x, path[i].y, type)) {
