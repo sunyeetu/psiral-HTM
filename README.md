@@ -6,6 +6,8 @@ HTML5/Javascript web browser game. GitHub [game-off-2013](https://github.com/git
 What we want to do here is to create a turn based strategy game in which four wizards race to reach the fountain of endless energy.This, of course, will bring them eternity and power beyond human imagination. Each wizard controls the powers of one of the four known elements - earth, water, fire and wood… ahm, I mean air. So, which one will get there first? 
 Play and find out. (*I really should stop watching TV ads.*)
 
+![Psiral for Game-Off 2013](http://i.imgur.com/LHVUUxd.png)
+
 ## Supported Browsers
 
 <table>

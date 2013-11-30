@@ -7,9 +7,8 @@ _.o0 How To Play Psiral 0o._
 
 Game starts with the 4 players (wizards) taking positions in the 4 corners of the map. 
 The goal is to reach the fountain of fountain of endless energy in the center of the map. 
-Each turn, players can choose whether to throw the dice of *chance* or cast a *spell*. 
-Wizards move only forward on predefined spiral-alike paths displayed. Paths can be seen on
-each player move.
+On each turn, players can choose whether to throw the dice of *chance* or cast a *spell*. 
+Wizards move only forward on predefined spiral-alike paths. Paths can be seen on each player's move.
 
 ## Chance
 
@@ -41,3 +40,9 @@ Teleport | Air | - | 6 | Teleports wizard 3 tiles ahead.
 Blind | Fire | 3 turns | 6 | All wizards skip 3 turns completely.
 Path | Earth | - | 5  | Makes 4 tiles ahead of player Earth tiles. No buffs can be casted.
 Freeze | Water  | 3 turns  |6  | Wizards standing on water tile or stepping on frozen tile will get stuck for 3 turns. They skip 3 turn completely.
+
+## Story
+
+It is very rare for humans to achieve the status of a higher being. This requires absolute devotion to the ethereal. To the very fabrics that space constitutes of. Should one learn how to thread these fabrics, twist them and control them, she is then elevated closer to the higher presence.
+
+*TODO: More crappy stuff to be written later …*
