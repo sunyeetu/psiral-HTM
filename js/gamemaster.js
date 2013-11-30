@@ -257,7 +257,7 @@
             }
 
             // Check if next tile is Frozen. Cast Stone if Mana > 3 
-            var frz = game.map.findFirstTile(path, game.map.Tiles.Frozen, 2);
+            var frz = game.map.findFirstTile(path, game.map.Tiles.Frozen, 1);
             if (frz) {
                 var cast;
                 cast = (this.gm.isCanCast(who, _Globals.spells.Clay)) ? _Globals.spells.Clay : cast;
@@ -278,38 +278,46 @@
             return decision;
         },
         /**
-         * Entria-Sil
+         * 2.5.2 Earth (Entria-Sil)
          */
         _earth: function() {
-            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Earth);
-            var decision = this._common(_Globals.wizards.Earth, enemies);
-            //TODO:
+            var who = _Globals.wizards.Earth;
+            var enemies = _.without(this.gm.WizardsList, who);
+            var decision = this._common(who, enemies);
+
+            // Cast Path, if path to fountain is less than 4 tiles ahead.
+            
+            
             return decision;
         },
         /**
-         * Azalsor
+         * 2.5.3 Water (Azalsor)
          */
         _water: function() {
-            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Water);
-            var decision = this._common(_Globals.wizards.Water, enemies);
+            var who = _Globals.wizards.Water;
+            var enemies = _.without(this.gm.WizardsList, who);
+            var decision = this._common(who, enemies);
             //TODO:
             return decision;
         },
         /**
-         * Valeriya
+         * 2.5.4 Fire (Valeriya)
          */
         _fire: function() {
-            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Fire);
-            var decision = this._common(_Globals.wizards.Fire, enemies);
+            var who = _Globals.wizards.Fire;
+            var enemies = _.without(this.gm.WizardsList, who);
+            var decision = this._common(who, enemies);
+
             //TODO:
             return decision;
         },
         /**
-         * Rafel
+         * 2.5.5 Air (Rafel)
          */
         _air: function() {
-            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Air);
-            var decision = this._common(_Globals.wizards.Air, enemies);
+            var who = _Globals.wizards.Air;
+            var enemies = _.without(this.gm.WizardsList, who);
+            var decision = this._common(who, enemies);
             //TODO:
             return decision;
         }
