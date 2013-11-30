@@ -103,12 +103,6 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         // (default) event handler 
         this.eventHandler = eventHandler;
 
-        // draw background
-        var sx = _Globals.canvas.width / 2 - 900 / 2;
-        var sy = 92;
-        this.imageBackground = new me.SpriteObject(sx, sy, me.loader.getImage('menu_background'));
-        this.addChild(this.imageBackground);
-
         // create font to draw texts
         this.text = null;
         this.showVersion = true;
@@ -156,6 +150,12 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
         init: function(eventHandler, settings) {
         // call the constructor
         this.parent(eventHandler, settings);
+
+        // draw background
+        var sx = _Globals.canvas.width / 2 - 900 / 2;
+        var sy = 92;
+        this.imageBackground = new me.SpriteObject(sx, sy, me.loader.getImage('menu_background'));
+        this.addChild(this.imageBackground);        
 
         var parent = this;
         var props = {

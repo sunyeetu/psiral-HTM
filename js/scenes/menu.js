@@ -27,7 +27,7 @@ game.MenuScene = me.ScreenObject.extend({
 
         // clear transparent background
         this.cls = new game.GFX.ClearScreen();
-        me.game.world.addChild(this.cls);        
+        me.game.world.addChild(this.cls);
 
         // play music
         me.audio.play('elementary_wave', true);
