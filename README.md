@@ -26,8 +26,8 @@ Play and find out. (*I really should stop watching TV ads.*)
   </tr>
   <tr>
     <th>Safari</th>
-    <td>?</td>
-    <td>?</td>
+    <td>Yes</td>
+    <td>5.1.7</td>
   </tr>   
   <tr>
     <th>IE</th>
@@ -36,7 +36,9 @@ Play and find out. (*I really should stop watching TV ads.*)
   </tr>  
 </table>
 
-_*Game sound is currently (and sadly) not working under IE & Safari browsers!_
+_*Game sound is currently (and sadly) not working under IE & Safari browsers._
+
+_Game may run on mobile devices but it's not yet optimized to support any._
 
 ## Open Source Libraries
 The following javascript libraries are used:
@@ -71,6 +73,13 @@ All sounds were edited/remix using [Audacity](http://audacity.sourceforge.net/) 
 The game **without** game art is under Attribution-NoDerivs 3.0 Unported [(CC BY-ND 3.0)](http://creativecommons.org/licenses/by-nd/3.0/). 
 
 Check the [LICNESE](LICENSE) file for more info.
+
+## Dev Notes
+
+We couldn't really finish this game in time. Four weeks were (as expected) really not enough to complete Psiral. 
+We do, howerver, plan to continue working on this title after Game-Off 2013. We have on our *TODO* list more graphics 
+and animations, improved AI with learning capabilities, coop. and network play and much more. So, stick around if you're
+interested in the Psiral saga. ;)
 
 ---
 
