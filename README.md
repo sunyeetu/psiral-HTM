@@ -50,8 +50,12 @@ The following javascript libraries are used:
 
 ## Credits
 ### Team
+*Dvubuz Games* currently consists of
   * [Petar Petrov](http://petarov.vexelon.net/) - Programming and game design.
   * [Stremena Tuzsuzova](http://stremena.com/) - Artwork, graphics and animations.
+
+Thanks to
+  * [Patilan](https://github.com/Patilan) for testing.
 
 ### Music
   * [ObservingTheStar](http://opengameart.org/content/another-space-background-track) by [yd](http://opengameart.org/users/yd)
