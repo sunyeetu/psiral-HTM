@@ -428,6 +428,36 @@
             //     }
             // }
             return path;            
+        },
+
+        findFirstTile: function(path, type, lookup, range) {
+            var buff;
+            if (lookup === 'buff') {
+                buff = type;
+                type = undefined;
+            } else if (typeof lookup === "number") {
+                range = lookup;
+            }
+
+            var len = range || path.length;
+
+            for (var i = 0; i < len; i++) {
+                if (type && this.isTile(path[i].x, path[i].y, type)) {
+                    return {x: path[i].x, y: path[i].y};
+                }
+                if (buff && this.isTileBuff(path[i].x, path[i].y, buff)) {
+                    return {x: path[i].x, y: path[i].y};
+                }
+            }
+            return false;
+        },
+
+        isTileOnPath: function(path, type, buff) {
+            return !(this.findFirstTile(path, type, buff) === false);
+        },
+
+        isBuffOnPath: function(path, buff) {
+            return this.isTileOnPath(path, undefined, buff);
         }
 
     };

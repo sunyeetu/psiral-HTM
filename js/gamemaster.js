@@ -93,6 +93,8 @@
 
     /**
      * Plain, old, FSM AI impl.
+     * Ref: 
+     *   AI decisions are described under chapter [2.5 AI] in the game spec.
      */
     var _ai = {
 
@@ -127,7 +129,9 @@
             this.paths[_Globals.wizards.Fire] = game.map.getPath(_Globals.wizards.Fire);
             this.paths[_Globals.wizards.Air] = game.map.getPath(_Globals.wizards.Air);
         },
-
+        /**
+         * 2.5.1 Common decisions
+         */
         _common: function(who, enemies) {
             var decision = {};
             var pos = game.map.getPos(who);
@@ -136,7 +140,7 @@
             console.log(who + ' has mana ' + wizards[who].mana);
 
             /**
-             * Passive
+             * 2.5.1.1 Passive
              */
 
             if (wizards[who].mana < 3) {
@@ -158,7 +162,7 @@
             }
 
             /**
-             * Offensive
+             * 2.5.1.2 Offensive
              */
             
             // Find the first rival (primary has precedence) that has 4 or less tiles left to reach the fountain
@@ -168,8 +172,11 @@
                 if (this.paths[enemies[i]].length <= 5) {
                     // console.log(enemies[i] + ' is close');
                     if (!target || enemies[i] === this.rivals[who]) {
-                        // console.log('found ' + enemies[i]);
-                        target = enemies[i];
+                        // take into account if any abyss spells are already casted on enemy path
+                        if (!game.map.isTileOnPath(this.paths[enemies[i]], _Globals.spells.Abyss)) {
+                            // console.log('found ' + enemies[i]);
+                            target = enemies[i];
+                        }
                     }
                     
                 }
@@ -193,8 +200,42 @@
                 }
             }
 
+            // Find the first rival (primary has precedence) that’s moved ⅓ of the way to the fountain. 
+            target = undefined;
+            for (var i = enemies.length - 1; i >= 0; i--) {
+                if (this.paths[enemies[i]].length <= 28) { 
+                    // console.log(enemies[i] + ' is close');
+                    if (!target || enemies[i] === this.rivals[who]) {
+                        // take into account if any abyss spells are already casted on enemy path
+                        if (!game.map.isTileOnPath(this.paths[enemies[i]], _Globals.spells.Abyss)) {
+                            // console.log('found ' + enemies[i]);
+                            target = enemies[i];
+                        }
+                    }
+                    
+                }
+            }
+            if (target) {
+                var path = this.paths[target];
+                if (path.length >= 2) {
+                    var casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
+
+                    for (var i = 0; i <= 2; i++) {
+                        if (this.gm.isCanCastAt(who, _Globals.spells.Abyss, path[i].x, path[i].y)) {
+
+                            decision.cast = true;
+                            decision.spell = {
+                                type: _Globals.spells.Abyss,
+                                where: path[i]
+                            };
+                            return decision;
+                        }
+                    }
+                }
+            }
+
             /**
-             * Defensive
+             * 2.5.1.3 Defensive
              */
             
             var path = this.paths[who];
@@ -212,6 +253,22 @@
                         };
                         return decision;
                     }
+                }
+            }
+
+            // Check if next tile is Frozen. Cast Stone if Mana > 3 
+            var frz = game.map.findFirstTile(path, game.map.Tiles.Frozen, 2);
+            if (frz) {
+                var cast;
+                cast = (this.gm.isCanCast(who, _Globals.spells.Clay)) ? _Globals.spells.Clay : cast;
+                cast = (this.gm.isCanCast(who, _Globals.spells.Stone)) ? _Globals.spells.Stone : cast;
+                if (cast) {
+                    decision.cast = true;
+                    decision.spell = {
+                        type: cast,
+                        where: frz
+                    };
+                    return decision;
                 }
             }
 
