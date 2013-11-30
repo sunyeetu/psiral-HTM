@@ -78,12 +78,14 @@ The game **without** game art is under Attribution-NoDerivs 3.0 Unported [(CC BY
 
 Check the [LICNESE](LICENSE) file for more info.
 
-## Dev Notes
+## To be continued ...
 
-We couldn't really finish this game in time. Four weeks were (as expected) really not enough to complete Psiral. 
+We couldn't really finish this game in time. Four weeks were (as expected) not enough to complete Psiral. 
 We do, howerver, plan to continue working on this title after Game-Off 2013. We have on our *TODO* list more graphics 
-and animations, improved AI with learning capabilities, coop. and network play and much more. So, stick around if you're
-interested in the Psiral saga. ;)
+and animations to add, improved AI with learning capabilities, coop. and network play and much more. 
+So, stick around if you're interested in the Psiral saga. 
+
+See you soon! ;)
 
 ---
 
