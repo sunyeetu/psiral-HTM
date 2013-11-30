@@ -108,9 +108,15 @@ game.PlayScene = me.ScreenObject.extend({
             // XXX
                 console.log('tests');
                 var p = game.map.getPath(game.session.wizard);
-                p = p[p.length - 2];
+                p = p[p.length - 7];
                 this.actors[game.session.wizard].setPosition(p.x, p.y);
                 game.gamemaster.setPosition(game.session.wizard, p);
+                
+                var whiz = _Globals.wizards.Fire;
+                var p = game.map.getPath(whiz);
+                p = p[p.length - 7];
+                this.actors[whiz].setPosition(p.x, p.y);
+                game.gamemaster.setPosition(whiz, p);
                 
                 // zorder
                 // var p = game.map.getPos(_Globals.wizards.Water);
@@ -376,6 +382,7 @@ game.PlayScene = me.ScreenObject.extend({
         var type = data[0];
         var where = data[1];
         var isAI = !!data[2];
+        var wizard = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
 
         _Globals.debug('casting:', type);
 
@@ -405,6 +412,7 @@ game.PlayScene = me.ScreenObject.extend({
                 // wait for transition to complete and then proceed to next move
                 parent.setState(parent.SceneStates.NextMove);
             });
+            parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Path'));
             // play sound
             me.audio.play('path', false);
 
@@ -418,6 +426,7 @@ game.PlayScene = me.ScreenObject.extend({
                 // wait for transition to complete and then proceed to next move
                 parent.setState(parent.SceneStates.NextMove);
             });
+            parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Freeze'));
             // play sound
             me.audio.play('freeze', false);
 
@@ -440,6 +449,7 @@ game.PlayScene = me.ScreenObject.extend({
                 // on to next move
                 parent.setState(parent.SceneStates.NextMove);
             });
+            parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Blind'));
             // play sound
             me.audio.play('blind', false);            
           
@@ -469,6 +479,7 @@ game.PlayScene = me.ScreenObject.extend({
                 });
 
             });
+            parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Teleport'));
             // play sound
             me.audio.play('teleport', false);
 
@@ -505,6 +516,7 @@ game.PlayScene = me.ScreenObject.extend({
             var animation = null;
             switch(type) {
                 case _Globals.spells.Abyss:
+                    parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Abyss'));
                     parent.gameboard.changeTiles(game.map.Tiles.Abyss, where, function() {
                         // wait for transition to complete and then proceed with next plr movement
                         parent.setState(parent.SceneStates.NextMove);                        
@@ -513,6 +525,7 @@ game.PlayScene = me.ScreenObject.extend({
                     me.audio.play('abyss', false);                    
                 break;
                 case _Globals.spells.Stone:
+                    parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Stone'));
                     parent.gameboard.changeTiles(game.map.Tiles.Stone, where, function() {
                         // wait for transition to complete and then proceed with next plr movement
                         parent.setState(parent.SceneStates.NextMove);                        
@@ -528,6 +541,7 @@ game.PlayScene = me.ScreenObject.extend({
                 //     me.audio.play('change', false);
                 // break;                
                 case _Globals.spells.Clay:
+                    parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Clay'));
                     parent.gameboard.changeTiles(game.map.Tiles.Clay, where, function() {
                         parent.setState(parent.SceneStates.NextMove);                        
                     });
