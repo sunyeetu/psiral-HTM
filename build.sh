@@ -81,6 +81,10 @@ find *.js | xargs -i java -jar $YUI -o '.js$:.js' {}
 cd $BUILD/js/scenes
 find *.js | xargs -i java -jar $YUI -o '.js$:.js' {}
 
+# remove debug option
+cd $BUILD/js
+sed -i 's/isDebug:true/isDebug:false/g' globals.js
+
 ### Production
 cd $BUILD
 
@@ -107,14 +111,15 @@ fi
 #sed -i 's/<\!\-\-build\-\->/Build: '$BUILDNUM'/g' index.html
 sed -i 's/buildnumber:_timestamp/buildnumber:"'"$BUILDNUM"'"/g' index.html
 
-# if [ ! -z $NO_URCHIN ]; then 
-#     echo "Skipped: urchin <script>."
-# else
-#     # insert urchin into html
-#     sed -i '/<\!\-\-URCHIN\-\->/{
-#         s/<\!\-\-URCHIN\-\->//g
-#         r ../urchin
-#     }' index.html
-# fi
+# add urchin
+if [ ! -z $NO_URCHIN ]; then 
+    echo "Skipped: urchin <script>."
+else
+    # insert urchin into html
+    sed -i '/<\!\-\-URCHIN\-\->/{
+        s/<\!\-\-URCHIN\-\->//g
+        r ../urchin
+    }' index.html
+fi
 
 echo "Build completed."
