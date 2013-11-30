@@ -92,15 +92,25 @@
     }
 
     /**
-     * AI impl.
+     * Plain, old, FSM AI impl.
      */
     var _ai = {
 
+        paths: {},
+
+        rivals: null,
+
         init: function(gamemaster) {
             this.gm = gamemaster;
+            this.rivals = {};
+            this.rivals[_Globals.wizards.Earth] = _Globals.wizards.Air;
+            this.rivals[_Globals.wizards.Air] = _Globals.wizards.Earth;
+            this.rivals[_Globals.wizards.Water] = _Globals.wizards.Fire;
+            this.rivals[_Globals.wizards.Fire] = _Globals.wizards.Water;
         },
 
         decide: function(who) {
+            this._analyse();
             switch(who) {
                 case _Globals.wizards.Earth: return this._earth();
                 case _Globals.wizards.Water: return this._water();
@@ -111,23 +121,102 @@
             }
         },
 
-        _common: function(who) {
+        _analyse: function() {
+            this.paths[_Globals.wizards.Earth] = game.map.getPath(_Globals.wizards.Earth);
+            this.paths[_Globals.wizards.Water] = game.map.getPath(_Globals.wizards.Water);
+            this.paths[_Globals.wizards.Fire] = game.map.getPath(_Globals.wizards.Fire);
+            this.paths[_Globals.wizards.Air] = game.map.getPath(_Globals.wizards.Air);
+        },
+
+        _common: function(who, enemies) {
             var decision = {};
             var pos = game.map.getPos(who);
             decision.pos = pos;
             
             console.log(who + ' has mana ' + wizards[who].mana);
-            if (wizards[who].mana < 3) {
-                decision.dice = true;
-            } else {
 
-                // if (game.map.isTileBuff(dest.x, dest.y, game.map.Tiles.Abyss))
-                decision.cast = true;
-                decision.spell = {
-                    type: _Globals.spells.Clay,
-                    where: game.map.getNextMove(who, 2)
-                }                
+            /**
+             * Passive
+             */
+
+            if (wizards[who].mana < 3) {
+                // if no mana available or it is too low (< 3) just throw the dice.
+                decision.dice = true;
+                return decision;
             }
+
+            // XXX: TESTS REMOVE
+            // decision.dice = true;
+            // return decision;
+
+            var nextTile = game.map.getNextMove(who, 1);
+
+            // if next walkable tile is Abyss just throw the dice. 
+            if (path && game.map.isTile(nextTile.x, nextTile.y, game.map.Tiles.Abyss)) {
+                decision.dice = true;
+                return decision;
+            }
+
+            /**
+             * Offensive
+             */
+            
+            // Find the first rival (primary has precedence) that has 4 or less tiles left to reach the fountain
+            // console.log('AI: ' + who + ' searches ------------------------');
+            var target;
+            for (var i = enemies.length - 1; i >= 0; i--) {
+                if (this.paths[enemies[i]].length <= 5) {
+                    // console.log(enemies[i] + ' is close');
+                    if (!target || enemies[i] === this.rivals[who]) {
+                        // console.log('found ' + enemies[i]);
+                        target = enemies[i];
+                    }
+                    
+                }
+            }
+            if (target) {
+                var path = this.paths[target];
+                var casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
+
+                for (var i = 0; i < path.length; i++) {
+                    for (var j = 0; j < casts.length; j++) {
+                        if (this.gm.isCanCastAt(who, casts[j], path[i].x, path[i].y)) {
+
+                            decision.cast = true;
+                            decision.spell = {
+                                type: casts[j],
+                                where: path[i]
+                            };
+                            return decision;
+                        }
+                    }
+                }
+            }
+
+            /**
+             * Defensive
+             */
+            
+            var path = this.paths[who];
+
+            // Cast Stone if 2 tiles before reaching the fountain and Mana > 3
+            if (path.length <= 3) {
+                for (var i = 0; i < path.length; i++) {
+                    if (!game.map.isTile(path[i].x, path[i].y, game.map.Tiles.Stone) 
+                        && this.gm.isCanCastAt(who, _Globals.spells.Stone, path[i].x, path[i].y)) {
+
+                        decision.cast = true;
+                        decision.spell = {
+                            type: _Globals.spells.Stone,
+                            where: path[i]
+                        };
+                        return decision;
+                    }
+                }
+            }
+
+            // default - throw dice
+            decision.dice = true;
 
             return decision;
         },
@@ -135,7 +224,8 @@
          * Entria-Sil
          */
         _earth: function() {
-            var decision = this._common(_Globals.wizards.Earth);
+            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Earth);
+            var decision = this._common(_Globals.wizards.Earth, enemies);
             //TODO:
             return decision;
         },
@@ -143,7 +233,8 @@
          * Azalsor
          */
         _water: function() {
-            var decision = this._common(_Globals.wizards.Water);
+            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Water);
+            var decision = this._common(_Globals.wizards.Water, enemies);
             //TODO:
             return decision;
         },
@@ -151,7 +242,8 @@
          * Valeriya
          */
         _fire: function() {
-            var decision = this._common(_Globals.wizards.Fire);
+            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Fire);
+            var decision = this._common(_Globals.wizards.Fire, enemies);
             //TODO:
             return decision;
         },
@@ -159,7 +251,8 @@
          * Rafel
          */
         _air: function() {
-            var decision = this._common(_Globals.wizards.Air);
+            var enemies = _.without(this.gm.WizardsList, _Globals.wizards.Air);
+            var decision = this._common(_Globals.wizards.Air, enemies);
             //TODO:
             return decision;
         }
@@ -361,12 +454,10 @@
 
             if (spell == _Globals.spells.Abyss) {
                 // do not allow occupied tiles to be selected
-                if (game.map.isTileOccupied(x, y)) {
+                if (game.map.isTileOccupied(x, y) || game.map.isTileBuff(x, y, _Globals.spells.Path)) {
                     _Globals.debug('nocast: occupied ', x, y);
                     return false;
                 }
-                // unless on Path!
-                return !(game.map.isTileBuff(x, y, _Globals.spells.Path));
 
             } else if (spell == _Globals.spells.Clay) {
                 // cast clay anywhere you want but on a stone, abyss or path casted tile
