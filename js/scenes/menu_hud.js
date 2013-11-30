@@ -104,8 +104,10 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         this.eventHandler = eventHandler;
 
         // draw background
-        // this.imageBackground = new me.SpriteObject(0, 0, me.loader.getImage('menu-background'));
-        // this.addChild(this.imageBackground);
+        var sx = _Globals.canvas.width / 2 - 900 / 2;
+        var sy = 92;
+        this.imageBackground = new me.SpriteObject(sx, sy, me.loader.getImage('menu_background'));
+        this.addChild(this.imageBackground);
 
         // create font to draw texts
         this.text = null;
@@ -155,34 +157,48 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
         // call the constructor
         this.parent(eventHandler, settings);
 
-        // draw title
-        this.titleTouchRect = new me.Rect(new me.Vector2d(50, 100), 350, 150);
-        this.imageTitle = new me.SpriteObject(50, 100, me.loader.getImage('menu-title'));
-        this.addChild(this.imageTitle);        
-
         var parent = this;
+        var props = {
+            width: 167,
+            height: 107,
+            image: 'menu_buttons'
+        };
+        var btny = 500;
+        var btnx = _Globals.canvas.width / 2 - props.width / 2;
+        btnx -= props.width / 2;
 
         // add buttons
-        this.btnPlay = new game.MenuScene.HUD.Clickable(100, 240, {
-            image: 'menu-buttons',
+        this.btnPlay = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: 0,
             onClick: function() {
                 parent.onEvent('onClick_Play');
+                // play sound
+                me.audio.play('click', false);
             }
-        });
-        this.btnHowTo = new game.MenuScene.HUD.Clickable(100, 320, {
-            image: 'menu-buttons',
-            frame: 1,
+        }))
+
+        btnx += props.width;
+        this.btnHowTo = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: 2,
             onClick: function() {
                 parent.onEvent('onClick_HowTo');
+                // play sound
+                me.audio.play('click', false);
             }
-        });
+        }));
 
         this.addChild(this.btnPlay);
         this.addChild(this.btnHowTo);
 
         this.sort();
-    }
+    },
+    /**
+     * @override
+     */
+    draw: function(context) {
+        this.parent(context);
+        this.font.draw(context, 'by Dvubuz Games', 448, 632);
+    }    
 });
 /**
  * Select Character HUD
@@ -224,7 +240,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 124, {
                 width: 167,
                 height: 107,                
-                image: 'menu_btn_play',
+                image: 'menu_buttons',
                 frame: 0,
                 onceClick: false,
                 onClick: function() {
