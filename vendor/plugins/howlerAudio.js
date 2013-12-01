@@ -61,6 +61,9 @@
         },
 
         load: function(resources) {
+            if (!this.enabled)
+                return;
+
             // parse the resources
             var srcUrls = [];
 

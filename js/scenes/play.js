@@ -33,7 +33,7 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: 150, // 950,
+    waitBetweenMoves: _Globals.isDebug ? 150 : 1350,
 
     init: function() {
         // use the update & draw functions
@@ -105,20 +105,50 @@ game.PlayScene = me.ScreenObject.extend({
             break;
 
             case this.SceneStates.Tests:
-            // XXX
+                // XXX
                 console.log('tests');
-                var p = game.map.getPath(game.session.wizard);
-                p = p[p.length - 7];
-                this.actors[game.session.wizard].setPosition(p.x, p.y);
-                game.gamemaster.setPosition(game.session.wizard, p);
+
+                // test near goal AI  ------------------------
+
+                // var p = game.map.getPath(game.session.wizard);
+                // p = p[p.length - 7];
+                // this.actors[game.session.wizard].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(game.session.wizard, p);
                 
-                var whiz = _Globals.wizards.Fire;
+                // var whiz = _Globals.wizards.Earth;
+                // var p = game.map.getPath(whiz);
+                // p = p[p.length - 5];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);
+                
+                // test near goal Air AI  ------------------------
+                var whiz = _Globals.wizards.Air;
                 var p = game.map.getPath(whiz);
-                p = p[p.length - 7];
+                p = p[p.length - 6];
                 this.actors[whiz].setPosition(p.x, p.y);
                 game.gamemaster.setPosition(whiz, p);
+
+                // test water - freeze AI ------------------------
                 
-                // zorder
+                // var whiz = _Globals.wizards.Fire;
+                // var p = game.map.getPath(whiz);
+                // p = p[4];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);
+                
+                // var whiz = _Globals.wizards.Air;
+                // var p = game.map.getPath(whiz);
+                // p = p[4];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);
+
+                // var whiz = _Globals.wizards.Earth;
+                // var p = game.map.getPath(whiz);
+                // p = p[2];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);                
+
+                // test zorder bug  ------------------------
                 // var p = game.map.getPos(_Globals.wizards.Water);
                 // p.y += 1;
                 // this.actors[game.session.wizard].setPosition(p.x, p.y);
@@ -187,8 +217,8 @@ game.PlayScene = me.ScreenObject.extend({
         me.audio.play('observingthestar', true);
 
         // Start game
-        // this.setState(this.SceneStates.StartGame);
-        this.setState(this.SceneStates.Tests);
+        this.setState(this.SceneStates.StartGame);
+        // this.setState(this.SceneStates.Tests);
     },
     /**        
      * Action to perform when leaving this screen (state change)
@@ -286,7 +316,9 @@ game.PlayScene = me.ScreenObject.extend({
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
-        chance = _Globals.chance.Move2;
+        if (_Globals.isDebug) {
+            chance = _Globals.chance.Move2;
+        }
 
         switch(chance) {
             case _Globals.chance.Move1:

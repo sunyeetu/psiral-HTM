@@ -371,6 +371,9 @@
             var found = false;
             var i = 0;
 
+            if (typeof steps === "boolean")
+                includePos = steps;
+
             // include current player position
             if (includePos === true) {
                 if (pos.x != pos.sx || pos.y != pos.sy)

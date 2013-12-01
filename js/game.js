@@ -7,12 +7,10 @@
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
  */
 
-/* Game namespace */
 var game = {
 
     onload: function () {
 
-        // Initialize the video.
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false, 
             me.device.isMobile ? 1.99 : null)) {
             console.error("Your browser does not support HTML5 canvas!");
@@ -45,7 +43,7 @@ var game = {
         // Set a callback to run when loading is complete.
         me.loader.onload = this.loaded.bind(this);
 
-        // Load the resources.
+        // load game resources
         me.loader.preload(game.resources);
 
         // register plugins
@@ -53,13 +51,15 @@ var game = {
 
         // register custom Audio plugin
         me.plugin.register(howlerAudio, "howlerAudio", "mp3,ogg");
-        me.audio.disable();
-        // me.plugin.howlerAudio.load(game.resources);
+        if (_Globals.isDebug) {
+            // no audio in debug mode
+            me.audio.disable();
+        }
+        me.plugin.howlerAudio.load(game.resources);
 
         // Init global locales
         nls.init('en');        
 
-        // Display loading screen.
         me.state.set(me.state.LOADING, new game.SplashScreen());
         me.state.change(me.state.LOADING);
 
@@ -73,14 +73,14 @@ var game = {
 
     // Run on game resources loaded.
     loaded: function () {
-        // me.state.set(me.state.MENU, new game.MenuScene());
+        me.state.set(me.state.MENU, new game.MenuScene());
         me.state.set(me.state.PLAY, new game.PlayScene());
 
         // setup 
         this.session = {};
         
         if (_Globals.isDebug) {
-            this.session.wizard = _Globals.wizards.Water;
+            this.session.wizard = _Globals.wizards.Earth;
             // me.state.change(me.state.MENU);
             me.state.change(me.state.PLAY);
             return;

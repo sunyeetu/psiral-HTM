@@ -19,6 +19,9 @@ game.BoardEntity = me.ObjectContainer.extend({
         // give a name
         this.name = "Board";
 
+        // current max alpha value for tiles - TODO: fix tiles alpa restore
+        this.alphaMax = 1.0;
+
         // cancel selection rectangle
         this.cancelTouchRect = new me.Rect(
             new me.Vector2d(0, 0), 
@@ -47,6 +50,7 @@ game.BoardEntity = me.ObjectContainer.extend({
             }
         }
         
+        // draw fountain
         var fx = 7 * _Globals.gfx.tileWidth + _Globals.canvas.xOffset;;
         var fy = 4 * _Globals.gfx.tileHeight + _Globals.canvas.yOffset;
         var fountain = new me.AnimationSheet(fx, fy, me.loader.getImage('fountain'), 168);
@@ -55,6 +59,7 @@ game.BoardEntity = me.ObjectContainer.extend({
         fountain.z = _Globals.gfx.zHUD;
         this.addChild(fountain);
         
+        // sort all sprites
         this.sort(); //defer();
     },
 

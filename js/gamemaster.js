@@ -133,8 +133,9 @@
          * 2.5.1 Common decisions
          */
         _common: function(who, enemies) {
-            var decision = {};
             var pos = game.map.getPos(who);
+            var decision = {};
+            decision.dice = false;
             decision.pos = pos;
             
             console.log(who + ' has mana ' + wizards[who].mana);
@@ -148,6 +149,7 @@
                 decision.dice = true;
                 return decision;
             }
+            //TODO: review casts and costs!
 
             // XXX: TESTS REMOVE
             // decision.dice = true;
@@ -185,8 +187,9 @@
                 var path = this.paths[target];
                 var casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
 
-                for (var i = 0; i < path.length; i++) {
-                    for (var j = 0; j < casts.length; j++) {
+                for (var j = 0; j < casts.length; j++) {
+                    // TODO: optimize loops
+                    for (var i = 0; i < path.length; i++) {
                         if (this.gm.isCanCastAt(who, casts[j], path[i].x, path[i].y)) {
 
                             decision.cast = true;
@@ -259,7 +262,7 @@
 
             // Check if next tile is Frozen. Cast Stone if Mana > 3 
             var frz = game.map.findFirstTile(path, game.map.Tiles.Frozen, 1);
-            if (frz) {
+            if (frz && who != _Globals.wizards.Water) {
                 var cast;
                 cast = (this.gm.isCanCast(who, _Globals.spells.Clay)) ? _Globals.spells.Clay : cast;
                 cast = (this.gm.isCanCast(who, _Globals.spells.Stone)) ? _Globals.spells.Stone : cast;
@@ -288,21 +291,20 @@
 
             // Cast Path, if path to fountain is less than 4 tiles ahead.
             if (decision.dice && this.gm.isCanCast(who, _Globals.spells.Path)) {
-                console.log('checking for abyss');
                 var path = this.paths[who];
                 if (path.length <= 5) {
-                    console.log('checking for abyss 2');
                     if (game.map.isTileOnPath(path, game.map.Tiles.Abyss)) {
-                        console.log('checking for abyss 3');
                         decision.cast = true;
                         decision.spell = {
                             type: _Globals.spells.Path,
                             // where: null
                         };
-                        return decision;                        
+                        return decision;
                     }
-                }                
+                }
             }
+
+            //TODO:
             
             return decision;
         },
@@ -313,7 +315,37 @@
             var who = _Globals.wizards.Water;
             var enemies = _.without(this.gm.WizardsList, who);
             var decision = this._common(who, enemies);
+
+            // if (decision.dice)
+            //     return decision;
+
+            // If all 3 rivals stand on water tiles 
+            // Check if primary rival is on Water and if the others will reach Water in 2 tiles
+            if (this.gm.isCanCast(who, _Globals.spells.Freeze)) {
+                // console.log('casting freeze');
+                var count = 0;
+                var isTarget = false;
+                for (var i = enemies.length - 1; i >= 0; i--) {
+                    // TODO: optimize
+                    var path = game.map.getPath(enemies[i], true); //this.paths[enemies[i]];
+                    if (game.map.isTileOnPath(path, game.map.Tiles.Water, 2)) {
+                        count++;
+                        isTarget = !isTarget ? (enemies[i] === this.rivals[who]) : isTarget;
+                    }
+                }
+                // console.log(' water count = ' + count);
+                if (count == 3 || (count == 2 && isTarget)) {
+                    decision.cast = true;
+                    decision.spell = {
+                        type: _Globals.spells.Freeze,
+                        // where: null
+                    };
+                    return decision;
+                }
+            }
+
             //TODO:
+
             return decision;
         },
         /**
@@ -334,7 +366,18 @@
             var who = _Globals.wizards.Air;
             var enemies = _.without(this.gm.WizardsList, who);
             var decision = this._common(who, enemies);
+            
+            // Cast Teleport, if path to goal is less than 4 tiles.
+            if (this.paths[who].length <= 4) {
+                decision.cast = true;
+                decision.spell = {
+                    type: _Globals.spells.Teleport,
+                    // where: null
+                };                
+            }
+
             //TODO:
+
             return decision;
         }
     };

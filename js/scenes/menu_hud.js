@@ -172,8 +172,6 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             frame: 0,
             onClick: function() {
                 parent.onEvent('onClick_Play');
-                // play sound
-                me.audio.play('click', false);
             }
         }))
 
@@ -182,8 +180,6 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             frame: 2,
             onClick: function() {
                 parent.onEvent('onClick_HowTo');
-                // play sound
-                me.audio.play('click', false);
             }
         }));
 
