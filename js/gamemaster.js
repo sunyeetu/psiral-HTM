@@ -3,8 +3,8 @@
  *
  * Copyright (c) 2013 Petar Petrov
  *
- * This work is licensed under the Creative Commons Attribution-NoDerivs 3.0 Unported License. 
- * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
+ * This work is licensed under a Creative Commons Attribution-NoDerivatives 4.0 International License.
+ * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/.
  */
 
 (function GameMaster(game) {

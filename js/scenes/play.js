@@ -3,8 +3,8 @@
  *
  * Copyright (c) 2013 Petar Petrov
  *
- * This work is licensed under the Creative Commons Attribution-NoDerivs 3.0 Unported License. 
- * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/3.0/.
+ * This work is licensed under a Creative Commons Attribution-NoDerivatives 4.0 International License.
+ * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/.
  */
 
 game.PlayScene = me.ScreenObject.extend({
@@ -120,13 +120,33 @@ game.PlayScene = me.ScreenObject.extend({
                 // p = p[p.length - 5];
                 // this.actors[whiz].setPosition(p.x, p.y);
                 // game.gamemaster.setPosition(whiz, p);
+
+                // test Blind 1/3 Fire AI  ------------------------
+                // var whiz = _Globals.wizards.Air;
+                // var p = game.map.getPath(whiz);
+                // p = p[p.length - 14];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);
+
+                // var whiz = _Globals.wizards.Water;
+                // var p = game.map.getPath(whiz);
+                // p = p[p.length - 14];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p); 
                 
-                // test near goal Air AI  ------------------------
-                var whiz = _Globals.wizards.Air;
+                // test Blind 1/3 Fire AI  ------------------------              
+                var whiz = _Globals.wizards.Fire;
                 var p = game.map.getPath(whiz);
                 p = p[p.length - 6];
                 this.actors[whiz].setPosition(p.x, p.y);
                 game.gamemaster.setPosition(whiz, p);
+
+                // // test near goal Air AI  ------------------------
+                // var whiz = _Globals.wizards.Air;
+                // var p = game.map.getPath(whiz);
+                // p = p[p.length - 6];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);
 
                 // test water - freeze AI ------------------------
                 
@@ -317,7 +337,7 @@ game.PlayScene = me.ScreenObject.extend({
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
         
         if (_Globals.isDebug) {
-            chance = _Globals.chance.Move2;
+            // chance = _Globals.chance.Move2;
         }
 
         switch(chance) {
@@ -419,6 +439,7 @@ game.PlayScene = me.ScreenObject.extend({
         _Globals.debug('casting:', type);
 
         if (!game.gamemaster.isCanCast(game.gamemaster.currentWizard, type)) {
+            _Globals.debug('Cannot cast. No mana or wrong cast!', type, game.gamemaster.currentWizard);
             // No mana! Go back to selection menu.
             this.statsHUD.drawText(nls.get('play.no_mana'));
             return;
