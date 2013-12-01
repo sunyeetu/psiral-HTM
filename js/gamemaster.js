@@ -278,16 +278,19 @@
 
             // Check if next tile is Frozen. Cast Stone if Mana > 3 
             // TODO: find first 2 tiles?
-            var frz = game.map.findFirstTile(path, game.map.Tiles.Frozen, 1);
-            if (frz && who != _Globals.wizards.Water) {
+            var tile = game.map.findFirstTile(path, game.map.Tiles.Frozen, 1);
+            if (tile && who != _Globals.wizards.Water) {
                 var cast;
                 cast = (this.gm.isCanCast(who, _Globals.spells.Clay)) ? _Globals.spells.Clay : cast;
                 cast = (this.gm.isCanCast(who, _Globals.spells.Stone)) ? _Globals.spells.Stone : cast;
+                
+                //TODO: maybe get next tile and check if a lesser spell like Clay can be caseted
+
                 if (cast) {
                     decision.cast = true;
                     decision.spell = {
                         type: cast,
-                        where: frz
+                        where: tile
                     };
                     return decision;
                 }
