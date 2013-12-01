@@ -277,6 +277,7 @@
             }
 
             // Check if next tile is Frozen. Cast Stone if Mana > 3 
+            // TODO: find first 2 tiles?
             var frz = game.map.findFirstTile(path, game.map.Tiles.Frozen, 1);
             if (frz && who != _Globals.wizards.Water) {
                 var cast;
@@ -599,10 +600,8 @@
                                 // make plr step on the first frozen tile found
                                 if (i + 1 < path.length) {
                                     path.splice(i + 1);
-                                } else {
-                                    path.splice(i);
                                 }
-
+                                // there are no more tiles ahead, so we seem to be at the end
                                 return path;
                             }
                         break;
