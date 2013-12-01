@@ -102,6 +102,9 @@
 
         rivals: null,
 
+        dist_13: 27, // ⅓ of the path passed
+        dist13: 14, // ⅓ path
+
         init: function(gamemaster) {
             this.gm = gamemaster;
             this.rivals = {};
@@ -206,7 +209,7 @@
             // Find the first rival (primary has precedence) that’s moved ⅓ of the way to the fountain. 
             target = undefined;
             for (var i = enemies.length - 1; i >= 0; i--) {
-                if (this.paths[enemies[i]].length <= 28) { 
+                if (this.paths[enemies[i]].length <= this.dist_13) { 
                     // console.log(enemies[i] + ' is close');
                     if (!target || enemies[i] === this.rivals[who]) {
                         // take into account if any abyss spells are already casted on enemy path
@@ -291,16 +294,18 @@
 
             // Cast Path, if path to fountain is less than 4 tiles ahead.
             if (decision.dice && this.gm.isCanCast(who, _Globals.spells.Path)) {
+                var pathSpell = _.extend(_.clone(decision), {
+                    cast: true,
+                    spell: {
+                        type: _Globals.spells.Path,
+                        // where: null
+                    }
+                });
+
                 var path = this.paths[who];
                 if (path.length <= 5) {
-                    if (game.map.isTileOnPath(path, game.map.Tiles.Abyss)) {
-                        decision.cast = true;
-                        decision.spell = {
-                            type: _Globals.spells.Path,
-                            // where: null
-                        };
-                        return decision;
-                    }
+                    if (game.map.isTileOnPath(path, game.map.Tiles.Abyss))
+                        return pathSpell;
                 }
             }
 
@@ -322,6 +327,14 @@
             // If all 3 rivals stand on water tiles 
             // Check if primary rival is on Water and if the others will reach Water in 2 tiles
             if (this.gm.isCanCast(who, _Globals.spells.Freeze)) {
+                var freeze = _.extend(_.clone(decision), {
+                    cast: true,
+                    spell: {
+                        type: _Globals.spells.Freeze,
+                        // where: null
+                    }
+                });
+
                 // console.log('casting freeze');
                 var count = 0;
                 var isTarget = false;
@@ -334,14 +347,8 @@
                     }
                 }
                 // console.log(' water count = ' + count);
-                if (count == 3 || (count == 2 && isTarget)) {
-                    decision.cast = true;
-                    decision.spell = {
-                        type: _Globals.spells.Freeze,
-                        // where: null
-                    };
-                    return decision;
-                }
+                if (count == 3 || (count == 2 && isTarget))
+                    return freeze;
             }
 
             //TODO:
@@ -366,14 +373,36 @@
             var who = _Globals.wizards.Air;
             var enemies = _.without(this.gm.WizardsList, who);
             var decision = this._common(who, enemies);
-            
-            // Cast Teleport, if path to goal is less than 4 tiles.
-            if (this.paths[who].length <= 4  && this.gm.isCanCast(who, _Globals.spells.Teleport)) {
-                decision.cast = true;
-                decision.spell = {
-                    type: _Globals.spells.Teleport,
-                    // where: null
-                };                
+          
+            if (this.gm.isCanCast(who, _Globals.spells.Teleport)) {
+
+                var teleport = _.extend(_.clone(decision), {
+                    cast: true,
+                    spell: {
+                        type: _Globals.spells.Teleport,
+                        // where: null
+                    }
+                });                
+
+                // teleport, if path to goal is less than 4 tiles.
+                if (this.paths[who].length <= 4)
+                    return teleport;
+
+                // teleport, if behind from at least 2 rivals and they are more than ⅓ of the path towards the fountain.
+                var count = 0;
+                var isTarget = false;
+                for (var i = enemies.length - 1; i >= 0; i--) {
+                    // TODO: optimize
+                    var path = this.paths[enemies[i]];
+                    if (this.paths[who].length > path.length && path.length <= this.dist_13) {
+                        count++;
+                        // isTarget = !isTarget ? (enemies[i] === this.rivals[who]) : isTarget;
+                    }
+                }
+                // console.log(' air count = ' + count);
+                if (count > 1) { // || (count == 2 && isTarget)) {
+                    return teleport;
+                }
             }
 
             //TODO:

@@ -31,12 +31,12 @@ A: *Well, tiles change when you cast spells on them, so I hope this one counts. 
   </tr>
   <tr>
     <th>Safari</th>
-    <td>Yes</td>
+    <td>Yes*</td>
     <td>5.1.7</td>
   </tr>   
   <tr>
     <th>IE</th>
-    <td>Yes</td>
+    <td>Yes*</td>
     <td>10.0</td>
   </tr>  
 </table>
@@ -86,7 +86,8 @@ Check the [LICNESE](LICENSE) file for more info.
 
 We couldn't really finish this game in time. Four weeks were (as expected) not enough to complete Psiral. 
 We do, howerver, plan to continue working on this title after Game-Off 2013. We have on our *TODO* list more graphics 
-and animations to add, improved AI with learning capabilities, coop. and network play and much more. 
+and animations to add, improved AI with learning capabilities, improvements in spells and game balance, add coop. and 
+network play and much more. 
 So, stick around if you're interested in the Psiral saga. 
 
 See you soon! ;)
