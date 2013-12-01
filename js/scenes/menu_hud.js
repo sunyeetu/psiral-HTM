@@ -105,7 +105,6 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
 
         // create font to draw texts
         this.text = null;
-        this.showVersion = true;
         this.fontSmall = new me.Font('dafont', '12px', 'white', 'left');
         this.font = new me.Font('dafont', '15px', 'white', 'left');
         this.font.lineHeight = 1.4;
@@ -123,10 +122,6 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         this.parent(context);
         if (this.text) {
             this.font.draw(context, this.text, this.xText, this.yText);
-        }
-        if (!!this.showVersion) {
-            this.fontSmall.draw(context, 'v' + _version.buildnumber, 
-                _Globals.canvas.gameWidth - 10, _Globals.canvas.gameHeight - 26);
         }
     },    
     // Propagate UI event to handler
@@ -195,6 +190,8 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
     draw: function(context) {
         this.parent(context);
         this.font.draw(context, 'by Dvubuz Games', 448, 632);
+        this.fontSmall.draw(context, 'v' + _version.buildnumber, 
+            _Globals.canvas.gameWidth - 15, _Globals.canvas.gameHeight - 26);
     }    
 });
 /**
@@ -250,12 +247,11 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.addChild(this.btnStart);
        
         // text positions
-        this.showVersion = false;
         this.xText = _Globals.canvas.xOffset + 50;
         this.yText = _Globals.canvas.height - 110;
 
         // back to title screen
-        this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 70, 28),
+        this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 74, 28),
             60, 40);
         
         me.input.registerPointerEvent('mousedown', this.backBtnRect, function() {
