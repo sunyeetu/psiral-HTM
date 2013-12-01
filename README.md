@@ -78,9 +78,10 @@ Thanks to [Patilan](https://github.com/Patilan) for testing.
 All sounds were edited/remix using [Audacity](http://audacity.sourceforge.net/) in order to suit the in-game atmosphere.
 
 ## License
-The game **without** game art is under Attribution-NoDerivs 3.0 Unported [(CC BY-ND 3.0)](http://creativecommons.org/licenses/by-nd/4.0/). 
 
-Check the [LICNESE](LICENSE) file for more info.
+<a rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nd/4.0/80x15.png" /></a><br />This work **without** game art is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.
+
+Game art is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
 
 ## To be continued ...
 
