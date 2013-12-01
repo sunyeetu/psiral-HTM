@@ -110,6 +110,7 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         this.font = new me.Font('dafont', '15px', 'white', 'left');
         this.font.lineHeight = 1.4;
         this.fontBlack = new me.Font('dafont', '24px', 'black', 'left');
+        this.fontShadow = new me.Font('dafont', '24px', 'white', 'left');
         this.xText = 0;
         this.yText = 0;        
         // sort renderable        
@@ -287,7 +288,9 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
 
         var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
         var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
+        this.fontShadow.draw(context, nls.get('menu.select_character'), xpos + 1, 28 + 1);
         this.fontBlack.draw(context, nls.get('menu.select_character'), xpos, 28);
+        this.fontShadow.draw(context, nls.get('menu.back'), this.backBtnRect.pos.x + 1, this.backBtnRect.pos.y + 1);
         this.fontBlack.draw(context, nls.get('menu.back'), this.backBtnRect.pos.x, this.backBtnRect.pos.y);
     }, 
 
