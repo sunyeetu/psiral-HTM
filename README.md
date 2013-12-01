@@ -7,9 +7,9 @@ What we want to do here is to create a turn based strategy game in which four wi
 
 ![Psiral for Game-Off 2013](http://i.imgur.com/LHVUUxd.png)
 
-**What does this have to do with the "change" theme?**
+Q: **What does this have to do with the "change" theme?**
 
-**Well, tiles change when you cast spells, so I guess/hope this one counts. :))**
+A: *Well, tiles change when you cast spells on them, so I hope this one counts. :))*
 
 ## Supported Browsers
 
