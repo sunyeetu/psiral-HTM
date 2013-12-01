@@ -12,7 +12,7 @@ Wizards move only forward on predefined spiral-alike paths. Paths can be seen on
 
 ## Chance
 
-Throw the dice and let *Chance* determines what type of action you can do next. 
+Throw the dice and let *Chance* determines what happens next. 
 
 Side | Action | Description
 -----|--------|-----------------
@@ -25,7 +25,7 @@ Side | Action | Description
 
 ## Spells & Mana
 
-All players start with 10 pts. of mana. Mana does **not** get replenished over time! 
+All players start with 10 points of mana. Mana does **not** get replenished over time! 
 The only way to replenish mana is to get 4 or 5 when throwing the dice.
 
 Wizards have two types of spells available - *common* and *special*. *Common* can be casted by all wizards and *special* 
@@ -43,6 +43,6 @@ Freeze | Water  | 3 turns  |6  | Wizards standing on water tile or stepping on f
 
 ## Story
 
-It is very rare for humans to achieve the status of a higher being. This requires absolute devotion to the ethereal. To the very fabrics that space constitutes of. Should one learn how to thread these fabrics, twist them and control them, she is then elevated closer to the higher presence.
+It is very rare for humans to achieve the status of a higher being. This requires absolute devotion to the ethereal. To the very fabrics that space constitutes of. Those who learn how to thread these fabrics, twist them and control them, will then get elevated closer to the higher presence.
 
-*TODO: More crappy stuff to be written later …*
+*TODO: More crappy stuff to be written later … I promise :)*
