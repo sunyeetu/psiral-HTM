@@ -163,7 +163,7 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             height: 107,
             image: 'menu_buttons'
         };
-        var btny = 500;
+        var btny = 510;
         var btnx = _Globals.canvas.width / 2 - props.width / 2;
         btnx -= props.width / 2;
 
