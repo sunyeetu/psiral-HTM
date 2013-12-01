@@ -141,7 +141,7 @@
             decision.dice = false;
             decision.pos = pos;
             
-            console.log(who + ' has mana ' + wizards[who].mana);
+            _Globals.debug('AI: mana ', who, wizards[who].mana);
 
             /**
              * 2.5.1.1 Passive
@@ -388,7 +388,7 @@
                         // isTarget = !isTarget ? (enemies[i] === this.rivals[who]) : isTarget;
                     }
                 }
-                console.log(' fire count = ' + count);
+                // console.log(' fire count = ' + count);
                 if (count > 1) { // || (count == 2 && isTarget)) {
                     return blind;
                 }                

@@ -81,8 +81,8 @@ var game = {
         
         if (_Globals.isDebug) {
             this.session.wizard = _Globals.wizards.Water;
-            // me.state.change(me.state.MENU);
-            me.state.change(me.state.PLAY);
+            me.state.change(me.state.MENU);
+            // me.state.change(me.state.PLAY);
             return;
         }
 
