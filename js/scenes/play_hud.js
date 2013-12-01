@@ -326,7 +326,7 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
 
         this.fadeout = settings.fadeout || false;
         this.fadeoutspeed = settings.fadeoutspeed || 0.035;
-        this.stopFrame = settings.stopFrame || false;
+        this.stopFrame = (typeof settings.stopFrame === "undefined") ? false : settings.stopFrame;
         this.blend = false;
 
         var parent = this;
@@ -352,9 +352,10 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
         // play sound
         me.audio.play('click', false);
         
-        if (this.stopFrame) {
-            this.setAnimationFrame(this.stopFrame);
+        if (this.stopFrame !== false) {
+            console.log('stop frame is ' + this.stopFrame);
             this.animationpause = true;
+            this.setAnimationFrame(this.stopFrame);
         }
 
         if (this.fadeout === true) {

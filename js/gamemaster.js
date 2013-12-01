@@ -61,7 +61,20 @@
 
     function throwDice() {
         // TODO: increase randomness pool
-        var side = Math.floor(Math.random() * 6) + 1;
+        var side = Math.floor(Math.random() * 8) + 1;
+        // double the chance to get move1 or mana1
+        switch(side) {
+            case 7: return 1;
+            case 8: return 4;
+        }
+        // chance: {
+        //     Move1: 1,
+        //     Move2: 2,
+        //     Numb: 3,
+        //     Mana1: 4,
+        //     Mana2: 5,
+        //     Jump: 6,
+        // },
         return side;
     }
 
