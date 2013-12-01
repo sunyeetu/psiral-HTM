@@ -104,22 +104,26 @@ game.PlayScene = me.ScreenObject.extend({
                 // this.setState(this.SceneStates.HUDSelectMove);
             break;
 
+            case this.SceneStates.GameOver:
+                // nothing
+            break;
+
             case this.SceneStates.Tests:
                 // XXX
                 console.log('tests');
 
                 // test near goal AI  ------------------------
 
-                // var p = game.map.getPath(game.session.wizard);
-                // p = p[p.length - 7];
-                // this.actors[game.session.wizard].setPosition(p.x, p.y);
-                // game.gamemaster.setPosition(game.session.wizard, p);
+                var p = game.map.getPath(game.session.wizard);
+                p = p[p.length - 7];
+                this.actors[game.session.wizard].setPosition(p.x, p.y);
+                game.gamemaster.setPosition(game.session.wizard, p);
                 
-                // var whiz = _Globals.wizards.Earth;
-                // var p = game.map.getPath(whiz);
-                // p = p[p.length - 5];
-                // this.actors[whiz].setPosition(p.x, p.y);
-                // game.gamemaster.setPosition(whiz, p);
+                var whiz = _Globals.wizards.Water;
+                var p = game.map.getPath(whiz);
+                p = p[p.length - 5];
+                this.actors[whiz].setPosition(p.x, p.y);
+                game.gamemaster.setPosition(whiz, p);
 
                 // test Blind 1/3 Fire AI  ------------------------
                 // var whiz = _Globals.wizards.Air;
@@ -173,17 +177,17 @@ game.PlayScene = me.ScreenObject.extend({
                 // p.y += 1;
                 // this.actors[game.session.wizard].setPosition(p.x, p.y);
 
-                var whiz = _Globals.wizards.Water;
-                var p = game.map.getPath(whiz);
-                p = p[p.length - 8];
-                this.actors[whiz].setPosition(p.x, p.y);
-                game.gamemaster.setPosition(whiz, p);
+                // var whiz = _Globals.wizards.Water;
+                // var p = game.map.getPath(whiz);
+                // p = p[p.length - 8];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);
 
-                var whiz = _Globals.wizards.Fire;
-                var p = game.map.getPath(whiz);
-                p = p[p.length - 10];
-                this.actors[whiz].setPosition(p.x, p.y);
-                game.gamemaster.setPosition(whiz, p);                 
+                // var whiz = _Globals.wizards.Fire;
+                // var p = game.map.getPath(whiz);
+                // p = p[p.length - 10];
+                // this.actors[whiz].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(whiz, p);                 
 
                 this.setState(this.SceneStates.NextMove);
             break;
@@ -522,32 +526,40 @@ game.PlayScene = me.ScreenObject.extend({
             /**
              * Air Wizard - Teleport
              */
-            var actor = this.actors[game.gamemaster.currentWizard];
-            var pos = game.map.getPos(game.gamemaster.currentWizard);
-            var dest = game.map.getNextMove(game.gamemaster.currentWizard, 3);
-            affectedTiles = dest;
-            
-            actor.visible = false;
+            var dest = game.gamemaster.isCanTeleport(game.gamemaster.currentWizard, 3);
 
-            this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
-                // make wizard visible again at new position
-                actor.setPosition(dest.x, dest.y);
-                actor.visible = true;
-                // XXX update logs
-                game.gamemaster.setPosition(game.gamemaster.currentWizard, dest);
-                // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
-                // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);                    
+            if (dest === false) {
+                me.plugin.fnDelay.add(function() {
+                    self.statsHUD.drawText(wizardName + nls.get('play.teleport_blocked'));
+                    self.setState(self.SceneStates.NextMove);
+                }, this.waitBetweenMoves);
+                // return;
+            } else {
+                var actor = this.actors[game.gamemaster.currentWizard];
+                var pos = game.map.getPos(game.gamemaster.currentWizard);
 
-                parent.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
-                    // on to next move
-                    parent.setState(parent.SceneStates.NextMove);                        
+                affectedTiles = dest;
+                actor.visible = false;
+                
+                this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
+                    // make wizard visible again at new position
+                    actor.setPosition(dest.x, dest.y);
+                    actor.visible = true;
+                    // XXX update logs
+                    game.gamemaster.setPosition(game.gamemaster.currentWizard, dest);
+                    // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
+                    // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);
+
+                    parent.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
+                        // on to next move
+                        parent.setState(parent.SceneStates.NextMove);
+                    });
+
                 });
-
-            });
-            parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Teleport'));
-            // play sound
-            me.audio.play('teleport', false);
-
+                parent.statsHUD.drawText(nls.get('play.casts', wizard, 'Teleport'));
+                // play sound
+                me.audio.play('teleport', false);
+            }
         } else {
             // player must first select a tile to cast spell
             substractMana = false;
@@ -709,6 +721,7 @@ game.PlayScene = me.ScreenObject.extend({
         // disable states switching
         // TODO: fix this because its unguaranteed!!!
         this.stopStates = true;
+        this.setState(this.SceneStates.GameOver);
 
         // make actor sprite face the fountain
         this.actors[who].faceFountain();
