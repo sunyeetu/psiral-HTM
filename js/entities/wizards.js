@@ -66,7 +66,7 @@ game.WizardEntity = me.ObjectEntity.extend({
             var animToSet, endx, endy;
 
             // fix z-order 
-            this.z = _Globals.gfx.zActor + dy;
+            this.z = _Globals.gfx.zActor + this.movement.path[this.movement.goalIdx].y;
 
             //TODO: use Tweens for movement
 
