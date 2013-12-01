@@ -1,14 +1,13 @@
 _.o0 How To Play Psiral 0o._
 =============================
 
-## Turns and Rules
+## Turns
 
 ![Psiral Game Wizards](assets/gui/popup_menu_character_icons.png)
 
-Game starts with the 4 players (wizards) taking positions in the 4 corners of the map. 
-The goal is to reach the fountain of fountain of endless energy in the center of the map. 
-On each turn, players can choose whether to throw the dice of *chance* or cast a *spell*. 
-Wizards move only forward on predefined spiral-alike paths. Paths can be seen on each player's move.
+Game starts with the 4 players (wizards) positioned at the 4 corners of the map. The goal is to reach the fountain of 
+endless energy in the center of the map. On each turn, players can choose whether to throw the dice of *chance* or 
+cast a *spell*. Wizards move only forward on predefined spiral-alike paths. Paths can be seen on each player's move.
 
 ## Chance
 
@@ -40,6 +39,16 @@ Teleport | Air | - | 7 | Teleports wizard 3 tiles ahead.
 Blind | Fire | 3 turns | 6 | All wizards skip 3 turns completely.
 Path | Earth | 3 turns | 5  | Makes 4 tiles ahead of player Earth tiles. No buffs can be casted.
 Freeze | Water  | 3 turns  | 6  | Wizards standing on water tile or stepping on frozen tile will get stuck for 3 turns. They skip 3 turn completely.
+
+## Rules
+
+  * You can cast *Abyss* on any tile that is occupied or has *Path* casted.
+  * You can cast *Clay* on any tile except on *Abyss*, *Stone* or *Path* casted tiles.
+  * You can cast *Stone* on any tile except on *Abyss* or *Path* casted tiles.
+  * Casting *Path* clears all previous casts over 3 tiles ahead.
+  * If destination tile has *Abyss* casted on it, casting *Teleport* will teleport you to the previous tile.
+  * *Freeze* affects only wizards that are already on or will step into a frozen tile.
+  * *Blind* and *Freeze* will cause all affected players to skip turns completely.
 
 ## Story
 

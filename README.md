@@ -43,7 +43,7 @@ A: *Well, tiles change when you cast spells on them, so I hope this one counts. 
 
 _*Game sound is currently (and sadly) not working under IE & Safari browsers._
 
-_Game may run on mobile devices but it's not yet optimized to support any._
+_Game seems playable on iPads but it's not yet optimized to support any mobile devices._
 
 ## Open Source Libraries
 The following javascript libraries are used:
