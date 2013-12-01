@@ -42,7 +42,7 @@ Freeze | Water  | 3 turns  | 6  | Wizards standing on water tile or stepping on 
 
 ## Rules
 
-  * You can cast *Abyss* on any tile that is occupied or has *Path* casted.
+  * You can cast *Abyss* on any tile that is not occupied or that has no *Path* casted.
   * You can cast *Clay* on any tile except on *Abyss*, *Stone* or *Path* casted tiles.
   * You can cast *Stone* on any tile except on *Abyss* or *Path* casted tiles.
   * Casting *Path* clears all previous casts over 3 tiles ahead.
