@@ -33,7 +33,7 @@ game.PlayScene = me.ScreenObject.extend({
         ThrowDice: 30
     },
 
-    waitBetweenMoves: _Globals.isDebug ? 150 : 1350,
+    waitBetweenMoves: _Globals.isDebug ? 150 : 1500,
 
     init: function() {
         // use the update & draw functions

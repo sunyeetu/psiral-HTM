@@ -40,7 +40,7 @@
             "smove": "\'s move",
             "skips_move": " skips this move",
             "no_mana": "Not enough mana to cast!",
-            "select_tile": "Select a target tile to cast \n spell on",
+            "select_tile": "Select a target tile to cast \n spell on. \n (Click here to cancel)",
             "move1": " moves 1 tile",
             "move2": " moves 2 tiles",
             "numbed": " got numbed. \n Skips 1 move.",
