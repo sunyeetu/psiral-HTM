@@ -353,7 +353,6 @@ game.HUD.ClickableAnimation = me.AnimationSheet.extend({
         me.audio.play('click', false);
         
         if (this.stopFrame !== false) {
-            console.log('stop frame is ' + this.stopFrame);
             this.animationpause = true;
             this.setAnimationFrame(this.stopFrame);
         }

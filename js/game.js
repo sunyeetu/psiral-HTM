@@ -80,9 +80,9 @@ var game = {
         this.session = {};
         
         if (_Globals.isDebug) {
-            this.session.wizard = _Globals.wizards.Earth;
-            me.state.change(me.state.MENU);
-            // me.state.change(me.state.PLAY);
+            this.session.wizard = _Globals.wizards.Water;
+            // me.state.change(me.state.MENU);
+            me.state.change(me.state.PLAY);
             return;
         }
 
