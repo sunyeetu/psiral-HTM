@@ -291,10 +291,9 @@ game.EarthWizardEntity = game.WizardEntity.extend({
     init: function(x, y, settings) {
         settings.image = 'earth';
         this.parent(x, y, settings);
-
         // setup props
         this.name = 'Entria-Sil';
-        
+        // facing
         this.playAnimation('stand_down');
     }
 });
@@ -305,10 +304,9 @@ game.WaterWizardEntity = game.WizardEntity.extend({
     init: function(x, y, settings) {
         settings.image = 'water_front';
         this.parent(x, y, settings);
-
         // setup props
         this.name = 'Azalsor';  
-
+        // facing
         this.playAnimation('stand_down');        
     }
 });
@@ -319,10 +317,9 @@ game.FireWizardEntity = game.WizardEntity.extend({
     init: function(x, y, settings) {
         settings.image = 'fire_front';
         this.parent(x, y, settings);
-
         // setup props
         this.name = 'Valeriya';            
-
+        // facing
         this.playAnimation('stand_down');
     }
 });
@@ -333,10 +330,9 @@ game.AirWizardEntity = game.WizardEntity.extend({
     init: function(x, y, settings) {
         settings.image = 'air_front';
         this.parent(x, y, settings);
-
         // setup props
         this.name = 'Rafel';
-
+        // facing
         this.playAnimation('stand_down');
     }
 });
