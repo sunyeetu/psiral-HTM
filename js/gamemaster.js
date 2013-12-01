@@ -368,7 +368,7 @@
             var decision = this._common(who, enemies);
             
             // Cast Teleport, if path to goal is less than 4 tiles.
-            if (this.paths[who].length <= 4) {
+            if (this.paths[who].length <= 4  && this.gm.isCanCast(who, _Globals.spells.Teleport)) {
                 decision.cast = true;
                 decision.spell = {
                     type: _Globals.spells.Teleport,
@@ -570,7 +570,13 @@
         isCanCastAt: function(who, spell, x, y) {
             // start places and fountain are not selectable
             if (game.map.isTileSelectable(x, y)) {
-                _Globals.debug('nocast: unselectable ', x, y);
+                _Globals.debug('GM: nocast: unselectable ', x, y);
+                return false;
+            }
+
+            // check if there's enough mana
+            if (!this.isCanCast(who, spell)) {
+                _Globals.debug('GM: nocast: not enough mana!', who, spell);
                 return false;
             }
 
@@ -579,7 +585,7 @@
             if (spell == _Globals.spells.Abyss) {
                 // do not allow occupied tiles to be selected
                 if (game.map.isTileOccupied(x, y) || game.map.isTileBuff(x, y, _Globals.spells.Path)) {
-                    _Globals.debug('nocast: occupied ', x, y);
+                    _Globals.debug('GM: nocast: occupied ', x, y);
                     return false;
                 }
 
@@ -600,7 +606,7 @@
             var myTile = this.getWizardTile(who);
             if (tile !== myTile && tile !== game.map.Tiles.Clay) {
                 if (!game.map.isTile(x, y, this.getWizardTile(who))) {
-                    _Globals.debug('nocast: not a wizard tile ', x, y, who, tile);
+                    _Globals.debug('GM: nocast: not a wizard tile ', x, y, who, tile);
                     return false;
                 }
             }
