@@ -69,7 +69,7 @@
         switch(spell) {
             case _Globals.spells.Abyss: return 4;
             case _Globals.spells.Stone: return 3;
-            case _Globals.spells.Clay: return 3;
+            case _Globals.spells.Clay: return 2;
             case _Globals.spells.Blind: return 6;
             case _Globals.spells.Freeze: return 6;
             case _Globals.spells.Teleport: return 7;
@@ -80,9 +80,9 @@
 
     function getSpellDuration(spell) {
         switch(spell) {
-            case _Globals.spells.Abyss: return 2;
+            case _Globals.spells.Abyss: return 3;
             case _Globals.spells.Stone: return 3;
-            case _Globals.spells.Clay: return 3;
+            case _Globals.spells.Clay: return 2;
             case _Globals.spells.Blind: return 3;
             case _Globals.spells.Freeze: return 3;
             case _Globals.spells.Teleport: return -1;
@@ -363,6 +363,37 @@
             var enemies = _.without(this.gm.WizardsList, who);
             var decision = this._common(who, enemies);
 
+            
+            if (this.gm.isCanCast(who, _Globals.spells.Blind)) {
+
+                var blind = _.extend(_.clone(decision), {
+                    cast: true,
+                    spell: {
+                        type: _Globals.spells.Blind,
+                        // where: null
+                    }
+                });
+
+                // Cast Blind, if path to goal is less than 4 tiles.
+                if (this.paths[who].length <= 4)
+                    return blind;
+
+                // Cast Blind, if behind from at least 2 rivals and they are more than ⅓ of the path towards the fountain.
+                var count = 0;
+                var isTarget = false;
+                for (var i = enemies.length - 1; i >= 0; i--) {
+                    var path = this.paths[enemies[i]];
+                    if (this.paths[who].length > path.length && path.length <= this.dist_13) {
+                        count++;
+                        // isTarget = !isTarget ? (enemies[i] === this.rivals[who]) : isTarget;
+                    }
+                }
+                console.log(' fire count = ' + count);
+                if (count > 1) { // || (count == 2 && isTarget)) {
+                    return blind;
+                }                
+            }            
+
             //TODO:
             return decision;
         },
@@ -392,7 +423,6 @@
                 var count = 0;
                 var isTarget = false;
                 for (var i = enemies.length - 1; i >= 0; i--) {
-                    // TODO: optimize
                     var path = this.paths[enemies[i]];
                     if (this.paths[who].length > path.length && path.length <= this.dist_13) {
                         count++;
