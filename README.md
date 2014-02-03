@@ -26,15 +26,6 @@ The following javascript libraries are used:
   * [underscorejs](http://underscorejs.org/) - A utility-belt library for JavaScript.
   * [fnDelay](https://github.com/greghouston/fnDelay) - melonJS plugin: fnDelay allows you to delay a function.
 
-## Credits
-### Team
-*Dvubuz Games* currently consists of
-
-  * [Petar Petrov](http://petarov.vexelon.net/) - Programming and game design.
-  * [Stremena Tuzsuzova](http://stremena.com/) - Artwork, graphics and animations.
-
-Thanks to [Patilan](https://github.com/Patilan) for testing.
-
 ### Music
   * [ObservingTheStar](http://opengameart.org/content/another-space-background-track) by [yd](http://opengameart.org/users/yd)
   * [Elementary Wave](http://www.freesound.org/people/Erokia/sounds/183881/) by [Erokia](http://www.freesound.org/people/Erokia/)
@@ -54,17 +45,10 @@ All sounds were edited/remix using [Audacity](http://audacity.sourceforge.net/) 
 ## License
 
 Copyright (c) 2014 Petar Petrov
-Copyright (c) 2014 Stremena Tuzsuzova
 
-We couldn't really finish this game in time. Four weeks were (as expected) not enough to complete Psiral. 
-We do, howerver, plan to continue working on this title after Game-Off 2013. We have on our *TODO* list more graphics 
-and animations to add, improved AI with learning capabilities, improvements in spells and game balance, add coop. and 
-network play and much more. 
-So, stick around if you're interested in the Psiral saga. 
-
-See you soon! ;)
+Copyright (c) 2014 Stremena Tuzsuzova-Petrova
 
 ---
-GitHub [game-off-2013](https://github.com/github/game-off-2013) challenge entry.
+Psiral is a GitHub [Game Off II](https://github.com/blog/1731-github-game-off-ii-winners) winner.
 
 ![GitHub Game Off Game Jam](https://f.cloud.github.com/assets/121322/1436486/25f88b78-4158-11e3-9b23-43596516362c.png)
