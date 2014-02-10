@@ -1,7 +1,7 @@
 /*global module:false*/
 module.exports = function(grunt) {
     var sources = [
-        'vendor/plugins/howlerAudio.js',
+        'js/howlerAudio.js',
         'js/globals.js',
         'js/l10n.js',
         'js/game.js',
@@ -94,8 +94,9 @@ module.exports = function(grunt) {
             dist: [
                 'build/*'
             ],
-            concat: [
-                '<%= concat.dist.dest %>'
+            striplibs: [
+                '<%= concat.dist.dest %>',
+                'vendor/melonJS-0.9.11.js',
             ]
         },
         /**
@@ -123,6 +124,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-replace');    
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'replace']);
+    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'replace', 'clean:striplibs']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
