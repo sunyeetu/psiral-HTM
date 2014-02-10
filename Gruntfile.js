@@ -29,6 +29,24 @@ module.exports = function(grunt) {
                 dest: 'build/<%= pkg.name %>-<%= pkg.version %>.js'
             }
         },
+
+        replace: {
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                            match: 'VERSION',
+                            replacement: '<%= pkg.version %>',
+                            expression: false  // simple variable lookup
+                        }
+                    ]
+                },                
+                files: [
+                    {expand: true, flatten: true, src: ['build/index.html'], dest: 'build/'}
+                ]
+            }
+        },
+
         /**
          * Rules of how to minify & obfuscate game sources
          */
@@ -65,6 +83,9 @@ module.exports = function(grunt) {
         clean: {
             dist: [
                 'build/*'
+            ],
+            concat: [
+                '<%= concat.dist.dest %>'
             ]
         },
         /**
@@ -89,9 +110,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    // grunt.loadNpmTasks('grunt-replace');    
+    grunt.loadNpmTasks('grunt-replace');    
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'copy']);
+    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'replace', 'clean:concat']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
