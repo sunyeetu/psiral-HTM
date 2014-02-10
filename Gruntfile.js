@@ -29,7 +29,9 @@ module.exports = function(grunt) {
                 dest: 'build/<%= pkg.name %>-<%= pkg.version %>.js'
             }
         },
-
+        /**
+         * Put version info, lib names & urchin in production index.html
+         */
         replace: {
             dist: {
                 options: {
@@ -56,7 +58,6 @@ module.exports = function(grunt) {
                 ]
             }
         },
-
         /**
          * Rules of how to minify & obfuscate game sources
          */
@@ -104,6 +105,18 @@ module.exports = function(grunt) {
             ]
         },
         /**
+         * Bump version
+         */
+        bump: {
+            options: {
+                files: ['package.json'],
+                updateConfigs: ['pkg'],
+                commit: false,
+                createTag: false,
+                push: false
+            }
+        },
+        /**
          * JSHint config
          */
         jshint: {
@@ -125,9 +138,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-replace');    
+    grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-bump');
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'replace', 'clean:striplibs']);
+    grunt.registerTask('default', ['concat', 'uglify', 'bump:build', 'copy', 'replace', 'clean:striplibs']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
