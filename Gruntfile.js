@@ -38,6 +38,16 @@ module.exports = function(grunt) {
                             match: 'VERSION',
                             replacement: '<%= pkg.version %>',
                             expression: false  // simple variable lookup
+                        },
+                        {
+                            match: 'MINIFIED',
+                            replacement: '<%= pkg.name %>-<%= pkg.version %>-min.js',
+                            expression: false 
+                        },
+                        {
+                            match: 'TITLE',
+                            replacement: '<%= pkg.description %>',
+                            expression: false 
                         }
                     ]
                 },                
@@ -56,7 +66,7 @@ module.exports = function(grunt) {
                 preserveComments: false
             },
             dist: {
-                files:{
+                files: {
                     'build/<%= pkg.name %>-<%= pkg.version %>-min.js': ['<%= concat.dist.dest %>']
                 }
             }
@@ -69,7 +79,7 @@ module.exports = function(grunt) {
                 files: [
                     {expand: true, src: ['assets/**'], dest: 'build/'},
                     {expand: true, src: ['css/*'], dest: 'build/'},
-                    {expand: true, src: ['vendor/*'], dest: 'build/'},
+                    {expand: true, src: ['vendor/**'], dest: 'build/'},
                     {expand: true, src: ['favicon.ico'], dest: 'build/',  filter: 'isFile'},
                     {expand: true, src: ['index.php'], dest: 'build/',  filter: 'isFile'},
                     {expand: true, src: ['index.html'], dest: 'build/',  filter: 'isFile'},

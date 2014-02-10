@@ -1,6 +1,6 @@
 {
   "name": "Psiral",
-  "description": "Turn-based strategy 2D game",
+  "description": "Psiral. A turn-based strategy 2D game with wizards.",
   "version": "1.0.0",
   "private": true,
   "author": {
