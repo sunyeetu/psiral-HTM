@@ -93,7 +93,8 @@ module.exports = function(grunt) {
                             return dest;
                         }
                     },
-                    {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'}
+                    {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['.htaccess'], dest: 'build/',  filter: 'isFile'}
                 ]
             }
         },
