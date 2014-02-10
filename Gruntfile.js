@@ -43,7 +43,7 @@ module.exports = function(grunt) {
                         },
                         {
                             match: 'MINIFIED',
-                            replacement: '<%= pkg.name %>-<%= pkg.version %>-min.js',
+                            replacement: '<%= pkg.name %>-min.js',
                             expression: false 
                         },
                         {
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'build/<%= pkg.name %>-<%= pkg.version %>-min.js': ['<%= concat.dist.dest %>']
+                    'build/<%= pkg.name %>-min.js': ['<%= concat.dist.dest %>']
                 }
             }
         },
@@ -147,6 +147,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bump');
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'bump:build', 'copy', 'replace', 'clean:striplibs']);
+    grunt.registerTask('default', ['bump:build', 'concat', 'uglify', 'copy', 'replace', 'clean:striplibs']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
