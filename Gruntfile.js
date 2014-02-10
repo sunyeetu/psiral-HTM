@@ -5,15 +5,15 @@ module.exports = function(grunt) {
     var sources = [
         'js/globals.js',
         'js/l10n.js',
-        'js/resources.js',
         'js/map.js',
         'js/gamemaster.js',
+        'js/game.js',
+        'js/resources.js',
         'js/scenes/splash.js',
         'js/scenes/menu_hud.js',
         'js/scenes/menu.js',
         'js/scenes/play_hud.js',
         'js/scenes/play.js',
-        'js/game.js',
         'js/entities/gfx.js',
         'js/entities/board.js',
         'js/entities/wizards.js'
@@ -22,6 +22,26 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        concat: {
+            dist: {
+                src: sources,
+                dest: 'build/<%= pkg.name %>-<%= pkg.version %>.js'
+            }
+        },
+
+        uglify: {
+            options: {
+                report: 'min',
+                preserveComments: false
+            },
+            dist: {
+                files:{
+                    'build/<%= pkg.name %>-<%= pkg.version %>-min.js': ['<%= concat.dist.dest %>']
+                }
+            }
+        },
+
         // TODO
 
         jshint: {
@@ -45,6 +65,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-replace');    
 
     // Default task.
-    grunt.registerTask('default', ['']);
+    grunt.registerTask('default', ['concat', 'uglify']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
