@@ -12,6 +12,7 @@
     "browser": true,
     "strict": false,
     "smarttabs": true,
+    "multistr": true,
     "globals": {
         "me": true,
         "console": true,
