@@ -50,7 +50,12 @@ module.exports = function(grunt) {
                             match: 'TITLE',
                             replacement: '<%= pkg.description %>',
                             expression: false 
-                        }
+                        },
+                        {
+                            match: 'URCHIN',
+                            replacement: '<%= grunt.file.read("urchin") %>',
+                            expression: false
+                        }                        
                     ]
                 },                
                 files: [
