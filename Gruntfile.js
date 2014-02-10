@@ -1,21 +1,21 @@
 /*global module:false*/
 module.exports = function(grunt) {
     var sources = [
+        'vendor/plugins/howlerAudio.js',
         'js/globals.js',
         'js/l10n.js',
+        'js/game.js',
         'js/map.js',
         'js/gamemaster.js',
-        'js/game.js',
         'js/resources.js',
         'js/scenes/splash.js',
-        'js/scenes/menu_hud.js',
         'js/scenes/menu.js',
-        'js/scenes/play_hud.js',
+        'js/scenes/menu_hud.js',
         'js/scenes/play.js',
+        'js/scenes/play_hud.js',
         'js/entities/gfx.js',
         'js/entities/board.js',
-        'js/entities/wizards.js',
-        'vendor/plugins/holwerAudio.js'
+        'js/entities/wizards.js'
     ];
 
     grunt.initConfig({
@@ -123,6 +123,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-replace');    
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'replace', 'clean:concat']);
+    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'replace']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
