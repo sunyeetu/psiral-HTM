@@ -96,7 +96,7 @@ module.exports = function(grunt) {
             ],
             striplibs: [
                 '<%= concat.dist.dest %>',
-                'vendor/melonJS-0.9.11.js',
+                'build/vendor/melonJS-0.9.11.js',
             ]
         },
         /**
