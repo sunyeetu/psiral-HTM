@@ -11,25 +11,25 @@
 
     var en = {
         'menu': {
-            "wiz_earth": "Entria posses the ultimate creator knowledge. She has the power to create \n \
-            beings and shape nature in any way she desires. She is the manifestation of life. \n \
-            Her eternity is envied by Rafel who secretly plots to destroy her.", 
+            "wiz_earth": "Entria posses the ultimate creator knowledge. She has the power to create \n" +
+            "beings and shape nature in any way she desires. She is the manifestation of life. \n" +
+            "Her eternity is envied by Rafel who secretly plots to destroy her.", 
 
-            "wiz_fire": "The youngest among wizards. Valeriya is the only daughter of Capres, ultimate \n \
-            ruler of fire. In the beginning of time, Carpes fought Azalsor but lost. He was \n \
-            destroyed but his daughter was saved by the young fires. Now after a thousand \n \
-            human years she is ready to challenge Azalsor.",
+            "wiz_fire": "The youngest among wizards. Valeriya is the only daughter of Capres, ultimate \n" +
+            "ruler of fire. In the beginning of time, Carpes fought Azalsor but lost. He was \n" +
+            "destroyed but his daughter was saved by the young fires. Now after a thousand \n" + 
+            "human years she is ready to challenge Azalsor.",
 
-            "wiz_water": "An old and powerful wizard. Rumors are he has been one of the first to roam \n \
-            the young Universe. He destroyed the wizard Carpes, father of Valeriya. \n \
-            Azalsor is a wizard of wisdom and he will not jump into a fight unless he has \n \
-            no other choice.",
+            "wiz_water": "An old and powerful wizard. Rumors are he has been one of the first to roam \n" +
+            "the young Universe. He destroyed the wizard Carpes, father of Valeriya. \n" +
+            "Azalsor is a wizard of wisdom and he will not jump into a fight unless he has \n" +
+            "no other choice.",
 
-            "wiz_air": "Rafel is a male wizard born out of the fight between Azalsor and Carpes. \n \
-            Water and fire clashed and out of the dynamic of the this great battle the wizard \n \
-            of air was born. The most beautiful of his kind. He carries the grace of being and \n \
-            the seeds of life. But his looks are deceiving. He will absorb the very life out of \n \
-            his enemies. He devours their energy in order to content his lust for eternal youth.",
+            "wiz_air": "Rafel is a male wizard born out of the fight between Azalsor and Carpes. \n" +
+            "Water and fire clashed and out of the dynamic of the this great battle the wizard \n" +
+            "of air was born. The most beautiful of his kind. He carries the grace of being and \n" +
+            "the seeds of life. But his looks are deceiving. He will absorb the very life out of \n" +
+            "his enemies. He devours their energy in order to content his lust for eternal youth.",
 
             "select_character": "Choose your character",
             "back": "Back"
