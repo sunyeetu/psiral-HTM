@@ -1,0 +1,19 @@
+{
+    "name": "Psiral",
+    "description": "Turn-based strategy 2D game",
+    "version": "1.0.0",
+    "private" : true,
+    "author": {
+        "name": "Dvubuz Games",
+        "email": "",
+        "web": ""
+    },
+    "homepage": "http://psiral.herokuapp.com",
+    "repository" : {"type": "git", "url": "https://bitbucket.org/dvubuzgames/psiral.git"},
+    "devDependencies" : {
+        "grunt": "latest"
+    },
+    "engines": {
+        "node": ">=0.8"
+    }    
+}
