@@ -1,39 +1,39 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
-    src: ['Gruntfile.js', 'js/*.js', 'vendor/plugins/holwerAudio.js'],
+    // src: ['Gruntfile.js', 'js/*.js', 'vendor/plugins/holwerAudio.js'],
+    var sources = [
+        'js/globals.js',
+        'js/l10n.js',
+        'js/resources.js',
+        'js/map.js',
+        'js/gamemaster.js',
+        'js/scenes/splash.js',
+        'js/scenes/menu_hud.js',
+        'js/scenes/menu.js',
+        'js/scenes/play_hud.js',
+        'js/scenes/play.js',
+        'js/game.js',
+        'js/entities/gfx.js',
+        'js/entities/board.js',
+        'js/entities/wizards.js'
+    ];
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         // TODO
-    });
 
-    // JSHint
-    grunt.initConfig({
         jshint: {
-          src: ['Gruntfile.js', 'js/*.js', 'vendor/plugins/holwerAudio.js'],
-          options: {
-            curly: true,
-            eqeqeq: true,
-            immed: true,
-            latedef: true,
-            newcap: true,
-            noarg: true,
-            sub: true,
-            undef: true,
-            boss: true,
-            eqnull: true,
-            browser: true,
-            globals: {
-              require: true,
-              define: true,
-              requirejs: true,
-              describe: true,
-              expect: true,
-              it: true
+            options: {
+                jshintrc: ".jshintrc"
+            },
+
+            beforeConcat: {
+                files: {
+                    src: sources
+                }
             }
-          }
         }
     });
 
@@ -46,5 +46,5 @@ module.exports = function(grunt) {
 
     // Default task.
     grunt.registerTask('default', ['']);
-    grunt.registerTask('lint', ['jshint']);
+    grunt.registerTask('lint', ['jshint:beforeConcat']);
 };

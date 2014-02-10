@@ -65,10 +65,10 @@ var game = {
 
         me.state.onPause = function() {
             me.audio.muteAll();
-        }
+        };
         me.state.onResume = function() {
             me.audio.unmuteAll();
-        }
+        };
     },
 
     // Run on game resources loaded.
