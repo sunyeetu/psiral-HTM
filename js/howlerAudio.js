@@ -53,7 +53,7 @@
             }
             // convert it into an array
             this.audioFormat = audioFormat.split(',');
-            for (fmt in this.audioFormat) {
+            for (var fmt in this.audioFormat) {
                 this.audioFormat[fmt] = '.' + this.audioFormat[fmt];
             };
 
@@ -67,8 +67,8 @@
             // parse the resources
             var srcUrls = [];
 
-            for(res in resources) {
-                if (resources[res].type == 'audio') {
+            for(var res in resources) {
+                if (resources[res].type === 'audio') {
 
                     srcUrls.length = 0;
                     for (var i = 0; i < this.audioFormat.length; i++) {

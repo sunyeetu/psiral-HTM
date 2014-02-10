@@ -153,7 +153,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bump');
 
     // Default task.
-    grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
-    // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify', 'clean:striplibs']);
+    // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
+    grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify', 'clean:striplibs']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
