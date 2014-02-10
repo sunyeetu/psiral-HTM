@@ -82,6 +82,15 @@ module.exports = function(grunt) {
                 }
             }
         },
+        cssmin: {
+            minify: {
+                expand: true,
+                cwd: 'build/css/',
+                src: ['*.css', '!*.min.css'],
+                dest: 'build/css/',
+                ext: '.min.css'
+            }
+        }, 
         /**
          * Specifies targets that prep. a release build
          */
@@ -113,6 +122,7 @@ module.exports = function(grunt) {
             striplibs: [
                 '<%= concat.dist.dest %>',
                 'build/vendor/melonJS-0.9.11.js',
+                'build/css/main.css',
             ]
         },
         /**
@@ -146,6 +156,7 @@ module.exports = function(grunt) {
     // Load JSHint task
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -154,6 +165,6 @@ module.exports = function(grunt) {
 
     // Default task.
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
-    grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify', 'clean:striplibs']);
+    grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
