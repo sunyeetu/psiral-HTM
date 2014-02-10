@@ -82,7 +82,11 @@ module.exports = function(grunt) {
                     {expand: true, src: ['vendor/**'], dest: 'build/'},
                     {expand: true, src: ['favicon.ico'], dest: 'build/',  filter: 'isFile'},
                     {expand: true, src: ['index.php'], dest: 'build/',  filter: 'isFile'},
-                    {expand: true, src: ['index.html'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['index-prod.html'], dest: 'build/index.html',  filter: 'isFile', 
+                        rename: function(dest, src) {
+                            return dest;
+                        }
+                    },
                     {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'}
                 ]
             }

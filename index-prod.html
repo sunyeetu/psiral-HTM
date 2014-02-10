@@ -6,7 +6,7 @@
     <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Psiral - DEV</title>
+    <title>@@TITLE</title>
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
 </head>
 <body>
@@ -19,33 +19,16 @@
 <script type="text/javascript">
 var _timestamp = (new Date()).getTime();
 var _version = {
-    buildnumber:_timestamp,
+    buildnumber:'@@VERSION',
 };
 </script>
 <!-- Libraries -->
 <script src="vendor/underscore-min.js"></script>
 <script src="vendor/howler.min.js"></script>
-<script src="vendor/melonJS-0.9.11.js"></script>
+<script src="vendor/melonJS-0.9.11-min.js"></script>
 <script src="vendor/plugins/debugPanel.js"></script>
 <script src="vendor/plugins/fndelay.js"></script>
-<script src="js/howlerAudio.js"></script>
-<!-- Game -->
-<script src="js/globals.js"></script>
-<script src="js/game.js"></script>
-<script src="js/resources.js"></script>
-<script src="js/map.js"></script>
-<script src="js/gamemaster.js"></script>
-<script src="js/l10n.js"></script>
-<!-- Scenes -->
-<script src="js/scenes/splash.js"></script>
-<script src="js/scenes/menu.js"></script>
-<script src="js/scenes/menu_hud.js"></script>
-<script src="js/scenes/play.js"></script>
-<script src="js/scenes/play_hud.js"></script>
-<!-- Objects -->
-<script src="js/entities/wizards.js"></script>
-<script src="js/entities/board.js"></script>
-<script src="js/entities/gfx.js"></script>
+<script src="@@MINIFIED"></script>
 <!-- Bootstrap & Mobile optimization tricks -->
 <script type="text/javascript">
 window.onReady(function onReady() {
@@ -72,5 +55,6 @@ window.onReady(function onReady() {
     }
 });
 </script>
+<!--URCHIN-->
 </body>
 </html>                
