@@ -1,7 +1,5 @@
 /*global module:false*/
 module.exports = function(grunt) {
-
-    // src: ['Gruntfile.js', 'js/*.js', 'vendor/plugins/holwerAudio.js'],
     var sources = [
         'js/globals.js',
         'js/l10n.js',
@@ -16,20 +14,24 @@ module.exports = function(grunt) {
         'js/scenes/play.js',
         'js/entities/gfx.js',
         'js/entities/board.js',
-        'js/entities/wizards.js'
+        'js/entities/wizards.js',
+        'vendor/plugins/holwerAudio.js'
     ];
 
-    // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
+        /**
+         * Combine all sources into one big js chunk
+         */
         concat: {
             dist: {
                 src: sources,
                 dest: 'build/<%= pkg.name %>-<%= pkg.version %>.js'
             }
         },
-
+        /**
+         * Rules of how to minify & obfuscate game sources
+         */
         uglify: {
             options: {
                 report: 'min',
@@ -41,9 +43,33 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-        // TODO
-
+        /**
+         * Specifies targets that prep. a release build
+         */
+        copy: {
+            main: {
+                files: [
+                    {expand: true, src: ['assets/**'], dest: 'build/'},
+                    {expand: true, src: ['css/*'], dest: 'build/'},
+                    {expand: true, src: ['vendor/*'], dest: 'build/'},
+                    {expand: true, src: ['favicon.ico'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['index.php'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['index.html'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'}
+                ]
+            }
+        },
+        /**
+         * Clean-up of built/copied resources
+         */
+        clean: {
+            dist: [
+                'build/*'
+            ]
+        },
+        /**
+         * JSHint config
+         */
         jshint: {
             options: {
                 jshintrc: ".jshintrc"
@@ -62,9 +88,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-replace');    
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    // grunt.loadNpmTasks('grunt-replace');    
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify']);
+    grunt.registerTask('default', ['concat', 'uglify', 'copy']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };
