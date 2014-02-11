@@ -82,7 +82,6 @@
                     // load sound
                     this.sounds[resources[res].name] = new Howl({
                         urls: srcUrls,
-                        fomrat: 'm4a',
                         buffer: resources[res].stream === true ? true : false,
                         onend: this.callbacksRegister[resources[res].name]
                     });
