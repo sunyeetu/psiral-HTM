@@ -108,6 +108,7 @@ module.exports = function(grunt) {
                         }
                     },
                     {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['icon.png'], dest: 'build/',  filter: 'isFile'},
                     {expand: true, src: ['.htaccess'], dest: 'build/',  filter: 'isFile'}
                 ]
             }
@@ -151,7 +152,9 @@ module.exports = function(grunt) {
                 }
             }
         },
-
+        /**
+         * Create node-webkit based Desktop distros
+         */
         nodewebkit: {
             options: {
                 version: '0.8.4',
