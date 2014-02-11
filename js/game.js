@@ -11,6 +11,15 @@ var game = {
 
     onload: function () {
 
+        // // Load native UI library
+        // var gui = require('nw.gui'); 
+        // //or global.window.nwDispatcher.requireNwGui() (see https://github.com/rogerwang/node-webkit/issues/707)
+        // if (gui) {
+        //     // Get the current window
+        //     var win = gui.Window.get();
+        //     win.enterFullscreen();
+        // }
+
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false, 
             me.device.isMobile ? 1.99 : null)) {
             console.error("Your browser does not support HTML5 canvas!");
