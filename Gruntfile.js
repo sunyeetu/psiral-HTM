@@ -150,7 +150,18 @@ module.exports = function(grunt) {
                     src: sources
                 }
             }
-        }
+        },
+
+        nodewebkit: {
+            options: {
+                build_dir: './webkitbuilds', // Where the build version of my node-webkit app is saved
+                mac: false, // We want to build it for mac
+                win: true, // We want to build it for win
+                linux32: false, // We don't need linux32
+                linux64: false // We don't need linux64
+            },
+            src: ['./build/**/*'] // Your node-wekit app
+        },        
     });
 
     // Load JSHint task
@@ -162,9 +173,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-node-webkit-builder');
 
     // Default task.
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
     grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
+    grunt.registerTask('rls', ['default', 'nodewebkit']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
 };

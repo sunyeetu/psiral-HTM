@@ -1,8 +1,9 @@
 {
   "name": "Psiral",
   "description": "Psiral. A turn-based strategy 2D game with wizards.",
-  "version": "1.0.0-38",
+  "version": "1.0.0-41",
   "private": true,
+  "main": "index.html",
   "author": {
     "name": "Dvubuz Games",
     "email": "",
@@ -23,7 +24,8 @@
     "grunt-contrib-copy": "~0.5.0",
     "grunt-replace": "~0.6.1",
     "grunt-bump": "0.0.13",
-    "grunt-contrib-cssmin": "~0.7.0"
+    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-node-webkit-builder": "~0.1.17"
   },
   "engines": {
     "node": ">=0.8"
