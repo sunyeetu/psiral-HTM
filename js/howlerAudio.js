@@ -48,8 +48,8 @@
             
             if (typeof audioFormat !== "string")   {
                 // throw "howlerAudio: audioFormat parameter must be string!";
-                // if no param is given to init we use mp3 by default
-                audioFormat = 'mp3';
+                // if no param is given to init we use ogg by default
+                audioFormat = 'ogg';
             }
             // convert it into an array
             this.audioFormat = audioFormat.split(',');
@@ -74,6 +74,7 @@
                     for (var i = 0; i < this.audioFormat.length; i++) {
                         srcUrls.push(resources[res].src + resources[res].name + this.audioFormat[i]);
                     };
+                    console.log(srcUrls);
                     // init callback register
                     this.callbacksRegister[resources[res].name] = function() {
                         // empty
@@ -81,6 +82,7 @@
                     // load sound
                     this.sounds[resources[res].name] = new Howl({
                         urls: srcUrls,
+                        fomrat: 'm4a',
                         buffer: resources[res].stream === true ? true : false,
                         onend: this.callbacksRegister[resources[res].name]
                     });
