@@ -1,4 +1,8 @@
 /*global module:false*/
+
+var path = require('path');
+var util = require('util');
+
 module.exports = function(grunt) {
     var sources = [
         'js/howlerAudio.js',
@@ -165,7 +169,17 @@ module.exports = function(grunt) {
                 linux64: true // We don't need linux64
             },
             src: ['./build/**/*'] // Your node-wekit app
-        },        
+        },
+        aconv: {
+            options: {
+                ffmpegLib: 'libfdk_aac',
+                outFormat: '.m4a'
+            },
+            files: [
+                {src: 'assets/sfx/*.ogg', dest: 'build/assets/sfx', overwrite: true},
+                {src: 'assets/muzik/*.ogg', dest: 'build/assets/muzik', overwrite: true}
+            ]
+        }
     });
 
     // Load JSHint task
@@ -183,5 +197,42 @@ module.exports = function(grunt) {
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
     grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
     grunt.registerTask('rls', ['default', 'nodewebkit']);
+    grunt.registerTask('web', ['default', 'aconv']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
+
+    // test
+    grunt.registerTask('ac', ['aconv']);
+
+    /**
+     * Custom tasks
+     */
+    
+    grunt.registerMultiTask('aconv', 'Convert audio files using ffmpeg', function() {
+        var ffmpeg = grunt.config('aconv.options.ffmpeg') || 'ffmpeg';
+        var ffmpeg_lib = grunt.config('aconv.options.ffmpegLib');
+        var outFormat = grunt.config('aconv.options.outFormat');
+        var files = grunt.config('aconv.files');
+
+        // Force task into async mode and grab a handle to the "done" function.
+        var done = this.async();
+        var exec = [];
+
+        for(var i = 0; i < files.length; i++) {
+            var o = files[i];
+            
+            grunt.log.writeln('Converting files in %s to %s format ...', o.src, outFormat);
+
+            grunt.file.expand(o.src).forEach(function (file) {
+                var overwrite = o.overwrite === false ? '-n' : '-y';
+                var cmd = util.format('%s %s -i %s -c:a %s %s/%s%s',
+                    ffmpeg, overwrite, file, ffmpeg_lib, o.dest, path.basename(file, path.extname(file)), outFormat);
+                // grunt.log.writeln(cmd);
+                exec.push(cmd);
+            });
+        }
+
+        require('child_process').exec(exec.join(' && ')).on('exit', function () {
+            done(true);
+        });
+    });    
 };
