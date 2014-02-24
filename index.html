@@ -22,35 +22,40 @@ var _version = {
     buildnumber:_timestamp,
 };
 </script>
-<!-- Libraries -->
+<!-- vendor libs -->
 <script src="vendor/underscore-min.js"></script>
 <script src="vendor/howler.min.js"></script>
 <script src="vendor/melonJS-0.9.11.js"></script>
 <script src="vendor/plugins/debugPanel.js"></script>
 <script src="vendor/plugins/fndelay.js"></script>
+<!-- our plugins -->
 <script src="js/howlerAudio.js"></script>
-<!-- Game -->
-<script src="js/globals.js"></script>
+<!-- commons -->
+<script src="js/common/globals.js"></script>
+<script src="js/common/l10n.js"></script>
+<!-- bootstrap -->
 <script src="js/game.js"></script>
 <script src="js/resources.js"></script>
-<script src="js/map.js"></script>
-<script src="js/gamemaster.js"></script>
-<script src="js/l10n.js"></script>
-<!-- client -->
-<script src="js/cli/splash.js"></script>
-<script src="js/cli/menu.js"></script>
-<script src="js/cli/play.js"></script>
-<script src="js/cli/wizards.js"></script>
-<script src="js/cli/board.js"></script>
-<script src="js/cli/gfx.js"></script>
-<!-- hud -->
+<!-- game logic predicates -->
+<script src="js/backbone/map.js"></script>
+<script src="js/backbone/gamemaster.js"></script>
+<!-- client hud -->
+<script src="js/hud/splash.js"></script>
+<script src="js/hud/menu.js"></script>
+<script src="js/hud/gfx.js"></script>
+<script src="js/hud/play.js"></script>
 <script src="js/hud/play_hud.js"></script>
 <script src="js/hud/menu_hud.js"></script>
-<!-- Bootstrap & Mobile optimization tricks -->
+<!-- entities -->
+<script src="js/entities/wizards.js"></script>
+<script src="js/entities/board.js"></script>
+<script src="js/entities/spells.js"></script>
+
 <script type="text/javascript">
 window.onReady(function onReady() {
     game.onload();
-    // Mobile browser hacks
+    
+    // Mobile optimization tricks/hacks
     if (me.device.isMobile && !navigator.isCocoonJS) {
         // Prevent the webview from moving on a swipe
         window.document.addEventListener("touchmove", function (e) {
