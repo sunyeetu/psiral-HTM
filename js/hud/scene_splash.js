@@ -1,5 +1,5 @@
 /**
- * splash.js
+ * scene_splash.js
  *
  */
 
