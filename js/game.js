@@ -59,7 +59,7 @@ var game = {
         me.plugin.register(FnDelay, "fnDelay");
 
         // register custom Audio plugin
-        me.plugin.register(howlerAudio, "howlerAudio", "ogg");
+        me.plugin.register(howlerAudio, "howlerAudio", "ogg,m4a");
         if (_Globals.isDebug) {
             // no audio in debug mode
             // me.audio.disable();
