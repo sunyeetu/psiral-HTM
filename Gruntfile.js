@@ -2,6 +2,7 @@
 
 var path = require('path');
 var util = require('util');
+var isWindows = process.env.OS.indexOf("Windows") != -1;
 
 module.exports = function(grunt) {
     var sources = [
@@ -172,7 +173,7 @@ module.exports = function(grunt) {
         },
         aconv: {
             options: {
-                ffmpegLib: 'libfdk_aac',
+                ffmpegLib: isWindows ? 'libvo_aacenc' : 'libfdk_aac',
                 outFormat: '.m4a'
             },
             files: [
