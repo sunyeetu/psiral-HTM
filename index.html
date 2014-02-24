@@ -36,21 +36,20 @@ var _version = {
 <script src="js/map.js"></script>
 <script src="js/gamemaster.js"></script>
 <script src="js/l10n.js"></script>
-<!-- Scenes -->
-<script src="js/scenes/splash.js"></script>
-<script src="js/scenes/menu.js"></script>
-<script src="js/scenes/menu_hud.js"></script>
-<script src="js/scenes/play.js"></script>
-<script src="js/scenes/play_hud.js"></script>
-<!-- Objects -->
-<script src="js/entities/wizards.js"></script>
-<script src="js/entities/board.js"></script>
-<script src="js/entities/gfx.js"></script>
+<!-- client -->
+<script src="js/cli/splash.js"></script>
+<script src="js/cli/menu.js"></script>
+<script src="js/cli/play.js"></script>
+<script src="js/cli/wizards.js"></script>
+<script src="js/cli/board.js"></script>
+<script src="js/cli/gfx.js"></script>
+<!-- hud -->
+<script src="js/hud/play_hud.js"></script>
+<script src="js/hud/menu_hud.js"></script>
 <!-- Bootstrap & Mobile optimization tricks -->
 <script type="text/javascript">
 window.onReady(function onReady() {
     game.onload();
-
     // Mobile browser hacks
     if (me.device.isMobile && !navigator.isCocoonJS) {
         // Prevent the webview from moving on a swipe
