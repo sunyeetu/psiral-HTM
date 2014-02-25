@@ -7,6 +7,8 @@
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/.
  */
 
+game.GFX = game.GFX || {};
+
 /**
  * Spellcasting animations
  */
