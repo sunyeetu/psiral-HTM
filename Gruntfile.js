@@ -7,18 +7,19 @@ var isWindows = process.env.OS && process.env.OS.indexOf("Windows") != -1;
 module.exports = function(grunt) {
     var sources = [
         'js/howlerAudio.js',
-        'js/globals.js',
-        'js/l10n.js',
+        'js/common/globals.js',
+        'js/common/l10n.js',
         'js/game.js',
-        'js/map.js',
-        'js/gamemaster.js',
+        'js/backbone/map.js',
+        'js/backbone/gamemaster.js',
         'js/resources.js',
         'js/scenes/splash.js',
         'js/scenes/menu.js',
-        'js/scenes/menu_hud.js',
         'js/scenes/play.js',
-        'js/scenes/play_hud.js',
-        'js/entities/gfx.js',
+        'js/hud/gfx.js',
+        'js/hud/menu.js',
+        'js/hud/play.js',
+        'js/entities/spells.js',
         'js/entities/board.js',
         'js/entities/wizards.js'
     ];
