@@ -237,8 +237,8 @@ game.PlayScene = me.ScreenObject.extend({
         me.game.world.addChild(this.gameboard);
 
         // add gfx manager
-        this.gfx = new game.GFX.Container();
-        me.game.world.addChild(this.gfx);
+        this.anims = new game.Animations.Container();
+        me.game.world.addChild(this.anims);
 
         // clear transparent background
         this.cls = new game.GFX.ClearScreen();
@@ -397,7 +397,7 @@ game.PlayScene = me.ScreenObject.extend({
                 // play sound
                 me.audio.play('teleport', false);
 
-                this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
+                this.anims.play(game.Animations.Teleport, pos.x, pos.y, function() {
                     // make wizard visible again at new position
                     actor.setPosition(dest.x, dest.y);
                     actor.visible = true;
@@ -406,7 +406,7 @@ game.PlayScene = me.ScreenObject.extend({
                     game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
                     game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);                    
 
-                    self.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
+                    self.anims.play(game.Animations.Teleport, dest.x, dest.y, function() {
                         // on to next move
                         self.setState(self.SceneStates.NextMove);
                     });
@@ -507,12 +507,12 @@ game.PlayScene = me.ScreenObject.extend({
             // play blind animation for all affected wizards
             for (var i = affectedWizards.length - 1; i >= 1; i--) {
                 pos = game.map.getPos(affectedWizards[i]);
-                parent.gfx.play(game.GFX.anims.Blind, pos.x, pos.y);
+                parent.anims.play(game.Animations.Blind, pos.x, pos.y);
 
             };
             // notify when animation over last wizard finishes
             pos = game.map.getPos(affectedWizards[0]);
-            parent.gfx.play(game.GFX.anims.Blind, pos.x, pos.y, function() {
+            parent.anims.play(game.Animations.Blind, pos.x, pos.y, function() {
                 // on to next move
                 parent.setState(parent.SceneStates.NextMove);
             });
@@ -539,7 +539,7 @@ game.PlayScene = me.ScreenObject.extend({
                 affectedTiles = dest;
                 actor.visible = false;
                 
-                this.gfx.play(game.GFX.anims.Teleport, pos.x, pos.y, function() {
+                this.anims.play(game.Animations.Teleport, pos.x, pos.y, function() {
                     // make wizard visible again at new position
                     actor.setPosition(dest.x, dest.y);
                     actor.visible = true;
@@ -548,7 +548,7 @@ game.PlayScene = me.ScreenObject.extend({
                     // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice, chance);
                     // game.gamemaster.setData(game.gamemaster.currentWizard, game.gamemaster.Props.LastMove, dest);
 
-                    parent.gfx.play(game.GFX.anims.Teleport, dest.x, dest.y, function() {
+                    parent.anims.play(game.Animations.Teleport, dest.x, dest.y, function() {
                         // on to next move
                         parent.setState(parent.SceneStates.NextMove);
                     });
@@ -632,7 +632,7 @@ game.PlayScene = me.ScreenObject.extend({
             }
 
             if (animation) {
-                parent.gfx.play(animation, tileX, tileY, function() {
+                parent.anims.play(animation, tileX, tileY, function() {
                     // setState to nextMove
                     parent.setState(parent.SceneStates.NextMove);
                 });
