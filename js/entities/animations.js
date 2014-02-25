@@ -1,5 +1,5 @@
 /**
- * spells.js
+ * animations.js
  *
  * Copyright (c) 2014 Dvubuz Games
  * 
@@ -35,6 +35,8 @@ game.Animations.Container = me.ObjectContainer.extend({
 
     play: function(anim, x, y, cb) {
         var self = this;
+
+        //TODO: use entityPool instead of (new)
 
         var entity = new game.Animations.SpellEntity(x, y, {
             animation: anim, 
