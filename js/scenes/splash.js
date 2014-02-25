@@ -9,7 +9,7 @@
  * @ignore
  * @constructor
  */
-game.SplashScreen = me.DefaultLoadingScreen.extend({
+game.SplashScene = me.DefaultLoadingScreen.extend({
     // constructor
     init : function() {
             this.parent(true);

@@ -67,7 +67,7 @@ var game = {
         // Init global locales
         nls.init('en');        
 
-        me.state.set(me.state.LOADING, new game.SplashScreen());
+        me.state.set(me.state.LOADING, new game.SplashScene());
         me.state.change(me.state.LOADING);
 
         me.state.onPause = function() {
