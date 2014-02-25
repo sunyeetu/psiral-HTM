@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         'js/hud/gfx.js',
         'js/hud/menu.js',
         'js/hud/play.js',
-        'js/entities/spells.js',
+        'js/entities/animations.js',
         'js/entities/board.js',
         'js/entities/wizards.js'
     ];
