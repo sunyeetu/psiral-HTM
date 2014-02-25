@@ -74,7 +74,7 @@
                     for (var i = 0; i < this.audioFormat.length; i++) {
                         srcUrls.push(resources[res].src + resources[res].name + this.audioFormat[i]);
                     };
-                    console.log(srcUrls);
+                    // console.log(srcUrls);
                     // init callback register
                     this.callbacksRegister[resources[res].name] = function() {
                         // empty

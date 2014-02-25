@@ -1,5 +1,5 @@
 /**
- * scene_play.js
+ * play.js
  *
  * Copyright (c) 2013 Petar Petrov
  *

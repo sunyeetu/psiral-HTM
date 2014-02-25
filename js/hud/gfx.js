@@ -1,5 +1,5 @@
 /**
- * spells.js
+ * gfx.js
  *
  * Copyright (c) 2013 Petar Petrov
  *

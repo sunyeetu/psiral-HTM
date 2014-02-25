@@ -1,5 +1,5 @@
 /**
- * scene_menu.js
+ * menu.js
  *
  * Copyright (c) 2013 Petar Petrov
  *
