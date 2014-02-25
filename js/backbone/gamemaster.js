@@ -1,10 +1,8 @@
 /**
  * gamemaster.js
  *
- * Copyright (c) 2013 Petar Petrov
+ * Copyright (c) 2014 Dvubuz Games
  *
- * This work is licensed under a Creative Commons Attribution-NoDerivatives 4.0 International License.
- * To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/.
  */
 
 (function GameMaster(game) {
