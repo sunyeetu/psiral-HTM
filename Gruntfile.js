@@ -16,7 +16,6 @@ module.exports = function(grunt) {
         'js/scenes/splash.js',
         'js/scenes/menu.js',
         'js/scenes/play.js',
-        'js/hud/gfx.js',
         'js/hud/menu.js',
         'js/hud/play.js',
         'js/entities/animations.js',

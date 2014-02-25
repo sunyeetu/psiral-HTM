@@ -241,7 +241,7 @@ game.PlayScene = me.ScreenObject.extend({
         me.game.world.addChild(this.anims);
 
         // clear transparent background
-        this.cls = new game.GFX.ClearScreen();
+        this.cls = new game.ClearScreen();
         me.game.world.addChild(this.cls);
 
         // sort all objects
