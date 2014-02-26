@@ -60,7 +60,7 @@ var game = {
         me.plugin.register(howlerAudio, "howlerAudio", "ogg,m4a");
         if (_Globals.isDebug) {
             // no audio in debug mode
-            // me.audio.disable();
+            me.audio.disable();
         }
         me.plugin.howlerAudio.load(game.resources);
 
