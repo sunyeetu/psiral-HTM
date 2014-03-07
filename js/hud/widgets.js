@@ -57,6 +57,12 @@ game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
         });
     },
 
+    setFrame: function(frame) {
+        this.animationpause = false;
+        this.setAnimationFrame(frame);
+        this.animationpause = true;
+    },
+
     onClick: function(handler) {
         this.handler = handler;
     },

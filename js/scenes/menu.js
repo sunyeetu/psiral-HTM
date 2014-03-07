@@ -8,8 +8,9 @@ game.MenuScene = me.ScreenObject.extend({
 
     Screens: {
         Title: "title",
-        SelectCharacter: "selectchar",
-        HowToPlay: "howtoplay"
+        Options: "options",
+        HowToPlay: "howtoplay",
+        SelectCharacter: "selectchar"
     },
 
     init: function() {
@@ -21,6 +22,7 @@ game.MenuScene = me.ScreenObject.extend({
         this.currentScreenName = null;
 
         this.screens[this.Screens.Title] = new game.MenuScene.HUD.Title(this, {});
+        this.screens[this.Screens.Options] = new game.MenuScene.HUD.Options(this, {});
         this.screens[this.Screens.SelectCharacter] = new game.MenuScene.HUD.SelectCharacter(this, {});
         this.screens[this.Screens.HowToPlay] = new game.MenuScene.HUD.HowTo(this, {});
     },
@@ -49,9 +51,10 @@ game.MenuScene = me.ScreenObject.extend({
         me.audio.stop('elementary_wave');
 
         this.currentScreen && me.game.world.removeChild(this.currentScreen);
-        // this.hudTitle && me.game.world.removeChild(this.hudTitle);
-        // this.hudChar && me.game.world.removeChild(this.hudChar);
-        // this.hudChar && me.game.world.removeChild(this.cls);
+        // remove all screens
+        for (var prop in this.screens) {
+            this.screens[prop] = null;
+        }
     },
 
     switchScreen: function(screen) {
@@ -66,6 +69,7 @@ game.MenuScene = me.ScreenObject.extend({
         this.currentScreen = this.screens[screen];
         console.log('adding ', this.currentScreenName);
         me.game.world.addChild(this.currentScreen);
+        this.currentScreen.onResetEvent();
     },
 
     /************************************************************************
@@ -81,8 +85,7 @@ game.MenuScene = me.ScreenObject.extend({
     },
 
     onClick_Options: function() {
-        console.log('Options!');
-        // this.switchScreen(this.Screens.SelectCharacter);
+        this.switchScreen(this.Screens.Options);
     },
 
     onClick_HowTo: function() {
