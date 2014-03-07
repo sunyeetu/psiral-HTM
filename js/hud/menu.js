@@ -84,26 +84,35 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             image: 'menu_buttons'
         };
         var btny = 510;
-        var btnx = _Globals.canvas.width / 2 - props.width / 2;
+        var btnx = _Globals.canvas.width / 2 - props.width; // * 2 / 2;
         btnx -= props.width / 2;
 
-        // add buttons
+        // play
         this.btnPlay = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: 0,
             onClick: function() {
                 parent.onEvent('onClick_Play');
             }
         }))
-
+        // options
+        btnx += props.width;
+        this.btnOptions = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: 4,
+            onClick: function() {
+                parent.onEvent('onClick_Options');
+            }
+        }));
+        // howtoplay
         btnx += props.width;
         this.btnHowTo = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: 2,
             onClick: function() {
                 parent.onEvent('onClick_HowTo');
             }
-        }));
+        }));        
 
         this.addChild(this.btnPlay);
+        this.addChild(this.btnOptions);
         this.addChild(this.btnHowTo);
 
         this.sort();

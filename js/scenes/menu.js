@@ -80,6 +80,11 @@ game.MenuScene = me.ScreenObject.extend({
         this.switchScreen(this.Screens.SelectCharacter);
     },
 
+    onClick_Options: function() {
+        console.log('Options!');
+        // this.switchScreen(this.Screens.SelectCharacter);
+    },
+
     onClick_HowTo: function() {
         this.switchScreen(this.Screens.HowToPlay);
     },
@@ -87,5 +92,5 @@ game.MenuScene = me.ScreenObject.extend({
     onClick_StartGame: function(data) {
         game.session.wizard = data[0];
         me.state.change(me.state.PLAY);
-    }      
+    }
 });
