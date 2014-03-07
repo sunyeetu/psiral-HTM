@@ -273,12 +273,6 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         // call the constructor
         this.parent(eventHandler, settings);
 
-        // draw background
-        var sx = _Globals.canvas.width / 2 - 900 / 2;
-        var sy = 92;
-        this.imageBackground = new me.SpriteObject(sx, sy, me.loader.getImage('menu_background'));
-        this.addChild(this.imageBackground);        
-
         var parent = this;
         // var props = {
         //     width: 167,
@@ -321,18 +315,12 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
     }    
 });
 /**
- * OPTIONS
+ * Options
  */
 game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
         init: function(eventHandler, settings) {
         // call the constructor
         this.parent(eventHandler, settings);
-
-        // draw background
-        // var sx = _Globals.canvas.width / 2 - 900 / 2;
-        // var sy = 92;
-        // this.imageBackground = new me.SpriteObject(sx, sy, me.loader.getImage('menu_background'));
-        // this.addChild(this.imageBackground);        
 
         var parent = this;
         var props = {
