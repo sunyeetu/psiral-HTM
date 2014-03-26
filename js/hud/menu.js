@@ -269,49 +269,64 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
  * HOW-TO HUD
  */
 game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
+	
         init: function(eventHandler, settings) {
         // call the constructor
         this.parent(eventHandler, settings);
 
         var parent = this;
-        // var props = {
-        //     width: 167,
-        //     height: 107,
-        //     image: 'menu_buttons'
-        // };
-        // var btny = 510;
-        // var btnx = _Globals.canvas.width / 2 - props.width / 2;
-        // btnx -= props.width / 2;
+        var props = {
+            width: 167,
+            height: 107,
+            image: 'menu_buttons'
+        };
+        
+        var btny = 510;
+        var btnx = _Globals.canvas.width / 2 - props.width / 2;
+        btnx -= props.width / 2;
+       
+        // add buttons
+        this.btnPlay = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: 0,
+            onClick: function() {
+                parent.onEvent('onClick_Play');
+            }
+        }))
 
-        // // add buttons
-        // this.btnPlay = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-        //     frame: 0,
-        //     onClick: function() {
-        //         parent.onEvent('onClick_Play');
-        //     }
-        // }))
+        btnx += props.width;
+        this.btnHowTo = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: 2,
+            onClick: function() {
+                parent.onEvent('onClick_HowTo');
+            }
+        }));
 
-        // btnx += props.width;
-        // this.btnHowTo = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-        //     frame: 2,
-        //     onClick: function() {
-        //         parent.onEvent('onClick_HowTo');
-        //     }
-        // }));
+        this.addChild(this.btnPlay);
+        this.addChild(this.btnHowTo);
+        
+        this.drawText(nls.get('menu.howto_turns'));
 
-        // this.addChild(this.btnPlay);
-        // this.addChild(this.btnHowTo);
-
-
+   		// text positions
+        this.xText = _Globals.canvas.xOffset + 50;
+        this.yText = _Globals.canvas.height = 120; 
 
         this.sort();
+        
+
     },
     /**
      * @override
      */
     draw: function(context) {
         this.parent(context);
-        this.drawBackButton(context);
+        
+ 		var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
+        var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
+        this.fontShadow.draw(context, nls.get('menu.how_to_play_title'), xpos + 1, 28 + 1);
+        this.fontBlack.draw(context, nls.get('menu.how_to_play_title'), xpos, 28);
+
+	
+	    this.drawBackButton(context);
     }    
 });
 /**
