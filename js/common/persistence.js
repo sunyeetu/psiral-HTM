@@ -5,7 +5,7 @@
  *
  */
 
-(function Persistence(w)) {
+(function Persistence(w) {
 
     var ls = w.localStorage;
     var enabled = !!ls;
@@ -25,13 +25,18 @@
 
         _data: null,
 
-        init: function() {
+        init: function(masterKey) {
             if (!enabled) {
                 this.reset();
                 return;
             }
 
-            this.data = ls[_KEY];
+            // should only be used for unit tests
+            if (masterKey) {
+                this._KEY = masterKey;
+            }
+
+            this.data = ls[this._KEY];
             if (!this.data) {
                 this.reset();
             }
@@ -71,4 +76,4 @@
         set: function(autoCommit) { _instance._autocommit = autoCommit; }
     }); 
     w.persistence = _instance;
-}(window);
+}(window));

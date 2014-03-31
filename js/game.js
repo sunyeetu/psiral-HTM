@@ -76,6 +76,9 @@ var game = {
         me.state.onResume = function() {
             me.audio.unmuteAll();
         };
+
+        // persistence.init("PTEST");
+        // persistence.set(persistence.SOUND, true).set(persistence.MUSIC, false).commit();
     },
 
     // Run on game resources loaded.
