@@ -43,8 +43,10 @@
         },
 
         reset: function() {
+            // set defaults
             this.data = {
-                // defaults ?
+                SOUND: true,
+                MUSIC: true
             };
         },
 
