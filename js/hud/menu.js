@@ -353,8 +353,10 @@ game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
         this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: [6, 7],
             onClick: function() {
-                this.soundOn = !this.soundOn;
-                parent.btnSound.setFrame(this.soundOn ? 7 : 6);
+                parent.soundOn = !parent.soundOn;
+                parent.btnSound.setFrame(parent.soundOn ? 7 : 6);
+                // save sound opt
+                persistence.set(persistence.SOUND, parent.soundOn).commit();
             }
         }))
         // toggle music
@@ -362,8 +364,10 @@ game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
         this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: [8, 9],
             onClick: function() {
-                this.musicOn = !this.musicOn;
-                parent.btnMusic.setFrame(this.musicOn ? 9 : 8);
+                parent.musicOn = !parent.musicOn;
+                parent.btnMusic.setFrame(parent.musicOn ? 9 : 8);
+                // save music opt
+                persistence.set(persistence.MUSIC, parent.musicOn).commit();
             }
         }));
 

@@ -44,10 +44,10 @@
 
         reset: function() {
             // set defaults
-            this.data = {
-                SOUND: true,
-                MUSIC: true
-            };
+            this.data = {};
+            this.data[_instance.SOUND] = true;
+            this.data[_instance.MUSIC] = true;
+            this.commit();
         },
 
         get: function(key, defValue) {
@@ -59,6 +59,7 @@
             if (!enabled) return;
 
             this.data[key] = value;
+            console.log(this.data);
             
             if (this._autocommit)
                 this.commit();
