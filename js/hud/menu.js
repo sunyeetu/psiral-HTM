@@ -311,8 +311,6 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         this.yText = _Globals.canvas.height = 120; 
 
         this.sort();
-        
-
     },
     /**
      * @override
@@ -324,7 +322,6 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
         this.fontShadow.draw(context, nls.get('menu.how_to_play_title'), xpos + 1, 28 + 1);
         this.fontBlack.draw(context, nls.get('menu.how_to_play_title'), xpos, 28);
-
 	
 	    this.drawBackButton(context);
     }    
