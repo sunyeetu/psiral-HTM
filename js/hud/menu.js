@@ -347,8 +347,8 @@ game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
         var btnx = _Globals.canvas.width / 2;
         btnx -= props.width / 2;
 
-        this.soundOn = false;
-        this.musicOn = false;
+        this.soundOn = persistence.get(persistence.SOUND);
+        this.musicOn = persistence.get(persistence.MUSIC);
         // toggle sound
         this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: [6, 7],
@@ -358,7 +358,8 @@ game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
                 // save sound opt
                 persistence.set(persistence.SOUND, parent.soundOn).commit();
             }
-        }))
+        }));
+        this.btnSound.setFrame(parent.soundOn ? 7 : 6);
         // toggle music
         btny += props.height;
         this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
@@ -370,6 +371,7 @@ game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
                 persistence.set(persistence.MUSIC, parent.musicOn).commit();
             }
         }));
+        this.btnMusic.setFrame(parent.musicOn ? 9 : 8);
 
         this.addChild(this.btnSound);
         this.addChild(this.btnMusic);

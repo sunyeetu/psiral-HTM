@@ -36,7 +36,8 @@
                 this._KEY = masterKey;
             }
 
-            this.data = ls[this._KEY];
+            this.data = JSON.parse(ls.getItem(this._KEY));
+            // console.log('loaded persist.', this.data);
             if (!this.data) {
                 this.reset();
             }
@@ -52,6 +53,7 @@
 
         get: function(key, defValue) {
             var value = this.data[key];
+            // console.log('get',  key, value);
             return value !== null ? value : defValue;
         },
 
@@ -59,7 +61,7 @@
             if (!enabled) return;
 
             this.data[key] = value;
-            console.log(this.data);
+            // console.log(this.data, key, value);
             
             if (this._autocommit)
                 this.commit();
