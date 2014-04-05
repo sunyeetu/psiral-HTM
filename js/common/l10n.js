@@ -31,29 +31,28 @@
 
             "select_character": "Choose your character",
             "back": "Back",
-            
-            "howto_turns": "Turns \n \n" +
-            "Game starts with the 4 players (wizards) positioned at the 4 corners of the map. \n" +
+
+            "howto_turns_title": "Turns \n \n",
+            "howto_turns": "Game starts with the 4 players (wizards) positioned at the 4 corners of the map. \n" +
             "The goal is to reach the fountain of endless energy in the center of the map. \n" +
             "On each turn, players can choose whether to throw the dice of chance or cast a spell. \n" +
             "Wizards move only forward on predefined spiral-alike paths. Paths can be seen on each player's move. \n",
-            
-            "howto_chance": "Chance \n \n" +
-            "Throw the dice and let Chance determines what happens next. \n \n" +
-            "Side	Action			Description \n \n" +
-            "1		Move			Move 1 tile ahead \n" +
-            "2		Move			Move 2 tiles ahead \n" +
-           	"3		Numb			Skip 1 turn \n" +
-            "4		Mana			Mana +1 \n" +
-           	"5		Mana			Mana +2 \n" +
-           	"6		Jump/Teleport	Jump 2 tiles ahead. If destination tile is Abyss teleport will fail. \n",
-           	
-           	"howto_spells_mana": "Spells & Mana \n \n" +
-            "All players start with 10 points of mana. Mana does not get replenished over time! \n" +
+
+            "howto_chance_title": "Chance \n \n",
+            "howto_chance": "Throw the dice and let Chance determines what happens next. \n \n" +
+            "Side   Action          Description \n \n" +
+            "1      Move            Move 1 tile ahead \n" +
+            "2      Move            Move 2 tiles ahead \n" +
+            "3      Numb            Skip 1 turn \n" +
+            "4      Mana            Mana +1 \n" +
+            "5      Mana            Mana +2 \n" +
+            "6      Jump/Teleport   Jump 2 tiles ahead. If destination tile is Abyss teleport will fail. \n",
+
+            "howto_spells_mana_title": "Spells & Mana \n \n",
+            "howto_spells_mana": "All players start with 10 points of mana. Mana does not get replenished over time! \n" +
             "The only way to replenish mana is to get 4 or 5 when throwing the dice. \n \n" +
             "Wizards have two types of spells available - common and special. \n" +
             "Common can be casted by all wizards and special is a spell available only to the particular wizard. \n \n",
-            
             "howto_rules": "Rules \n \n" +
             "You can cast Abyss on any tile that is not occupied or that has no Path casted. \n" +
             "You can cast Clay on any tile except on Abyss, Stone or Path casted tiles. \n" +
@@ -62,13 +61,13 @@
             "If destination tile has Abyss casted on it, casting Teleport will teleport you to the previous tile. \n" +
             "Freeze affects only wizards that are already on or will step into a frozen tile. \n" +
             "Blind and Freeze will cause all affected players to skip turns completely.",
-            
-            "howto_story": "Story \n \n" +
-            "It is very rare for humans to achieve the status of a higher being. This requires absolute devotion to the ethereal. \n" +
+
+            "howto_story_title": "Story \n \n",
+            "howto_story": "It is very rare for humans to achieve the status of a higher being. This requires absolute devotion to the ethereal. \n" +
             "To the very fabrics that space constitutes of. Those who learn how to thread these fabrics, \n" +
             "twist them and control them, will then get elevated closer to the higher presence. \n",
-            
-           	"how_to_play_title": "How to play Psiral"       
+
+            "how_to_play_title": "How to play Psiral"
         },
 
         'play': {
