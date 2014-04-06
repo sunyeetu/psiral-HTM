@@ -311,8 +311,6 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         this.yText = _Globals.canvas.height = 120; 
 
         this.sort();
-        
-
     },
     /**
      * @override
@@ -324,7 +322,6 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
         this.fontShadow.draw(context, nls.get('menu.how_to_play_title'), xpos + 1, 28 + 1);
         this.fontBlack.draw(context, nls.get('menu.how_to_play_title'), xpos, 28);
-
 	
 	    this.drawBackButton(context);
     }    
@@ -347,25 +344,31 @@ game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
         var btnx = _Globals.canvas.width / 2;
         btnx -= props.width / 2;
 
-        this.soundOn = false;
-        this.musicOn = false;
+        this.soundOn = persistence.get(persistence.SOUND);
+        this.musicOn = persistence.get(persistence.MUSIC);
         // toggle sound
         this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: [6, 7],
             onClick: function() {
-                this.soundOn = !this.soundOn;
-                parent.btnSound.setFrame(this.soundOn ? 7 : 6);
+                parent.soundOn = !parent.soundOn;
+                parent.btnSound.setFrame(parent.soundOn ? 7 : 6);
+                // save sound opt
+                persistence.set(persistence.SOUND, parent.soundOn).commit();
             }
-        }))
+        }));
+        this.btnSound.setFrame(parent.soundOn ? 7 : 6);
         // toggle music
         btny += props.height;
         this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
             frame: [8, 9],
             onClick: function() {
-                this.musicOn = !this.musicOn;
-                parent.btnMusic.setFrame(this.musicOn ? 9 : 8);
+                parent.musicOn = !parent.musicOn;
+                parent.btnMusic.setFrame(parent.musicOn ? 9 : 8);
+                // save music opt
+                persistence.set(persistence.MUSIC, parent.musicOn).commit();
             }
         }));
+        this.btnMusic.setFrame(parent.musicOn ? 9 : 8);
 
         this.addChild(this.btnSound);
         this.addChild(this.btnMusic);

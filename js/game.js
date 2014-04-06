@@ -67,6 +67,9 @@ var game = {
         // Init global locales
         nls.init('en');        
 
+        // Init local storage persistence
+        persistence.init();
+
         me.state.set(me.state.LOADING, new game.SplashScene());
         me.state.change(me.state.LOADING);
 

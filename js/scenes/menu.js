@@ -67,7 +67,9 @@ game.MenuScene = me.ScreenObject.extend({
 
         this.currentScreenName = screen;
         this.currentScreen = this.screens[screen];
-        console.log('adding ', this.currentScreenName);
+        
+        _Globals.debug('selected scene:', this.currentScreenName);
+
         me.game.world.addChild(this.currentScreen);
         this.currentScreen.onResetEvent();
     },
