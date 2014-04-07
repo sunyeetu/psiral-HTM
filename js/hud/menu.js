@@ -269,7 +269,6 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
  * HOW-TO HUD
  */
 game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
-	
         init: function(eventHandler, settings) {
         // call the constructor
         this.parent(eventHandler, settings);
@@ -280,52 +279,99 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
             height: 107,
             image: 'menu_buttons'
         };
-        
-        var btny = 510;
+
+        var btny = 500;
         var btnx = _Globals.canvas.width / 2 - props.width / 2;
         btnx -= props.width / 2;
-       
-        // add buttons
-        this.btnPlay = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-            frame: 0,
-            onClick: function() {
-                parent.onEvent('onClick_Play');
-            }
-        }))
 
-        btnx += props.width;
-        this.btnHowTo = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-            frame: 2,
-            onClick: function() {
-                parent.onEvent('onClick_HowTo');
+        // add title and content, init subpager
+        var subpager = 0
+        // subpages are added by array order
+        var subtitle = ["menu.howto_turns_title","menu.howto_spells_mana_title","menu.howto_story_title","menu.howto_turns_title"];
+        var subtext = ["menu.howto_turns","menu.howto_spells_mana","menu.howto_story","menu.howto_turns"];
+        
+        // add content for the first subpage
+        // @TODO: How to make a initial call of the onClick_Pager function from here to get the default content?  
+        // parent.onClick_Pager(subtitle,subtext,subpager);
+        var page;
+        page = nls.get(subtitle[subpager]);
+        page += nls.get(subtext[subpager]);
+        this.drawText(page);
+        
+        // Init previous/next buttons
+        this.btnPrevious = new game.MenuScene.HUD.Clickable(60, btny, _.extend(_.clone(props), {
+            frame: 0,
+            onClick: function() {  
+                // decrease pager and call onClick_Pager to generate the previous page 
+                subpager--;
+                parent.onClick_Pager(subtitle,subtext,subpager);
+
             }
         }));
 
-        this.addChild(this.btnPlay);
-        this.addChild(this.btnHowTo);
-        
-        this.drawText(nls.get('menu.howto_turns'));
+        this.btnNext = new game.MenuScene.HUD.Clickable(800, btny, _.extend(_.clone(props), {
+            frame: 4,
+            onClick: function() {
+                // increase pager and call onClick_Pager to generate the next page
+                subpager++;
+                parent.onClick_Pager(subtitle,subtext,subpager); 
+            }
+        }));
 
-   		// text positions
+        // add next button (previous see onClick_Pager)
+        this.addChild(this.btnNext);
+
+        // set text position
         this.xText = _Globals.canvas.xOffset + 50;
         this.yText = _Globals.canvas.height = 120; 
 
         this.sort();
+
     },
+
+        // small pager function
+        // pagination throu arrrays of i10n strings
+        onClick_Pager: function (title,text,pager) {
+            
+        var maxpage = title.length - 1;
+        var page;
+        
+        // build and add the content
+        page = nls.get(title[pager]);
+        page += nls.get(text[pager]);
+        this.drawText(page);
+       
+        // if necessary add previous and next button to the page
+        if (pager <= 0) {
+            this.removeChild(this.btnPrevious);
+        }
+        if (pager > 0) {
+            this.addChild(this.btnPrevious);
+        }
+        if (pager >= maxpage) {
+            this.removeChild(this.btnNext);
+        }
+        if (pager < maxpage) {
+            this.addChild(this.btnNext);
+        }
+    },
+       
     /**
-     * @override
-     */
+    * @override
+    */
     draw: function(context) {
         this.parent(context);
         
- 		var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
+        var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
         var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
         this.fontShadow.draw(context, nls.get('menu.how_to_play_title'), xpos + 1, 28 + 1);
         this.fontBlack.draw(context, nls.get('menu.how_to_play_title'), xpos, 28);
-	
-	    this.drawBackButton(context);
+
+        this.drawBackButton(context);
     }    
+     
 });
+
 /**
  * Options
  */
