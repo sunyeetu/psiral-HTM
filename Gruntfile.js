@@ -8,6 +8,7 @@ var sources = [
     'js/howlerAudio.js',
     'js/common/globals.js',
     'js/common/l10n.js',
+    'js/common/persistence.js',
     'js/game.js',
     'js/backbone/map.js',
     'js/backbone/gamemaster.js',
