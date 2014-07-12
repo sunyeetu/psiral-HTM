@@ -119,8 +119,8 @@ module.exports = function(grunt) {
                         }
                     },
                     {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'},
-                    {expand: true, src: ['icon.png'], dest: 'build/',  filter: 'isFile'},
-                    {expand: true, src: ['.htaccess'], dest: 'build/',  filter: 'isFile'}
+                    {expand: true, src: ['icon.png'], dest: 'build/',  filter: 'isFile'}
+                    // {expand: true, src: ['.htaccess'], dest: 'build/',  filter: 'isFile'}
                 ]
             }
         },
@@ -191,7 +191,7 @@ module.exports = function(grunt) {
 
     // Default task.
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
-    grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
+    grunt.registerTask('default', ['clean:dist', 'bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
     grunt.registerTask('rls', ['default', 'nodewebkit']);
     grunt.registerTask('web', ['default', 'aconv']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
