@@ -1,28 +1,33 @@
 /*global module:false*/
 
-var path = require('path');
-var util = require('util');
-var isWindows = process.env.OS && process.env.OS.indexOf("Windows") != -1;
+var path = require('path')
+  , util = require('util')
+  , isWindows = process.env.OS && process.env.OS.indexOf("Windows") != -1;
+
+var sources = [
+    'js/howlerAudio.js',
+    'js/common/globals.js',
+    'js/common/l10n.js',
+    'js/game.js',
+    'js/backbone/map.js',
+    'js/backbone/gamemaster.js',
+    'js/resources.js',
+    'js/scenes/splash.js',
+    'js/scenes/menu.js',
+    'js/scenes/play.js',
+    'js/hud/widgets.js',
+    'js/hud/menu.js',
+    'js/hud/play.js',
+    'js/entities/animations.js',
+    'js/entities/board.js',
+    'js/entities/wizards.js'
+];
 
 module.exports = function(grunt) {
-    var sources = [
-        'js/howlerAudio.js',
-        'js/common/globals.js',
-        'js/common/l10n.js',
-        'js/game.js',
-        'js/backbone/map.js',
-        'js/backbone/gamemaster.js',
-        'js/resources.js',
-        'js/scenes/splash.js',
-        'js/scenes/menu.js',
-        'js/scenes/play.js',
-        'js/hud/widgets.js',
-        'js/hud/menu.js',
-        'js/hud/play.js',
-        'js/entities/animations.js',
-        'js/entities/board.js',
-        'js/entities/wizards.js'
-    ];
+    // show elapsed time at the end
+    require('time-grunt')(grunt);
+    // load all grunt tasks
+    require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -183,17 +188,6 @@ module.exports = function(grunt) {
             ]
         }
     });
-
-    // Load JSHint task
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-replace');
-    grunt.loadNpmTasks('grunt-bump');
-    grunt.loadNpmTasks('grunt-node-webkit-builder');
 
     // Default task.
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);

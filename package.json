@@ -1,7 +1,7 @@
 {
   "name": "Psiral",
   "description": "Psiral. A turn-based strategy 2D game with wizards.",
-  "version": "0.9.1-14",
+  "version": "0.9.1-18",
   "private": true,
   "main": "index.html",
   "author": {
@@ -16,6 +16,8 @@
   },
   "devDependencies": {
     "grunt": "latest",
+    "load-grunt-tasks": "~0.2.0",
+    "time-grunt": "~0.1.1",
     "grunt-cli": "~0.1.13",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-uglify": "~0.3.2",
