@@ -449,6 +449,7 @@ game.PlayScene = me.ScreenObject.extend({
         var where = data[1];
         var isAI = !!data[2];
         var wizard = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
+        var pos;
 
         _Globals.debug('casting:', type);
 
@@ -501,7 +502,6 @@ game.PlayScene = me.ScreenObject.extend({
             /**
              * Fire Wizard - Blind
              */
-            var pos;
             var affectedWizards = _.without(this.wizards, game.gamemaster.currentWizard);
 
             // play blind animation for all affected wizards
@@ -534,7 +534,7 @@ game.PlayScene = me.ScreenObject.extend({
                 // return;
             } else {
                 var actor = this.actors[game.gamemaster.currentWizard];
-                var pos = game.map.getPos(game.gamemaster.currentWizard);
+                pos = game.map.getPos(game.gamemaster.currentWizard);
 
                 affectedTiles = dest;
                 actor.visible = false;
@@ -740,7 +740,7 @@ game.PlayScene = me.ScreenObject.extend({
                 }
                 // fade out hud
                 parent.statsHUD.fadeOut(0.005, null, who);
-            })
+            });
 
         });
 

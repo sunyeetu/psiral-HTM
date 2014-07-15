@@ -18,6 +18,12 @@
         "console": true,
         "throttle": true,
         "Windows": true,
-        "alert": true
+        "alert": true,
+        "_Globals": true,
+        "game": true,
+        "nls": true,
+        "_": true,
+        "Howler": true,
+        "Howl": true
     }
 }

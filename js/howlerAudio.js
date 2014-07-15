@@ -10,7 +10,9 @@
  * https://github.com/petarov
  */
 
-(function($) {
+/* jshint -W030 */
+/* jshint -W083 */
+(function(w) {
     
     me.audio = me.audio || {};
     
@@ -21,7 +23,7 @@
      * @memberOf me
      * @constructor
      */
-    howlerAudio = me.plugin.Base.extend({
+    w.howlerAudio = me.plugin.Base.extend({
         // minimum melonJS version expected
         version: "0.9.10",
 
@@ -55,7 +57,7 @@
             this.audioFormat = audioFormat.split(',');
             for (var fmt in this.audioFormat) {
                 this.audioFormat[fmt] = '.' + this.audioFormat[fmt];
-            };
+            }
 
             return this.enabled;
         },
@@ -73,7 +75,7 @@
                     srcUrls.length = 0;
                     for (var i = 0; i < this.audioFormat.length; i++) {
                         srcUrls.push(resources[res].src + resources[res].name + this.audioFormat[i]);
-                    };
+                    }
                     // console.log(srcUrls);
                     // init callback register
                     this.callbacksRegister[resources[res].name] = function() {
@@ -118,7 +120,7 @@
             });
 
             me.plugin.patch(me.audio, "isAudioEnable", function () {
-                return enabled;
+                return self.enabled;
             });
 
             me.plugin.patch(me.audio, "mute", function (sound_id, mute) {
@@ -207,15 +209,15 @@
             }); 
 
             me.plugin.patch(me.audio, "unloadAll", function () {
-                for(snd in sounds) {
-                    sounds[snd].unload();
+                for(var snd in self.sounds) {
+                    this.sounds[snd].unload();
                 }
             });
 
             me.plugin.patch(me.audio, "unmute", function (sound_id) {
                 if (!self.enabled)
                     return;
-                this.sounds[sound_id].unmute();
+                this.sounds.self[sound_id].unmute();
             });
 
             me.plugin.patch(me.audio, "unmuteAll", function () {

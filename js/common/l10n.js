@@ -5,6 +5,7 @@
  *
  */
 
+/* jshint -W086 */
 (function L10N(w) {
 
     var en = {
@@ -100,21 +101,24 @@
                 case 'en':
                 default:
                     current = en;
-                return;
+                    return;
             }
             throw locale + " is unsupported locale!";
         },
 
         get: function(what) {
+            var i;
             var parts = what.split('.');
             var obj = current[parts[0]];
-            for (var i = 1; i < parts.length; i++) {
+            
+            for ( i = 1; i < parts.length; i++) {
                 obj = obj[parts[i]];
             }
+            
             // format
             if (obj && arguments.length > 1) {
                 var args = Array.prototype.slice.call(arguments, 1);
-                for (var i = 0; i < args.length; i++) {
+                for (i = 0; i < args.length; i++) {
                     obj = obj.replace('{}', args[i]);
                 }
             }
