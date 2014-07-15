@@ -6,6 +6,7 @@
  */
 
 /* jshint -W086 */
+
 (function L10N(w) {
 
     var en = {

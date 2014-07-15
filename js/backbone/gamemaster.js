@@ -5,6 +5,8 @@
  *
  */
 
+/* jshint -W086 */
+
 (function GameMaster(game) {
     /**
      * This is the Game Master. He doesn't know about your vectors and spritesheets.
@@ -147,6 +149,7 @@
          * 2.5.1 Common decisions
          */
         _common: function(who, enemies) {
+            var path, casts, i, j;
             var pos = game.map.getPos(who);
             var decision = {};
             decision.dice = false;
@@ -184,7 +187,7 @@
             // Find the first rival (primary has precedence) that has 4 or less tiles left to reach the fountain
             // console.log('AI: ' + who + ' searches ------------------------');
             var target;
-            for (var i = enemies.length - 1; i >= 0; i--) {
+            for (i = enemies.length - 1; i >= 0; i--) {
                 if (this.paths[enemies[i]].length <= 5) {
                     // console.log(enemies[i] + ' is close');
                     if (!target || enemies[i] === this.rivals[who]) {
@@ -198,12 +201,12 @@
                 }
             }
             if (target) {
-                var path = this.paths[target];
-                var casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
+                path = this.paths[target];
+                casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
 
-                for (var j = 0; j < casts.length; j++) {
+                for (j = 0; j < casts.length; j++) {
                     // TODO: optimize loops
-                    for (var i = 0; i < path.length; i++) {
+                    for (i = 0; i < path.length; i++) {
                         if (this.gm.isCanCastAt(who, casts[j], path[i].x, path[i].y)) {
 
                             decision.cast = true;
@@ -219,7 +222,7 @@
 
             // Find the first rival (primary has precedence) that’s moved ⅓ of the way to the fountain. 
             target = undefined;
-            for (var i = enemies.length - 1; i >= 0; i--) {
+            for (i = enemies.length - 1; i >= 0; i--) {
                 if (this.paths[enemies[i]].length <= this.dist_13) { 
                     // console.log(enemies[i] + ' is close');
                     if (!target || enemies[i] === this.rivals[who]) {
@@ -233,12 +236,12 @@
                 }
             }
             if (target) {
-                var path = this.paths[target];
+                path = this.paths[target];
                 if (path.length >= 2) {
-                    var casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
+                    casts = [_Globals.spells.Abyss, _Globals.spells.Clay];
                     var len = Math.min(path.length - 1, 2);
 
-                    for (var i = 0; i <= len; i++) {
+                    for (i = 0; i <= len; i++) {
                         if (this.gm.isCanCastAt(who, _Globals.spells.Abyss, path[i].x, path[i].y)) {
 
                             decision.cast = true;
@@ -256,13 +259,13 @@
              * 2.5.1.3 Defensive
              */
             
-            var path = this.paths[who];
+            path = this.paths[who];
 
             // Cast Stone if 2 tiles before reaching the fountain and Mana > 3
             if (path.length <= 3) {
-                for (var i = 0; i < path.length; i++) {
-                    if (!game.map.isTile(path[i].x, path[i].y, game.map.Tiles.Stone) 
-                        && this.gm.isCanCastAt(who, _Globals.spells.Stone, path[i].x, path[i].y)) {
+                for (i = 0; i < path.length; i++) {
+                    if (!game.map.isTile(path[i].x, path[i].y, game.map.Tiles.Stone) && 
+                        this.gm.isCanCastAt(who, _Globals.spells.Stone, path[i].x, path[i].y)) {
 
                         decision.cast = true;
                         decision.spell = {
@@ -277,7 +280,7 @@
             // Check if next tile is Frozen. Cast Stone if Mana > 3 
             // TODO: find first 2 tiles?
             var tile = game.map.findFirstTile(path, game.map.Tiles.Frozen, 1);
-            if (tile && who != _Globals.wizards.Water) {
+            if (tile && who !== _Globals.wizards.Water) {
                 var cast;
                 cast = (this.gm.isCanCast(who, _Globals.spells.Clay)) ? _Globals.spells.Clay : cast;
                 cast = (this.gm.isCanCast(who, _Globals.spells.Stone)) ? _Globals.spells.Stone : cast;
@@ -362,7 +365,7 @@
                     }
                 }
                 // console.log(' water count = ' + count);
-                if (count == 3 || (count == 2 && isTarget))
+                if (count === 3 || (count === 2 && isTarget))
                     return freeze;
             }
 
@@ -559,9 +562,9 @@
                 return;
             }
 
-            if (wizards[current].control == Controls.Human) {
+            if (wizards[current].control === Controls.Human) {
                 this.onEvent('onMoveHuman', current, this.getWizardName(current));
-            } else if (wizards[current].control == Controls.AI) {
+            } else if (wizards[current].control === Controls.AI) {
                 var decision = _ai.decide(current);
                 this.onEvent('onMoveAI', current, this.getWizardName(current), decision);
             } else {
@@ -576,7 +579,7 @@
             if (buff) {
                 switch(buff.type) {
                     case _Globals.spells.Freeze:
-                        if (who != _Globals.wizards.Water) {
+                        if (who !== _Globals.wizards.Water) {
                             return false;
                         }
                     break;                    
@@ -597,7 +600,7 @@
                             path.splice(i);
                             return path;
                         case _Globals.spells.Freeze:
-                            if (who != _Globals.wizards.Water) {
+                            if (who !== _Globals.wizards.Water) {
                                 // make plr step on the first frozen tile found
                                 if (i + 1 < path.length) {
                                     path.splice(i + 1);
@@ -654,23 +657,23 @@
 
             // TODO: unless on Path!
 
-            if (spell == _Globals.spells.Abyss) {
+            if (spell === _Globals.spells.Abyss) {
                 // do not allow occupied tiles to be selected
                 if (game.map.isTileOccupied(x, y) || game.map.isTileBuff(x, y, _Globals.spells.Path)) {
                     _Globals.debug('GM: nocast: occupied ', x, y);
                     return false;
                 }
 
-            } else if (spell == _Globals.spells.Clay) {
+            } else if (spell === _Globals.spells.Clay) {
                 // cast clay anywhere you want but on a stone, abyss or path casted tile
-                return !(game.map.isTile(x, y, game.map.Tiles.Stone)) 
-                    && !(game.map.isTile(x, y, game.map.Tiles.Abyss))
-                    && !(game.map.isTileBuff(x, y, _Globals.spells.Path));
+                return !(game.map.isTile(x, y, game.map.Tiles.Stone)) && 
+                        !(game.map.isTile(x, y, game.map.Tiles.Abyss)) && 
+                        !(game.map.isTileBuff(x, y, _Globals.spells.Path));
 
-            } else if (spell == _Globals.spells.Stone) {
+            } else if (spell === _Globals.spells.Stone) {
                 // stone is allowed everywhere unless on Abyss or Path casted
-                return !(game.map.isTile(x, y, game.map.Tiles.Abyss))
-                    && !(game.map.isTileBuff(x, y, _Globals.spells.Path));
+                return !(game.map.isTile(x, y, game.map.Tiles.Abyss)) && 
+                        !(game.map.isTileBuff(x, y, _Globals.spells.Path));
             }
 
             // cast only on allowed tiles
@@ -690,13 +693,13 @@
             var w = wizards[who];
             switch(spell) {
                 case _Globals.spells.Blind:
-                    return who == _Globals.wizards.Fire && w.mana >= getSpellCost(spell);
+                    return who === _Globals.wizards.Fire && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Freeze:
-                    return who == _Globals.wizards.Water && w.mana >= getSpellCost(spell);
+                    return who === _Globals.wizards.Water && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Teleport:
-                    return who == _Globals.wizards.Air && w.mana >= getSpellCost(spell);
+                    return who === _Globals.wizards.Air && w.mana >= getSpellCost(spell);
                 case _Globals.spells.Path:
-                    return who == _Globals.wizards.Earth && w.mana >= getSpellCost(spell);
+                    return who === _Globals.wizards.Earth && w.mana >= getSpellCost(spell);
                 default:
                     return w.mana >= getSpellCost(spell);
             }
@@ -717,7 +720,7 @@
             if (Object.prototype.toString.call(who) === '[object Array]') {
                 for (var i = who.length - 1; i >= 0; i--) {
                     this.skipTurn(who[i], amount);
-                };
+                }
             } else {
                 wizards[who].skipTurnUntil = match.turn + amount;
             }
@@ -732,7 +735,7 @@
                 case this.Props.LastDice:
                     return wizards[who].lastdice;
                 default:
-                throw "GM: Sorry, not implemented!"
+                    throw "GM: Sorry, not implemented!";
             }
         },
 
@@ -748,11 +751,12 @@
                     wizards[who].log.dice.push(data);
                 break;
                 default:
-                throw "GM: Sorry! Not implemented!"
+                    throw "GM: Sorry! Not implemented!";
             }            
         },
 
         doCast: function(who, spell, tiles) {
+            var i;
             var w = wizards[who];
             w.mana -= getSpellCost(spell);
             
@@ -804,7 +808,7 @@
                 break;
 
                 case _Globals.spells.Freeze:
-                    for (var i = tiles.length - 1; i >= 0; i--) {
+                    for (i = tiles.length - 1; i >= 0; i--) {
                         game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Frozen);
                         // set new buff
                         game.map.setTileBuff(tiles[i].x, tiles[i].y, _.clone(buff));
@@ -816,7 +820,7 @@
                 break;
 
                 case _Globals.spells.Path:
-                    for (var i = tiles.length - 1; i >= 0; i--) {
+                    for (i = tiles.length - 1; i >= 0; i--) {
                         // game.map.setTile(tiles[i].x, tiles[i].y, game.map.Tiles.Earth, true);
                         // // remove previous buff
                         // game.map.removeTileBuff(tiles[i].x, tiles[i].y);
