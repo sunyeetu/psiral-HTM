@@ -4,6 +4,9 @@
  * Copyright (c) 2014 Dvubuz Games
  *
  */
+
+/* jshint -W030 */
+
 (function TileMap(game) {
     
     /**
@@ -94,7 +97,7 @@
     var tileRepetitions = [2, 1, 2, 1, 2, 1];
     var currentMap = null;
     var originalMap = null;
-    // var buffsMap = null;
+    var buffsMap = null;
     var players = {};
 
     players[_Globals.wizards.Earth] = {
@@ -276,7 +279,7 @@
 
         isTileOccupied: function(x, y) {
             for(var player in players) {
-                if (players[player].x == x && players[player].y == y)
+                if (players[player].x === x && players[player].y === y)
                     return true;
             }
             return false;
@@ -289,7 +292,7 @@
          */
         isTileSelectable: function(x, y) {
             var type = this.getTile(x, y);
-            return type == X /*|| type == UF*/ || type == S1 || type == S2 || type == S3 || type == S4;
+            return type === X /*|| type === UF*/ || type === S1 || type === S2 || type === S3 || type === S4;
         },
 
         // getCornerPos: function(corner) {
@@ -335,13 +338,13 @@
 
             do {
                 where = tmpy * mapWidth + tmpx;
-                if (pos.route[where] == D) {
+                if (pos.route[where] === D) {
                     tmpy += 1;
-                } else if (pos.route[where] == U) {
+                } else if (pos.route[where] === U) {
                     tmpy -= 1;
-                } else if (pos.route[where] == L) {
+                } else if (pos.route[where] === L) {
                     tmpx -= 1;
-                } else if (pos.route[where] == R) {
+                } else if (pos.route[where] === R) {
                     tmpx += 1;
                 } else {
                     break; // we (hopefully) reached the goal
@@ -374,7 +377,7 @@
 
             // include current player position
             if (includePos === true) {
-                if (pos.x != pos.sx || pos.y != pos.sy)
+                if (pos.x !== pos.sx || pos.y !== pos.sy)
                     path.push({x: pos.x, y: pos.y});
             }
 
@@ -387,7 +390,6 @@
                     case R: tmpx += 1; break;
                     case X: found = true; break;
                     case H: found = true; break;
-                    break;
                     default:
                         throw "Unexpected tile at " + tmpx + "," + tmpy + "!";
                 }

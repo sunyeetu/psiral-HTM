@@ -1,4 +1,6 @@
 {
+    "browser": true,
+    "devel": true,
     "curly": false,
     "eqeqeq": true,
     "immed": true,
@@ -14,16 +16,19 @@
     "smarttabs": true,
     "multistr": true,
     "globals": {
+        "_": true,
+        "Howler": true,
+        "Howl": true,
         "me": true,
-        "console": true,
+        "FnDelay": true,
+        "debugPanel": true,
         "throttle": true,
         "Windows": true,
         "alert": true,
         "_Globals": true,
         "game": true,
         "nls": true,
-        "_": true,
-        "Howler": true,
-        "Howl": true
+        "howlerAudio": true,
+        "persistence": true
     }
 }
