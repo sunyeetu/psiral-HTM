@@ -5,6 +5,8 @@
  *
  */
 
+/* jshint -W030 */
+
 game.WizardEntity = me.ObjectEntity.extend({
     /** 
      * constructor
@@ -129,7 +131,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                     this.movement.cb && this.movement.cb();
                 } else {
                     var newDirection = this.getDirection(dx, dy);
-                    if (this.movement.direction != newDirection) {
+                    if (this.movement.direction !== newDirection) {
                         this.vel.x = 0;
                         this.vel.y = 0;
                         // this.pos.x = dx;
@@ -137,7 +139,7 @@ game.WizardEntity = me.ObjectEntity.extend({
                     }
                     this.movement.direction = newDirection;
                     // sanity check
-                    if (this.movement.direction == _Globals.directions.None) {
+                    if (this.movement.direction === _Globals.directions.None) {
                         console.error('*** LOST DIRECTION ***');
                         console.error(this.movement);
                         // notify !?
@@ -202,7 +204,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         this.movement.goalIdx = 0;
         this.movement.direction = this.getDirection();
         this.movement.cb = cb;
-        if (this.movement.direction != _Globals.directions.None) {
+        if (this.movement.direction !== _Globals.directions.None) {
             this.moving = true;
             // play sound
             me.audio.play('walk', true);
@@ -268,7 +270,7 @@ game.WizardEntity = me.ObjectEntity.extend({
     doSpellCast: function(targetTile, cb) {
         var self = this;
         var facing = this.getFacing(targetTile);
-        if (facing == _Globals.directions.Left) {
+        if (facing === _Globals.directions.Left) {
             this.playAnimation('spellcast_left', function() {
                 self.playAnimation(self.animation.prev);
                 cb && cb();

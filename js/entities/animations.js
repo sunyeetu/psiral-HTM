@@ -5,6 +5,8 @@
  * 
  */
 
+/* jshint -W030 */
+
 game.Animations = game.Animations || {};
 game.Animations = _.extend(game.Animations, {
     // types
