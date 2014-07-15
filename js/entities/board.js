@@ -5,6 +5,8 @@
  *
  */
 
+/* jshint -W030 */
+
 game.BoardEntity = me.ObjectContainer.extend({
     init: function() {
         // call the constructor

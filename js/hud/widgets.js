@@ -5,6 +5,8 @@
  * 
  */
 
+/* jshint -W030 */
+
 game.MenuScene.HUD = game.MenuScene.HUD || {};
 game.MenuScene.HUD = _.extend(game.MenuScene.HUD, {
     ButtonWidth: 160,

@@ -5,6 +5,8 @@
  *
  */
 
+/* jshint -W030 */
+
 game.PlayScene = me.ScreenObject.extend({
 
     SceneStates: {
@@ -54,6 +56,8 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     update: function() {
+        var p;
+
         if (!this.stateUpdated || this.stopStates)
             return;
 
@@ -112,13 +116,13 @@ game.PlayScene = me.ScreenObject.extend({
 
                 // test near goal AI  ------------------------
 
-                var p = game.map.getPath(game.session.wizard);
+                p = game.map.getPath(game.session.wizard);
                 p = p[p.length - 7];
                 this.actors[game.session.wizard].setPosition(p.x, p.y);
                 game.gamemaster.setPosition(game.session.wizard, p);
                 
                 var whiz = _Globals.wizards.Water;
-                var p = game.map.getPath(whiz);
+                p = game.map.getPath(whiz);
                 p = p[p.length - 5];
                 this.actors[whiz].setPosition(p.x, p.y);
                 game.gamemaster.setPosition(whiz, p);
@@ -295,7 +299,6 @@ game.PlayScene = me.ScreenObject.extend({
             break;            
             default:
                 throw hud + " is an invalid HUD!";
-            break;
         }
         
         me.game.world.addChild(this.hud.current);
@@ -445,6 +448,7 @@ game.PlayScene = me.ScreenObject.extend({
     },
 
     onCastSpell: function(data) {
+        var self = this;
         var type = data[0];
         var where = data[1];
         var isAI = !!data[2];
@@ -509,7 +513,7 @@ game.PlayScene = me.ScreenObject.extend({
                 pos = game.map.getPos(affectedWizards[i]);
                 parent.anims.play(game.Animations.Blind, pos.x, pos.y);
 
-            };
+            }
             // notify when animation over last wizard finishes
             pos = game.map.getPos(affectedWizards[0]);
             parent.anims.play(game.Animations.Blind, pos.x, pos.y, function() {
@@ -528,7 +532,7 @@ game.PlayScene = me.ScreenObject.extend({
 
             if (dest === false) {
                 me.plugin.fnDelay.add(function() {
-                    self.statsHUD.drawText(wizardName + nls.get('play.teleport_blocked'));
+                    self.statsHUD.drawText(wizard + nls.get('play.teleport_blocked'));
                     self.setState(self.SceneStates.NextMove);
                 }, this.waitBetweenMoves);
                 // return;
@@ -637,7 +641,7 @@ game.PlayScene = me.ScreenObject.extend({
                     parent.setState(parent.SceneStates.NextMove);
                 });
             }
-        }
+        };
 
         // bring UI for human player or cast directly if AI
 

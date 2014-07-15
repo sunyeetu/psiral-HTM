@@ -5,6 +5,8 @@
  *
  */
 
+/* jshint -W030 */
+
 game.HUD = game.HUD || {};
 /**
  * Status HUD
