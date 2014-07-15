@@ -26,6 +26,7 @@
         "Windows": true,
         "alert": true,
         "_Globals": true,
+        "_version": true,
         "game": true,
         "nls": true,
         "howlerAudio": true,

@@ -4,6 +4,9 @@
  * Copyright (c) 2014 Dvubuz Games
  *
  */
+
+/* jshint -W030 */
+
 game.MenuScene = me.ScreenObject.extend({
 
     Screens: {

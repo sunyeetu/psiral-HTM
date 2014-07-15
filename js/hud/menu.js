@@ -116,7 +116,7 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             onClick: function() {
                 parent.onEvent('onClick_Play');
             }
-        }))
+        }));
         // options
         btnx += props.width;
         this.btnOptions = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
@@ -285,7 +285,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         btnx -= props.width / 2;
 
         // add title and content, init subpager
-        var subpager = 0
+        var subpager = 0;
         // subpages are added by array order
         var subtitle = ["menu.howto_turns_title","menu.howto_spells_mana_title","menu.howto_story_title","menu.howto_turns_title"];
         var subtext = ["menu.howto_turns","menu.howto_spells_mana","menu.howto_story","menu.howto_turns"];
