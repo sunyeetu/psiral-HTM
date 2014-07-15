@@ -192,7 +192,7 @@ module.exports = function(grunt) {
 
     // Default task.
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
-    grunt.registerTask('default', ['clean:dist', 'bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
+    grunt.registerTask('default', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
     grunt.registerTask('rls', ['default', 'nodewebkit']);
     grunt.registerTask('web', ['default', 'aconv']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
