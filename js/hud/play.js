@@ -64,8 +64,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
                     sprite.setAnimationFrame(3);
                 break;
                 default:
-                    throw "HUD: Unknown wizard " + wizard;
-                break;
+                    throw "HUD: Unknown wizard " + w;
             }
             
             sprite.animationpause = true;
@@ -110,9 +109,11 @@ game.HUD.Stats = me.ObjectContainer.extend({
     },
 
     updateMana: function(wizard, amount) {
+        var i;
+
         // TODO: use local references instead of getEntityByProp
         var bars = this.getEntityByProp('name', 'manabar_' + wizard);
-        for (var i = bars.length - 1; i >= 0; i--) {
+        for (i = bars.length - 1; i >= 0; i--) {
             this.removeChild(bars[i]);
         }
 
@@ -137,14 +138,15 @@ game.HUD.Stats = me.ObjectContainer.extend({
             break;
             default:
                 throw "HUD: Unknown wizard " + wizard;
-            break;
         }
 
         mx += this.x + this.faceWidth + 2;
 
+        var manabar;
+
         // draw mana bars
-        for(var i = 0; i < amount; i++) {
-            var manabar = new me.AnimationSheet(mx, this.y + 28, me.loader.getImage('hud_mana'), 10);
+        for(i = 0; i < amount; i++) {
+            manabar = new me.AnimationSheet(mx, this.y + 28, me.loader.getImage('hud_mana'), 10);
             manabar.setAnimationFrame(icon);
             manabar.animationpause = true;
             manabar.name = 'manabar_' + wizard;
@@ -154,8 +156,8 @@ game.HUD.Stats = me.ObjectContainer.extend({
             mx += 10 + 1;
         }        
         // draw empty mana bars (MaxMana=10)
-        for(var i = 0; i < 10 - amount; i++) {
-            var manabar = new me.AnimationSheet(mx, this.y + 28, me.loader.getImage('hud_mana'), 10);
+        for(i = 0; i < 10 - amount; i++) {
+            manabar = new me.AnimationSheet(mx, this.y + 28, me.loader.getImage('hud_mana'), 10);
             manabar.setAnimationFrame(4);
             manabar.animationpause = true;
             manabar.name = 'manabar_' + wizard;
@@ -260,8 +262,7 @@ game.HUD.Container = me.ObjectContainer.extend({
                 this.imageFaceSlot.setAnimationFrame(3);
             break;
             default:
-                throw "HUD: Unknown wizard " + wizard;
-            break;
+                throw "HUD: Unknown wizard " + settings.wizard;
         }
         this.imageFaceSlot.animationpause = true;
         this.imageFaceSlot.z =  _Globals.gfx.zHUD + 1;
@@ -535,7 +536,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
                 parent.onEvent('onCancelSelect');
             }
         });
-        this.addChild(this.btnExit)
+        this.addChild(this.btnExit);
     }
 });
 /**
@@ -545,6 +546,8 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
 game.HUD.SelectSpell = game.HUD.Container.extend({
 
     init: function(eventHandler, settings) {
+        var i;
+
         settings = settings || {};
         settings.dlg_type = 'dlg_big';
         this.parent(eventHandler, settings);
@@ -611,7 +614,7 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
         this.spells.push(special);
 
         // set common animation properties
-        for (var i = this.spells.length - 1; i >= 0; i--) {
+        for (i = this.spells.length - 1; i >= 0; i--) {
             _.extend(this.spells[i], {
                 image: 'dlg_btn_spells',
                 width: this.iconWidth,
@@ -619,13 +622,13 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
                 fadeout: true,
                 fadeoutspeed: 0.1,
             });
-        };
+        }
 
         // adjust positions
         var startx = this.cx + this.faceWidth + 56;
         var starty = this.cy + this.height / 2 - this.iconHeight / 2;
 
-        for(var i = 0; i < this.spells.length; i++) {
+        for(i = 0; i < this.spells.length; i++) {
             var icon = new game.HUD.ClickableAnimation(startx, starty, this.spells[i]);
             if (!game.gamemaster.isCanCast(settings.wizard, this.spells[i].type)) {
                 icon.alpha = 0.5;
