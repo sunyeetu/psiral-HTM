@@ -457,7 +457,8 @@
         },
 
         isTileOnPath: function(path, type, buff) {
-            return !(this.findFirstTile(path, type, buff) === false);
+            // return !(this.findFirstTile(path, type, buff) === false);
+            return (this.findFirstTile(path, type, buff) === true);
         },
 
         isBuffOnPath: function(path, buff) {
