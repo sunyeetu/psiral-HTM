@@ -51,7 +51,7 @@ game.BoardEntity = me.ObjectContainer.extend({
         }
         
         // draw fountain
-        var fx = 7 * _Globals.gfx.tileWidth + _Globals.canvas.xOffset;;
+        var fx = 7 * _Globals.gfx.tileWidth + _Globals.canvas.xOffset;
         var fy = 4 * _Globals.gfx.tileHeight + _Globals.canvas.yOffset;
         var fountain = new me.AnimationSheet(fx, fy, me.loader.getImage('fountain'), 168);
         fountain.addAnimation('main', [0, 1, 2, 3], 450);
@@ -67,26 +67,26 @@ game.BoardEntity = me.ObjectContainer.extend({
         // all tiles
         var size = game.map.width * game.map.height;
         for (var i = size - 1; i >= 1; i--) {
-            if (how == 'in') {
+            if (how === 'in') {
                 this.tileMap[i].enableFadeIn();
-            } else if (how == 'out') {
+            } else if (how === 'out') {
                 this.tileMap[i].enableFadeOut();
             }
         }
         // last tile
-        if (how == 'in') {
+        if (how === 'in') {
             this.tileMap[0].enableFadeIn(callback);
-        } else if (how == 'out') {
+        } else if (how === 'out') {
             this.tileMap[0].enableFadeOut(callback);
         }      
     },
 
     changeTiles: function(type, path, callback) {
-        var tx, ty;
+        var i, tx, ty;
 
         if (Object.prototype.toString.call(path) === '[object Array]') {
             // array of tiles
-            for (var i = path.length - 1; i >= 1; i--) {
+            for (i = path.length - 1; i >= 1; i--) {
                 this.tileMap[path[i].x + path[i].y * game.map.width].changeWith(type);
             }
             tx = path[0].x;
@@ -97,7 +97,7 @@ game.BoardEntity = me.ObjectContainer.extend({
         } else if (typeof path === 'function') {
             // all tiles
             var size = game.map.width * game.map.height;
-            for (var i = size - 1; i >= 1; i--) {
+            for (i = size - 1; i >= 1; i--) {
                 this.tileMap[i].changeWith(type);
             }
             tx = 0;
@@ -134,13 +134,14 @@ game.BoardEntity = me.ObjectContainer.extend({
     },
 
     setAlpha: function(alpha, path) {
+        var i;
         //if (Object.prototype.toString.call(buffs) === '[object Array]') {
         if (path) {
-            for (var i = path.length - 1; i >= 0; i--) {
+            for (i = path.length - 1; i >= 0; i--) {
                 this.tileMap[path[i].x + path[i].y * game.map.width].alpha = alpha;
             }
         } else {
-            for (var i = this.tileMap.length - 1; i >= 0; i--) {
+            for (i = this.tileMap.length - 1; i >= 0; i--) {
                 this.tileMap[i].alpha = alpha;
             }
         }
@@ -281,7 +282,7 @@ game.TileEntity = me.AnimationSheet.extend({
         this.changeWith(type, function() {
             // notify when transition is completed
             callback && callback();            
-        })
+        });
     },
 
     changeWith: function(type, callback) {
