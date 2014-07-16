@@ -11,7 +11,7 @@ game.MenuScene = me.ScreenObject.extend({
 
     Screens: {
         Title: "title",
-        Options: "options",
+        // Options: "options",
         HowToPlay: "howtoplay",
         SelectCharacter: "selectchar"
     },
@@ -25,7 +25,7 @@ game.MenuScene = me.ScreenObject.extend({
         this.currentScreenName = null;
 
         this.screens[this.Screens.Title] = new game.MenuScene.HUD.Title(this, {});
-        this.screens[this.Screens.Options] = new game.MenuScene.HUD.Options(this, {});
+        // this.screens[this.Screens.Options] = new game.MenuScene.HUD.Options(this, {});
         this.screens[this.Screens.SelectCharacter] = new game.MenuScene.HUD.SelectCharacter(this, {});
         this.screens[this.Screens.HowToPlay] = new game.MenuScene.HUD.HowTo(this, {});
     },

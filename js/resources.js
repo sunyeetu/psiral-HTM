@@ -19,6 +19,7 @@ game.resources = [
     {name: "hud_faces", type:"image", src: "assets/gui/mana_character_icons.png"},
     {name: "hud_mana", type:"image", src: "assets/gui/mana_points.png"},
     {name: "hud_text", type:"image", src: "assets/gui/upper_text_box.png"},
+    {name: "hud_audio", type:"image", src: "assets/gui/audioctrls.png"},
 
     {name: "dlg_big", type:"image", src: "assets/gui/popup_bg_01.png"},
     {name: "dlg_small", type:"image", src: "assets/gui/popup_bg_02.png"},

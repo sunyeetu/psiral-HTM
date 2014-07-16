@@ -11,7 +11,7 @@ game.MenuScene.HUD = game.MenuScene.HUD || {};
 game.MenuScene.HUD = _.extend(game.MenuScene.HUD, {
     ButtonWidth: 160,
     ButtonHeight: 60,
-    ButtonFadeSpeed: 0.075
+    ButtonFadeSpeed: 0.095
 });
 
 /**

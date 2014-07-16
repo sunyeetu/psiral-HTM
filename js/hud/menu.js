@@ -90,7 +90,7 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
  * Title HUD
  */
 game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
-        init: function(eventHandler, settings) {
+    init: function(eventHandler, settings) {
         // call the constructor
         this.parent(eventHandler, settings);
 
@@ -107,7 +107,7 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             image: 'menu_buttons'
         };
         var btny = 510;
-        var btnx = _Globals.canvas.width / 2 - props.width; // * 2 / 2;
+        var btnx = _Globals.canvas.width / 2 - props.width / 2; // * 2 / 2;
         btnx -= props.width / 2;
 
         // play
@@ -117,14 +117,19 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
                 parent.onEvent('onClick_Play');
             }
         }));
+        this.addChild(this.btnPlay);
+
         // options
-        btnx += props.width;
-        this.btnOptions = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-            frame: 5,
-            onClick: function() {
-                parent.onEvent('onClick_Options');
-            }
-        }));
+        // btnx += props.width;
+        
+        // this.btnOptions = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+        //     frame: 5,
+        //     onClick: function() {
+        //         parent.onEvent('onClick_Options');
+        //     }
+        // }));
+        // this.addChild(this.btnOptions);
+
         // howtoplay
         btnx += props.width;
         this.btnHowTo = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
@@ -132,11 +137,48 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             onClick: function() {
                 parent.onEvent('onClick_HowTo');
             }
-        }));        
-
-        this.addChild(this.btnPlay);
-        this.addChild(this.btnOptions);
+        }));
         this.addChild(this.btnHowTo);
+
+        // audio controls
+        this.soundOn = persistence.get(persistence.SOUND);
+        this.musicOn = persistence.get(persistence.MUSIC);
+
+        props = {
+            width: 32,
+            height: 32,
+            image: 'hud_audio'
+        };
+        btny = _Globals.canvas.height - 32 - 8;
+        btnx = 50;
+
+        // sound
+        this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: [3, 2],
+            onClick: function() {
+                parent.soundOn = !parent.soundOn;
+                parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
+                // save sound opt
+                persistence.set(persistence.SOUND, parent.soundOn).commit();                
+            }
+        }));
+        parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
+        this.addChild(this.btnSound);
+
+        btnx += 32 + 8;
+
+        // music
+        this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: [1, 0],
+            onClick: function() {
+                parent.musicOn = !parent.musicOn;
+                parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
+                // save music opt
+                persistence.set(persistence.MUSIC, parent.musicOn).commit();                
+            }
+        }));
+        parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
+        this.addChild(this.btnMusic);
 
         this.sort();
     },
@@ -154,7 +196,7 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
  * Select Character HUD
  */
 game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
-        init: function(eventHandler, settings) {
+    init: function(eventHandler, settings) {
         // call the constructor
         this.parent(eventHandler, settings);
 
@@ -269,7 +311,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
  * HOW-TO HUD
  */
 game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
-        init: function(eventHandler, settings) {
+    init: function(eventHandler, settings) {
         // call the constructor
         this.parent(eventHandler, settings);
 
@@ -329,9 +371,9 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
 
     },
 
-        // small pager function
-        // pagination throu arrrays of i10n strings
-        onClick_Pager: function (title,text,pager) {
+    // small pager function
+    // pagination throu arrrays of i10n strings
+    onClick_Pager: function (title,text,pager) {
             
         var maxpage = title.length - 1;
         var page;
@@ -375,57 +417,57 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
 /**
  * Options
  */
-game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
-        init: function(eventHandler, settings) {
-        // call the constructor
-        this.parent(eventHandler, settings);
+// game.MenuScene.HUD.Options = game.MenuScene.HUD.Base.extend({
+//     init: function(eventHandler, settings) {
+//         // call the constructor
+//         this.parent(eventHandler, settings);
 
-        var parent = this;
-        var props = {
-            width: 167,
-            height: 107,
-            image: 'menu_buttons'
-        };
-        var btny = _Globals.canvas.yOffset + 107;
-        var btnx = _Globals.canvas.width / 2;
-        btnx -= props.width / 2;
+//         var parent = this;
+//         var props = {
+//             width: 167,
+//             height: 107,
+//             image: 'menu_buttons'
+//         };
+//         var btny = _Globals.canvas.yOffset + 107;
+//         var btnx = _Globals.canvas.width / 2;
+//         btnx -= props.width / 2;
 
-        this.soundOn = persistence.get(persistence.SOUND);
-        this.musicOn = persistence.get(persistence.MUSIC);
-        // toggle sound
-        this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-            frame: [6, 7],
-            onClick: function() {
-                parent.soundOn = !parent.soundOn;
-                parent.btnSound.setFrame(parent.soundOn ? 7 : 6);
-                // save sound opt
-                persistence.set(persistence.SOUND, parent.soundOn).commit();
-            }
-        }));
-        this.btnSound.setFrame(parent.soundOn ? 7 : 6);
-        // toggle music
-        btny += props.height;
-        this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-            frame: [8, 9],
-            onClick: function() {
-                parent.musicOn = !parent.musicOn;
-                parent.btnMusic.setFrame(parent.musicOn ? 9 : 8);
-                // save music opt
-                persistence.set(persistence.MUSIC, parent.musicOn).commit();
-            }
-        }));
-        this.btnMusic.setFrame(parent.musicOn ? 9 : 8);
+//         this.soundOn = persistence.get(persistence.SOUND);
+//         this.musicOn = persistence.get(persistence.MUSIC);
+//         // toggle sound
+//         this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+//             frame: [6, 7],
+//             onClick: function() {
+//                 parent.soundOn = !parent.soundOn;
+//                 parent.btnSound.setFrame(parent.soundOn ? 7 : 6);
+//                 // save sound opt
+//                 persistence.set(persistence.SOUND, parent.soundOn).commit();
+//             }
+//         }));
+//         this.btnSound.setFrame(parent.soundOn ? 7 : 6);
+//         // toggle music
+//         btny += props.height;
+//         this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+//             frame: [8, 9],
+//             onClick: function() {
+//                 parent.musicOn = !parent.musicOn;
+//                 parent.btnMusic.setFrame(parent.musicOn ? 9 : 8);
+//                 // save music opt
+//                 persistence.set(persistence.MUSIC, parent.musicOn).commit();
+//             }
+//         }));
+//         this.btnMusic.setFrame(parent.musicOn ? 9 : 8);
 
-        this.addChild(this.btnSound);
-        this.addChild(this.btnMusic);
+//         this.addChild(this.btnSound);
+//         this.addChild(this.btnMusic);
 
-        this.sort();
-    },
-    /**
-     * @override
-     */
-    draw: function(context) {
-        this.parent(context);
-        this.drawBackButton(context);
-    }    
-});
+//         this.sort();
+//     },
+//     /**
+//      * @override
+//      */
+//     draw: function(context) {
+//         this.parent(context);
+//         this.drawBackButton(context);
+//     }    
+// });
