@@ -58,8 +58,9 @@ var game = {
 
         // register custom Audio plugin
         me.plugin.register(howlerAudio, "howlerAudio", "ogg,m4a");
+
+        // no audio in debug mode
         if (_Globals.isDebug) {
-            // no audio in debug mode
             me.audio.disable();
         }
         me.plugin.howlerAudio.load(game.resources);
@@ -71,29 +72,18 @@ var game = {
         persistence.init();
         persistence.setListener(function(key, value) {
             if (key === persistence.MUSIC) {
-                if (value) {
-                    me.audio.unmute('elementary_wave');
-                    me.audio.unmute('observingthestar');
-                    me.audio.unmute('lifeline');
-                } else {
-                    me.audio.mute('elementary_wave');
-                    me.audio.mute('observingthestar');
-                    me.audio.mute('lifeline');
-                }
+                game.enableMusic(value);
             } else if (key === persistence.SOUND) {
-                for (var i = 0, count = game.resources.length; i < count; i++) {
-                    var res = game.resources[i];
-                    if (res.type === 'audio' && !res.stream) {
-                        if (value) {
-                            me.audio.unmute(res.name);
-                        } else {
-                            console.log('mute', res.name);
-                            me.audio.mute(res.name);
-                        }
-                    }
-                }
+                game.enableSounds(value);
             }
         });
+
+        if (!persistence.get(persistence.MUSIC)) {
+            this.enableMusic(false);
+        }
+        if (!persistence.get(persistence.SOUND)) {
+            this.enableSounds(false);
+        }
 
         me.state.set(me.state.LOADING, new game.SplashScene());
         me.state.change(me.state.LOADING);
@@ -134,6 +124,35 @@ var game = {
      */
     getRealY: function(y) {
         return _Globals.canvas.yOffset + y;
+    },
+
+    enableMusic: function(value) {
+        console.log('music', value);
+        if (value) {
+            me.audio.unmute('elementary_wave');
+            me.audio.unmute('observingthestar');
+            me.audio.unmute('lifeline');
+        } else {
+            me.audio.mute('elementary_wave');
+            me.audio.mute('observingthestar');
+            me.audio.mute('lifeline');
+        }
+    },
+
+    enableSounds: function(value) {
+        console.log('sounds', value);
+        for (var i = 0, count = game.resources.length; i < count; i++) {
+            var res = game.resources[i];
+            if (res.type === 'audio' && !res.stream) {
+                if (value) {
+                    console.log('unmute', res.name, Howler.volume());
+                    me.audio.unmute(res.name);
+                } else {
+                    console.log('mute', res.name);
+                    me.audio.mute(res.name);
+                }
+            }
+        }
     }
 };
 

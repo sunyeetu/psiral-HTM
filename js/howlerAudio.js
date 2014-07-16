@@ -85,6 +85,7 @@
                     // load sound
                     this.sounds[resources[res].name] = new Howl({
                         urls: srcUrls,
+                        // volume: Howler.volume(),
                         buffer: resources[res].stream === true ? true : false,
                         onend: this.callbacksRegister[resources[res].name]
                     });
@@ -123,7 +124,7 @@
 
             me.plugin.patch(me.audio, "mute", function (sound_id, mute) {
                 if (!self.enabled) return;
-                // self.sounds[sound_id].mute();
+                // self.sounds[sound_id].mute(true);
                 self.sounds[sound_id].volume(0);
             });
 
@@ -152,8 +153,13 @@
                 if (!self.enabled) return;
                 
                 var snd = self.sounds[sound_id];
-                loop && snd.loop(loop);
-                volume && snd.volume(volume);
+
+                if (loop) {
+                    snd.loop(loop);
+                }
+                if (volume) {
+                    snd.volume(volume);
+                }
 
                 // TODO: this is not quite correct!
                 if (callback) {
@@ -202,8 +208,8 @@
 
             me.plugin.patch(me.audio, "unmute", function (sound_id) {
                 if (!self.enabled) return;
-                // self.sounds[sound_id].unmute();
-                self.sounds[sound_id].volume(1.0);
+                // self.sounds[sound_id].mute(false);
+                self.sounds[sound_id].volume(Howler.volume());
             });
 
             me.plugin.patch(me.audio, "unmuteAll", function () {
