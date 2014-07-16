@@ -106,17 +106,14 @@
             });
 
             me.plugin.patch(me.audio, "getCurrentTrack", function () {
-                if (!self.enabled)
-                    return;                
-                
+                if (!self.enabled) return;
                 console.error("howlerAudio: getCurrentTrack() Not implemented!");
             });
             /**
              * @return {Number} current volume value in Float [0.0 - 1.0].
              */
             me.plugin.patch(me.audio, "getVolume", function () {
-               if (!self.enabled)
-                    return;
+               if (!self.enabled) return;
                 return Howler.volume();
             });
 
@@ -125,27 +122,22 @@
             });
 
             me.plugin.patch(me.audio, "mute", function (sound_id, mute) {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 self.sounds[sound_id].mute();
             });
 
             me.plugin.patch(me.audio, "muteAll", function () {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 Howler.mute();
             });
 
             me.plugin.patch(me.audio, "pause", function (sound_id) {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 Howler.pause();
             });
 
             me.plugin.patch(me.audio, "pauseTrack", function () {
-                if (!self.enabled)
-                    return;
-
+                if (!self.enabled) return;
                 console.error("howlerAudio: pauseTrack() Not implemented!");
             });
             /**
@@ -156,8 +148,7 @@
              * @param  {Number}   volume   Float specifying volume (0.0 - 1.0 values accepted)
              */
             me.plugin.patch(me.audio, "play", function (sound_id, loop, callback, volume) {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 
                 var snd = self.sounds[sound_id];
                 loop && snd.loop(loop);
@@ -174,34 +165,27 @@
             });
 
             me.plugin.patch(me.audio, "playTrack", function (sound_id, volume) {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 console.error("howlerAudio: playTrack() Not implemented!");
             });
 
             me.plugin.patch(me.audio, "resumeTrack", function (sound_id) {
-                if (!self.enabled)
-                    return;
-
+                if (!self.enabled) return;
                 console.error("howlerAudio: resumeTrack() Not implemented!");
             });
 
             me.plugin.patch(me.audio, "setVolume", function (volume) {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 Howler.volume(volume);
             });
 
             me.plugin.patch(me.audio, "stop", function (sound_id) {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 self.sounds[sound_id].stop();
             }); 
 
             me.plugin.patch(me.audio, "stopTrack", function () {
-                if (!self.enabled)
-                    return;
-                
+                if (!self.enabled) return;
                 console.error("howlerAudio: stopTrack() Not implemented!");
             });
 
@@ -216,14 +200,12 @@
             });
 
             me.plugin.patch(me.audio, "unmute", function (sound_id) {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 self.sounds[sound_id].unmute();
             });
 
             me.plugin.patch(me.audio, "unmuteAll", function () {
-                if (!self.enabled)
-                    return;
+                if (!self.enabled) return;
                 Howler.unmute();
             });
         }

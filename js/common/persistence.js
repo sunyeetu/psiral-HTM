@@ -62,13 +62,15 @@
         set: function(key, value) {
             if (!enabled) return;
 
+            var oldValue = this.data[key];
             this.data[key] = value;
-            if (this.listener) {
-                this.listener(key, value);
-            }
             
             if (this._autocommit)
                 this.commit();
+
+            if (this.listener && oldValue !== value) {
+                this.listener(key, value, oldValue);
+            }
 
             return this;
         },

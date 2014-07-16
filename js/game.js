@@ -80,6 +80,18 @@ var game = {
                     me.audio.mute('observingthestar');
                     me.audio.mute('lifeline');
                 }
+            } else if (key === persistence.SOUND) {
+                for (var i = 0, count = game.resources.length; i < count; i++) {
+                    var res = game.resources[i];
+                    if (res.type === 'audio' && !res.stream) {
+                        if (value) {
+                            me.audio.unmute(res.name);
+                        } else {
+                            console.log('mute', res.name);
+                            me.audio.mute(res.name);
+                        }
+                    }
+                }
             }
         });
 
