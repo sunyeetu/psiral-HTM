@@ -123,7 +123,8 @@
 
             me.plugin.patch(me.audio, "mute", function (sound_id, mute) {
                 if (!self.enabled) return;
-                self.sounds[sound_id].mute();
+                // self.sounds[sound_id].mute();
+                self.sounds[sound_id].volume(0);
             });
 
             me.plugin.patch(me.audio, "muteAll", function () {
@@ -201,7 +202,8 @@
 
             me.plugin.patch(me.audio, "unmute", function (sound_id) {
                 if (!self.enabled) return;
-                self.sounds[sound_id].unmute();
+                // self.sounds[sound_id].unmute();
+                self.sounds[sound_id].volume(1.0);
             });
 
             me.plugin.patch(me.audio, "unmuteAll", function () {
