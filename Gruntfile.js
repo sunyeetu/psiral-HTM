@@ -180,7 +180,7 @@ module.exports = function(grunt) {
         },
         aconv: {
             options: {
-                ffmpegLib: isWindows ? 'libvo_aacenc' : 'libfdk_aac',
+                ffmpegLib: isWindows ? 'libvo_aacenc' : 'libfdk-aac',
                 outFormat: '.m4a'
             },
             files: [
@@ -190,12 +190,12 @@ module.exports = function(grunt) {
         }
     });
 
-    // Default task.
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
-    grunt.registerTask('default', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
-    grunt.registerTask('rls', ['default', 'nodewebkit']);
-    grunt.registerTask('web', ['default', 'aconv']);
+    grunt.registerTask('build', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
+    grunt.registerTask('desktop', ['build', 'nodewebkit']);
+    grunt.registerTask('web', ['build', 'aconv']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
+    grunt.registerTask('default', ['build']);
 
     // test
     grunt.registerTask('ac', ['aconv']);
@@ -228,7 +228,10 @@ module.exports = function(grunt) {
             });
         }
 
-        require('child_process').exec(exec.join(' && ')).on('exit', function () {
+        require('child_process').exec(exec.join(' && '), function (error, stdout, stderr) {
+            console.log(stdout);
+            console.error(stderr);
+        }).on('exit', function () {
             done(true);
         });
     });    
