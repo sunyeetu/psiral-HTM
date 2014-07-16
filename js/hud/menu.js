@@ -316,15 +316,6 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         this.parent(eventHandler, settings);
 
         var parent = this;
-        var props = {
-            width: 167,
-            height: 107,
-            image: 'menu_buttons'
-        };
-
-        var btny = 500;
-        var btnx = _Globals.canvas.width / 2 - props.width / 2;
-        btnx -= props.width / 2;
 
         // add title and content, init subpager
         var subpager = 0;
@@ -339,10 +330,17 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         page = nls.get(subtitle[subpager]);
         page += nls.get(subtext[subpager]);
         this.drawText(page);
-        
+
+        var btny = 500, offsetX = 76;
+        var props = {
+            width: 38,
+            height: 65,
+            image: 'dlg_btn_back'
+        };
+
         // Init previous/next buttons
-        this.btnPrevious = new game.MenuScene.HUD.Clickable(60, btny, _.extend(_.clone(props), {
-            frame: 0,
+        this.btnPrevious = new game.MenuScene.HUD.Clickable(offsetX, btny, _.extend(_.clone(props), {
+            frame: 1,
             onClick: function() {  
                 // decrease pager and call onClick_Pager to generate the previous page 
                 subpager--;
@@ -351,14 +349,15 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
             }
         }));
 
-        this.btnNext = new game.MenuScene.HUD.Clickable(800, btny, _.extend(_.clone(props), {
-            frame: 4,
-            onClick: function() {
-                // increase pager and call onClick_Pager to generate the next page
-                subpager++;
-                parent.onClick_Pager(subtitle,subtext,subpager); 
-            }
-        }));
+        this.btnNext = new game.MenuScene.HUD.Clickable(_Globals.canvas.width - offsetX * 1.75, btny, 
+            _.extend(_.clone(props), {
+                frame: 3,
+                onClick: function() {
+                    // increase pager and call onClick_Pager to generate the next page
+                    subpager++;
+                    parent.onClick_Pager(subtitle,subtext,subpager); 
+                }})
+        );
 
         // add next button (previous see onClick_Pager)
         this.addChild(this.btnNext);
