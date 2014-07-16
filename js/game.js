@@ -69,6 +69,19 @@ var game = {
 
         // Init local storage persistence
         persistence.init();
+        persistence.setListener(function(key, value) {
+            if (key === persistence.MUSIC) {
+                if (value) {
+                    me.audio.unmute('elementary_wave');
+                    me.audio.unmute('observingthestar');
+                    me.audio.unmute('lifeline');
+                } else {
+                    me.audio.mute('elementary_wave');
+                    me.audio.mute('observingthestar');
+                    me.audio.mute('lifeline');
+                }
+            }
+        });
 
         me.state.set(me.state.LOADING, new game.SplashScene());
         me.state.change(me.state.LOADING);

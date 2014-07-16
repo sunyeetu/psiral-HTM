@@ -127,7 +127,7 @@
             me.plugin.patch(me.audio, "mute", function (sound_id, mute) {
                 if (!self.enabled)
                     return;
-                this.sounds[sound_id].mute();
+                self.sounds[sound_id].mute();
             });
 
             me.plugin.patch(me.audio, "muteAll", function () {
@@ -211,14 +211,14 @@
 
             me.plugin.patch(me.audio, "unloadAll", function () {
                 for(var snd in self.sounds) {
-                    this.sounds[snd].unload();
+                    self.sounds[snd].unload();
                 }
             });
 
             me.plugin.patch(me.audio, "unmute", function (sound_id) {
                 if (!self.enabled)
                     return;
-                this.sounds.self[sound_id].unmute();
+                self.sounds[sound_id].unmute();
             });
 
             me.plugin.patch(me.audio, "unmuteAll", function () {

@@ -25,6 +25,8 @@
 
         _data: null,
 
+        listener: null,
+
         init: function(masterKey) {
             if (!enabled) {
                 this.reset();
@@ -61,7 +63,9 @@
             if (!enabled) return;
 
             this.data[key] = value;
-            // console.log(this.data, key, value);
+            if (this.listener) {
+                this.listener(key, value);
+            }
             
             if (this._autocommit)
                 this.commit();
@@ -74,6 +78,12 @@
 
             ls.setItem(this._KEY, JSON.stringify(this.data));
             return this;
+        },
+
+        setListener: function(callback) {
+            if (typeof callback === 'function') {
+                this.listener = callback;
+            }
         }
     };
     Object.defineProperty(_instance, 'autoCommit', {
