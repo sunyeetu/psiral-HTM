@@ -15,7 +15,7 @@
             "beings and shape nature in any way she desires. She is the manifestation of life. \n" +
             "Her eternity is envied by Rafel who secretly plots to destroy her.", 
 
-            "wiz_fire": "The youngest among wizards. Valeriya is the only daughter of Capres, ultimate \n" +
+            "wiz_fire": "The youngest among wizards. Valeriya is the only daughter of Carpes, ultimate \n" +
             "ruler of fire. In the beginning of time, Carpes fought Azalsor but lost. He was \n" +
             "destroyed but his daughter was saved by the young fires. Now after a thousand \n" + 
             "human years she is ready to challenge Azalsor.",
