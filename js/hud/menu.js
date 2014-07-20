@@ -320,8 +320,8 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         // add title and content, init subpager
         var subpager = 0;
         // subpages are added by array order
-        var subtitle = ["menu.howto_turns_title","menu.howto_spells_mana_title","menu.howto_story_title","menu.howto_turns_title"];
-        var subtext = ["menu.howto_turns","menu.howto_spells_mana","menu.howto_story","menu.howto_turns"];
+        var subtitle = ["menu.howto_turns_title","menu.howto_spells_mana_title"]; //,"menu.howto_story_title","menu.howto_turns_title"];
+        var subtext = ["menu.howto_turns","menu.howto_spells_mana"]; //,"menu.howto_story","menu.howto_turns"];
         
         // add content for the first subpage
         // @TODO: How to make a initial call of the onClick_Pager function from here to get the default content?  
@@ -344,7 +344,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
             onClick: function() {  
                 // decrease pager and call onClick_Pager to generate the previous page 
                 subpager--;
-                parent.onClick_Pager(subtitle,subtext,subpager);
+                parent.onClick_Pager(subtitle, subtext, subpager);
 
             }
         }));
@@ -366,13 +366,16 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         this.xText = _Globals.canvas.xOffset + 50;
         this.yText = _Globals.canvas.height = 120; 
 
-        this.sort();
+        this.imageBackground = new me.SpriteObject(_Globals.canvas.xOffset + 50, 260, 
+            me.loader.getImage('menu_howto_01'));
+        this.addChild(this.imageBackground);
 
+        this.sort();
     },
 
     // small pager function
     // pagination throu arrrays of i10n strings
-    onClick_Pager: function (title,text,pager) {
+    onClick_Pager: function (title, text, pager) {
             
         var maxpage = title.length - 1;
         var page;
@@ -396,10 +399,9 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
             this.addChild(this.btnNext);
         }
     },
-       
     /**
-    * @override
-    */
+     * @override
+     */
     draw: function(context) {
         this.parent(context);
         

@@ -10,10 +10,6 @@
     "web": ""
   },
   "homepage": "http://psiral.herokuapp.com",
-  "repository": {
-    "type": "git",
-    "url": "https://bitbucket.org/dvubuzgames/psiral.git"
-  },
   "devDependencies": {
     "grunt": "latest",
     "load-grunt-tasks": "~0.2.0",

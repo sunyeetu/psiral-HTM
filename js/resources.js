@@ -34,6 +34,7 @@ game.resources = [
     {name: "menu_characters", type:"image", src: "assets/gui/character_choice.png"},
     {name: "menu_characters_icons", type:"image", src: "assets/gui/menu_character_icons.png"},
     {name: "menu_buttons", type:"image", src: "assets/gui/play_btn.png"},
+    {name: "menu_howto_01", type:"image", src: "assets/gui/howto_01.png"},
 
     // Sound
     {name: "click", type: "audio", src: "assets/sfx/", channel: 1},

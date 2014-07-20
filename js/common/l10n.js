@@ -35,10 +35,10 @@
             "back": "Back",
 
             "howto_turns_title": "Turns \n \n",
-            "howto_turns": "Game starts with the 4 players (wizards) positioned at the 4 corners of the map. \n" +
-            "The goal is to reach the fountain of endless energy in the center of the map. \n" +
-            "On each turn, players can choose whether to throw the dice of chance or cast a spell. \n" +
-            "Wizards move only forward on predefined spiral-alike paths. Paths can be seen on each player's move. \n",
+            "howto_turns": "Game starts with the four wizards positioned at each of the corners of the board. \n" +
+            "The goal is to reach the fountain of endless energy in the center of the board. \n" +
+            "Wizards move only forward, on predefined spiral-alike paths. Paths can be seen on each player's move. \n" +
+            "On each turn, players can choose whether to throw the dice of chance or cast a spell. \n",
 
             "howto_chance_title": "Chance \n \n",
             "howto_chance": "Throw the dice and let Chance determines what happens next. \n \n" +
@@ -51,7 +51,7 @@
             "6      Jump/Teleport   Jump 2 tiles ahead. If destination tile is Abyss teleport will fail. \n",
 
             "howto_spells_mana_title": "Spells & Mana \n \n",
-            "howto_spells_mana": "All players start with 10 points of mana. Mana does not get replenished over time! \n" +
+            "howto_spells_mana": "Each wizard start with 10 points of mana. Mana does not get replenished over time! \n" +
             "The only way to replenish mana is to get 4 or 5 when throwing the dice. \n \n" +
             "Wizards have two types of spells available - common and special. \n" +
             "Common can be casted by all wizards and special is a spell available only to the particular wizard. \n \n",
