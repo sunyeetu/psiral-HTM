@@ -41,14 +41,11 @@
             "On each turn, players can choose whether to throw the dice of chance or cast a spell. \n",
 
             "howto_chance_title": "Chance \n \n",
-            "howto_chance": "Throw the dice and let Chance determines what happens next. \n \n" +
-            "Side   Action          Description \n \n" +
-            "1      Move            Move 1 tile ahead \n" +
-            "2      Move            Move 2 tiles ahead \n" +
-            "3      Numb            Skip 1 turn \n" +
-            "4      Mana            Mana +1 \n" +
-            "5      Mana            Mana +2 \n" +
-            "6      Jump/Teleport   Jump 2 tiles ahead. If destination tile is Abyss teleport will fail. \n",
+            "howto_chance": "Throw the dice and let Chance determines what happens next. \n " +
+            "\n\n\n\n                                Move 1 tile ahead                                                    Mana +1" +
+            "\n\n\n\n\n                                Move 2 tiles ahead                                                 Mana +2" +
+            "\n\n\n\n                                Skip 1 turn                                                                Jump 2 tiles ahead. If destination tile " +
+            "\n                                                                                                                 is Abyss, teleport will fail.",
 
             "howto_spells_mana_title": "Spells & Mana \n \n",
             "howto_spells_mana": "Each wizard start with 10 points of mana. Mana does not get replenished over time! \n" +

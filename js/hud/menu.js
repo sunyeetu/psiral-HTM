@@ -320,8 +320,8 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         // add title and content, init subpager
         var subpager = 0;
         // subpages are added by array order
-        var subtitle = ["menu.howto_turns_title","menu.howto_spells_mana_title"]; //,"menu.howto_story_title","menu.howto_turns_title"];
-        var subtext = ["menu.howto_turns","menu.howto_spells_mana"]; //,"menu.howto_story","menu.howto_turns"];
+        var subtitle = ['menu.howto_turns_title', 'menu.howto_chance_title', 'menu.howto_spells_mana_title']; //,'menu.howto_story_title','menu.howto_turns_title'];
+        var subtext = ['menu.howto_turns', 'menu.howto_chance', 'menu.howto_spells_mana']; //,'menu.howto_story','menu.howto_turns'];
         
         // add content for the first subpage
         // @TODO: How to make a initial call of the onClick_Pager function from here to get the default content?  
@@ -331,7 +331,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         page += nls.get(subtext[subpager]);
         this.drawText(page);
 
-        var btny = 500, offsetX = 76;
+        var btny = 560, offsetX = 76;
         var props = {
             width: 38,
             height: 65,
@@ -368,8 +368,24 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
 
         this.imageBackground = new me.SpriteObject(_Globals.canvas.xOffset + 50, 260, 
             me.loader.getImage('menu_howto_01'));
-        this.addChild(this.imageBackground);
 
+        this.imageChance = [];
+        for(var i = 0; i < 3; i++) {
+            this.imageChance[i] = new me.AnimationSheet(_Globals.canvas.xOffset + 50, 225 + i * 105, 
+                me.loader.getImage('dlg_btn_choice'), 149, 85);
+            this.imageChance[i].addAnimation('main', [i + 3]);
+            this.imageChance[i].setCurrentAnimation('main');    
+            this.imageChance[i].animationpause = true;
+
+            this.imageChance[i + 3] = new me.AnimationSheet(_Globals.canvas.xOffset + 450, 225 + i * 105, 
+                me.loader.getImage('dlg_btn_choice'), 149, 85);
+            this.imageChance[i + 3].addAnimation('main', [i + 3 + 3]);
+            this.imageChance[i + 3].setCurrentAnimation('main');    
+            this.imageChance[i + 3].animationpause = true;
+
+        }
+
+        this.addChild(this.imageBackground);
         this.sort();
     },
 
@@ -378,12 +394,31 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
     onClick_Pager: function (title, text, pager) {
             
         var maxpage = title.length - 1;
-        var page;
+        var page, i;
         
         // build and add the content
         page = nls.get(title[pager]);
         page += nls.get(text[pager]);
         this.drawText(page);
+
+        switch(pager) {
+            case 0:
+            // add
+            this.addChild(this.imageBackground);
+            // remove
+            for(i = 0; i < 6; i++) {
+                this.removeChild(this.imageChance[i]);
+            }
+            break;
+            case 1:
+            // add
+            for(i = 0; i < 6; i++) {
+                this.addChild(this.imageChance[i]);
+            }
+            // remove
+            this.removeChild(this.imageBackground);
+            break;
+        }
        
         // if necessary add previous and next button to the page
         if (pager <= 0) {
