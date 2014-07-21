@@ -344,7 +344,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
             onClick: function() {  
                 // decrease pager and call onClick_Pager to generate the previous page 
                 subpager--;
-                parent.onClick_Pager(subtitle, subtext, subpager);
+                parent.onClick_Pager(subtitle, subtext, subpager, subpager + 1);
 
             }
         }));
@@ -355,7 +355,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
                 onClick: function() {
                     // increase pager and call onClick_Pager to generate the next page
                     subpager++;
-                    parent.onClick_Pager(subtitle,subtext,subpager); 
+                    parent.onClick_Pager(subtitle, subtext, subpager, subpager - 1);
                 }})
         );
 
@@ -391,7 +391,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
 
     // small pager function
     // pagination throu arrrays of i10n strings
-    onClick_Pager: function (title, text, pager) {
+    onClick_Pager: function (title, text, pager, prevpager) {
             
         var maxpage = title.length - 1;
         var page, i;
@@ -400,27 +400,46 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         page = nls.get(title[pager]);
         page += nls.get(text[pager]);
         this.drawText(page);
+        // TODO: draw positioned texts
 
         switch(pager) {
+
             case 0:
-            // add
-            this.addChild(this.imageBackground);
-            // remove
-            for(i = 0; i < 6; i++) {
-                this.removeChild(this.imageChance[i]);
-            }
+                // add
+                this.addChild(this.imageBackground);
+                // remove
+                for(i = 0; i < 6; i++) {
+                    this.removeChild(this.imageChance[i]);
+                }
             break;
+
             case 1:
-            // add
-            for(i = 0; i < 6; i++) {
-                this.addChild(this.imageChance[i]);
-            }
-            // remove
-            this.removeChild(this.imageBackground);
+                // add
+                for(i = 0; i < 6; i++) {
+                    this.addChild(this.imageChance[i]);
+                }
+                // remove
+                if (prevpager === 0) {
+                    this.removeChild(this.imageBackground);
+                }
+            break;
+
+            case 2:
+                // add
+                // remove
+                if (prevpager === 1) {
+                    for(i = 0; i < 6; i++) {
+                        this.removeChild(this.imageChance[i]);
+                    }
+                }
+            break;
+
+            case 3:
+                //TODO:
             break;
         }
        
-        // if necessary add previous and next button to the page
+        // if necessary, add previous and next button to the page
         if (pager <= 0) {
             this.removeChild(this.btnPrevious);
         }
