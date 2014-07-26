@@ -399,8 +399,9 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         // build and add the content
         page = nls.get(title[pager]);
         page += nls.get(text[pager]);
-        this.drawText(page);
+        this.drawText(page, pager);
         // TODO: draw positioned texts
+        this.pager = pager;
 
         switch(pager) {
 
@@ -463,6 +464,16 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
         this.fontShadow.draw(context, nls.get('menu.how_to_play_title'), xpos + 1, 28 + 1);
         this.fontBlack.draw(context, nls.get('menu.how_to_play_title'), xpos, 28);
+
+        if (this.pager === 1) {
+            this.font.draw(context, nls.get('menu.howto_chance_text1'), 250, 260);
+            this.font.draw(context, nls.get('menu.howto_chance_text2'), 250, 370);
+            this.font.draw(context, nls.get('menu.howto_chance_text3'), 250, 460);
+            this.font.draw(context, nls.get('menu.howto_chance_text4'), 650, 260);
+            this.font.draw(context, nls.get('menu.howto_chance_text5'), 650, 370);
+            this.font.draw(context, nls.get('menu.howto_chance_text6'), 650, 460);            
+        }
+
 
         this.drawBackButton(context);
     }    
