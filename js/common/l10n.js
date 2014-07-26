@@ -42,27 +42,38 @@
 
             "howto_chance_title": "Chance \n \n",
             "howto_chance": "Throw the dice and let Chance determines what happens next. \n ",
-            "howto_chance_text1": "Move 1 tile ahead",
-            "howto_chance_text2": "Move 2 tiles ahead",
-            "howto_chance_text3": "Skip 1 turn",
-            "howto_chance_text4": "Mana +1",
-            "howto_chance_text5": "Mana +2",
-            "howto_chance_text6": "Jump 2 tiles ahead. \n" + 
-                "If destination tile is Abyss, teleport will fail.",
+            "howto_chance_texts": [
+                "Move 1 tile ahead",
+                "Move 2 tiles ahead",
+                "Skip 1 turn",
+                "Mana +1",
+                "Mana +2",
+                "Jump 2 tiles ahead. \nIf destination tile is Abyss, teleport will fail.",
+            ],
 
             "howto_spells_mana_title": "Spells & Mana \n \n",
-            "howto_spells_mana": "Each wizard start with 10 points of mana. Mana does not get replenished over time! \n" +
-            "The only way to replenish mana is to get 4 or 5 when throwing the dice. \n \n" +
+            "howto_spells_mana": "Each wizard starts with 10 points of mana. Mana does not replenish over time! \n" +
+            "The only way to replenish mana is to get +1 or +2 mana when throwing the dice. \n" +
             "Wizards have two types of spells available - common and special. \n" +
-            "Common can be casted by all wizards and special is a spell available only to the particular wizard. \n \n",
-            "howto_rules": "Rules \n \n" +
-            "You can cast Abyss on any tile that is not occupied or that has no Path casted. \n" +
-            "You can cast Clay on any tile except on Abyss, Stone or Path casted tiles. \n" +
-            "You can cast Stone on any tile except on Abyss or Path casted tiles. \n" +
-            "Casting Path clears all previous casts over 3 tiles ahead. \n" +
-            "If destination tile has Abyss casted on it, casting Teleport will teleport you to the previous tile. \n" +
-            "Freeze affects only wizards that are already on or will step into a frozen tile. \n" +
-            "Blind and Freeze will cause all affected players to skip turns completely.",
+            "Common can be casted by all wizards and special is a spell available only to a particular wizard. \n \n",
+
+            "howto_rules": "Rules \n \n",
+            "howto_rules_texts": [
+                "You can cast Abyss on any tile that is\n not occupied or that has no Path casted.",
+                "You can cast Stone on any tile except\n on Abyss or Path casted tiles.",
+                "You can cast Clay on any tile except\n on Abyss, Stone or Path casted tiles.",
+                "Casting Path clears all previous casts\n over 3 tiles ahead.",
+                "Freeze affects only wizards that are\n already on or will step into a frozen tile.",
+                "Blind and Freeze will cause all affected\n players to skip turns completely.",
+                "If destination tile has Abyss casted on it,\n casting Teleport will teleport you to the\n previous tile.",
+            ],
+            // "howto_rules_text1": "You can cast Abyss on any tile that is not occupied or that has no Path casted.",
+            // "howto_rules_text2": "You can cast Stone on any tile except on Abyss or Path casted tiles.",
+            // "howto_rules_text3": "You can cast Clay on any tile except on Abyss, Stone or Path casted tiles.",
+            // "howto_rules_text4": "Casting Path clears all previous casts over 3 tiles ahead.",
+            // "howto_rules_text5": "Freeze affects only wizards that are already on or will step into a frozen tile.",
+            // "howto_rules_text6": "Blind and Freeze will cause all affected players to skip turns completely.",
+            // "howto_rules_text7": "If destination tile has Abyss casted on it, casting Teleport will teleport you to the previous tile.",
 
             "howto_story_title": "Story \n \n",
             "howto_story": "It is very rare for humans to achieve the status of a higher being. This requires absolute devotion to the ethereal. \n" +

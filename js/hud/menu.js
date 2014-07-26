@@ -366,9 +366,11 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         this.xText = _Globals.canvas.xOffset + 50;
         this.yText = _Globals.canvas.height = 120; 
 
+        // page 1
         this.imageBackground = new me.SpriteObject(_Globals.canvas.xOffset + 50, 260, 
             me.loader.getImage('menu_howto_01'));
 
+        // page 2
         this.imageChance = [];
         for(var i = 0; i < 3; i++) {
             this.imageChance[i] = new me.AnimationSheet(_Globals.canvas.xOffset + 50, 225 + i * 105, 
@@ -382,8 +384,30 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
             this.imageChance[i + 3].addAnimation('main', [i + 3 + 3]);
             this.imageChance[i + 3].setCurrentAnimation('main');    
             this.imageChance[i + 3].animationpause = true;
-
         }
+
+        // page 3
+        this.imageSpells = [];
+        for(var i = 0; i < 3; i++) {
+            this.imageSpells[i] = new me.AnimationSheet(_Globals.canvas.xOffset + 50, 250 + i * 105, 
+                me.loader.getImage('dlg_btn_spells'), 74, 85);
+            this.imageSpells[i].addAnimation('main', [i + 7]);
+            this.imageSpells[i].setCurrentAnimation('main');    
+            this.imageSpells[i].animationpause = true;
+
+            this.imageSpells[i + 3] = new me.AnimationSheet(_Globals.canvas.xOffset + 500, 250 + i * 105, 
+                me.loader.getImage('dlg_btn_spells'), 74, 85);
+            this.imageSpells[i + 3].addAnimation('main', [i + 7 + 3]);
+            this.imageSpells[i + 3].setCurrentAnimation('main');    
+            this.imageSpells[i + 3].animationpause = true;
+        }
+        // add 7th image
+        i = 6;
+        this.imageSpells[i] = new me.AnimationSheet(_Globals.canvas.xOffset + 500, 250 + 3 * 105, 
+            me.loader.getImage('dlg_btn_spells'), 74, 85);
+        this.imageSpells[i].addAnimation('main', [i + 7]);
+        this.imageSpells[i].setCurrentAnimation('main');    
+        this.imageSpells[i].animationpause = true;        
 
         this.addChild(this.imageBackground);
         this.sort();
@@ -422,11 +446,18 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
                 // remove
                 if (prevpager === 0) {
                     this.removeChild(this.imageBackground);
+                } else if (prevpager === 2) {
+                    for(i = 0; i < 7; i++) {
+                        this.removeChild(this.imageSpells[i]);
+                    }
                 }
             break;
 
             case 2:
                 // add
+                for(i = 0; i < 7; i++) {
+                    this.addChild(this.imageSpells[i]);
+                }
                 // remove
                 if (prevpager === 1) {
                     for(i = 0; i < 6; i++) {
@@ -460,18 +491,26 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
     draw: function(context) {
         this.parent(context);
         
+        var texts, i;
         var width = 300; //this.font.measureText(context, nls.get('menu.select_character'));
         var xpos = _Globals.canvas.xOffset + 50; // _Globals.canvas.width / 2 - width / 2;
         this.fontShadow.draw(context, nls.get('menu.how_to_play_title'), xpos + 1, 28 + 1);
         this.fontBlack.draw(context, nls.get('menu.how_to_play_title'), xpos, 28);
 
         if (this.pager === 1) {
-            this.font.draw(context, nls.get('menu.howto_chance_text1'), 250, 260);
-            this.font.draw(context, nls.get('menu.howto_chance_text2'), 250, 370);
-            this.font.draw(context, nls.get('menu.howto_chance_text3'), 250, 460);
-            this.font.draw(context, nls.get('menu.howto_chance_text4'), 650, 260);
-            this.font.draw(context, nls.get('menu.howto_chance_text5'), 650, 370);
-            this.font.draw(context, nls.get('menu.howto_chance_text6'), 650, 460);            
+            texts = nls.get('menu.howto_chance_texts');
+            for(i = 0; i < 3; i++) {
+                this.font.draw(context, texts[i], 250, 250 + i * 110);
+                this.font.draw(context, texts[i + 3], 650, 250 + i * 110);
+            }            
+        } else if (this.pager === 2) {
+            texts = nls.get('menu.howto_rules_texts');
+            for(i = 0; i < 3; i++) {
+                this.font.draw(context, texts[i], 170, 260 + i * 110);
+                this.font.draw(context, texts[i + 3], 620, 260 + i * 110);
+            }
+            i = 6;
+            this.font.draw(context, texts[i], 620, 260 + 3 * 110);
         }
 
 
