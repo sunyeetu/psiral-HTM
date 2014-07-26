@@ -31,13 +31,13 @@
             "the seeds of life. But his looks are deceiving. He will absorb the very life out of \n" +
             "his enemies. He devours their energy in order to content his lust for eternal youth.",
 
-            "select_character": "Choose your character",
+            "select_character": "Choose your wizard",
             "back": "Back",
 
             "howto_turns_title": "Turns \n \n",
             "howto_turns": "Game starts with the four wizards positioned at each of the corners of the board. \n" +
             "The goal is to reach the fountain of endless energy in the center of the board. \n" +
-            "Wizards move only forward, on predefined spiral-alike paths. Paths can be seen on each player's move. \n" +
+            "Wizards move only forward on predefined spiral-alike paths. Paths can be seen on each player's move. \n" +
             "On each turn, players can choose whether to throw the dice of chance or cast a spell. \n",
 
             "howto_chance_title": "Chance \n \n",
@@ -67,20 +67,13 @@
                 "Blind and Freeze will cause all affected\n players to skip turns completely.",
                 "If destination tile has Abyss casted on it,\n casting Teleport will teleport you to the\n previous tile.",
             ],
-            // "howto_rules_text1": "You can cast Abyss on any tile that is not occupied or that has no Path casted.",
-            // "howto_rules_text2": "You can cast Stone on any tile except on Abyss or Path casted tiles.",
-            // "howto_rules_text3": "You can cast Clay on any tile except on Abyss, Stone or Path casted tiles.",
-            // "howto_rules_text4": "Casting Path clears all previous casts over 3 tiles ahead.",
-            // "howto_rules_text5": "Freeze affects only wizards that are already on or will step into a frozen tile.",
-            // "howto_rules_text6": "Blind and Freeze will cause all affected players to skip turns completely.",
-            // "howto_rules_text7": "If destination tile has Abyss casted on it, casting Teleport will teleport you to the previous tile.",
-
+   
             "howto_story_title": "Story \n \n",
             "howto_story": "It is very rare for humans to achieve the status of a higher being. This requires absolute devotion to the ethereal. \n" +
             "To the very fabrics that space constitutes of. Those who learn how to thread these fabrics, \n" +
             "twist them and control them, will then get elevated closer to the higher presence. \n",
 
-            "how_to_play_title": "How to play Psiral"
+            "how_to_play_title": "How to play"
         },
 
         'play': {
