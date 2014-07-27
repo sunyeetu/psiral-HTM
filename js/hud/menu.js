@@ -325,7 +325,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         ));
 
         // add next button (previous see onClick_Pager)
-        this.addChild(this.btnNext);
+        this.addNext();
 
         // set text position
         this.xText = _Globals.canvas.xOffset + 50;
@@ -378,8 +378,38 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         this.sort();
     },
 
-    // small pager function
-    // pagination throu arrrays of i10n strings
+    addNext: function(remove) {
+        if (remove === true && this.btnNextEnabled) {
+            this.removeChild(this.btnNext);
+            this.btnNextEnabled = false;
+        } else {
+            this.addChild(this.btnNext);
+            this.btnNextEnabled = true;
+        }
+    },
+
+    addPrev: function(remove) {
+        if (remove === true && this.btnPreviousEnabled) {
+            this.removeChild(this.btnPrevious);
+            this.btnPreviousEnabled = false;
+        } else {
+            this.addChild(this.btnPrevious);
+            this.btnPreviousEnabled = true;
+        }
+    },
+    /**
+     * Custom reset event
+     */
+    onResetEvent: function() {
+        // console.log('howto reset');
+        // this.addNext(true);
+        // this.addPrev(true);
+        this.parent();
+    },
+    /**
+     * small pager function
+     * pagination throu arrrays of i10n strings
+     */
     onClick_Pager: function (title, text, pager, prevpager) {
             
         var maxpage = title.length - 1;
@@ -438,16 +468,16 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
        
         // if necessary, add previous and next button to the page
         if (pager <= 0) {
-            this.removeChild(this.btnPrevious);
+            this.addPrev(true);
         }
         if (pager > 0) {
-            this.addChild(this.btnPrevious);
+            this.addPrev();
         }
         if (pager >= maxpage) {
-            this.removeChild(this.btnNext);
+            this.addNext(true);
         }
         if (pager < maxpage) {
-            this.addChild(this.btnNext);
+            this.addNext();
         }
     },
     /**
