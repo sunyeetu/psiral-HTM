@@ -191,7 +191,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         }
 
         // add buttons
-        this.btnStart = null;
+        // this.btnStart = null;
 
         // var btnX = _Globals.canvas.width / 2 - 167 / 2;
         // var btnX = _Globals.canvas.gameWidth - 167;
@@ -221,8 +221,6 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
      * Custom reset event
      */
     onResetEvent: function() {
-        console.log('play reset');
-
         var parent = this;
 
         if (this.btnStart) {
@@ -245,7 +243,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                 }
         });
         
-        if (!parent.selectedActor) {
+        if (!parent.selectedActor && this.btnStart) {
             this.btnStart.visible = false;
         }
 
@@ -438,12 +436,11 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
     /**
      * Custom reset event
      */
-    onResetEvent: function() {
-        // console.log('howto reset');
-        // this.addNext(true);
-        // this.addPrev(true);
-        this.parent();
-    },
+    // onResetEvent: function() {
+    //     // this.addNext(true);
+    //     // this.addPrev(true);
+    //     this.parent();
+    // },
     /**
      * small pager function
      * pagination throu arrrays of i10n strings

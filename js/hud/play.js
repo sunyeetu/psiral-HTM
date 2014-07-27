@@ -415,7 +415,9 @@ game.HUD.SelectMove = game.HUD.Container.extend({
             fadeout: false, // no fade
             fadeoutspeed: 0.1,
             onClick: function(event) {
-                parent.removeChild(parent.btnDice);
+                parent.btnDice.setClickable(false);
+                parent.btnSpell.setClickable(false);
+
                 parent.onEvent('onSelectDice');
             }
         });
@@ -430,7 +432,9 @@ game.HUD.SelectMove = game.HUD.Container.extend({
             fadeout: false, // no fade
             fadeoutspeed: 0.1,
             onClick: function(event) {
-                parent.removeChild(parent.btnSpell);
+                parent.btnDice.setClickable(false);
+                parent.btnSpell.setClickable(false);
+
                 parent.onEvent('onSelectSpell');
             }
         });
@@ -475,7 +479,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
         }
 
         // add dice background layer
-        this.addChild(new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+        this.btnChoice = new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
             image: 'dlg_btn_choice',
             width: this.iconWidth,
             height: this.iconHeight,
@@ -486,25 +490,26 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             onClick: function(event) {
                 parent.diceAnim.onClick();
             }
-        }));   
+        })
+        this.addChild(this.btnChoice);
 
-        // chance icon to reveal
-        var icon = new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
-            image: 'dlg_btn_choice',
-            width: this.iconWidth,
-            height: this.iconHeight,
-            frames: [frame],
-            paused: true,
-            fadeout: false,
-            fadeoutspeed: 0.1,
-            onClick: function(event) {
-                parent.onEvent('onDiceThrown');
-            }
-        });
-        // only clickable when the dice side is revealed
-        icon.setClickable(false);
+        // // chance icon to reveal
+        // var icon = new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+        //     image: 'dlg_btn_choice',
+        //     width: this.iconWidth,
+        //     height: this.iconHeight,
+        //     frames: [frame],
+        //     paused: true,
+        //     fadeout: false,
+        //     fadeoutspeed: 0.1,
+        //     onClick: function(event) {
+        //         parent.onEvent('onDiceThrown');
+        //     }
+        // });
+        // // only clickable when the dice side is revealed
+        // icon.setClickable(false);
         
-        // // play sound
+        // play sound
         me.audio.play('rolldice', true);
         
         this.diceAnim = new game.HUD.ClickableAnimation(this.iconX + 50, this.iconY + 20, {
@@ -518,11 +523,28 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             stopFrame: (settings.chance - 1), // set dice side
             onClick: function(event) {
                 parent.diceAnim.animationpause = true;
+
+                // hide dice
+                parent.btnChoice.visible = false;
+                parent.diceAnim.visible = false;
+
+                // show item that wizard got on throw
+                var icon = new game.HUD.ClickableAnimation(parent.iconX, parent.iconY, {
+                    image: 'dlg_btn_choice',
+                    width: parent.iconWidth,
+                    height: parent.iconHeight,
+                    frames: [frame],
+                    paused: true,
+                    fadeout: false,
+                    fadeoutspeed: 0.1,
+                    onClick: function(event) {
+                        parent.onEvent('onDiceThrown');
+                    }
+                });
                 parent.addChild(icon);
-                icon.setClickable(true);
 
                 // disable exit btn
-                parent.btnExit.visible.isClickable = false;
+                parent.btnExit.setClickable(false);
                 parent.btnExit.visible = false;
 
                 // play sound
@@ -637,6 +659,7 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
         var startx = this.cx + this.faceWidth + 56;
         var starty = this.cy + this.height / 2 - this.iconHeight / 2;
 
+        this.icons = [];
         for(i = 0; i < this.spells.length; i++) {
             var icon = new game.HUD.ClickableAnimation(startx, starty, this.spells[i]);
             if (!game.gamemaster.isCanCast(settings.wizard, this.spells[i].type)) {
@@ -644,11 +667,15 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
                 icon.setFadeout(false);
             }
             this.addChild(icon);
+            
+            this.icons[i] = icon; // cache
+
             startx += this.iconWidth + 4;
         }
         // add exit button
         startx += 4;
-        this.addChild(new game.HUD.ClickableAnimation(startx, starty + 10, {
+
+        this.btnCancel = new game.HUD.ClickableAnimation(startx, starty + 10, {
             image: 'dlg_btn_back',
             width: 38,
             height: 65,
@@ -656,8 +683,15 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
             fadeout: false,
             fadeoutspeed: 0.1,
             onClick: function() {
+                // disable spells buttons
+                for(i = 0; i < parent.spells.length; i++) {
+                    parent.icons[i].setClickable(false);
+                }
+                parent.btnCancel.setClickable(false);
+
                 parent.onEvent('onCancelSelect');
             }
-        }));        
+        })
+        this.addChild(this.btnCancel);        
     }
 });
