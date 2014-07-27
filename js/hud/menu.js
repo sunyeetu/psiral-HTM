@@ -191,12 +191,50 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         }
 
         // add buttons
-        // var btnX = _Globals.canvas.width / 2 - 167 / 2;
-        var btnX = _Globals.canvas.gameWidth - 167;
+        this.btnStart = null;
 
-        this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 124, {
+        // var btnX = _Globals.canvas.width / 2 - 167 / 2;
+        // var btnX = _Globals.canvas.gameWidth - 167;
+
+        // this.btnStart = new game.MenuScene.HUD.Clickable(btnX, _Globals.canvas.height - 124, {
+        //         width: 167,
+        //         height: 107,                
+        //         image: 'menu_buttons',
+        //         frame: 0,
+        //         onceClick: false,
+        //         onClick: function() {
+        //             if (parent.selectedActor) {
+        //                 parent.onEvent('onClick_StartGame', parent.selectedActor);
+        //             }
+        //         }
+        // });
+        // this.btnStart.visible = false;
+        // this.addChild(this.btnStart);
+       
+        // text positions
+        this.xText = _Globals.canvas.xOffset + 50;
+        this.yText = _Globals.canvas.height - 110;    
+
+        this.sort();
+    },
+    /**
+     * Custom reset event
+     */
+    onResetEvent: function() {
+        console.log('play reset');
+
+        var parent = this;
+
+        if (this.btnStart) {
+            this.removeChild(this.btnStart);
+        }
+
+        var btnX = _Globals.canvas.gameWidth - 167
+          , btnY = _Globals.canvas.height - 124;
+
+        this.btnStart = new game.MenuScene.HUD.Clickable(btnX, btnY, {
                 width: 167,
-                height: 107,                
+                height: 107,
                 image: 'menu_buttons',
                 frame: 0,
                 onceClick: false,
@@ -206,15 +244,15 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                     }
                 }
         });
-        this.btnStart.visible = false;
-        this.addChild(this.btnStart);
-       
-        // text positions
-        this.xText = _Globals.canvas.xOffset + 50;
-        this.yText = _Globals.canvas.height - 110;    
+        
+        if (!parent.selectedActor) {
+            this.btnStart.visible = false;
+        }
 
-        this.sort();
-    },
+        this.addChild(this.btnStart);
+
+        this.parent();
+    },    
     /**
      * @override
      * Release wizards onClick events before destroying object container
@@ -329,7 +367,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
 
         // set text position
         this.xText = _Globals.canvas.xOffset + 50;
-        this.yText = _Globals.canvas.height = 120; 
+        this.yText = 120; 
 
         // page 1
         this.imageBackground = new me.SpriteObject(_Globals.canvas.xOffset + 50, 260, 
