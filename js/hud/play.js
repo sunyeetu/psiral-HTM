@@ -412,7 +412,7 @@ game.HUD.SelectMove = game.HUD.Container.extend({
             height: this.iconHeight,
             frames: [0],
             paused: true,
-            fadeout: true,
+            fadeout: false, // no fade
             fadeoutspeed: 0.1,
             onClick: function(event) {
                 parent.removeChild(parent.btnDice);
@@ -427,7 +427,7 @@ game.HUD.SelectMove = game.HUD.Container.extend({
             height: this.iconHeight,
             frames: [1],
             paused: true,
-            fadeout: true,
+            fadeout: false, // no fade
             fadeoutspeed: 0.1,
             onClick: function(event) {
                 parent.removeChild(parent.btnSpell);
@@ -481,7 +481,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             height: this.iconHeight,
             frames: [2],
             paused: true,
-            fadeout: true,
+            fadeout: false,
             fadeoutspeed: 0.1,
             onClick: function(event) {
                 parent.diceAnim.onClick();
@@ -495,7 +495,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             height: this.iconHeight,
             frames: [frame],
             paused: true,
-            fadeout: true,
+            fadeout: false,
             fadeoutspeed: 0.1,
             onClick: function(event) {
                 parent.onEvent('onDiceThrown');
@@ -514,7 +514,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             height: 49,
             frames: [0, 1, 2, 3, 4, 5],
             speed: 100,
-            fadeout: true,
+            fadeout: false,
             stopFrame: (settings.chance - 1), // set dice side
             onClick: function(event) {
                 parent.diceAnim.animationpause = true;
@@ -538,7 +538,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             width: 38,
             height: 65,
             frames: [0],
-            fadeout: true,
+            fadeout: false,
             fadeoutspeed: 0.1,
             onClick: function() {
                 me.audio.stop('rolldice');
@@ -583,7 +583,7 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
             },
             {
                 frames: [2],
-                fadeout: true,
+                fadeout: false,
                 type: _Globals.spells.Clay,
                 onClick: function() {parent.onEvent('onCastSpell', _Globals.spells.Clay); }
             },
@@ -628,7 +628,7 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
                 image: 'dlg_btn_spells',
                 width: this.iconWidth,
                 height: this.iconHeight,
-                fadeout: true,
+                fadeout: false,
                 fadeoutspeed: 0.1,
             });
         }
@@ -653,7 +653,7 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
             width: 38,
             height: 65,
             frames: [0],
-            fadeout: true,
+            fadeout: false,
             fadeoutspeed: 0.1,
             onClick: function() {
                 parent.onEvent('onCancelSelect');
