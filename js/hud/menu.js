@@ -221,6 +221,7 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
      * Custom reset event
      */
     onResetEvent: function() {
+        console.log('reset play');
         var parent = this;
 
         if (this.btnStart) {
@@ -238,6 +239,12 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
                 onceClick: false,
                 onClick: function() {
                     if (parent.selectedActor) {
+
+                        // remove clickables
+                        for (var i in this.actors) {
+                            this.actors[i].clear();
+                        }                        
+
                         parent.onEvent('onClick_StartGame', parent.selectedActor);
                     }
                 }
@@ -290,7 +297,9 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
         this.selectedActor = who;
         actor.setAnimationFrame(1);
         // show play button
-        this.btnStart.visible = true;
+        if (this.btnStart) {
+            this.btnStart.visible = true;
+        }
         
         switch(who) {
             case _Globals.wizards.Earth:

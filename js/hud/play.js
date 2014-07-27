@@ -650,7 +650,7 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
                 image: 'dlg_btn_spells',
                 width: this.iconWidth,
                 height: this.iconHeight,
-                fadeout: false,
+                fadeout: true,
                 fadeoutspeed: 0.1,
             });
         }
