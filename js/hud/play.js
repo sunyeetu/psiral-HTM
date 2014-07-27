@@ -406,7 +406,7 @@ game.HUD.SelectMove = game.HUD.Container.extend({
         this.iconX = this.cx + 112;
         this.iconY = this.cy + this.height / 2 - this.iconHeight / 2;
 
-        this.addChild(new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
+        this.btnDice = new game.HUD.ClickableAnimation(this.iconX, this.iconY, {
             image: 'dlg_btn_choice',
             width: this.iconWidth,
             height: this.iconHeight,
@@ -415,11 +415,13 @@ game.HUD.SelectMove = game.HUD.Container.extend({
             fadeout: true,
             fadeoutspeed: 0.1,
             onClick: function(event) {
+                parent.removeChild(parent.btnDice);
                 parent.onEvent('onSelectDice');
             }
-        }));
+        });
+        this.addChild(this.btnDice);
 
-        this.addChild(new game.HUD.ClickableAnimation(this.iconX + this.iconWidth + 8, this.iconY, {
+        this.btnSpell = new game.HUD.ClickableAnimation(this.iconX + this.iconWidth + 8, this.iconY, {
             image: 'dlg_btn_choice',
             width: this.iconWidth,
             height: this.iconHeight,
@@ -428,9 +430,11 @@ game.HUD.SelectMove = game.HUD.Container.extend({
             fadeout: true,
             fadeoutspeed: 0.1,
             onClick: function(event) {
+                parent.removeChild(parent.btnSpell);
                 parent.onEvent('onSelectSpell');
             }
-        }));
+        });
+        this.addChild(this.btnSpell);
     }
 });
 /**

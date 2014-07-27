@@ -57,11 +57,9 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
             // play sound
             me.audio.play('click', false);            
         });
-console.log('reset');
-        // audio controls
-        game.MenuScene.HUD.Audio.hide.call(this);
 
         // audio controls
+        game.MenuScene.HUD.Audio.hide.call(this);
         game.MenuScene.HUD.Audio.show.call(this);        
 
     },
