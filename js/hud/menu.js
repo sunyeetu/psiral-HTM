@@ -30,7 +30,6 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         // back to title screen
         this.backBtnRect = new me.Rect(new me.Vector2d(_Globals.canvas.gameWidth - 74, 28), 60, 40);
 
-
         // create font to draw texts
         this.text = null;
         this.fontSmall = new me.Font('dafont', '12px', 'white', 'left');
