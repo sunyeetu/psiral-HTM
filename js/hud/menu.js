@@ -280,7 +280,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         // call the constructor
         this.parent(eventHandler, settings);
 
-        var parent = this;
+        var i, parent = this;
 
         // add title and content, init subpager
         var subpager = 0;
@@ -337,7 +337,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
 
         // page 2
         this.imageChance = [];
-        for(var i = 0; i < 3; i++) {
+        for(i = 0; i < 3; i++) {
             this.imageChance[i] = new me.AnimationSheet(_Globals.canvas.xOffset + 50, 225 + i * 105, 
                 me.loader.getImage('dlg_btn_choice'), 149, 85);
             this.imageChance[i].addAnimation('main', [i + 3]);
@@ -353,7 +353,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
 
         // page 3
         this.imageSpells = [];
-        for(var i = 0; i < 3; i++) {
+        for(i = 0; i < 3; i++) {
             this.imageSpells[i] = new me.AnimationSheet(_Globals.canvas.xOffset + 50, 250 + i * 105, 
                 me.loader.getImage('dlg_btn_spells'), 74, 85);
             this.imageSpells[i].addAnimation('main', [i + 7]);
