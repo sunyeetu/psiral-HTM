@@ -180,7 +180,7 @@ module.exports = function(grunt) {
         },
         aconv: {
             options: {
-                ffmpegLib: isWindows ? 'libvo_aacenc' : 'libfdk-aac',
+                ffmpegLib: isWindows ? 'libvo_aacenc' : 'libfdk_aac',
                 outFormat: '.m4a'
             },
             files: [
