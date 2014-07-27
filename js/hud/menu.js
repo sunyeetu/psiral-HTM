@@ -39,7 +39,8 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
         this.fontBlack = new me.Font('dafont', '24px', 'black', 'left');
         this.fontShadow = new me.Font('dafont', '24px', 'white', 'left');
         this.xText = 0;
-        this.yText = 0;        
+        this.yText = 0;
+
         // sort renderable        
         this.sort();
     },
@@ -56,6 +57,13 @@ game.MenuScene.HUD.Base = me.ObjectContainer.extend({
             // play sound
             me.audio.play('click', false);            
         });
+console.log('reset');
+        // audio controls
+        game.MenuScene.HUD.Audio.hide.call(this);
+
+        // audio controls
+        game.MenuScene.HUD.Audio.show.call(this);        
+
     },
     /**
      * @override
@@ -139,46 +147,6 @@ game.MenuScene.HUD.Title = game.MenuScene.HUD.Base.extend({
             }
         }));
         this.addChild(this.btnHowTo);
-
-        // audio controls
-        this.soundOn = persistence.get(persistence.SOUND);
-        this.musicOn = persistence.get(persistence.MUSIC);
-
-        props = {
-            width: 32,
-            height: 32,
-            image: 'hud_audio'
-        };
-        btny = _Globals.canvas.height - 32 - 8;
-        btnx = 50;
-
-        // sound
-        this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-            frame: [3, 2],
-            onClick: function() {
-                parent.soundOn = !parent.soundOn;
-                parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
-                // save sound opt
-                persistence.set(persistence.SOUND, parent.soundOn).commit();                
-            }
-        }));
-        parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
-        this.addChild(this.btnSound);
-
-        btnx += 32 + 8;
-
-        // music
-        this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
-            frame: [1, 0],
-            onClick: function() {
-                parent.musicOn = !parent.musicOn;
-                parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
-                // save music opt
-                persistence.set(persistence.MUSIC, parent.musicOn).commit();                
-            }
-        }));
-        parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
-        this.addChild(this.btnMusic);
 
         this.sort();
     },
@@ -331,7 +299,7 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         page += nls.get(subtext[subpager]);
         this.drawText(page);
 
-        var btny = 560, offsetX = 76;
+        var btny = 580, offsetX = 76;
         var props = {
             width: 38,
             height: 65,
@@ -345,7 +313,6 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
                 // decrease pager and call onClick_Pager to generate the previous page 
                 subpager--;
                 parent.onClick_Pager(subtitle, subtext, subpager, subpager + 1);
-
             }
         }));
 
@@ -356,8 +323,9 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
                     // increase pager and call onClick_Pager to generate the next page
                     subpager++;
                     parent.onClick_Pager(subtitle, subtext, subpager, subpager - 1);
-                }})
-        );
+                }
+            }
+        ));
 
         // add next button (previous see onClick_Pager)
         this.addChild(this.btnNext);

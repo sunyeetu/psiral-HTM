@@ -65,6 +65,10 @@ game.PlayScene = me.ScreenObject.extend({
 
         switch(this.state) {
             case this.SceneStates.StartGame:
+                p = game.map.getPath(game.session.wizard);
+                p = p[p.length - 2];
+                this.actors[game.session.wizard].setPosition(p.x, p.y);
+                game.gamemaster.setPosition(game.session.wizard, p);            
                 this.setState(this.SceneStates.NextMove);
             break;
 

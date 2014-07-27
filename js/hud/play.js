@@ -75,7 +75,7 @@ game.HUD.Stats = me.ObjectContainer.extend({
         });
 
         // text placeholder
-        var pcX = this.x + _Globals.canvas.gameWidth - 227;
+        var pcX = this.x + _Globals.canvas.gameWidth - 237;
         var pcY = wy + 8;
         parent.addChild(new me.SpriteObject(pcX, pcY, me.loader.getImage('hud_text')));
         // font to draw texts
@@ -91,6 +91,11 @@ game.HUD.Stats = me.ObjectContainer.extend({
         this.fadeStep = 0.0095;
         this.fadeOutCallback = null;
         this.fadeFactor = 1.0;
+
+        //
+        //
+        // audio controls
+        game.MenuScene.HUD.Audio.show.call(this);
     },
 
     draw: function(context) {

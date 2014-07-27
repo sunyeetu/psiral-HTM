@@ -90,3 +90,63 @@ game.MenuScene.HUD.Clickable = me.AnimationSheet.extend({
         return true;
     }    
 });
+
+/**
+ * Clickable UI element
+ */
+game.MenuScene.HUD.Audio = {
+
+    show: function() {
+        var parent = this;
+
+        this.soundOn = persistence.get(persistence.SOUND);
+        this.musicOn = persistence.get(persistence.MUSIC);
+
+        var props = {
+            width: 32,
+            height: 32,
+            image: 'hud_audio'
+        };
+        var btnx = _Globals.canvas.width - 32 - 8; // 50
+        var btny = 8;// _Globals.canvas.height - 32 - 8;
+
+        // sound
+        this.btnSound = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: [3, 2],
+            onClick: function() {
+                parent.soundOn = !parent.soundOn;
+                parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
+                // save sound opt
+                persistence.set(persistence.SOUND, parent.soundOn).commit();                
+            }
+        }));
+        parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
+        this.addChild(this.btnSound);
+
+        // btnx += 32 + 8;
+        btny += 32 + 8;
+
+        // music
+        this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
+            frame: [1, 0],
+            onClick: function() {
+                parent.musicOn = !parent.musicOn;
+                parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
+                // save music opt
+                persistence.set(persistence.MUSIC, parent.musicOn).commit();                
+            }
+        }));
+        parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
+        this.addChild(this.btnMusic);        
+    },
+
+    hide: function() {
+        if (typeof this.btnSound === 'undefined') {
+            return;
+        }
+        this.removeChild(this.btnSound);
+        this.removeChild(this.btnMusic);
+        this.btnSound = null;
+        this.btnMusic = null;
+    }
+};
