@@ -86,7 +86,8 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 report: 'min',
-                preserveComments: false
+                preserveComments: false,
+                banner: '<%= grunt.file.read("header.txt") %>'
             },
             dist: {
                 files: {
@@ -119,9 +120,8 @@ module.exports = function(grunt) {
                             return dest;
                         }
                     },
-                    {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'},
+                    // {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'},
                     {expand: true, src: ['icon.png'], dest: 'build/',  filter: 'isFile'}
-                    // {expand: true, src: ['.htaccess'], dest: 'build/',  filter: 'isFile'}
                 ]
             }
         },
