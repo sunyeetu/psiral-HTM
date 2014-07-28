@@ -723,6 +723,7 @@ game.PlayScene = me.ScreenObject.extend({
         _Globals.debug('Winner - ', data[0]);
         var who = data[0];
         var parent = this;
+        var i;
 
         // disable states switching
         // TODO: fix this because its unguaranteed!!!
@@ -741,9 +742,11 @@ game.PlayScene = me.ScreenObject.extend({
             // fade out board
             parent.gameboard.fadeTiles('out', function() {
                 // fade out wizards
-                for (var i =0; i < parent.wizards.length; i++) {
+                for (i = 0; i < parent.wizards.length; i++) {
                     if (parent.wizards[i] !== who) {
-                        parent.actors[parent.wizards[i]].fadeOut(0.005);
+                        var name = parent.wizards[i];
+                        parent.actors[name].fadeOut(0.005);
+                        // parent.actors[parent.wizards[i]].setAlpha(0);
                     }
                 }
                 // fade out hud

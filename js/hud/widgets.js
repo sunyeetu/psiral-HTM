@@ -107,7 +107,7 @@ game.MenuScene.HUD.Audio = {
             height: 32,
             image: 'hud_audio'
         };
-        var btnx = _Globals.canvas.width - 32 - 8; // 50
+        var btnx = _Globals.canvas.width - 32 - 6; // 50
         var btny = 8;// _Globals.canvas.height - 32 - 8;
 
         // sound
@@ -124,7 +124,7 @@ game.MenuScene.HUD.Audio = {
         this.addChild(this.btnSound);
 
         // btnx += 32 + 8;
-        btny += 32 + 8;
+        btny += 32 + 7;
 
         // music
         this.btnMusic = new game.MenuScene.HUD.Clickable(btnx, btny, _.extend(_.clone(props), {
