@@ -59,13 +59,14 @@
 
             "howto_rules": "Rules \n \n",
             "howto_rules_texts": [
-                "You can cast Abyss on any tile that is\n not occupied or that has no Path casted.",
-                "You can cast Stone on any tile except\n on Abyss or Path casted tiles.",
-                "You can cast Clay on any tile except\n on Abyss, Stone or Path casted tiles.",
-                "Casting Path clears all previous casts\n over 3 tiles ahead.",
-                "Freeze affects only wizards that are\n already on or will step into a frozen tile.",
-                "Blind and Freeze will cause all affected\n players to skip turns completely.",
-                "If destination tile has Abyss casted on it,\n casting Teleport will teleport you to the\n previous tile.",
+                "Creates a hole on a target tile. Rival players\ncannot cross that tile unless they jump.\n(Costs 4 Mana)",
+                "Wizards that stand on this tile are immune\nto any spell.\n(Costs 3 Mana)",
+                "All types of spells can be casted upon\nwizards standing on this tile.\n(Costs 2 Mana)",
+                "Makes 4 tiles ahead of the wizard Earth tiles.\nNo buffs can be casted.\n(Costs 5 Mana)",
+                "Wizards standing on water tile or stepping\non frozen tiles will skip 3 complete turns.\n(Costs 6 Mana)",
+                "Blind all rival wizards. They will skip 3\ncomplete turns.\n(Costs 6 Mana)",
+                "Teleports wizard 3 tiles ahead. If destination tile has\nAbyss casted on it,\n" +
+                "the wizard will teleport to the previous tile.\n(Costs 7 Mana)",
             ],
    
             "howto_story_title": "Story \n \n",

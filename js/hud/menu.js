@@ -545,11 +545,11 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         } else if (this.pager === 2) {
             texts = nls.get('menu.howto_rules_texts');
             for(i = 0; i < 3; i++) {
-                this.font.draw(context, texts[i], 170, 260 + i * 110);
-                this.font.draw(context, texts[i + 3], 620, 260 + i * 110);
+                this.font.draw(context, texts[i], 170, 260 + i * 105);
+                this.font.draw(context, texts[i + 3], 620, 260 + i * 105);
             }
             i = 6;
-            this.font.draw(context, texts[i], 620, 260 + 3 * 110);
+            this.font.draw(context, texts[i], 620, 260 + 3 * 105);
         }
 
 
