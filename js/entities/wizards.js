@@ -125,8 +125,10 @@ game.WizardEntity = me.ObjectEntity.extend({
                     this.pos.y = dy;
                     this.moving = false;
                     this.renderable.setCurrentAnimation(animToSet);
+                    
                     // stop sound
-                    me.audio.stop('walk');                    
+                    me.audio.stop('walk');
+
                     // notify
                     this.movement.cb && this.movement.cb();
                 } else {
@@ -207,7 +209,7 @@ game.WizardEntity = me.ObjectEntity.extend({
         if (this.movement.direction !== _Globals.directions.None) {
             this.moving = true;
             // play sound
-            me.audio.play('walk', true);
+            me.audio.play('walk');
         } else {
             // we're already there!
             cb && cb();
