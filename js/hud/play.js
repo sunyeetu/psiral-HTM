@@ -490,7 +490,7 @@ game.HUD.ThrowDice = game.HUD.Container.extend({
             onClick: function(event) {
                 parent.diceAnim.onClick();
             }
-        })
+        });
         this.addChild(this.btnChoice);
 
         // // chance icon to reveal
@@ -691,7 +691,7 @@ game.HUD.SelectSpell = game.HUD.Container.extend({
 
                 parent.onEvent('onCancelSelect');
             }
-        })
+        });
         this.addChild(this.btnCancel);        
     }
 });

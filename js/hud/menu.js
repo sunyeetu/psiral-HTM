@@ -221,7 +221,6 @@ game.MenuScene.HUD.SelectCharacter = game.MenuScene.HUD.Base.extend({
      * Custom reset event
      */
     onResetEvent: function() {
-        console.log('reset play');
         var parent = this;
 
         if (this.btnStart) {

@@ -127,7 +127,6 @@ var game = {
     },
 
     enableMusic: function(value) {
-        console.log('music', value);
         if (value) {
             me.audio.unmute('elementary_wave');
             me.audio.unmute('observingthestar');
@@ -140,15 +139,14 @@ var game = {
     },
 
     enableSounds: function(value) {
-        console.log('sounds', value);
         for (var i = 0, count = game.resources.length; i < count; i++) {
             var res = game.resources[i];
             if (res.type === 'audio' && !res.stream) {
                 if (value) {
-                    console.log('unmute', res.name, Howler.volume());
+                    // console.log('unmute', res.name, Howler.volume());
                     me.audio.unmute(res.name);
                 } else {
-                    console.log('mute', res.name);
+                    // console.log('mute', res.name);
                     me.audio.mute(res.name);
                 }
             }
