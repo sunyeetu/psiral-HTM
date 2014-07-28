@@ -38,16 +38,16 @@ game.resources = [
 
     // Sound
     {name: "click", type: "audio", src: "assets/sfx/", channel: 1},
-    {name: "rolldice", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "rolldice2", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "teleport", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "freeze", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "blind", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "path", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "change", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "abyss", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "walk", type: "audio", src: "assets/sfx/", channel : 1},
-    {name: "win", type: "audio", src: "assets/sfx/", channel : 1},
+    {name: "rolldice", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "rolldice2", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "teleport", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "freeze", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "blind", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "path", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "change", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "abyss", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "walk", type: "audio", src: "assets/sfx/", channel: 1},
+    {name: "win", type: "audio", src: "assets/sfx/", channel: 1},
     
     // Music
     {name: "elementary_wave", type: "audio", src: "assets/muzik/", channel: 1, stream: true},
