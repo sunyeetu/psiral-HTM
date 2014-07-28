@@ -168,7 +168,7 @@
                     snd.on('end', self.callbacksRegister[sound_id]);
                 }
 
-                snd.play();
+                return snd.play();
             });
 
             me.plugin.patch(me.audio, "playTrack", function (sound_id, volume) {

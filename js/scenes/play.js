@@ -65,10 +65,10 @@ game.PlayScene = me.ScreenObject.extend({
 
         switch(this.state) {
             case this.SceneStates.StartGame:
-                p = game.map.getPath(game.session.wizard);
-                p = p[p.length - 2];
-                this.actors[game.session.wizard].setPosition(p.x, p.y);
-                game.gamemaster.setPosition(game.session.wizard, p);            
+                // p = game.map.getPath(game.session.wizard);
+                // p = p[p.length - 2];
+                // this.actors[game.session.wizard].setPosition(p.x, p.y);
+                // game.gamemaster.setPosition(game.session.wizard, p);            
                 this.setState(this.SceneStates.NextMove);
             break;
 
@@ -356,7 +356,7 @@ game.PlayScene = me.ScreenObject.extend({
         var mana;
         var chance = game.gamemaster.getData(game.gamemaster.currentWizard, game.gamemaster.Props.LastDice);
         var wizardName = game.gamemaster.getWizardName(game.gamemaster.currentWizard);
-        
+
         if (_Globals.isDebug) {
             // chance = _Globals.chance.Move2;
         }
