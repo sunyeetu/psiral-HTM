@@ -112,7 +112,7 @@ module.exports = function(grunt) {
                 files: [
                     {expand: true, src: ['assets/**'], dest: 'build/'},
                     {expand: true, src: ['css/*'], dest: 'build/'},
-                    {expand: true, src: ['vendor/**'], dest: 'build/'},
+                    {expand: true, src: ['libs/**'], dest: 'build/'},
                     {expand: true, src: ['favicon.ico'], dest: 'build/',  filter: 'isFile'},
                     {expand: true, src: ['index.php'], dest: 'build/',  filter: 'isFile'},
                     {expand: true, src: ['index-prod.html'], dest: 'build/index.html',  filter: 'isFile', 
@@ -134,7 +134,7 @@ module.exports = function(grunt) {
             ],
             striplibs: [
                 '<%= concat.dist.dest %>',
-                'build/vendor/melonJS-0.9.11.js',
+                'build/libs/melonJS-0.9.11.js',
                 'build/css/main.css',
             ]
         },
