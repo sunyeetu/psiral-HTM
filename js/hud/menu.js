@@ -538,8 +538,8 @@ game.MenuScene.HUD.HowTo = game.MenuScene.HUD.Base.extend({
         if (this.pager === 1) {
             texts = nls.get('menu.howto_chance_texts');
             for(i = 0; i < 3; i++) {
-                this.font.draw(context, texts[i], 250, 250 + i * 110);
-                this.font.draw(context, texts[i + 3], 650, 250 + i * 110);
+                this.font.draw(context, texts[i], 250, 250 + i * 100);
+                this.font.draw(context, texts[i + 3], 650, 250 + i * 100);
             }            
         } else if (this.pager === 2) {
             texts = nls.get('menu.howto_rules_texts');

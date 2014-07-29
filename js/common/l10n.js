@@ -48,25 +48,25 @@
                 "Skip 1 turn",
                 "Mana +1",
                 "Mana +2",
-                "Jump 2 tiles ahead. \nIf destination tile is Abyss, teleport will fail.",
+                "Jump 2 tiles ahead. \nIf destination tile is Abyss, teleport\nwill fail.",
             ],
 
             "howto_spells_mana_title": "Spells & Mana \n \n",
             "howto_spells_mana": "Each wizard starts with 10 points of mana. Mana does not replenish over time! \n" +
             "The only way to replenish mana is to get +1 or +2 mana when throwing the dice. \n" +
-            "Wizards have two types of spells available - common and special. \n" +
-            "Common can be casted by all wizards and special is a spell available only to a particular wizard. \n \n",
+            "Wizards have two types of spells available - common and special. Common can be casted by all wizards \n" +
+            "and special is a spell available only to a particular wizard. \n \n",
 
             "howto_rules": "Rules \n \n",
             "howto_rules_texts": [
                 "Creates a hole on a target tile. Rival players\ncannot cross that tile unless they jump.\n(Costs 4 Mana)",
                 "Wizards that stand on this tile are immune\nto any spell.\n(Costs 3 Mana)",
                 "All types of spells can be casted upon\nwizards standing on this tile.\n(Costs 2 Mana)",
-                "Makes 4 tiles ahead of the wizard Earth tiles.\nNo buffs can be casted.\n(Costs 5 Mana)",
-                "Wizards standing on water tile or stepping\non frozen tiles will skip 3 complete turns.\n(Costs 6 Mana)",
-                "Blind all rival wizards. They will skip 3\ncomplete turns.\n(Costs 6 Mana)",
-                "Teleports wizard 3 tiles ahead. If destination tile has\nAbyss casted on it,\n" +
-                "the wizard will teleport to the previous tile.\n(Costs 7 Mana)",
+                "Makes 4 tiles ahead of the wizard Earth tiles.\nNo buffs can be casted.\n(Costs 5 Mana) (Entria-Sil)",
+                "Wizards standing on water tile or stepping\non frozen tiles will skip 3 complete turns.\n(Costs 6 Mana) (Azalsor)",
+                "Blinds all rival wizards. They will skip 3\ncomplete turns.\n(Costs 6 Mana) (Valeriya)",
+                "Teleports wizard 3 tiles ahead. If destination\ntile has Abyss casted on it," +
+                "the wizard will\nteleport to the previous tile.\n(Costs 7 Mana) (Rafel)",
             ],
    
             "howto_story_title": "Story \n \n",
