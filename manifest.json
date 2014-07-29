@@ -1,0 +1,14 @@
+{
+  "name": "Psiral",
+  "description": "Psiral. A 2D turn-based strategy game with wizards.",
+  "version": "1.0.0",
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  },
+  "icons": {
+    "48": "icon_48.png",
+    "128": "icon_128.png"
+  }
+}

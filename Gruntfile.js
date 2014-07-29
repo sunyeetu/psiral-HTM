@@ -121,7 +121,8 @@ module.exports = function(grunt) {
                         }
                     },
                     // {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'},
-                    {expand: true, src: ['icon.png'], dest: 'build/',  filter: 'isFile'}
+                    {expand: true, src: ['icon_48.png', 'icon_128.png'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['manifest.json'], dest: 'build/',  filter: 'isFile'}
                 ]
             }
         },
