@@ -1578,7 +1578,7 @@ window.me = window.me || {};
 
 			// detect touch capabilities
 			me.device.touch = ('createTouch' in document) || ('ontouchstart' in window) || 
-							  (navigator.isCocoonJS) || (navigator.maxTouchPoints > 0);
+							  (navigator.isCocoonJS) || (me.device.pointerEnabled && (navigator.maxTouchPoints > 0));
 
 			// detect platform
 			me.device.isMobile = me.device.ua.match(/Android|iPhone|iPad|iPod|BlackBerry|Windows Phone|Mobi/i) || false;
