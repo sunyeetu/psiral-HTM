@@ -220,16 +220,12 @@ module.exports = function(grunt) {
             ]
         }
     });
-
-    // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
     grunt.registerTask('build', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace:dist', 'uglify', 'cssmin', 'clean:striplibs']);
     grunt.registerTask('desktop', ['build', 'nodewebkit']);
     grunt.registerTask('web', ['build', 'replace:urchin', 'aconv']);
     grunt.registerTask('crx', ['build', 'replace:nourchin', 'copy:crx', 'aconv']);
-    // grunt.registerTask('crx', ['build', 'replace:nourchin', 'copy:crx']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
     grunt.registerTask('default', ['build']);
-
     // test
     grunt.registerTask('ac', ['aconv']);
 
