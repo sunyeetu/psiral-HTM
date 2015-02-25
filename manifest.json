@@ -1,6 +1,8 @@
 {
+  "manifest_version": 2,
   "name": "Psiral",
-  "description": "Psiral. A 2D turn-based strategy game with wizards.",
+  "description": "Psiral is a turn-based strategy game with wizards.",
+  "author": "Dvubuz Games",
   "version": "1.0.0",
   "app": {
     "launch": {
@@ -8,6 +10,7 @@
     }
   },
   "icons": {
+    "16": "icon_16.png",
     "48": "icon_48.png",
     "128": "icon_128.png"
   }
