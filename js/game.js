@@ -69,7 +69,18 @@ var game = {
         nls.init('en');        
 
         // Init local storage persistence
-        persistence.init();
+        persistence.init(null, function() {
+            // start loading as soon as persistance is initialized
+            if (!persistence.get(persistence.MUSIC)) {
+                this.enableMusic(false);
+            }
+            if (!persistence.get(persistence.SOUND)) {
+                this.enableSounds(false);
+            }
+                    
+            me.state.set(me.state.LOADING, new game.SplashScene());
+            me.state.change(me.state.LOADING);
+        });
         persistence.setListener(function(key, value) {
             if (key === persistence.MUSIC) {
                 game.enableMusic(value);
@@ -77,16 +88,6 @@ var game = {
                 game.enableSounds(value);
             }
         });
-
-        if (!persistence.get(persistence.MUSIC)) {
-            this.enableMusic(false);
-        }
-        if (!persistence.get(persistence.SOUND)) {
-            this.enableSounds(false);
-        }
-
-        me.state.set(me.state.LOADING, new game.SplashScene());
-        me.state.change(me.state.LOADING);
 
         me.state.onPause = function() {
             me.audio.muteAll();

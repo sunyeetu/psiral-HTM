@@ -7,8 +7,33 @@
 
 (function Persistence(w) {
 
-    var ls = w.localStorage;
-    var enabled = !!ls;
+    var ls, cs;
+    try {
+        ls = w.localStorage;
+    } catch(e) {
+    }
+    if (typeof ls === 'undefined') {
+        cs = chrome.storage.local;
+    }
+    var enabled = (typeof cs !== 'undefined' || typeof ls !== 'undefined');
+    console.log('enabled: ' + enabled);
+
+    function _put(key, value) {
+        if (ls) {
+            ls.setItem(key, value);
+        } else if (cs) {
+            cs.set({key: value});
+        }
+    }
+    function _get(key, cb) {
+        if (ls) {
+            cb(ls.getItem(key));
+        } else if (cs) {
+            chrome.storage.local.get(key, function (result) {
+                cb(result);
+            });
+        }
+    }
 
     var _instance = {
         /**
@@ -27,7 +52,7 @@
 
         listener: null,
 
-        init: function(masterKey) {
+        init: function(masterKey, cb) {
             if (!enabled) {
                 this.reset();
                 return;
@@ -37,12 +62,16 @@
             if (masterKey) {
                 this._KEY = masterKey;
             }
-
-            this.data = JSON.parse(ls.getItem(this._KEY));
-            // console.log('loaded persist.', this.data);
-            if (!this.data) {
-                this.reset();
-            }
+            var self = this;
+            _get(this._KEY, function(data) {
+                if (!self.data || self.data.length === 0) {
+                    self.reset();
+                } else {
+                    self.data = JSON.parse(data);
+                }
+                // console.log('loaded persist.', self.data);
+                cb();
+            });
         },
 
         reset: function() {
@@ -78,7 +107,7 @@
         commit: function() {
             if (!enabled) return;
 
-            ls.setItem(this._KEY, JSON.stringify(this.data));
+            _put(this._KEY, JSON.stringify(this.data));
             return this;
         },
 

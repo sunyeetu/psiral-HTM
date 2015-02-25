@@ -117,7 +117,8 @@ game.MenuScene.HUD.Audio = {
                 parent.soundOn = !parent.soundOn;
                 parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
                 // save sound opt
-                persistence.set(persistence.SOUND, parent.soundOn).commit();                
+                persistence.set(persistence.SOUND, parent.soundOn);
+                persistence.commit();
             }
         }));
         parent.btnSound.setFrame(parent.soundOn ? 2 : 3);
@@ -133,7 +134,8 @@ game.MenuScene.HUD.Audio = {
                 parent.musicOn = !parent.musicOn;
                 parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
                 // save music opt
-                persistence.set(persistence.MUSIC, parent.musicOn).commit();                
+                persistence.set(persistence.MUSIC, parent.musicOn);
+                persistence.commit();            
             }
         }));
         parent.btnMusic.setFrame(parent.musicOn ? 0 : 1);
