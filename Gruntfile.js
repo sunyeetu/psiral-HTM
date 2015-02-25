@@ -64,11 +64,6 @@ module.exports = function(grunt) {
                             expression: false 
                         },
                         {
-                            match: 'URCHIN',
-                            replacement: '<%= grunt.file.read("urchin") %>',
-                            expression: false
-                        },
-                        {
                             match: /isDebug:\strue/g,
                             replacement: 'isDebug: false',
                             expression: true
@@ -76,9 +71,38 @@ module.exports = function(grunt) {
                     ]
                 },                
                 files: [
-                    {expand: true, flatten: true, src: ['build/index.html', '<%= concat.dist.dest %>'], dest: 'build/'}
+                    {expand: true, flatten: true, src: ['build/index.html', '<%= concat.dist.dest %>'], dest: 'build/'},
+                    {expand: true, flatten: true, src: ['build/bootstrap.js', 'bootstrap.js'], dest: 'build/'}
                 ]
-            }
+            },
+            urchin: {
+                options: {
+                    patterns: [
+                        {
+                            match: 'URCHIN',
+                            replacement: '<%= grunt.file.read("urchin") %>',
+                            expression: false
+                        }
+                    ]
+                },                
+                files: [
+                    {expand: true, flatten: true, src: ['build/index.html', '<%= concat.dist.dest %>'], dest: 'build/'}
+                ]                
+            },
+            nourchin: {
+                options: {
+                    patterns: [
+                        {
+                            match: 'URCHIN',
+                            replacement: '',
+                            expression: false
+                        }
+                    ]
+                },                
+                files: [
+                    {expand: true, flatten: true, src: ['build/index.html', '<%= concat.dist.dest %>'], dest: 'build/'}
+                ]                
+            }            
         },
         /**
          * Rules of how to minify & obfuscate game sources
@@ -113,16 +137,22 @@ module.exports = function(grunt) {
                     {expand: true, src: ['assets/**'], dest: 'build/'},
                     {expand: true, src: ['css/*'], dest: 'build/'},
                     {expand: true, src: ['libs/**'], dest: 'build/'},
-                    {expand: true, src: ['favicon.ico'], dest: 'build/',  filter: 'isFile'},
-                    {expand: true, src: ['index.php'], dest: 'build/',  filter: 'isFile'},
-                    {expand: true, src: ['index-prod.html'], dest: 'build/index.html',  filter: 'isFile', 
+                    {expand: true, src: ['js/bootstrap.js'], dest: 'build/', flatten: true},
+                    {expand: true, src: ['favicon.ico'], dest: 'build/', filter: 'isFile'},
+                    {expand: true, src: ['index.php'], dest: 'build/', filter: 'isFile'},
+                    {expand: true, src: ['index-prod.html'], dest: 'build/index.html', filter: 'isFile', 
                         rename: function(dest, src) {
                             return dest;
                         }
                     },
                     // {expand: true, src: ['package.json'], dest: 'build/',  filter: 'isFile'},
-                    {expand: true, src: ['icon_48.png', 'icon_128.png'], dest: 'build/',  filter: 'isFile'},
+                    {expand: true, src: ['icon_16.png', 'icon_48.png', 'icon_128.png'], dest: 'build/', filter: 'isFile'},
                     {expand: true, src: ['manifest.json'], dest: 'build/',  filter: 'isFile'}
+                ]
+            },
+            crx: {
+                files: [
+                    {expand: true, src: ['js/chrome.js'], dest: 'build/', flatten: true},
                 ]
             }
         },
@@ -192,9 +222,11 @@ module.exports = function(grunt) {
     });
 
     // grunt.registerTask('default', ['bump:build', 'concat', 'copy', 'replace', 'uglify']);
-    grunt.registerTask('build', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace', 'uglify', 'cssmin', 'clean:striplibs']);
+    grunt.registerTask('build', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace:dist', 'uglify', 'cssmin', 'clean:striplibs']);
     grunt.registerTask('desktop', ['build', 'nodewebkit']);
-    grunt.registerTask('web', ['build', 'aconv']);
+    grunt.registerTask('web', ['build', 'replace:urchin', 'aconv']);
+    grunt.registerTask('crx', ['build', 'replace:nourchin', 'copy:crx', 'aconv']);
+    // grunt.registerTask('crx', ['build', 'replace:nourchin', 'copy:crx']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
     grunt.registerTask('default', ['build']);
 

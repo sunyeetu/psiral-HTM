@@ -15,44 +15,13 @@
     <div id="top"></div>
 </div>
 <div id="bottom"></div>
-<!-- Versioning -->
-<script type="text/javascript">
-var _timestamp = (new Date()).getTime();
-var _version = {
-    buildnumber:'@@VERSION',
-};
-</script>
 <script src="libs/underscore-min.js"></script>
 <script src="libs/howler.min.js"></script>
 <script src="libs/melonJS-0.9.11-min.js"></script>
 <script src="libs/plugins/debugPanel.js"></script>
 <script src="libs/plugins/fndelay.js"></script>
 <script src="@@MINIFIED"></script>
-<script type="text/javascript">
-window.onReady(function onReady() {
-    game.onload();
-
-    // Mobile browser hacks
-    if (me.device.isMobile && !navigator.isCocoonJS) {
-        // Prevent the webview from moving on a swipe
-        window.document.addEventListener("touchmove", function (e) {
-            e.preventDefault();
-            window.scroll(0, 0);
-            return false;
-        }, false);
-
-        // Scroll away mobile GUI
-        (function () {
-            window.scrollTo(0, 1);
-            me.video.onresize(null);
-        }).defer();
-
-        me.event.subscribe(me.event.WINDOW_ONRESIZE, function (e) {
-            window.scrollTo(0, 1);
-        });
-    }
-});
-</script>
+<script src="bootstrap.js"></script>
 @@URCHIN
 </body>
 </html>                
