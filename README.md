@@ -1,22 +1,22 @@
 _.o0 Psiral 0o._
 ==========================
 
-HTML5/Javascript web browser game.
+Get it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/psiral/dohhikimhedfgkbgdakcioebkbjcamnl).
 
-What we want to do here is to create a turn based strategy game in which four wizards battle to reach the fountain of endless energy.This, of course, will bring them eternity and power beyond human imagination. Each wizard controls the powers of one of the four known elements - earth, water, fire and wood… uhm, I mean air. So, which one will get there first? Choose and find out.
+Psiral is a turn based strategy board game in which four wizards battle to reach the fountain of endless energy. This, of course, will bring them eternity and power beyond human imagination. Each wizard controls the powers of one of the four known elements, earth, water, fire and wood… err, I mean air. Who will get to the fountain first? Choose and find out.
 
 ![Psiral for Game-Off 2013](http://i.imgur.com/LHVUUxd.png)
 
 ## Supported Browsers
 
-  * Google Chrome - 31.0
-  * Firefox - 25.0
+  * Google Chrome - 31.0+
+  * Firefox - 25.0+
   * Safari - 5.1.7*
   * Internet Explorer - 10.0*
 
 _*Game sound is currently (and sadly) not working under IE & Safari browsers._
 
-_Game seems playable on iPads but it's not yet optimized to support any mobile devices._
+_Game seems playable on iPads devices, but it's not yet optimized to run on mobile._
 
 ## Open Source Libraries
 The following javascript libraries are used:
@@ -40,7 +40,7 @@ The following javascript libraries are used:
   * [Magical fizzlerz](http://www.freesound.org/people/jobro/sounds/204303/) by [jobro](http://www.freesound.org/people/jobro/)
   * [Footsteps on wooden flooring.wav](http://www.freesound.org/people/Rickmk2/sounds/164315/)
 
-All sounds were edited/remix using [Audacity](http://audacity.sourceforge.net/) in order to suit the in-game atmosphere.
+To suit the in-game atmosphere all sounds were edited using [Audacity](http://audacity.sourceforge.net/).
 
 ## License
 
