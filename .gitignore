@@ -1,6 +1,7 @@
 # ignored
 *.sublime-*
 *.orig
+**/*.zip
 build.number
 assets.todo/*
 build/*
