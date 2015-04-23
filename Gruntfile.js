@@ -154,6 +154,11 @@ module.exports = function(grunt) {
                 files: [
                     {expand: true, src: ['js/chrome.js'], dest: 'build/', flatten: true},
                 ]
+            },
+            desktop: {
+                files: [
+                    {expand: true, src: ['package.json'], dest: 'build/', flatten: true},
+                ]
             }
         },
         /**
@@ -202,7 +207,7 @@ module.exports = function(grunt) {
             options: {
                 version: '0.8.4',
                 build_dir: './webkitbuilds', // Where the build version of my node-webkit app is saved
-                mac: false, // We want to build it for mac
+                mac: true, // We want to build it for mac
                 win: true, // We want to build it for win
                 linux32: false, // We don't need linux32
                 linux64: true // We don't need linux64
@@ -221,7 +226,7 @@ module.exports = function(grunt) {
         }
     });
     grunt.registerTask('build', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace:dist', 'uglify', 'cssmin', 'clean:striplibs']);
-    grunt.registerTask('desktop', ['build', 'nodewebkit']);
+    grunt.registerTask('desktop', ['build', 'copy:desktop', 'nodewebkit']);
     grunt.registerTask('web', ['build', 'replace:urchin', 'aconv']);
     grunt.registerTask('crx', ['build', 'replace:nourchin', 'copy:crx', 'aconv']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
