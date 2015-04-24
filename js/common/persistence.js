@@ -16,7 +16,6 @@
         cs = chrome.storage.local;
     }
     var enabled = (typeof cs !== 'undefined' || typeof ls !== 'undefined');
-    console.log('enabled: ' + enabled);
 
     function _put(key, value) {
         if (ls) {
@@ -64,12 +63,12 @@
             }
             var self = this;
             _get(this._KEY, function(data) {
-                if (!self.data || self.data.length === 0) {
+                if (!data || data.length === 0) {
                     self.reset();
                 } else {
+                    console.log('parsing');
                     self.data = JSON.parse(data);
                 }
-                // console.log('loaded persist.', self.data);
                 cb();
             });
         },
