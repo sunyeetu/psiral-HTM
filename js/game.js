@@ -83,10 +83,10 @@ var game = {
         persistence.init(null, function() {
             // start loading as soon as persistance is initialized
             if (!persistence.get(persistence.MUSIC)) {
-                this.enableMusic(false);
+                game.enableMusic(false);
             }
             if (!persistence.get(persistence.SOUND)) {
-                this.enableSounds(false);
+                game.enableSounds(false);
             }
                     
             me.state.set(me.state.LOADING, new game.SplashScene());
