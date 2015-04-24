@@ -12,11 +12,18 @@ var game = {
         var el = document.getElementById('quit');
         if (typeof require !== 'undefined') {
             el.addEventListener('click', function() {
-                if (typeof require !== 'undefined') {
+                if (el.dataset.confirm === '1') { 
                     //global.window.nwDispatcher.requireNwGui() (see https://github.com/rogerwang/node-webkit/issues/707
                     var gui = require('nw.gui');
                     gui.App.quit();
-                }        
+                } else {
+                    el.innerHTML = 'Really Quit?';
+                    el.dataset.confirm = '1';
+                    setTimeout(function () {
+                        el.innerHTML = 'Quit';
+                        el.dataset.confirm = '0';
+                    }, 3000);
+                }
             }, false);
         } else {
             el.style.display = 'none';
