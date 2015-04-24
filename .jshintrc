@@ -32,6 +32,7 @@
         "nls": true,
         "howlerAudio": true,
         "persistence": true,
-        "chrome": true
+        "chrome": true,
+        "require": true
     }
 }

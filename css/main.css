@@ -51,6 +51,16 @@ body {
     -ms-interpolation-mode: nearest-neighbor;
     z-index: 1;
 }
+#quit {
+    text-decoration: none;
+    font-family: 'dafont';
+    font-size: 24px;
+    color: black;
+    text-shadow: 1px 1px white;
+    top: 24px;
+    right: -72%;
+    position: relative;
+}
 @media (min-width: 1023px) {
     #canvas {
         position: absolute;

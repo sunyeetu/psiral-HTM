@@ -9,14 +9,18 @@ var game = {
 
     onload: function () {
 
-        // // Load native UI library
-        // var gui = require('nw.gui'); 
-        // //or global.window.nwDispatcher.requireNwGui() (see https://github.com/rogerwang/node-webkit/issues/707)
-        // if (gui) {
-        //     // Get the current window
-        //     var win = gui.Window.get();
-        //     win.enterFullscreen();
-        // }
+        var el = document.getElementById('quit');
+        if (typeof require !== 'undefined') {
+            el.addEventListener('click', function() {
+                if (typeof require !== 'undefined') {
+                    //global.window.nwDispatcher.requireNwGui() (see https://github.com/rogerwang/node-webkit/issues/707
+                    var gui = require('nw.gui');
+                    gui.App.quit();
+                }        
+            }, false);
+        } else {
+            el.style.display = 'none';
+        }
 
         if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false, 
             me.device.isMobile ? 1.99 : null)) {
