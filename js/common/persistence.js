@@ -66,7 +66,6 @@
                 if (!data || data.length === 0) {
                     self.reset();
                 } else {
-                    console.log('parsing');
                     self.data = JSON.parse(data);
                 }
                 cb();
@@ -92,7 +91,7 @@
 
             var oldValue = this.data[key];
             this.data[key] = value;
-            
+
             if (this._autocommit)
                 this.commit();
 
@@ -119,6 +118,6 @@
     Object.defineProperty(_instance, 'autoCommit', {
         get: function() { return _instance._autocommit; },
         set: function(autoCommit) { _instance._autocommit = autoCommit; }
-    }); 
+    });
     w.persistence = _instance;
 }(window));
