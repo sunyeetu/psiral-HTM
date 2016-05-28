@@ -10,5 +10,6 @@ howler.js
 
 node_modules/*
 webkitbuilds/*
+cache/
 
 libs/melonJS-1.*

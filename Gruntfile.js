@@ -56,20 +56,20 @@ module.exports = function(grunt) {
                         {
                             match: 'MINIFIED',
                             replacement: '<%= pkg.name %>-min.js',
-                            expression: false 
+                            expression: false
                         },
                         {
                             match: 'TITLE',
                             replacement: '<%= pkg.description %>',
-                            expression: false 
+                            expression: false
                         },
                         {
                             match: /isDebug:\strue/g,
                             replacement: 'isDebug: false',
                             expression: true
-                        },                        
+                        },
                     ]
-                },                
+                },
                 files: [
                     {expand: true, flatten: true, src: ['build/index.html', '<%= concat.dist.dest %>'], dest: 'build/'},
                     {expand: true, flatten: true, src: ['build/bootstrap.js', 'bootstrap.js'], dest: 'build/'}
@@ -84,10 +84,10 @@ module.exports = function(grunt) {
                             expression: false
                         }
                     ]
-                },                
+                },
                 files: [
                     {expand: true, flatten: true, src: ['build/index.html', '<%= concat.dist.dest %>'], dest: 'build/'}
-                ]                
+                ]
             },
             nourchin: {
                 options: {
@@ -98,11 +98,11 @@ module.exports = function(grunt) {
                             expression: false
                         }
                     ]
-                },                
+                },
                 files: [
                     {expand: true, flatten: true, src: ['build/index.html', '<%= concat.dist.dest %>'], dest: 'build/'}
-                ]                
-            }            
+                ]
+            }
         },
         /**
          * Rules of how to minify & obfuscate game sources
@@ -127,7 +127,7 @@ module.exports = function(grunt) {
                 dest: 'build/css/',
                 ext: '.min.css'
             }
-        }, 
+        },
         /**
          * Specifies targets that prep. a release build
          */
@@ -140,7 +140,7 @@ module.exports = function(grunt) {
                     {expand: true, src: ['js/bootstrap.js'], dest: 'build/', flatten: true},
                     {expand: true, src: ['favicon.ico'], dest: 'build/', filter: 'isFile'},
                     {expand: true, src: ['index.php'], dest: 'build/', filter: 'isFile'},
-                    {expand: true, src: ['index-prod.html'], dest: 'build/index.html', filter: 'isFile', 
+                    {expand: true, src: ['index-prod.html'], dest: 'build/index.html', filter: 'isFile',
                         rename: function(dest, src) {
                             return dest;
                         }
@@ -205,12 +205,14 @@ module.exports = function(grunt) {
          */
         nodewebkit: {
             options: {
-                version: '0.8.4',
+                version: '0.11.6',
                 build_dir: './webkitbuilds', // Where the build version of my node-webkit app is saved
-                mac: true, // We want to build it for mac
-                win: true, // We want to build it for win
-                linux32: false, // We don't need linux32
-                linux64: true // We don't need linux64
+                mac32: false,
+                mac64: true,
+                win64: true,
+                win32: false,
+                linux32: false,
+                linux64: true
             },
             src: ['./build/**/*'] // Your node-wekit app
         },
@@ -225,7 +227,7 @@ module.exports = function(grunt) {
             ]
         }
     });
-    grunt.registerTask('build', ['clean:dist', 'lint', 'bump:build', 'concat', 'copy', 'replace:dist', 'uglify', 'cssmin', 'clean:striplibs']);
+    grunt.registerTask('build', ['clean:dist', 'lint', 'concat', 'copy', 'replace:dist', 'uglify', 'cssmin', 'clean:striplibs']);
     grunt.registerTask('desktop', ['build', 'copy:desktop', 'nodewebkit']);
     grunt.registerTask('web', ['build', 'replace:urchin', 'aconv']);
     grunt.registerTask('crx', ['build', 'replace:nourchin', 'copy:crx', 'aconv']);
@@ -237,7 +239,7 @@ module.exports = function(grunt) {
     /**
      * Custom tasks
      */
-    
+
     grunt.registerMultiTask('aconv', 'Convert audio files using ffmpeg', function() {
         var ffmpeg = grunt.config('aconv.options.ffmpeg') || 'ffmpeg';
         var ffmpeg_lib = grunt.config('aconv.options.ffmpegLib');
@@ -250,7 +252,7 @@ module.exports = function(grunt) {
 
         for(var i = 0; i < files.length; i++) {
             var o = files[i];
-            
+
             grunt.log.writeln('Converting files in %s to %s format ...', o.src, outFormat);
 
             grunt.file.expand(o.src).forEach(function (file) {
@@ -268,5 +270,5 @@ module.exports = function(grunt) {
         }).on('exit', function () {
             done(true);
         });
-    });    
+    });
 };
