@@ -8,11 +8,13 @@
 /* jshint -W030 */
 
 (function TileMap(game) {
-    
+
+    var _instance;
+
     /**
      * Constants
-     */ 
-    
+     */
+
     var S1 = -1;
     var S2 = -2;
     var S3 = -3;
@@ -73,7 +75,7 @@
         0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, U, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
-    ];   
+    ];
     var player4 = [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         R, R, R, R, R, R, R, R, R, R, R, R, R, R, D, 0, 0,
@@ -86,12 +88,12 @@
         U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         U, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    ];  
+    ];
 
     /**
      * Private routines
      */
-    
+
     var mapWidth = _Globals.gfx.mapWidth;
     var mapHeight = _Globals.gfx.mapHeight;
     var tileRepetitions = [2, 1, 2, 1, 2, 1];
@@ -148,7 +150,7 @@
     /**
      * Public interface
      */
-    var _instance = {
+    _instance = {
 
         Tiles: {
             Earth: E,
@@ -227,7 +229,7 @@
          * Set (de)buff to a map tile position
          * @param  {Number} x tile column
          * @param  {Number} y tile row
-         * @param {Object} buff Object 
+         * @param {Object} buff Object
          */
         setTileBuff: function(x, y, buff) {
             var idx = y * mapWidth + x;
@@ -393,7 +395,7 @@
                     default:
                         throw "Unexpected tile at " + tmpx + "," + tmpy + "!";
                 }
-                
+
                 // console.log("x: %d, y: %d", tmpx, tmpy);
                 if (found === true)
                     break;
@@ -430,7 +432,7 @@
             //         throw "Invalid " + player + " path!"
             //     }
             // }
-            return path;            
+            return path;
         },
 
         findFirstTile: function(path, type, lookup, range) {
@@ -468,5 +470,5 @@
     };
     Object.defineProperty(_instance, 'width', {get: function() { return mapWidth; }});
     Object.defineProperty(_instance, 'height', {get: function() { return mapHeight; }});
-    game.map = _instance;  
+    game.map = _instance;
 }(game || {}));

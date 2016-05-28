@@ -12,7 +12,7 @@ var game = {
         var el = document.getElementById('quit');
         if (typeof require !== 'undefined') {
             el.addEventListener('click', function() {
-                if (el.dataset.confirm === '1') { 
+                if (el.dataset.confirm === '1') {
                     //global.window.nwDispatcher.requireNwGui() (see https://github.com/rogerwang/node-webkit/issues/707
                     var gui = require('nw.gui');
                     gui.App.quit();
@@ -29,8 +29,8 @@ var game = {
             el.style.display = 'none';
         }
 
-        if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false, 
-            me.device.isMobile ? 1.99 : null)) {
+        if (!me.video.init("screen", _Globals.canvas.width, _Globals.canvas.height, false,
+            me.device.isMobile || window.devicePixelRatio === 2 ? 1.99 : null)) {
             console.error("Your browser does not support HTML5 canvas!");
             return;
         }
@@ -43,7 +43,7 @@ var game = {
             this.debug = _Globals.isDebug;
         }
 
-        // Specify the rendering method for layers 
+        // Specify the rendering method for layers
         // if false, visible part of the layers are rendered dynamically (default)
         // if true, the entire layers are first rendered into an offscreen canvas
         // the "best" rendering method depends of your game
@@ -52,6 +52,7 @@ var game = {
         me.sys.preRender = false;
         me.sys.gravity = 0;
         me.sys.fps = 60;
+
         // disable interpolation when scaling
         me.video.setImageSmoothing(false);
 
@@ -77,7 +78,7 @@ var game = {
         me.plugin.howlerAudio.load(game.resources);
 
         // Init global locales
-        nls.init('en');        
+        nls.init('en');
 
         // Init local storage persistence
         persistence.init(null, function() {
@@ -88,7 +89,7 @@ var game = {
             if (!persistence.get(persistence.SOUND)) {
                 game.enableSounds(false);
             }
-                    
+
             me.state.set(me.state.LOADING, new game.SplashScene());
             me.state.change(me.state.LOADING);
         });
@@ -113,9 +114,9 @@ var game = {
         me.state.set(me.state.MENU, new game.MenuScene());
         me.state.set(me.state.PLAY, new game.PlayScene());
 
-        // setup 
+        // setup
         this.session = {};
-        
+
         if (_Globals.isDebug) {
             this.session.wizard = _Globals.wizards.Air;
             // me.state.change(me.state.MENU);
@@ -131,7 +132,7 @@ var game = {
     getRealX: function(x) {
         return _Globals.canvas.xOffset + x;
     },
-    /** 
+    /**
      * Get Y cooridnate relevant to tilemap position
      */
     getRealY: function(y) {
