@@ -1,5 +1,5 @@
 # ignored
-*.sublime-*
+*.txt
 *.orig
 **/*.zip
 build.number

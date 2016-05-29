@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Psiral
+GenericName=Board Game
+Version=@@VERSION
+Type=Application
+Categories=Game;BoardGame;StrategyGame
+Keywords=Game;BoardGame;2D;Wizard;Magic
+Comment=Psiral is a turn based strategy board game with wizards
+TryExec=psiral
+Exec=psiral
+Terminal=false
+Icon=psiral48
