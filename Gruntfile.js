@@ -228,7 +228,7 @@ module.exports = function(grunt) {
         }
     });
     grunt.registerTask('build', ['clean:dist', 'lint', 'concat', 'copy', 'replace:dist', 'uglify', 'cssmin', 'clean:striplibs']);
-    grunt.registerTask('desktop', ['build', 'copy:desktop', 'nodewebkit']);
+    grunt.registerTask('desktop', ['build', 'replace:nourchin', 'copy:desktop', 'nodewebkit']);
     grunt.registerTask('web', ['build', 'replace:urchin', 'aconv']);
     grunt.registerTask('crx', ['build', 'replace:nourchin', 'copy:crx', 'aconv']);
     grunt.registerTask('lint', ['jshint:beforeConcat']);
