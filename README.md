@@ -1,11 +1,15 @@
 _.o0 Psiral 0o._
 ==========================
 
-Get it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/psiral/dohhikimhedfgkbgdakcioebkbjcamnl).
-
 Psiral is a turn based strategy board game in which four wizards battle to reach the fountain of endless energy. This, of course, will bring them eternity and power beyond human imagination. Each wizard controls the powers of one of the four known elements, earth, water, fire and wood… err, I mean air. Who will get to the fountain first? Choose and find out.
 
 ![Psiral for Game-Off 2013](http://i.imgur.com/LHVUUxd.png)
+
+## Install
+
+  * Get it on [Chrome Web Store](https://chrome.google.com/webstore/detail/psiral/dohhikimhedfgkbgdakcioebkbjcamnl).
+  * Get it on ArchLinux [AUR](https://aur.archlinux.org/packages/psiral/).
+  * Play it on [itch.io](https://petarov.itch.io/psiral).
 
 ## Supported Browsers
 
