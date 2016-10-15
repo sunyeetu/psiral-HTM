@@ -48,9 +48,7 @@ To suit the in-game atmosphere all sounds were edited using [Audacity](http://au
 
 ## License
 
-Copyright (c) 2014 Petar Petrov
-
-Copyright (c) 2014 Stremena Tuzsuzova-Petrova
+Copyright (c) 2014 KENAMICK Entertainment
 
 ---
 Psiral is a GitHub [Game Off II](https://github.com/blog/1731-github-game-off-ii-winners) winner.
