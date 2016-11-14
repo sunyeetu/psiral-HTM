@@ -19,16 +19,25 @@
 
     function _put(key, value) {
         if (ls) {
-            ls.setItem(key, value);
+            ls.setItem(key, JSON.stringify(value));
         } else if (cs) {
-            cs.set({key: value});
+            var obj = {};
+            obj[key] = value;
+            cs.set(obj, function() {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError);
+                }
+            });
         }
     }
     function _get(key, cb) {
         if (ls) {
-            cb(ls.getItem(key));
+            cb(JSON.parse(ls.getItem(key)));
         } else if (cs) {
-            chrome.storage.local.get(key, function (result) {
+            cs.get(key, function (result) {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError);
+                }
                 cb(result);
             });
         }
@@ -63,10 +72,11 @@
             }
             var self = this;
             _get(this._KEY, function(data) {
-                if (!data || data.length === 0) {
+                if (!data || (Object.keys(data).length === 0 &&
+                  data.constructor === Object)) {
                     self.reset();
                 } else {
-                    self.data = JSON.parse(data);
+                    self.data = data;
                 }
                 cb();
             });
@@ -82,7 +92,6 @@
 
         get: function(key, defValue) {
             var value = this.data[key];
-            // console.log('get',  key, value);
             return value !== null ? value : defValue;
         },
 
@@ -105,7 +114,7 @@
         commit: function() {
             if (!enabled) return;
 
-            _put(this._KEY, JSON.stringify(this.data));
+            _put(this._KEY, this.data);
             return this;
         },
 
