@@ -2,8 +2,8 @@
   "manifest_version": 2,
   "name": "Psiral",
   "description": "Psiral is a turn-based strategy game with wizards.",
-  "author": "Dvubuz Games",
-  "version": "1.0.5",
+  "author": "KENAMICK Entertainment",
+  "version": "1.0.6",
   "app": {
     "background": {
       "scripts": ["chrome.js"]
